@@ -11,7 +11,7 @@ public class PlayerInputs : MonoBehaviour
     public InputAction DashButtonInput => dashButtonInput;
     public InputAction MousePositionAxisInput => mousePositionAxisInput;
 
-    [SerializeField] PlayerControls controls = null;
+    [SerializeField] GameInputSettings controls = null;
 
     InputAction attackButtonInput;
     InputAction attackAxisInput;
@@ -21,7 +21,7 @@ public class PlayerInputs : MonoBehaviour
     
     private void Awake()
     {
-        controls = new PlayerControls();
+        controls = new GameInputSettings();
     }
 
     void Start()

@@ -1,5 +1,5 @@
 {
-    "name": "PlayerControls",
+    "name": "GameInputSettings",
     "maps": [
         {
             "name": "Character",
@@ -112,7 +112,7 @@
                     "id": "4e9d8444-e6fd-4037-86ff-6e7189ad58bd",
                     "path": "<Gamepad>/leftStick",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "StickDeadzone",
                     "groups": "Gamepad",
                     "action": "Move",
                     "isComposite": false,

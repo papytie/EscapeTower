@@ -10,10 +10,6 @@ public class SwitchWeaponTest : MonoBehaviour
     [SerializeField] PlayerWeapon weaponTwo;
     bool weaponSwitch = false;
 
-    void Start()
-    {
-        weaponSlot = GetComponent<PlayerWeaponSlot>();
-    }
 
     void Update()
     {
