@@ -4,18 +4,21 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerInputs), typeof(PlayerMovement), typeof(PlayerDash))]
-[RequireComponent(typeof(PlayerWeaponSlot), typeof(PlayerAttack))]
+[RequireComponent(typeof(PlayerWeaponSlot), typeof(PlayerAttack), typeof(Animator))]
+[RequireComponent(typeof(PlayerLifeSystem))]
 public class PlayerController : MonoBehaviour
 {
-    public bool CanMove => !dash.IsDashing && !attack.IsAttacking;
-    public bool CanDash => dash.DashAvailable /*&& !attack.IsAttacking*/;
-    public bool CanAttack => attack.AttackAvailable && !dash.IsDashing;
+    public bool CanMove => !dash.IsDashing && !attack.IsAttacking && !lifeSystem.IsDead;
+    public bool CanDash => dash.DashAvailable && !lifeSystem.IsDead;
+    public bool CanAttack => attack.AttackAvailable && !dash.IsDashing && !lifeSystem.IsDead;
 
     PlayerInputs inputs;
     PlayerMovement movement;
     PlayerDash dash;
     PlayerAttack attack;
     PlayerWeaponSlot slot;
+    PlayerLifeSystem lifeSystem;
+    Animator animator;
 
     private void Awake()
     {
@@ -62,13 +65,16 @@ public class PlayerController : MonoBehaviour
         dash = GetComponent<PlayerDash>();
         attack = GetComponent<PlayerAttack>();
         slot = GetComponent<PlayerWeaponSlot>();
+        lifeSystem = GetComponent<PlayerLifeSystem>();
+        animator = GetComponent<Animator>();
     }
 
     void InitComponentsRef()
     {
-        movement.InitRef(inputs);
+        movement.InitRef(inputs, animator);
         dash.InitRef(inputs);
         attack.InitRef(inputs, slot);
+        lifeSystem.InitRef(animator);
     }
 
 }

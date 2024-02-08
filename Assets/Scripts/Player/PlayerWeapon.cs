@@ -24,7 +24,7 @@ public class PlayerWeapon : MonoBehaviour
 
     public void WeaponAttackFX()
     {
-        weaponAnimator.SetTrigger(GameParams.Animation.ATTACK_TRIGGER);
+        weaponAnimator.SetTrigger(GameParams.Animation.WEAPON_ATTACK_TRIGGER);
     }
 
 

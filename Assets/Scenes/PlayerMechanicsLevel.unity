@@ -386,6 +386,52 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7607017006657277813, guid: aedf39e926b640b4687e56297141b15d, type: 3}
   m_PrefabInstance: {fileID: 1993039513253133506}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1752333563
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1752333565}
+  - component: {fileID: 1752333564}
+  m_Layer: 0
+  m_Name: Player TakeDamage Test
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1752333564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1752333563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86db2a5b7c091734ab7739de3972a225, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifeSystem: {fileID: 1993039513253133508}
+  damage: 1
+--- !u!4 &1752333565
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1752333563}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.61412054, y: -0.08217688, z: -0.0079539595}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2030618269 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8438143753717852558, guid: 342c743fa1afecd4f847bf50519d527d, type: 3}
@@ -407,7 +453,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 984688515047404515, guid: aedf39e926b640b4687e56297141b15d, type: 3}
       propertyPath: showDebug
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 984688515047404515, guid: aedf39e926b640b4687e56297141b15d, type: 3}
       propertyPath: dashCooldown
@@ -417,6 +463,14 @@ PrefabInstance:
       propertyPath: dashDistance
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 3182759348421872709, guid: aedf39e926b640b4687e56297141b15d, type: 3}
+      propertyPath: showDebug
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5957963105577605383, guid: aedf39e926b640b4687e56297141b15d, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 5f23ed17bc079e1479c2abd0a80fa9d2, type: 2}
     - target: {fileID: 7143997438393673213, guid: aedf39e926b640b4687e56297141b15d, type: 3}
       propertyPath: equippedWeapon
       value: 
@@ -496,10 +550,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef25e794069e07942951e42ae85f7b57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1993039513253133508 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 13529745838042828, guid: aedf39e926b640b4687e56297141b15d, type: 3}
+  m_PrefabInstance: {fileID: 1993039513253133506}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9da3aa4f041c4c84d8cd0e77b894dab2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 921963593}
-  - {fileID: 1993039513253133506}
   - {fileID: 559357594}
+  - {fileID: 1752333565}
+  - {fileID: 1993039513253133506}
