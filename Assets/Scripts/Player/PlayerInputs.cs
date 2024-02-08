@@ -5,42 +5,18 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputs : MonoBehaviour
 {
-    public InputAction AttackButtonInput => attackButtonInput;
-    public InputAction AttackAxisInput => attackAxisInput;
-    public InputAction MoveAxisInput => moveAxisInput;
-    public InputAction DashButtonInput => dashButtonInput;
-    public InputAction MousePositionAxisInput => mousePositionAxisInput;
+    public InputAction AttackButtonInput => controls.Character.Attack;
+    public InputAction AttackAxisInput => controls.Character.AttackOrientation;
+    public InputAction MoveAxisInput => controls.Character.Move;
+    public InputAction DashButtonInput => controls.Character.Dash;
+    public InputAction MousePositionAxisInput => controls.Character.MousePos;
 
-    [SerializeField] GameInputSettings controls = null;
+    GameInputSettings controls = null;
 
-    InputAction attackButtonInput;
-    InputAction attackAxisInput;
-    InputAction moveAxisInput;
-    InputAction dashButtonInput;
-    InputAction mousePositionAxisInput;
-    
     private void Awake()
     {
         controls = new GameInputSettings();
-    }
-
-    void Start()
-    {
-        InitInputs();
-    }
-
-    private void InitInputs()
-    {
-        attackButtonInput = controls.Character.Attack;
-        attackButtonInput.Enable();
-        attackAxisInput = controls.Character.AttackOrientation;
-        attackAxisInput.Enable();
-        moveAxisInput = controls.Character.Move;
-        moveAxisInput.Enable();
-        dashButtonInput = controls.Character.Dash;
-        dashButtonInput.Enable();
-        mousePositionAxisInput = controls.Character.MousePos;
-        mousePositionAxisInput.Enable();
+        controls.Character.Enable();
     }
 
 }

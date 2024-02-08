@@ -66,8 +66,6 @@ public class PlayerDash : MonoBehaviour
         dashCurrentDuration += Time.deltaTime;
         float t = Mathf.Clamp01(dashCurrentDuration / dashDuration);
         
-        //t = Mathf.Sin(t * Mathf.PI * 0.5f); // Formula to "ease out" the interpolation
-
         transform.position = Vector3.Lerp(dashStart, dashTarget, dashCurve.Evaluate(t)); //use curve to modify lerp transition
 
         if (dashCurrentDuration >= dashDuration) 
@@ -77,13 +75,6 @@ public class PlayerDash : MonoBehaviour
             return;
         }
     }
-
-    /*void DashTowards()
-    {
-        float dashStep = dashDistance/dashDuration * Time.deltaTime;
-        transform.position = Vector3.MoveTowards(transform.position, dashTarget, dashStep);
-        float dist = Vector3.Distance(transform.position, dashTarget);
-    }*/  
 
     private void OnDrawGizmos()
     {

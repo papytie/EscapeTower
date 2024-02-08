@@ -5,18 +5,9 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] float playerSpeed = 5f;
+
     PlayerInputs playerInputs;
     Animator playerAnimator;
-
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
 
     public void InitRef(PlayerInputs inputRef, Animator playerAnimRef)
     {
@@ -27,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
     public void Move()
     {
         Vector3 moveAxis = playerInputs.MoveAxisInput.ReadValue<Vector2>();
-        transform.position += moveAxis * playerSpeed * Time.deltaTime;
+        transform.position +=  playerSpeed * Time.deltaTime * moveAxis;
         playerAnimator.SetFloat(GameParams.Animation.PLAYER_RIGHTDAXIS_FLOAT, moveAxis.x);
         playerAnimator.SetFloat(GameParams.Animation.PLAYER_FORWARDAXIS_FLOAT, moveAxis.y);
 

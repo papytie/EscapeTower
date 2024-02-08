@@ -13,17 +13,18 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] float debugSize = .2f;
     [SerializeField] Color debugColor = Color.green;
 
-    PlayerInputs playerInputs;
-    PlayerWeaponSlot playerWeaponSlot;
-
     float coolDownTime = 0;
     float attackLagTime = 0; 
     bool isOnCooldown = false;
     bool isAttacking = false;
 
-    void Start()
+    PlayerInputs playerInputs;
+    PlayerWeaponSlot playerWeaponSlot;
+
+    public void InitRef(PlayerInputs inputs, PlayerWeaponSlot slot)
     {
-        
+        playerInputs = inputs;
+        playerWeaponSlot = slot;
     }
 
     void Update()
@@ -35,12 +36,6 @@ public class PlayerAttack : MonoBehaviour
             AttackLagTimer();
     }
 
-    public void InitRef(PlayerInputs inputs, PlayerWeaponSlot slot)
-    {
-        playerInputs = inputs;
-        playerWeaponSlot = slot;
-    }
-
     void AttackCoolDownTimer()
     {
         coolDownTime += Time.deltaTime;
@@ -50,6 +45,7 @@ public class PlayerAttack : MonoBehaviour
             isOnCooldown = false;
         }
     }
+
     void AttackLagTimer()
     {
         attackLagTime += Time.deltaTime;

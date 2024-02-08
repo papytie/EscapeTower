@@ -13,20 +13,21 @@ public class PlayerLifeSystem : MonoBehaviour
     [SerializeField] int maxLifePoints = 20;
     [SerializeField] float InvincibilityTime = .2f;
 
-    Animator animator;
     float currentInvincibilityTime = 0;
     bool isDead = false;
     bool isInvincible = false;
+
+    Animator animator;
+
+    public void InitRef(Animator animatorRef)
+    {
+        animator = animatorRef;
+    }
 
     void Update()
     {
         if (isInvincible)
             InvincibilityTimer();
-    }
-
-    public void InitRef(Animator animatorRef)
-    {
-        animator = animatorRef;
     }
 
     public void TakeDamage(int damageValue)
@@ -49,11 +50,7 @@ public class PlayerLifeSystem : MonoBehaviour
     {
         if (isDead) return;
 
-        currentLifePoints += healValue;
-        if (currentLifePoints > maxLifePoints) 
-        {
-            currentLifePoints = maxLifePoints;
-        }
+        currentLifePoints = Mathf.Min(currentLifePoints + healValue, maxLifePoints);
     }
 
     void InvincibilityTimer()

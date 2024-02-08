@@ -20,7 +20,6 @@ public class PlayerWeaponSlot : MonoBehaviour
         if(equippedWeapon != null)
             Destroy(equippedWeapon.gameObject);
 
-        
         equippedWeapon = Instantiate(weapon, transform);
         equippedWeapon.transform.SetLocalPositionAndRotation(slotPosition, Quaternion.Euler(slotRotation));
 
