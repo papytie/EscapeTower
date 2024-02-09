@@ -26,13 +26,13 @@ public class PlayerMovement : MonoBehaviour
         if (moveAxis != Vector3.zero)
         {
             //Movement
-            if (playerCollision.CircleCheckCollision(moveAxis, playerStep, playerCollision.WallLayer, out Vector2 normal)) //first Cast = axis movement
+            if (playerCollision.MoveCheckCollision(moveAxis, playerStep, playerCollision.WallLayer, out Vector2 normal)) //first Cast = axis movement
             {
                 Vector3 secondCheck = MovementVector2D(moveAxis) + normal * minDist; //Second check Vector
-                if (playerCollision.CircleCheckCollision(secondCheck, playerStep, playerCollision.WallLayer, out Vector2 normal2)) //Second Cast
+                if (playerCollision.MoveCheckCollision(secondCheck, playerStep, playerCollision.WallLayer, out Vector2 normal2)) //Second Cast
                 {
                     Vector3 thirdCheck = MovementVector2D(secondCheck) + normal2 * minDist; //Third check Vector
-                    if (playerCollision.CircleCheckCollision(thirdCheck, playerStep, playerCollision.WallLayer, out Vector2 normal3)) //Third Cast
+                    if (playerCollision.MoveCheckCollision(thirdCheck, playerStep, playerCollision.WallLayer, out Vector2 normal3)) //Third Cast
                     {
                         return; //if third Cast fail player dont move
                     }

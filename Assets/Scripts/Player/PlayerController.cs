@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public bool CanMove => !dash.IsDashing && !attack.IsAttacking && !lifeSystem.IsDead;
     public bool CanDash => dash.DashAvailable && !lifeSystem.IsDead;
     public bool CanAttack => attack.AttackAvailable && !dash.IsDashing && !lifeSystem.IsDead;
+    public bool CanTakeDamage => !lifeSystem.IsInvincible && !lifeSystem.IsDead;
 
     PlayerInputs inputs;
     PlayerMovement movement;
@@ -75,11 +76,22 @@ public class PlayerController : MonoBehaviour
             if (attackAxis != Vector3.zero)
                 attack.AttackActivation(attackAxis);
         }
+        Debug.Log(CanTakeDamage);
     }
+
     private void FixedUpdate()
     {
         if (CanMove)
             movement.CheckedMove();
+
+        if (CanTakeDamage)
+        {
+            if (collision.EnemyCheckCollision(collision.EnemyLayer, out int dmg))
+            {
+                Debug.Log("Enemy collision");
+                lifeSystem.TakeDamage(dmg);
+            }
+        }
 
     }
 

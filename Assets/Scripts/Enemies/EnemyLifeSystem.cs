@@ -1,21 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameParams;
 
-public class PlayerLifeSystem : MonoBehaviour
+public class EnemyLifeSystem : MonoBehaviour
 {
     public bool IsDead => isDead;
-    public bool IsInvincible => isInvincible;
     public int CurrentLifePoints => currentLifePoints;
     public int MaxLifePoints => maxLifePoints;
 
     [SerializeField] int currentLifePoints = 10;
     [SerializeField] int maxLifePoints = 20;
-    [SerializeField] float InvincibilityTime = .2f;
 
-    float currentInvincibilityTime = 0;
     bool isDead = false;
-    bool isInvincible = false;
 
     Animator animator;
 
@@ -24,26 +21,19 @@ public class PlayerLifeSystem : MonoBehaviour
         animator = animatorRef;
     }
 
-    void Update()
-    {
-        if (isInvincible)
-            InvincibilityTimer();
-    }
-
     public void TakeDamage(int damageValue)
     {
-        if (isDead || isInvincible) return;
+        if (isDead) return;
 
-        isInvincible = true;
         currentLifePoints -= damageValue;
-        if (currentLifePoints <= 0) 
+        if (currentLifePoints <= 0)
         {
             currentLifePoints = 0;
             isDead = true;
-            animator.SetBool(GameParams.Animation.PLAYER_DIE_BOOL, true);
+            animator.SetBool(GameParams.Animation.ENEMY_DIE_BOOL, true);
             return;
         }
-        animator.SetTrigger(GameParams.Animation.PLAYER_TAKEDAMAGE_TRIGGER);
+        animator.SetTrigger(GameParams.Animation.ENEMY_TAKEDAMAGE_TRIGGER);
     }
 
     public void HealUp(int healValue)
@@ -52,16 +42,5 @@ public class PlayerLifeSystem : MonoBehaviour
 
         currentLifePoints = Mathf.Min(currentLifePoints + healValue, maxLifePoints);
     }
-
-    void InvincibilityTimer()
-    {
-        currentInvincibilityTime += Time.deltaTime;
-        if (currentInvincibilityTime < InvincibilityTime)
-        {
-            currentInvincibilityTime = 0;
-            isInvincible = false;
-        }
-    }
-
 
 }

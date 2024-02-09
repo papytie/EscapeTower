@@ -18,6 +18,11 @@ public static class GameParams
         public static string WEAPON_ATTACK_TRIGGER = "attack";
         public static string WEAPON_ATTACKSPEED_FLOAT = "attackSpeed";
         #endregion
+
+        #region ENEMIES
+        public static string ENEMY_TAKEDAMAGE_TRIGGER = "takeDamage";
+        public static string ENEMY_DIE_BOOL = "isDead";
+        #endregion
     }
 
 }
