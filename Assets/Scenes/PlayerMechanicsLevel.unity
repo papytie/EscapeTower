@@ -713,7 +713,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 984688515047404515, guid: aedf39e926b640b4687e56297141b15d, type: 3}
       propertyPath: showDebug
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 984688515047404515, guid: aedf39e926b640b4687e56297141b15d, type: 3}
       propertyPath: dashCooldown
@@ -736,12 +736,24 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1373889046866348026, guid: aedf39e926b640b4687e56297141b15d, type: 3}
+      propertyPath: colliderRadius
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 1373889046866348026, guid: aedf39e926b640b4687e56297141b15d, type: 3}
       propertyPath: BoxColliderPos.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1373889046866348026, guid: aedf39e926b640b4687e56297141b15d, type: 3}
       propertyPath: BoxColliderPos.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1373889046866348026, guid: aedf39e926b640b4687e56297141b15d, type: 3}
+      propertyPath: colliderOffset.x
+      value: -0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 1373889046866348026, guid: aedf39e926b640b4687e56297141b15d, type: 3}
+      propertyPath: colliderOffset.y
+      value: -0.07
       objectReference: {fileID: 0}
     - target: {fileID: 1373889046866348026, guid: aedf39e926b640b4687e56297141b15d, type: 3}
       propertyPath: wallLayer.m_Bits
@@ -757,7 +769,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3182759348421872709, guid: aedf39e926b640b4687e56297141b15d, type: 3}
       propertyPath: showDebug
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5957963105577605383, guid: aedf39e926b640b4687e56297141b15d, type: 3}
       propertyPath: m_Controller
@@ -778,6 +790,10 @@ PrefabInstance:
     - target: {fileID: 7143997438393673213, guid: aedf39e926b640b4687e56297141b15d, type: 3}
       propertyPath: slotRotation.z
       value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7292580722810509936, guid: aedf39e926b640b4687e56297141b15d, type: 3}
+      propertyPath: minDist
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 7292580722810509936, guid: aedf39e926b640b4687e56297141b15d, type: 3}
       propertyPath: distFromCollider

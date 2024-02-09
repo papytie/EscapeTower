@@ -5,28 +5,29 @@ using UnityEngine;
 public class PlayerCollision : MonoBehaviour
 {
     public LayerMask WallLayer => wallLayer;
+    public float ColliderRadius => colliderRadius;
+    public bool ShowDebug => showDebug;
 
     [Header("Collider Settings")]
-    [SerializeField] Vector2 BoxColliderSize;
-    [SerializeField] Vector3 BoxColliderPos;
+    [SerializeField] float colliderRadius;
     [SerializeField] LayerMask wallLayer;
 
     [Header("Debug")]
     [SerializeField] bool showDebug;
-    [SerializeField] Color boxDebugColor = Color.yellow;
+    [SerializeField] Color colliderDebugColor = Color.yellow;
 
     public void InitRef()
     {
 
     }
 
-    public bool CheckCollision(Vector2 direction, float distance, LayerMask targetLayer, out Vector2 collisionPosition)
+    public bool CircleCheckCollision(Vector2 dir, float dist, LayerMask layer, out Vector2 normal) 
     {
-        collisionPosition = Vector2.zero;
-        RaycastHit2D isHit = Physics2D.BoxCast(transform.position, BoxColliderSize, 0, direction, distance, targetLayer);
-        if (isHit) 
+        normal = Vector2.zero;
+        RaycastHit2D hit = Physics2D.CircleCast(transform.position, colliderRadius, dir, dist, layer);
+        if(hit)
         {
-            collisionPosition = isHit.centroid;
+            normal = hit.normal;
             return true;
         }
         return false;
@@ -36,8 +37,8 @@ public class PlayerCollision : MonoBehaviour
     {
         if(showDebug)
         {
-            Gizmos.color = boxDebugColor;
-            Gizmos.DrawWireCube(transform.position + BoxColliderPos, BoxColliderSize);
+            Gizmos.color = colliderDebugColor;
+            Gizmos.DrawWireSphere(transform.position, colliderRadius);
             Gizmos.color = Color.white;
         }
     }

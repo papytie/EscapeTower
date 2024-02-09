@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] float playerSpeed = 5f;
-    [SerializeField] float distFromCollider = .01f;
+    [SerializeField] float minDist = .1f;
 
     PlayerInputs playerInputs;
     PlayerCollision playerCollision;
@@ -18,39 +18,54 @@ public class PlayerMovement : MonoBehaviour
         playerCollision = collisionRef;
     }
 
-    public void Move()
+    public void CheckedMove()
     {
         Vector3 moveAxis = playerInputs.MoveAxisInput.ReadValue<Vector2>();
-
-        if (playerCollision.CheckCollision(moveAxis, .1f, playerCollision.WallLayer, out Vector2 collisionPosition) && moveAxis != Vector3.zero)
-        {
-            Vector2 moveToStick = (collisionPosition - transform.position.ToVector2());
-            Vector3 moveFinal = moveToStick.normalized * (moveToStick.magnitude - distFromCollider);
-            
-            transform.position += moveFinal;
-        }
-        else transform.position += playerSpeed * Time.deltaTime * moveAxis;
+        float playerStep = playerSpeed * Time.fixedDeltaTime; //Distance of player movement in 1 frame
 
         if (moveAxis != Vector3.zero)
         {
+            //Movement
+            if (playerCollision.CircleCheckCollision(moveAxis, playerStep, playerCollision.WallLayer, out Vector2 normal)) //first Cast = axis movement
+            {
+                Vector3 secondCheck = MovementVector2D(moveAxis) + normal * minDist; //Second check Vector
+                if (playerCollision.CircleCheckCollision(secondCheck, playerStep, playerCollision.WallLayer, out Vector2 normal2)) //Second Cast
+                {
+                    Vector3 thirdCheck = MovementVector2D(secondCheck) + normal2 * minDist; //Third check Vector
+                    if (playerCollision.CircleCheckCollision(thirdCheck, playerStep, playerCollision.WallLayer, out Vector2 normal3)) //Third Cast
+                    {
+                        return; //if third Cast fail player dont move
+                    }
+                    else transform.position += playerStep * thirdCheck.normalized; //no collision at third attempt move to thirdCheck position normalized
+                }
+                else transform.position += playerStep * secondCheck.normalized; //no collision at second attempt move to secondCheck position normalized
+            }
+            else transform.position += playerStep * moveAxis; //no collision at first attempt move to normal position
+
+            //Rotation
             Quaternion rotateDirection = Quaternion.LookRotation(Vector3.forward, moveAxis);
             transform.rotation = rotateDirection;
         }
+    }
 
-        playerAnimator.SetFloat(GameParams.Animation.PLAYER_RIGHTDAXIS_FLOAT, moveAxis.x);
-        playerAnimator.SetFloat(GameParams.Animation.PLAYER_FORWARDAXIS_FLOAT, moveAxis.y);
-
+    Vector2 MovementVector2D(Vector3 direction)
+    {
+        return playerSpeed * Time.deltaTime * direction;
     }
 
     private void OnDrawGizmos()
     {
         if (Application.isPlaying)
         {
-            Gizmos.color = Color.yellow;
-            Vector3 moveAxis = playerInputs.MoveAxisInput.ReadValue<Vector2>();
-            playerCollision.CheckCollision(moveAxis, .1f, playerCollision.WallLayer, out Vector2 collisionPosition);
-            Gizmos.DrawCube(transform.position + moveAxis * .1f, new Vector3(.5f, .6f, .5f));
-            Gizmos.color = Color.white;
+            if (playerCollision.ShowDebug)
+            {
+                Gizmos.color = Color.yellow;
+                Vector3 moveAxis = playerInputs.MoveAxisInput.ReadValue<Vector2>();
+                float playerStep = playerSpeed * Time.fixedDeltaTime;
+                Gizmos.DrawSphere(transform.position + moveAxis * playerStep, playerCollision.ColliderRadius);
+                Gizmos.color = Color.white;
+
+            }
 
         }
     }

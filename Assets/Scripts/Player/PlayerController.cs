@@ -54,9 +54,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (CanMove)
-            movement.Move();
-        
         if (CanDash && inputs.DashButtonInput.WasPerformedThisFrame())
         {
             Vector3 moveAxis = inputs.MoveAxisInput.ReadValue<Vector2>();
@@ -78,6 +75,12 @@ public class PlayerController : MonoBehaviour
             if (attackAxis != Vector3.zero)
                 attack.AttackActivation(attackAxis);
         }
+    }
+    private void FixedUpdate()
+    {
+        if (CanMove)
+            movement.CheckedMove();
+
     }
 
 }
