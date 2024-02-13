@@ -18,16 +18,10 @@ public class PlayerCollision : MonoBehaviour
     [SerializeField] bool showDebug;
     [SerializeField] Color colliderDebugColor = Color.yellow;
 
-    public bool MoveCheckCollision(Vector2 dir, float dist, LayerMask layer, out Vector2 normal) 
+    public bool MoveCheckCollision(Vector2 dir, float dist, LayerMask layer, out RaycastHit2D hit) 
     {
-        normal = Vector2.zero;
-        RaycastHit2D hit = Physics2D.CircleCast(transform.position, colliderRadius, dir, dist, layer);
-        if(hit)
-        {
-            normal = hit.normal;
-            return true;
-        }
-        return false;
+        hit = Physics2D.CircleCast(transform.position, colliderRadius, dir, dist, layer);
+        return hit ? true : false;
     }
 
     public bool EnemyCheckCollision(LayerMask layer, out int damage)
