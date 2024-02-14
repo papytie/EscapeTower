@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     Vector2 debugPlayerToCentroid = Vector2.zero;
     Vector2 debugCentroidToPlayer = Vector2.zero;
     Vector2 debugCentroidToD2 = Vector2.zero;
+    Vector2 debugFinalPos = Vector2.zero;
 
     bool isHit = false;
 
@@ -144,8 +145,15 @@ public class PlayerMovement : MonoBehaviour
                 float HypD2CN = minDist / Mathf.Cos(D2CNAngle * Mathf.Deg2Rad);
                 Vector2 CentroidToD2 = PlayerToCentroid.normalized * HypD2CN;
                 Vector2 PlayerToD2 = PlayerToCentroid - CentroidToD2;
+                Vector2 D2ToNormalPos = (hit.centroid + hit.normal * minDist) - (transform.position.ToVector2() + PlayerToD2);
+                float MovementLength = Vector2.Dot(D2ToNormalPos.normalized, (playerSpeed * Time.deltaTime * moveAxis) - PlayerToD2);
+                Vector2 D2ToFinalPos = D2ToNormalPos.normalized * MovementLength;
+                Vector3 FinalPos = PlayerToD2 + D2ToFinalPos;            
+
+                transform.position += FinalPos;
 
                 //DEBUG
+                debugFinalPos = FinalPos;
                 debugCentroidToD2 = CentroidToD2;
                 debugPlayerToCentroid = transform.position.ToVector2() + PlayerToCentroid;
                 debugCentroidToPlayer = hit.centroid + CentroidToPlayer;
@@ -160,7 +168,7 @@ public class PlayerMovement : MonoBehaviour
             else
             {
                 isHit = false;
-                //transform.position = transform.position.ToVector2() + playerStep * moveAxis;
+                transform.position = transform.position.ToVector2() + playerStep * moveAxis;
             }
 
             //Rotation
@@ -202,6 +210,11 @@ public class PlayerMovement : MonoBehaviour
                     Gizmos.color = Color.cyan;           
                     Gizmos.DrawLine(transform.position, playerToD2);
                     Gizmos.DrawWireSphere(playerToD2, playerCollision.ColliderRadius);
+                    Gizmos.color = Color.white;
+
+                    Gizmos.color = Color.blue;           
+                    Gizmos.DrawLine(transform.position, playerToD2);
+                    Gizmos.DrawWireSphere(transform.position.ToVector2() + debugFinalPos, playerCollision.ColliderRadius);
                     Gizmos.color = Color.white;
 
                 }
