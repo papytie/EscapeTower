@@ -56,7 +56,7 @@ public class PlayerLifeSystem : MonoBehaviour
     void InvincibilityTimer()
     {
         currentInvincibilityTime += Time.deltaTime;
-        if (currentInvincibilityTime < InvincibilityTime)
+        if (currentInvincibilityTime > InvincibilityTime)
         {
             currentInvincibilityTime = 0;
             isInvincible = false;
