@@ -175,6 +175,17 @@ public partial class @GameInputSettings: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""8566a1b2-4c91-4072-b2aa-6d86d9e24544"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""9ed6c826-e04f-43fb-be4f-3ee90c1e5eff"",
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",

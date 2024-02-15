@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour
     void InitComponentsRef()
     {
         movement.InitRef(inputs, animator, collision);
-        dash.InitRef(inputs);
+        dash.InitRef(collision, lifeSystem);
         attack.InitRef(inputs, slot);
         lifeSystem.InitRef(animator);
     }
@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         if (CanMove)
-            movement.Move2();
+            movement.Move();
 
         if (CanDash && inputs.DashButtonInput.WasPerformedThisFrame())
         {

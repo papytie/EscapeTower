@@ -27,11 +27,13 @@ public class PlayerDash : MonoBehaviour
     Vector3 dashTarget = Vector3.zero;
     Vector3 dashStart = Vector3.zero;
 
-    PlayerInputs playerInputs;
+    PlayerCollision collision;
+    PlayerLifeSystem lifeSystem;
 
-    public void InitRef(PlayerInputs inputRef)
+    public void InitRef(PlayerCollision collisionRef, PlayerLifeSystem lifeSystemRef)
     {
-        playerInputs = inputRef;
+        collision = collisionRef;
+        lifeSystem = lifeSystemRef;
     }
 
     private void Update()
@@ -49,6 +51,9 @@ public class PlayerDash : MonoBehaviour
         dashTarget = transform.position + dir * dashDistance;
         isDashing = true;
         isOnCooldown = true;
+
+        //Player invincibility during Dash
+        lifeSystem.IsInvincible = true;
     }
 
     void DashCoolDownTimer()
@@ -66,12 +71,21 @@ public class PlayerDash : MonoBehaviour
         dashCurrentDuration += Time.deltaTime;
         float t = Mathf.Clamp01(dashCurrentDuration / dashDuration);
         
-        transform.position = Vector3.Lerp(dashStart, dashTarget, dashCurve.Evaluate(t)); //use curve to modify lerp transition
+        collision.CollisionCheck(dashTarget.normalized, (dashDistance / dashDuration) * Time.deltaTime, collision.WallLayer, out Vector3 fixedPosition, out RaycastHit2D hit);
 
-        if (dashCurrentDuration >= dashDuration) 
+        if(hit)
+            transform.position = fixedPosition;
+        
+        else 
+            transform.position = Vector3.Lerp(dashStart, dashTarget, dashCurve.Evaluate(t)); //use curve to modify lerp transition
+
+        if (dashCurrentDuration >= dashDuration || hit) 
         {
             isDashing = false;
             dashCurrentDuration = 0;
+
+            //End Invincibility
+            lifeSystem.IsInvincible = false;
             return;
         }
     }

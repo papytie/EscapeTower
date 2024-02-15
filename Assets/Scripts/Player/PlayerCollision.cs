@@ -29,9 +29,9 @@ public class PlayerCollision : MonoBehaviour
         debugPosition = transform.position;
     }
 
-    public void CollisionCheck(Vector3 direction, float distance, LayerMask checkLayer, out Vector3 finalPosition)
+    public void CollisionCheck(Vector3 direction, float distance, LayerMask checkLayer, out Vector3 fixedPosition, out RaycastHit2D collision)
     {
-        RaycastHit2D collision = Physics2D.CircleCast(transform.position, colliderRadius, direction, checkDistance, checkLayer);
+        collision = Physics2D.CircleCast(transform.position, colliderRadius, direction, checkDistance, checkLayer);
         Vector3 moveVector = distance * direction;
 
         //Debug check position
@@ -39,11 +39,14 @@ public class PlayerCollision : MonoBehaviour
             debugPosition = transform.position + direction * checkDistance;
 
         //If no collision occurs then use unmodified move vector
-        finalPosition = transform.position + moveVector;
+        fixedPosition = transform.position + moveVector;
 
         //If a collision occurs then check for a sticky position
         if (collision)
         {
+            if (showDebug)
+                debugPosition = collision.centroid;
+
             Vector3 stickyPos = collision.centroid + collision.normal * collisionMinDist;
             Vector3 stickyToInitial = (transform.position + moveVector) - stickyPos;
             Vector3 stickyAxis = Vector2.Perpendicular(collision.normal);
@@ -51,9 +54,10 @@ public class PlayerCollision : MonoBehaviour
             //Projection of fixed player movement vector on Sticky Axis
             Vector3 projectedPos = stickyPos + stickyAxis * Vector2.Dot(stickyAxis, stickyToInitial);
 
+            //Check if movement should be applied instead or if it ends in collider dead zone
             if (moveVector.magnitude > (projectedPos - transform.position).magnitude || collision.distance < collisionMinDist * .9f)
             {
-                finalPosition = stickyPos + stickyAxis * Vector2.Dot(stickyAxis, stickyToInitial);
+                fixedPosition = stickyPos + stickyAxis * Vector2.Dot(stickyAxis, stickyToInitial);
             }
 
         }
@@ -64,7 +68,7 @@ public class PlayerCollision : MonoBehaviour
     {
         damage = 0;
         RaycastHit2D hit = Physics2D.CircleCast(transform.position, colliderRadius, Vector2.zero, 0, layer);
-        if (hit)
+        if (hit && !hit.transform.GetComponent<EnemyLifeSystem>().IsDead)
         {
             damage = hit.transform.GetComponent<EnemyAttack>().BaseDamage;
             return true;

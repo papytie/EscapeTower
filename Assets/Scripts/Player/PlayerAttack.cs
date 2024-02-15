@@ -8,11 +8,6 @@ public class PlayerAttack : MonoBehaviour
     public bool AttackAvailable => !isOnCooldown;
     public bool IsAttacking => isAttacking;
 
-    [Header("Debug")]
-    [SerializeField] bool showDebug = false;
-    [SerializeField] float debugSize = .2f;
-    [SerializeField] Color debugColor = Color.green;
-
     float coolDownTime = 0;
     float attackLagTime = 0; 
     bool isOnCooldown = false;
@@ -61,22 +56,21 @@ public class PlayerAttack : MonoBehaviour
         isAttacking = true;
         isOnCooldown = true;
 
-        Quaternion rotateDirection = Quaternion.LookRotation(Vector3.forward, attackDirection);
-        transform.rotation = rotateDirection;
+        transform.rotation = Quaternion.LookRotation(Vector3.forward, attackDirection);
 
         playerWeaponSlot.EquippedWeapon.WeaponAttackFX();
-    }
 
-    private void OnDrawGizmos()
-    {
-        if (Application.isPlaying && showDebug)
+        //Hitbox System
+        if (playerWeaponSlot.EquippedWeapon.WeaponHitBoxResult(attackDirection, out RaycastHit2D[] collisions))
         {
-            Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(playerInputs.MousePositionAxisInput.ReadValue<Vector2>());
-            Gizmos.color = debugColor;
-            Gizmos.DrawSphere(mouseWorldPos, debugSize);
-            Gizmos.DrawLine(transform.position, mouseWorldPos);
-            Gizmos.color = Color.white;
+            foreach(RaycastHit2D collision in collisions)
+            {
+                collision.transform.GetComponent<EnemyLifeSystem>().TakeDamage(playerWeaponSlot.EquippedWeapon.Damage);
+
+            }
         }
     }
 
+    
+    
 }

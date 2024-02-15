@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerLifeSystem : MonoBehaviour
 {
     public bool IsDead => isDead;
-    public bool IsInvincible => isInvincible;
+    public bool IsInvincible { get => isInvincible; set { isInvincible = value; } }
     public int CurrentLifePoints => currentLifePoints;
     public int MaxLifePoints => maxLifePoints;
 

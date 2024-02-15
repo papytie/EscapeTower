@@ -18,14 +18,14 @@ public class PlayerMovement : MonoBehaviour
         playerCollision = collisionRef;
     }
 
-    public void Move2()
+    public void Move()
     {
         Vector3 moveAxis = playerInputs.MoveAxisInput.ReadValue<Vector2>();
         float playerStep = Time.deltaTime * playerSpeed;
 
         if (moveAxis != Vector3.zero)
         {
-            playerCollision.CollisionCheck(moveAxis, playerStep, playerCollision.WallLayer, out Vector3 finalPosition);
+            playerCollision.CollisionCheck(moveAxis, playerStep, playerCollision.WallLayer, out Vector3 finalPosition, out RaycastHit2D hit);
 
             //Movement
             transform.position = finalPosition;
