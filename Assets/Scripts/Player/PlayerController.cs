@@ -79,20 +79,14 @@ public class PlayerController : MonoBehaviour
             if (attackAxis != Vector3.zero)
                 attack.AttackActivation(attackAxis);
         }
-    }
-
-    private void FixedUpdate()
-    {
 
         if (CanTakeDamage)
         {
             if (collision.EnemyCheckCollision(collision.EnemyLayer, out int dmg))
             {
-                Debug.Log("Enemy collision");
                 lifeSystem.TakeDamage(dmg);
             }
         }
-
     }
 
 }
