@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         if (CanMove)
-            movement.Move();
+            movement.Move2();
 
         if (CanDash && inputs.DashButtonInput.WasPerformedThisFrame())
         {
