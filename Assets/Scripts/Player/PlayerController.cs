@@ -71,11 +71,13 @@ public class PlayerController : MonoBehaviour
         }        
 
         //Keyboard Attack
-        if (CanAttack && inputs.MouseAttackButtonInput.IsPressed())
+        if (CanMove && inputs.MouseAttackButtonInput.IsPressed())
         {
             Vector3 mouseDirection = (Camera.main.ScreenToWorldPoint(inputs.MousePositionAxisInput.ReadValue<Vector2>()) - transform.position).normalized;
-            attack.AttackActivation(mouseDirection);
             movement.RotateToMoveDirection(mouseDirection);
+
+            if(attack.AttackAvailable)
+                attack.AttackActivation(mouseDirection);
         }
 
         //Gamepad Attack
