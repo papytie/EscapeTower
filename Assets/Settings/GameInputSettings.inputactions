@@ -15,7 +15,16 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Attack",
+                    "name": "MouseAttack",
+                    "type": "Button",
+                    "id": "ae559477-3b22-479b-9d06-9bc8196e4537",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "GamepadAttack",
                     "type": "Button",
                     "id": "f8fe5e28-5722-4643-8e97-53a7ec74398e",
                     "expectedControlType": "Button",
@@ -120,23 +129,12 @@
                 },
                 {
                     "name": "",
-                    "id": "8f527aa4-b317-439f-a046-05bb57a1751a",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "Attack",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "75b3533d-fbd2-4a40-b0d8-4f2182d7bddb",
                     "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Attack",
+                    "action": "GamepadAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -147,7 +145,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Attack",
+                    "action": "GamepadAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -203,6 +201,17 @@
                     "processors": "",
                     "groups": "KeyboardMouse",
                     "action": "MousePos",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "27632771-bf5b-498e-9b84-585969a41df6",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "MouseAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

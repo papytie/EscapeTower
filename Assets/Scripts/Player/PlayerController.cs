@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -65,16 +66,16 @@ public class PlayerController : MonoBehaviour
             movement.CheckedMove(moveAxis);
 
             //Movement rotation
-            if (attackAxis == Vector3.zero && !inputs.AttackButtonInput.IsPressed())
+            if (attackAxis == Vector3.zero && (!inputs.GamepadAttackButtonInput.IsPressed() || !inputs.MouseAttackButtonInput.IsPressed()))
                 movement.RotateToMoveDirection(moveAxis);
         }        
 
         //Keyboard Attack
-        if (CanAttack && inputs.AttackButtonInput.IsPressed())
+        if (CanAttack && inputs.MouseAttackButtonInput.IsPressed())
         {
-            Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(inputs.MousePositionAxisInput.ReadValue<Vector2>());
-            attack.AttackActivation((mouseWorldPos - transform.position).normalized);
-            movement.RotateToMoveDirection((mouseWorldPos - transform.position).normalized);
+            Vector3 mouseDirection = Camera.main.ScreenToWorldPoint(inputs.MousePositionAxisInput.ReadValue<Vector2>()) - transform.position.normalized;
+            attack.AttackActivation(mouseDirection);
+            movement.RotateToMoveDirection(mouseDirection);
         }
 
         //Gamepad Attack
@@ -86,6 +87,8 @@ public class PlayerController : MonoBehaviour
             if (CanAttack && attack.AutoAttackOnStick)
                  attack.AttackActivation(attackAxis);             
         }
+        if(CanAttack && inputs.GamepadAttackButtonInput.IsPressed())
+            attack.AttackActivation(attackAxis);
 
         //Dash
         if (CanDash && inputs.DashButtonInput.WasPerformedThisFrame())
