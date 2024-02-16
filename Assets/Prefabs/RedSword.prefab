@@ -99,9 +99,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponAnimator: {fileID: 0}
-  damage: 2
+  damage: 3
   cooldown: 1
   lag: 0.5
+  hitboxRadius: 1
+  hitboxRange: 0
+  hitboxDuration: 0.4
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!95 &1502074468152758371
 Animator:
   serializedVersion: 5

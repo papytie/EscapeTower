@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(PlayerInputs), typeof(PlayerMovement), typeof(PlayerDash))]
 [RequireComponent(typeof(PlayerWeaponSlot), typeof(PlayerAttack), typeof(Animator))]
@@ -55,31 +56,47 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (CanMove)
-            movement.Move();
+        Vector3 moveAxis = inputs.MoveAxisInput.ReadValue<Vector2>();
+        Vector3 attackAxis = inputs.AttackAxisInput.ReadValue<Vector2>();
 
+        //Movement
+        if (CanMove && moveAxis != Vector3.zero) 
+        {      
+            movement.CheckedMove(moveAxis);
+
+            //Movement rotation
+            if (attackAxis == Vector3.zero && !inputs.AttackButtonInput.IsPressed())
+                movement.RotateToMoveDirection(moveAxis);
+        }        
+
+        //Keyboard Attack
+        if (CanAttack && inputs.AttackButtonInput.IsPressed())
+        {
+            Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(inputs.MousePositionAxisInput.ReadValue<Vector2>());
+            attack.AttackActivation((mouseWorldPos - transform.position).normalized);
+            movement.RotateToMoveDirection((mouseWorldPos - transform.position).normalized);
+        }
+
+        //Gamepad Attack
+        if (!lifeSystem.IsDead && attackAxis != Vector3.zero)
+        {
+            movement.RotateToMoveDirection(attackAxis);
+
+            //Attack rotation
+            if (CanAttack && attack.AutoAttackOnStick)
+                 attack.AttackActivation(attackAxis);             
+        }
+
+        //Dash
         if (CanDash && inputs.DashButtonInput.WasPerformedThisFrame())
         {
-            Vector3 moveAxis = inputs.MoveAxisInput.ReadValue<Vector2>();
             if (moveAxis != Vector3.zero)
                 dash.DashActivation(moveAxis);
             else 
                 dash.DashActivation(transform.up);
         }
 
-        if (CanAttack)
-        {
-            if (inputs.AttackButtonInput.WasPerformedThisFrame())
-            {
-                Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(inputs.MousePositionAxisInput.ReadValue<Vector2>());
-                attack.AttackActivation((mouseWorldPos - transform.position).normalized);
-            }
-
-            Vector3 attackAxis = inputs.AttackAxisInput.ReadValue<Vector2>();
-            if (attackAxis != Vector3.zero)
-                attack.AttackActivation(attackAxis);
-        }
-
+        //Collision Check reaction
         if (CanTakeDamage)
         {
             if (collision.EnemyCheckCollision(collision.EnemyLayer, out int dmg))

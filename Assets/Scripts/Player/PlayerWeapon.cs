@@ -10,8 +10,9 @@ public class PlayerWeapon : MonoBehaviour
     public int Damage => damage;
     public float Cooldown => cooldown;
     public float Lag => lag;
-    public Vector2 HitboxPos => hitboxPos;
-    public Vector2 HitboxSize => hitboxSize;
+    public float HitboxRadius => hitboxRadius;
+    public float HitboxRange => hitboxRange;
+    public float HitboxDuration => hitboxDuration;
 
     [Header("Weapon Settings")]
     [SerializeField] Animator weaponAnimator;
@@ -21,15 +22,9 @@ public class PlayerWeapon : MonoBehaviour
 
     [Header("Hitbox Settings")]
     [SerializeField] float hitboxRadius = .1f;
-    [SerializeField] float hitboxRange = 0;
-    [SerializeField] Vector2 hitboxPos;
-    [SerializeField] Vector2 hitboxSize;
-    [SerializeField] float hitboxAngle = 0;
+    [SerializeField] float hitboxRange = .1f;
+    [SerializeField] float hitboxDuration = .1f;
     [SerializeField] LayerMask enemyLayer;
-
-    [Header("Debug")]
-    [SerializeField] bool showDebug;
-    [SerializeField] Color colliderDebugColor = Color.red;
 
     private void Awake()
     {
@@ -41,20 +36,11 @@ public class PlayerWeapon : MonoBehaviour
         weaponAnimator.SetTrigger(GameParams.Animation.WEAPON_ATTACK_TRIGGER);
     }
 
-    public bool WeaponHitBoxResult(Vector2 direction, out RaycastHit2D[] collisions)
+    public bool WeaponHitBoxResult(Vector2 origin, Vector2 direction, out RaycastHit2D[] collisions)
     {
-        collisions = Physics2D.BoxCastAll(transform.position.ToVector2() + hitboxPos, hitboxSize, hitboxAngle, direction, hitboxRange, enemyLayer);
+        collisions = Physics2D.CircleCastAll(origin, hitboxRadius, direction, hitboxRange, enemyLayer);
+
         return collisions.Length > 0 ? true: false; 
     }
 
-    private void OnDrawGizmos()
-    {
-        if (showDebug)
-        {
-            Gizmos.color = colliderDebugColor;
-            Gizmos.DrawWireCube(transform.position.ToVector2() + hitboxPos, hitboxSize);
-            Gizmos.color = Color.white;
-
-        }
-    }
 }

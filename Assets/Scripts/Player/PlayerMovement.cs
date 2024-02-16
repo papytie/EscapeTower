@@ -6,6 +6,8 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] float playerSpeed = 5f;
+    [SerializeField] float playerAcceleration = 50f;
+    float currentSpeed = 0;
 
     PlayerInputs playerInputs;
     PlayerCollision playerCollision;
@@ -18,21 +20,24 @@ public class PlayerMovement : MonoBehaviour
         playerCollision = collisionRef;
     }
 
-    public void Move()
+    private void Update()
     {
-        Vector3 moveAxis = playerInputs.MoveAxisInput.ReadValue<Vector2>();
-        float playerStep = Time.deltaTime * playerSpeed;
+        //Speed acceleration damping
+        Vector2 moveAxis = playerInputs.MoveAxisInput.ReadValue<Vector2>();
+        currentSpeed = Mathf.MoveTowards(currentSpeed, moveAxis.magnitude * playerSpeed, Time.deltaTime * playerAcceleration);
+    }
 
-        if (moveAxis != Vector3.zero)
-        {
-            playerCollision.CollisionCheck(moveAxis, playerStep, playerCollision.WallLayer, out Vector3 finalPosition, out RaycastHit2D hit);
+    public void CheckedMove(Vector3 moveAxis)
+    {
 
-            //Movement
-            transform.position = finalPosition;
-            
-            //Rotation
-            transform.rotation = Quaternion.LookRotation(Vector3.forward, moveAxis);
-        }
+        playerCollision.CollisionCheck(moveAxis, currentSpeed * Time.deltaTime, playerCollision.WallLayer, out Vector3 finalPosition, out RaycastHit2D hit);
+        transform.position = finalPosition;
+
+    }
+
+    public void RotateToMoveDirection(Vector3 moveAxis)
+    {
+        transform.rotation = Quaternion.LookRotation(Vector3.forward, moveAxis);
 
     }
 

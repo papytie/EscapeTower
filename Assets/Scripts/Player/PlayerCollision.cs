@@ -32,7 +32,7 @@ public class PlayerCollision : MonoBehaviour
     public void CollisionCheck(Vector3 direction, float distance, LayerMask checkLayer, out Vector3 fixedPosition, out RaycastHit2D collision)
     {
         collision = Physics2D.CircleCast(transform.position, colliderRadius, direction, checkDistance, checkLayer);
-        Vector3 moveVector = distance * direction;
+        Vector3 moveVector = direction * distance;
 
         //Debug check position
         if (showDebug)

@@ -7,11 +7,25 @@ public class PlayerAttack : MonoBehaviour
 {
     public bool AttackAvailable => !isOnCooldown;
     public bool IsAttacking => isAttacking;
+    public bool IsTrigger => isTrigger;
+    public bool AutoAttackOnStick => autoAttackOnStick;
+
+    [Header("Attack Settings")]
+    [SerializeField] bool autoAttackOnStick = true;
+    
+    [Header("Debug")]
+    [SerializeField] bool showDebug;
+    [SerializeField] Color colliderDebugColor = Color.red;
 
     float coolDownTime = 0;
-    float attackLagTime = 0; 
     bool isOnCooldown = false;
+    float attackLagTime = 0; 
     bool isAttacking = false;
+    float hitboxTime = 0; 
+    bool isTrigger = false;
+
+    List<EnemyLifeSystem> enemiesHit = new();
+    List<EnemyLifeSystem> enemiesDamaged = new();
 
     PlayerInputs playerInputs;
     PlayerWeaponSlot playerWeaponSlot;
@@ -29,6 +43,9 @@ public class PlayerAttack : MonoBehaviour
 
         if (isAttacking)
             AttackLagTimer();
+
+        if (isTrigger)
+            AttackHitboxTimer();
     }
 
     void AttackCoolDownTimer()
@@ -51,26 +68,65 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
+    void AttackHitboxTimer()
+    {
+        hitboxTime += Time.deltaTime;
+        if (hitboxTime >= playerWeaponSlot.EquippedWeapon.HitboxDuration)
+        {
+            hitboxTime = 0;
+            isTrigger = false;
+
+            //Stop Hitbox check
+            CancelInvoke(nameof(HitboxDetection));
+            enemiesHit.Clear();
+        }
+    }
+
     public void AttackActivation(Vector3 attackDirection)
     {
         isAttacking = true;
         isOnCooldown = true;
+        isTrigger = true;
 
-        transform.rotation = Quaternion.LookRotation(Vector3.forward, attackDirection);
+        //Rotation done in PlayerController
+        //transform.rotation = Quaternion.LookRotation(Vector3.forward, attackDirection);
 
         playerWeaponSlot.EquippedWeapon.WeaponAttackFX();
 
-        //Hitbox System
-        if (playerWeaponSlot.EquippedWeapon.WeaponHitBoxResult(attackDirection, out RaycastHit2D[] collisions))
+        //Begin Hitbox check coroutine
+        InvokeRepeating(nameof(HitboxDetection), 0, .1f);
+
+    }
+
+    public void HitboxDetection()
+    {
+        if (playerWeaponSlot.EquippedWeapon.WeaponHitBoxResult(transform.position.ToVector2(), transform.up, out RaycastHit2D[] collisions))
         {
             foreach(RaycastHit2D collision in collisions)
             {
-                collision.transform.GetComponent<EnemyLifeSystem>().TakeDamage(playerWeaponSlot.EquippedWeapon.Damage);
+                EnemyLifeSystem enemy = collision.transform.GetComponent<EnemyLifeSystem>();
+                if (enemy && !enemiesHit.Contains(enemy))
+                {
+                    enemy.TakeDamage(playerWeaponSlot.EquippedWeapon.Damage);
+                    enemiesHit.Add(enemy);
+
+                }
 
             }
+
+        }
+
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (showDebug && Application.isPlaying)
+        {
+            Gizmos.color = colliderDebugColor;
+            Gizmos.DrawWireSphere(transform.position.ToVector2() + transform.up.ToVector2() * playerWeaponSlot.EquippedWeapon.HitboxRange, playerWeaponSlot.EquippedWeapon.HitboxRadius);
+            Gizmos.color = Color.white;
+
         }
     }
 
-    
-    
 }
