@@ -2087,7 +2087,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 984688515047404515, guid: aedf39e926b640b4687e56297141b15d, type: 3}
       propertyPath: showDebug
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 984688515047404515, guid: aedf39e926b640b4687e56297141b15d, type: 3}
       propertyPath: dashCooldown

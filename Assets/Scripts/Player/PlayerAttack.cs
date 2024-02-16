@@ -94,7 +94,7 @@ public class PlayerAttack : MonoBehaviour
         playerWeaponSlot.EquippedWeapon.WeaponAttackFX();
 
         //Begin Hitbox check coroutine
-        InvokeRepeating(nameof(HitboxDetection), 0, .1f);
+        InvokeRepeating(nameof(HitboxDetection), 0, playerWeaponSlot.EquippedWeapon.HitboxDelay);
 
     }
 

@@ -79,12 +79,12 @@ public class PlayerController : MonoBehaviour
         }
 
         //Gamepad Attack
-        if (!lifeSystem.IsDead && attackAxis != Vector3.zero)
+        if (CanMove && attackAxis != Vector3.zero)
         {
             movement.RotateToMoveDirection(attackAxis);
 
             //Attack rotation
-            if (CanAttack && attack.AutoAttackOnStick)
+            if (attack.AttackAvailable && attack.AutoAttackOnStick)
                  attack.AttackActivation(attackAxis);             
         }
         if(CanAttack && inputs.GamepadAttackButtonInput.IsPressed())

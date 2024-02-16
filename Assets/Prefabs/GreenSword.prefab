@@ -103,7 +103,7 @@ MonoBehaviour:
   cooldown: 0.5
   lag: 0
   hitboxRadius: 0.5
-  hitboxRange: 0.5
+  hitboxRange: 1
   hitboxDuration: 0.2
   enemyLayer:
     serializedVersion: 2
