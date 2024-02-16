@@ -48,7 +48,7 @@ public class PlayerDash : MonoBehaviour
     public void DashActivation(Vector3 dir)
     {
         dashStart = transform.position;
-        dashTarget = transform.position + dir * dashDistance;
+        dashTarget = transform.position + dir.normalized * dashDistance;
         isDashing = true;
         isOnCooldown = true;
 
