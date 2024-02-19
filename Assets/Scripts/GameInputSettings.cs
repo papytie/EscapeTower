@@ -37,18 +37,9 @@ public partial class @GameInputSettings: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""MouseAttack"",
+                    ""name"": ""Attack"",
                     ""type"": ""Button"",
                     ""id"": ""ae559477-3b22-479b-9d06-9bc8196e4537"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""GamepadAttack"",
-                    ""type"": ""Button"",
-                    ""id"": ""f8fe5e28-5722-4643-8e97-53a7ec74398e"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -151,28 +142,6 @@ public partial class @GameInputSettings: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""75b3533d-fbd2-4a40-b0d8-4f2182d7bddb"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""GamepadAttack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""4b920da3-faf5-44fb-8665-18ae92ca4593"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""GamepadAttack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""d4f0cb12-6a83-4576-9bb6-aa09d9dd8f13"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
@@ -233,7 +202,29 @@ public partial class @GameInputSettings: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KeyboardMouse"",
-                    ""action"": ""MouseAttack"",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f05484c7-1879-4c91-81e6-75ca7e783fdf"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2c905ac1-5484-4338-aa3f-b31285d98a21"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -256,8 +247,7 @@ public partial class @GameInputSettings: IInputActionCollection2, IDisposable
         // Character
         m_Character = asset.FindActionMap("Character", throwIfNotFound: true);
         m_Character_Move = m_Character.FindAction("Move", throwIfNotFound: true);
-        m_Character_MouseAttack = m_Character.FindAction("MouseAttack", throwIfNotFound: true);
-        m_Character_GamepadAttack = m_Character.FindAction("GamepadAttack", throwIfNotFound: true);
+        m_Character_Attack = m_Character.FindAction("Attack", throwIfNotFound: true);
         m_Character_Dash = m_Character.FindAction("Dash", throwIfNotFound: true);
         m_Character_AttackOrientation = m_Character.FindAction("AttackOrientation", throwIfNotFound: true);
         m_Character_MousePos = m_Character.FindAction("MousePos", throwIfNotFound: true);
@@ -323,8 +313,7 @@ public partial class @GameInputSettings: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Character;
     private List<ICharacterActions> m_CharacterActionsCallbackInterfaces = new List<ICharacterActions>();
     private readonly InputAction m_Character_Move;
-    private readonly InputAction m_Character_MouseAttack;
-    private readonly InputAction m_Character_GamepadAttack;
+    private readonly InputAction m_Character_Attack;
     private readonly InputAction m_Character_Dash;
     private readonly InputAction m_Character_AttackOrientation;
     private readonly InputAction m_Character_MousePos;
@@ -333,8 +322,7 @@ public partial class @GameInputSettings: IInputActionCollection2, IDisposable
         private @GameInputSettings m_Wrapper;
         public CharacterActions(@GameInputSettings wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Character_Move;
-        public InputAction @MouseAttack => m_Wrapper.m_Character_MouseAttack;
-        public InputAction @GamepadAttack => m_Wrapper.m_Character_GamepadAttack;
+        public InputAction @Attack => m_Wrapper.m_Character_Attack;
         public InputAction @Dash => m_Wrapper.m_Character_Dash;
         public InputAction @AttackOrientation => m_Wrapper.m_Character_AttackOrientation;
         public InputAction @MousePos => m_Wrapper.m_Character_MousePos;
@@ -350,12 +338,9 @@ public partial class @GameInputSettings: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
-            @MouseAttack.started += instance.OnMouseAttack;
-            @MouseAttack.performed += instance.OnMouseAttack;
-            @MouseAttack.canceled += instance.OnMouseAttack;
-            @GamepadAttack.started += instance.OnGamepadAttack;
-            @GamepadAttack.performed += instance.OnGamepadAttack;
-            @GamepadAttack.canceled += instance.OnGamepadAttack;
+            @Attack.started += instance.OnAttack;
+            @Attack.performed += instance.OnAttack;
+            @Attack.canceled += instance.OnAttack;
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
@@ -372,12 +357,9 @@ public partial class @GameInputSettings: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
-            @MouseAttack.started -= instance.OnMouseAttack;
-            @MouseAttack.performed -= instance.OnMouseAttack;
-            @MouseAttack.canceled -= instance.OnMouseAttack;
-            @GamepadAttack.started -= instance.OnGamepadAttack;
-            @GamepadAttack.performed -= instance.OnGamepadAttack;
-            @GamepadAttack.canceled -= instance.OnGamepadAttack;
+            @Attack.started -= instance.OnAttack;
+            @Attack.performed -= instance.OnAttack;
+            @Attack.canceled -= instance.OnAttack;
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
@@ -425,8 +407,7 @@ public partial class @GameInputSettings: IInputActionCollection2, IDisposable
     public interface ICharacterActions
     {
         void OnMove(InputAction.CallbackContext context);
-        void OnMouseAttack(InputAction.CallbackContext context);
-        void OnGamepadAttack(InputAction.CallbackContext context);
+        void OnAttack(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnAttackOrientation(InputAction.CallbackContext context);
         void OnMousePos(InputAction.CallbackContext context);

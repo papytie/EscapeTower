@@ -15,18 +15,9 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "MouseAttack",
+                    "name": "Attack",
                     "type": "Button",
                     "id": "ae559477-3b22-479b-9d06-9bc8196e4537",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "GamepadAttack",
-                    "type": "Button",
-                    "id": "f8fe5e28-5722-4643-8e97-53a7ec74398e",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -129,28 +120,6 @@
                 },
                 {
                     "name": "",
-                    "id": "75b3533d-fbd2-4a40-b0d8-4f2182d7bddb",
-                    "path": "<Gamepad>/rightShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "GamepadAttack",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4b920da3-faf5-44fb-8665-18ae92ca4593",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "GamepadAttack",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "d4f0cb12-6a83-4576-9bb6-aa09d9dd8f13",
                     "path": "<Keyboard>/space",
                     "interactions": "",
@@ -211,7 +180,29 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "MouseAttack",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f05484c7-1879-4c91-81e6-75ca7e783fdf",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2c905ac1-5484-4338-aa3f-b31285d98a21",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

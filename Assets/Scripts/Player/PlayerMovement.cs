@@ -11,12 +11,10 @@ public class PlayerMovement : MonoBehaviour
 
     PlayerInputs playerInputs;
     PlayerCollision playerCollision;
-    Animator playerAnimator;
 
-    public void InitRef(PlayerInputs inputRef, Animator animRef, PlayerCollision collisionRef)
+    public void InitRef(PlayerInputs inputRef, PlayerCollision collisionRef)
     {
         playerInputs = inputRef;
-        playerAnimator = animRef;
         playerCollision = collisionRef;
     }
 
@@ -30,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
     public void CheckedMove(Vector3 moveAxis)
     {
 
-        playerCollision.CollisionCheck(moveAxis, currentSpeed * Time.deltaTime, playerCollision.WallLayer, out Vector3 finalPosition, out RaycastHit2D hit);
+        playerCollision.MoveCollisionCheck(moveAxis, currentSpeed * Time.deltaTime, playerCollision.WallLayer, out Vector3 finalPosition, out RaycastHit2D hit);
         transform.position = finalPosition;
 
     }

@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 [RequireComponent(typeof(PlayerInputs), typeof(PlayerMovement), typeof(PlayerDash))]
 [RequireComponent(typeof(PlayerWeaponSlot), typeof(PlayerAttack), typeof(Animator))]
@@ -49,9 +47,9 @@ public class PlayerController : MonoBehaviour
 
     void InitComponentsRef()
     {
-        movement.InitRef(inputs, animator, collision);
+        movement.InitRef(inputs, collision);
         dash.InitRef(collision, lifeSystem);
-        attack.InitRef(inputs, slot);
+        attack.InitRef(slot);
         lifeSystem.InitRef(animator);
     }
 
@@ -60,45 +58,49 @@ public class PlayerController : MonoBehaviour
         Vector3 moveAxis = inputs.MoveAxisInput.ReadValue<Vector2>();
         Vector3 attackAxis = inputs.AttackAxisInput.ReadValue<Vector2>();
 
+        //Rotation
+        if (CanMove) 
+        {
+            if (moveAxis != Vector3.zero)
+                movement.RotateToMoveDirection(moveAxis);
+
+            if (attackAxis != Vector3.zero)
+                movement.RotateToMoveDirection(attackAxis);
+
+            if (inputs.AttackButtonInput.IsPressed() && inputs.IsInputScheme(inputs.AttackButtonInput, InputSchemeEnum.KeyboardMouse))
+            {
+                Vector3 mouseDirection = (Camera.main.ScreenToWorldPoint(inputs.MousePositionAxisInput.ReadValue<Vector2>()) - transform.position).normalized;
+                movement.RotateToMoveDirection(mouseDirection);
+            }
+
+        }
+        
         //Movement
-        if (CanMove && moveAxis != Vector3.zero) 
-        {      
+        if(CanMove && moveAxis != Vector3.zero)
             movement.CheckedMove(moveAxis);
 
-            //Movement rotation
-            if (attackAxis == Vector3.zero && (!inputs.GamepadAttackButtonInput.IsPressed() || !inputs.MouseAttackButtonInput.IsPressed()))
-                movement.RotateToMoveDirection(moveAxis);
-        }        
-
-        //Keyboard Attack
-        if (CanMove && inputs.MouseAttackButtonInput.IsPressed())
+        //Attack
+        if(CanAttack)
         {
-            Vector3 mouseDirection = (Camera.main.ScreenToWorldPoint(inputs.MousePositionAxisInput.ReadValue<Vector2>()) - transform.position).normalized;
-            movement.RotateToMoveDirection(mouseDirection);
+            if(attack.AutoAttackOnStick && attackAxis != Vector3.zero || inputs.AttackButtonInput.IsPressed())
+                attack.AttackActivation();
 
-            if(attack.AttackAvailable)
-                attack.AttackActivation(mouseDirection);
         }
-
-        //Gamepad Attack
-        if (CanMove && attackAxis != Vector3.zero)
-        {
-            movement.RotateToMoveDirection(attackAxis);
-
-            //Attack rotation
-            if (attack.AttackAvailable && attack.AutoAttackOnStick)
-                 attack.AttackActivation(attackAxis);             
-        }
-        if(CanAttack && inputs.GamepadAttackButtonInput.IsPressed())
-            attack.AttackActivation(attackAxis);
 
         //Dash
         if (CanDash && inputs.DashButtonInput.WasPerformedThisFrame())
         {
             if (moveAxis != Vector3.zero)
+            {
                 dash.DashActivation(moveAxis);
-            else 
+                movement.RotateToMoveDirection(moveAxis);
+            }
+            else
+            {
                 dash.DashActivation(transform.up);
+                movement.RotateToMoveDirection(transform.up);
+            }
+
         }
 
         //Collision Check reaction

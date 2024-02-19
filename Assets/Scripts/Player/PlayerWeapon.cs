@@ -13,7 +13,6 @@ public class PlayerWeapon : MonoBehaviour
     public float HitboxRadius => hitboxRadius;
     public float HitboxRange => hitboxRange;
     public float HitboxDuration => hitboxDuration;
-    public float HitboxDelay => hitboxDelay;
 
     [Header("Weapon Settings")]
     [SerializeField] Animator weaponAnimator;
@@ -25,7 +24,6 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField] float hitboxRadius = .1f;
     [SerializeField] float hitboxRange = .1f;
     [SerializeField] float hitboxDuration = .1f;
-    [SerializeField] float hitboxDelay = .1f;
     [SerializeField] LayerMask enemyLayer;
 
     private void Awake()
@@ -41,7 +39,6 @@ public class PlayerWeapon : MonoBehaviour
     public bool WeaponHitBoxResult(Vector2 origin, Vector2 direction, out RaycastHit2D[] collisions)
     {
         collisions = Physics2D.CircleCastAll(origin, hitboxRadius, direction, hitboxRange, enemyLayer);
-
         return collisions.Length > 0 ? true: false; 
     }
 

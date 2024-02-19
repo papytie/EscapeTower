@@ -29,7 +29,7 @@ public class PlayerCollision : MonoBehaviour
         debugPosition = transform.position;
     }
 
-    public void CollisionCheck(Vector3 direction, float distance, LayerMask checkLayer, out Vector3 fixedPosition, out RaycastHit2D collision)
+    public void MoveCollisionCheck(Vector3 direction, float distance, LayerMask checkLayer, out Vector3 fixedPosition, out RaycastHit2D collision)
     {
         collision = Physics2D.CircleCast(transform.position, colliderRadius, direction, checkDistance, checkLayer);
         Vector3 moveVector = direction * distance;
@@ -57,7 +57,7 @@ public class PlayerCollision : MonoBehaviour
             //Check if movement should be applied instead or if it ends in collider dead zone
             if (moveVector.magnitude > (projectedPos - transform.position).magnitude || collision.distance < collisionMinDist * .9f)
             {
-                fixedPosition = stickyPos + stickyAxis * Vector2.Dot(stickyAxis, stickyToInitial);
+                fixedPosition = projectedPos;
             }
 
         }

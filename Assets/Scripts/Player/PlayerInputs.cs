@@ -5,8 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputs : MonoBehaviour
 {
-    public InputAction MouseAttackButtonInput => controls.Character.MouseAttack;
-    public InputAction GamepadAttackButtonInput => controls.Character.GamepadAttack;
+    public InputAction AttackButtonInput => controls.Character.Attack;
     public InputAction AttackAxisInput => controls.Character.AttackOrientation;
     public InputAction MoveAxisInput => controls.Character.Move;
     public InputAction DashButtonInput => controls.Character.Dash;

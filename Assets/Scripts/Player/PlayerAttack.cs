@@ -25,14 +25,11 @@ public class PlayerAttack : MonoBehaviour
     bool isTrigger = false;
 
     List<EnemyLifeSystem> enemiesHit = new();
-    List<EnemyLifeSystem> enemiesDamaged = new();
 
-    PlayerInputs playerInputs;
     PlayerWeaponSlot playerWeaponSlot;
 
-    public void InitRef(PlayerInputs inputs, PlayerWeaponSlot slot)
+    public void InitRef(PlayerWeaponSlot slot)
     {
-        playerInputs = inputs;
         playerWeaponSlot = slot;
     }
 
@@ -71,31 +68,21 @@ public class PlayerAttack : MonoBehaviour
     void AttackHitboxTimer()
     {
         hitboxTime += Time.deltaTime;
+        HitboxDetection();
         if (hitboxTime >= playerWeaponSlot.EquippedWeapon.HitboxDuration)
         {
-            hitboxTime = 0;
             isTrigger = false;
-
-            //Stop Hitbox check
-            CancelInvoke(nameof(HitboxDetection));
+            hitboxTime = 0;
             enemiesHit.Clear();
         }
     }
 
-    public void AttackActivation(Vector3 attackDirection)
+    public void AttackActivation()
     {
         isAttacking = true;
         isOnCooldown = true;
         isTrigger = true;
-
-        //Rotation done in PlayerController
-        //transform.rotation = Quaternion.LookRotation(Vector3.forward, attackDirection);
-
         playerWeaponSlot.EquippedWeapon.WeaponAttackFX();
-
-        //Begin Hitbox check coroutine
-        InvokeRepeating(nameof(HitboxDetection), 0, playerWeaponSlot.EquippedWeapon.HitboxDelay);
-
     }
 
     public void HitboxDetection()
@@ -104,7 +91,10 @@ public class PlayerAttack : MonoBehaviour
         {
             foreach(RaycastHit2D collision in collisions)
             {
+                //Cast to enemy script
                 EnemyLifeSystem enemy = collision.transform.GetComponent<EnemyLifeSystem>();
+
+                //Check enemy then apply damages and add to list
                 if (enemy && !enemiesHit.Contains(enemy))
                 {
                     enemy.TakeDamage(playerWeaponSlot.EquippedWeapon.Damage);

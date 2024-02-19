@@ -42,7 +42,7 @@ public class PlayerDash : MonoBehaviour
             DashCoolDownTimer();
 
         if (isDashing)
-            DashLerpTimer();
+            DashUpdate();
     }
 
     public void DashActivation(Vector3 dir)
@@ -66,19 +66,26 @@ public class PlayerDash : MonoBehaviour
         }
     }
     
-    void DashLerpTimer()
+    void DashUpdate()
     {
         dashCurrentDuration += Time.deltaTime;
         float t = Mathf.Clamp01(dashCurrentDuration / dashDuration);
-        
-        collision.CollisionCheck(dashTarget.normalized, (dashDistance / dashDuration) * Time.deltaTime, collision.WallLayer, out Vector3 fixedPosition, out RaycastHit2D hit);
 
+        //Use curve to modify lerp transition
+        Vector3 dashTargetPos = Vector3.Lerp(dashStart, dashTarget, dashCurve.Evaluate(t));
+        
+        //Calculate value of next Dash movement
+        float dashStepValue = (dashTargetPos - transform.position).magnitude;
+
+        //Check at next dash step position if collision occurs
+        collision.MoveCollisionCheck(dashTarget.normalized, dashStepValue, collision.WallLayer, out Vector3 fixedPosition, out RaycastHit2D hit);
+        
         if(hit)
             transform.position = fixedPosition;
-        
-        else 
-            transform.position = Vector3.Lerp(dashStart, dashTarget, dashCurve.Evaluate(t)); //use curve to modify lerp transition
+        else
+            transform.position = dashTargetPos;
 
+        //Reset dash when Dash duration end or Collision hit
         if (dashCurrentDuration >= dashDuration || hit) 
         {
             isDashing = false;
@@ -86,7 +93,6 @@ public class PlayerDash : MonoBehaviour
 
             //End Invincibility
             lifeSystem.IsInvincible = false;
-            return;
         }
     }
 
