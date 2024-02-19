@@ -6,73 +6,37 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] float playerSpeed = 5f;
-    [SerializeField] float minDist = .1f;
-
-    float CheckDistance = 0;
+    [SerializeField] float playerAcceleration = 50f;
+    float currentSpeed = 0;
 
     PlayerInputs playerInputs;
     PlayerCollision playerCollision;
-    Animator playerAnimator;
 
-    public void InitRef(PlayerInputs inputRef, Animator animRef, PlayerCollision collisionRef)
+    public void InitRef(PlayerInputs inputRef, PlayerCollision collisionRef)
     {
         playerInputs = inputRef;
-        playerAnimator = animRef;
         playerCollision = collisionRef;
     }
 
-    private void Start()
+    private void Update()
     {
-        CheckDistance = minDist * 2;
+        //Speed acceleration damping
+        Vector2 moveAxis = playerInputs.MoveAxisInput.ReadValue<Vector2>();
+        currentSpeed = Mathf.MoveTowards(currentSpeed, moveAxis.magnitude * playerSpeed, Time.deltaTime * playerAcceleration);
     }
 
-    public void Move()
+    public void CheckedMove(Vector3 moveAxis)
     {
-        Vector3 moveAxis = playerInputs.MoveAxisInput.ReadValue<Vector2>();
 
-        if (moveAxis != Vector3.zero)
-        {
-            playerCollision.MoveCheckCollision(moveAxis, CheckDistance, playerCollision.WallLayer, out RaycastHit2D hit);
-            Vector3 playerMove = playerSpeed * Time.deltaTime * moveAxis;
-
-            //Movement
-            if (hit)
-            {
-                Vector3 stickyPos = hit.centroid + hit.normal * minDist;
-                Vector3 stickyToInitial = (transform.position + playerMove) - stickyPos;
-                Vector3 stickyAxis = Vector2.Perpendicular(hit.normal);
-
-                //Projection of fixed player movement on Sticky Axis
-                Vector3 projectedPos = stickyPos + stickyAxis * Vector2.Dot(stickyAxis, stickyToInitial);
-
-                if (playerMove.magnitude > (projectedPos - transform.position).magnitude || hit.distance < minDist * .9f)
-                    transform.position = stickyPos + stickyAxis * Vector2.Dot(stickyAxis, stickyToInitial);
-            }
-            else
-            {
-                transform.position += playerMove; //unrestricted Movement
-            }
-            
-            //Rotation
-            transform.rotation = Quaternion.LookRotation(Vector3.forward, moveAxis);
-
-        }
+        playerCollision.MoveCollisionCheck(moveAxis, currentSpeed * Time.deltaTime, playerCollision.WallLayer, out Vector3 finalPosition, out RaycastHit2D hit);
+        transform.position = finalPosition;
 
     }
 
-    private void OnDrawGizmos()
+    public void RotateToMoveDirection(Vector3 moveAxis)
     {
-        if (Application.isPlaying)
-        {
-            if (playerCollision.ShowDebug)
-            {
-                Gizmos.color = Color.yellow;
-                Vector2 moveAxis = playerInputs.MoveAxisInput.ReadValue<Vector2>();
-                Gizmos.DrawWireSphere(transform.position.ToVector2() + moveAxis * CheckDistance, playerCollision.ColliderRadius);
-                Gizmos.color = Color.white;
+        transform.rotation = Quaternion.LookRotation(Vector3.forward, moveAxis);
 
-            }
-
-        }
     }
+
 }

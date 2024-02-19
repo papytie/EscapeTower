@@ -43,4 +43,8 @@ public class EnemyLifeSystem : MonoBehaviour
         currentLifePoints = Mathf.Min(currentLifePoints + healValue, maxLifePoints);
     }
 
+    public void DestroyEnemy()
+    {
+        Destroy(gameObject);
+    }
 }

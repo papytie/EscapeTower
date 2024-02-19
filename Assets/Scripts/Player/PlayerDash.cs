@@ -27,11 +27,13 @@ public class PlayerDash : MonoBehaviour
     Vector3 dashTarget = Vector3.zero;
     Vector3 dashStart = Vector3.zero;
 
-    PlayerInputs playerInputs;
+    PlayerCollision collision;
+    PlayerLifeSystem lifeSystem;
 
-    public void InitRef(PlayerInputs inputRef)
+    public void InitRef(PlayerCollision collisionRef, PlayerLifeSystem lifeSystemRef)
     {
-        playerInputs = inputRef;
+        collision = collisionRef;
+        lifeSystem = lifeSystemRef;
     }
 
     private void Update()
@@ -40,15 +42,18 @@ public class PlayerDash : MonoBehaviour
             DashCoolDownTimer();
 
         if (isDashing)
-            DashLerpTimer();
+            DashUpdate();
     }
 
     public void DashActivation(Vector3 dir)
     {
         dashStart = transform.position;
-        dashTarget = transform.position + dir * dashDistance;
+        dashTarget = transform.position + dir.normalized * dashDistance;
         isDashing = true;
         isOnCooldown = true;
+
+        //Player invincibility during Dash
+        lifeSystem.IsInvincible = true;
     }
 
     void DashCoolDownTimer()
@@ -61,18 +66,33 @@ public class PlayerDash : MonoBehaviour
         }
     }
     
-    void DashLerpTimer()
+    void DashUpdate()
     {
         dashCurrentDuration += Time.deltaTime;
         float t = Mathf.Clamp01(dashCurrentDuration / dashDuration);
-        
-        transform.position = Vector3.Lerp(dashStart, dashTarget, dashCurve.Evaluate(t)); //use curve to modify lerp transition
 
-        if (dashCurrentDuration >= dashDuration) 
+        //Use curve to modify lerp transition
+        Vector3 dashTargetPos = Vector3.Lerp(dashStart, dashTarget, dashCurve.Evaluate(t));
+        
+        //Calculate value of next Dash movement
+        float dashStepValue = (dashTargetPos - transform.position).magnitude;
+
+        //Check at next dash step position if collision occurs
+        collision.MoveCollisionCheck(dashTarget.normalized, dashStepValue, collision.WallLayer, out Vector3 fixedPosition, out RaycastHit2D hit);
+        
+        if(hit)
+            transform.position = fixedPosition;
+        else
+            transform.position = dashTargetPos;
+
+        //Reset dash when Dash duration end or Collision hit
+        if (dashCurrentDuration >= dashDuration || hit) 
         {
             isDashing = false;
             dashCurrentDuration = 0;
-            return;
+
+            //End Invincibility
+            lifeSystem.IsInvincible = false;
         }
     }
 

@@ -47,39 +47,63 @@ public class PlayerController : MonoBehaviour
 
     void InitComponentsRef()
     {
-        movement.InitRef(inputs, animator, collision);
-        dash.InitRef(inputs);
-        attack.InitRef(inputs, slot);
+        movement.InitRef(inputs, collision);
+        dash.InitRef(collision, lifeSystem);
+        attack.InitRef(slot);
         lifeSystem.InitRef(animator);
     }
 
     void Update()
     {
-        if (CanMove)
-            movement.Move();
+        Vector3 moveAxis = inputs.MoveAxisInput.ReadValue<Vector2>();
+        Vector3 attackAxis = inputs.AttackAxisInput.ReadValue<Vector2>();
 
-        if (CanDash && inputs.DashButtonInput.WasPerformedThisFrame())
+        //Rotation
+        if (CanMove) 
         {
-            Vector3 moveAxis = inputs.MoveAxisInput.ReadValue<Vector2>();
             if (moveAxis != Vector3.zero)
-                dash.DashActivation(moveAxis);
-            else 
-                dash.DashActivation(transform.up);
-        }
+                movement.RotateToMoveDirection(moveAxis);
 
-        if (CanAttack)
-        {
-            if (inputs.AttackButtonInput.WasPerformedThisFrame())
+            if (attackAxis != Vector3.zero)
+                movement.RotateToMoveDirection(attackAxis);
+
+            if (inputs.AttackButtonInput.IsPressed() && inputs.IsInputScheme(inputs.AttackButtonInput, InputSchemeEnum.KeyboardMouse))
             {
-                Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(inputs.MousePositionAxisInput.ReadValue<Vector2>());
-                attack.AttackActivation((mouseWorldPos - transform.position).normalized);
+                Vector3 mouseDirection = (Camera.main.ScreenToWorldPoint(inputs.MousePositionAxisInput.ReadValue<Vector2>()) - transform.position).normalized;
+                movement.RotateToMoveDirection(mouseDirection);
             }
 
-            Vector3 attackAxis = inputs.AttackAxisInput.ReadValue<Vector2>();
-            if (attackAxis != Vector3.zero)
-                attack.AttackActivation(attackAxis);
+        }
+        
+        //Movement
+        if(CanMove && moveAxis != Vector3.zero)
+            movement.CheckedMove(moveAxis);
+
+        //Attack
+        if(CanAttack)
+        {
+            if(attack.AutoAttackOnStick && attackAxis != Vector3.zero || inputs.AttackButtonInput.IsPressed())
+                attack.AttackActivation();
+
         }
 
+        //Dash
+        if (CanDash && inputs.DashButtonInput.WasPerformedThisFrame())
+        {
+            if (moveAxis != Vector3.zero)
+            {
+                dash.DashActivation(moveAxis);
+                movement.RotateToMoveDirection(moveAxis);
+            }
+            else
+            {
+                dash.DashActivation(transform.up);
+                movement.RotateToMoveDirection(transform.up);
+            }
+
+        }
+
+        //Collision Check reaction
         if (CanTakeDamage)
         {
             if (collision.EnemyCheckCollision(collision.EnemyLayer, out int dmg))
