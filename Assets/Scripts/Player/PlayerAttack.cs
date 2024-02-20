@@ -110,7 +110,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (showDebug && Application.isPlaying)
+        if (showDebug && Application.isPlaying && isTrigger)
         {
             Gizmos.color = colliderDebugColor;
             Gizmos.DrawWireSphere(transform.position.ToVector2() + transform.up.ToVector2() * playerWeaponSlot.EquippedWeapon.HitboxRange, playerWeaponSlot.EquippedWeapon.HitboxRadius);

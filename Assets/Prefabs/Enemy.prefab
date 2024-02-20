@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 2501715493509198557}
   - component: {fileID: 2698898743311465138}
   - component: {fileID: 1368632166005367084}
+  - component: {fileID: 5961718545271300150}
+  - component: {fileID: 5217099084684916413}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -156,6 +158,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e50247cd13960b4882a8c7756c564fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentLifePoints: 10
+  maxLifePoints: 20
 --- !u!114 &1368632166005367084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,3 +172,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b2a66150ab8292479a92f49da9b9ecc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerObject: {fileID: 0}
+  chaseBehavior: 0
+  fleeBehavior: 0
+  StayAtBehavior: 0
+  AutoAttack: 0
+--- !u!114 &5961718545271300150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4193726905746096626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51fa98cb0aa023c4ca7e865ae3a0c459, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseDamage: 1
+  cooldown: 0.5
+  lag: 0.2
+  radius: 0.5
+  range: 0.5
+  duration: 0.1
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  target: {fileID: 0}
+--- !u!114 &5217099084684916413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4193726905746096626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 530b6b67c74e1e145924b8d2f0a71418, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemySpeed: 2
+  minRange: 1
+  maxRange: 5
+  target: {fileID: 0}

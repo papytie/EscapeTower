@@ -131,6 +131,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: AutoAttack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: fleeBehavior
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: chaseBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: StayAtBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708193330518649246, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2501715493509198557, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_Radius
       value: 0.05
@@ -153,7 +177,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3216072549129654320, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.0041615497
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3216072549129654320, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_LocalRotation.w
@@ -191,6 +215,54 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: maxRange
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: enemySpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackCd
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackLag
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: showDebug
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackRange
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxRange
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxRadius
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackDuration
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxDuration
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -204,6 +276,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: AutoAttack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: fleeBehavior
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: chaseBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: StayAtBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708193330518649246, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2501715493509198557, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_Radius
       value: 0.05
@@ -226,7 +322,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3216072549129654320, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.0041615497
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3216072549129654320, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_LocalRotation.w
@@ -264,6 +360,54 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: maxRange
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: enemySpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackCd
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackLag
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: showDebug
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackRange
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxRange
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxRadius
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackDuration
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxDuration
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -277,6 +421,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: AutoAttack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: fleeBehavior
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: chaseBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: StayAtBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708193330518649246, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2501715493509198557, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_Radius
       value: 0.05
@@ -299,7 +467,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3216072549129654320, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.0041615497
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3216072549129654320, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_LocalRotation.w
@@ -337,6 +505,54 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: maxRange
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: enemySpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackCd
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackLag
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: showDebug
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackRange
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxRange
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxRadius
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackDuration
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxDuration
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -350,6 +566,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: AutoAttack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: fleeBehavior
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: chaseBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: StayAtBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708193330518649246, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2501715493509198557, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_Radius
       value: 0.05
@@ -372,7 +612,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3216072549129654320, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.0041615497
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3216072549129654320, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_LocalRotation.w
@@ -410,6 +650,54 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: maxRange
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: enemySpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackCd
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackLag
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: showDebug
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackRange
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxRange
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxRadius
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackDuration
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxDuration
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -423,6 +711,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: AutoAttack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: fleeBehavior
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: chaseBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: StayAtBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708193330518649246, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2501715493509198557, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_Radius
       value: 0.05
@@ -445,7 +757,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3216072549129654320, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.0041615497
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3216072549129654320, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_LocalRotation.w
@@ -482,6 +794,54 @@ PrefabInstance:
     - target: {fileID: 4193726905746096626, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: maxRange
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: enemySpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackCd
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackLag
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: showDebug
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackRange
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxRange
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxRadius
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackDuration
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxDuration
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 64
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -673,6 +1033,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: AutoAttack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: fleeBehavior
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: chaseBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: StayAtBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708193330518649246, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2501715493509198557, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_Radius
       value: 0.05
@@ -695,7 +1079,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3216072549129654320, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.0041615497
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3216072549129654320, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_LocalRotation.w
@@ -733,6 +1117,54 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: maxRange
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: enemySpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackCd
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackLag
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: showDebug
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackRange
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxRange
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxRadius
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackDuration
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxDuration
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -746,6 +1178,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: AutoAttack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: fleeBehavior
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: chaseBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: StayAtBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708193330518649246, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2501715493509198557, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_Radius
       value: 0.05
@@ -768,7 +1224,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3216072549129654320, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.0041615497
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3216072549129654320, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_LocalRotation.w
@@ -805,6 +1261,54 @@ PrefabInstance:
     - target: {fileID: 4193726905746096626, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: maxRange
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: enemySpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackCd
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackLag
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: showDebug
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackRange
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxRange
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxRadius
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackDuration
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxDuration
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 64
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -956,6 +1460,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: AutoAttack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: fleeBehavior
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: chaseBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: StayAtBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708193330518649246, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2501715493509198557, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_Radius
       value: 0.05
@@ -978,7 +1506,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3216072549129654320, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.0041615497
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3216072549129654320, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1015,6 +1543,54 @@ PrefabInstance:
     - target: {fileID: 4193726905746096626, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: maxRange
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: enemySpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackCd
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackLag
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: showDebug
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackRange
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxRange
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxRadius
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackDuration
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxDuration
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 64
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1159,6 +1735,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: AutoAttack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: fleeBehavior
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: chaseBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: StayAtBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708193330518649246, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2501715493509198557, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_Radius
       value: 0.05
@@ -1181,7 +1781,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3216072549129654320, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.0041615497
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3216072549129654320, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1219,6 +1819,54 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: maxRange
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: enemySpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackCd
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackLag
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: showDebug
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackRange
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxRange
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxRadius
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackDuration
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxDuration
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1232,6 +1880,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: AutoAttack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: fleeBehavior
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: chaseBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: StayAtBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708193330518649246, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2501715493509198557, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_Radius
       value: 0.05
@@ -1254,7 +1926,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3216072549129654320, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.0041615497
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3216072549129654320, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1292,11 +1964,64 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: maxRange
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: enemySpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackCd
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackLag
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: showDebug
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackRange
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxRange
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxRadius
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackDuration
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxDuration
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+--- !u!1 &1416004189 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7335286304733664789, guid: aedf39e926b640b4687e56297141b15d, type: 3}
+  m_PrefabInstance: {fileID: 1993039513253133506}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1526774064
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1305,6 +2030,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: AutoAttack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: fleeBehavior
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: chaseBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: StayAtBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708193330518649246, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2501715493509198557, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_Radius
       value: 0.05
@@ -1327,7 +2076,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3216072549129654320, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.0041615497
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3216072549129654320, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1365,6 +2114,54 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: maxRange
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: enemySpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackCd
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackLag
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: showDebug
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackRange
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxRange
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxRadius
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackDuration
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxDuration
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1378,6 +2175,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: AutoAttack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: fleeBehavior
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: chaseBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: StayAtBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708193330518649246, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2501715493509198557, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_Radius
       value: 0.05
@@ -1400,7 +2221,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3216072549129654320, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.0041615497
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3216072549129654320, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1438,6 +2259,54 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: maxRange
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: enemySpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackCd
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackLag
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: showDebug
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackRange
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxRange
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxRadius
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackDuration
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxDuration
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1451,6 +2320,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: AutoAttack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: fleeBehavior
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: chaseBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: StayAtBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708193330518649246, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2501715493509198557, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_Radius
       value: 0.05
@@ -1473,7 +2366,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3216072549129654320, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.0041615497
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3216072549129654320, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1511,6 +2404,54 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: maxRange
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: enemySpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackCd
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackLag
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: showDebug
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackRange
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxRange
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxRadius
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackDuration
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxDuration
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1524,6 +2465,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: AutoAttack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: fleeBehavior
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: chaseBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: StayAtBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708193330518649246, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2501715493509198557, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_Radius
       value: 0.05
@@ -1546,7 +2511,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3216072549129654320, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.0041615497
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3216072549129654320, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1584,6 +2549,54 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: maxRange
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: enemySpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackCd
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackLag
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: showDebug
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackRange
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxRange
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxRadius
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackDuration
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxDuration
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1597,6 +2610,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: AutoAttack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: fleeBehavior
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: chaseBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: StayAtBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708193330518649246, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2501715493509198557, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_Radius
       value: 0.05
@@ -1619,7 +2656,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3216072549129654320, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.0041615497
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3216072549129654320, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1656,6 +2693,54 @@ PrefabInstance:
     - target: {fileID: 4193726905746096626, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: maxRange
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: enemySpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackCd
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackLag
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: showDebug
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackRange
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxRange
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxRadius
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackDuration
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxDuration
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 64
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1800,9 +2885,37 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: AutoAttack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: fleeBehavior
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: chaseBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368632166005367084, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: StayAtBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708193330518649246, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2501715493509198557, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_Radius
       value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 2501715493509198557, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2698898743311465138, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: maxLifePoints
@@ -1822,7 +2935,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3216072549129654320, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.0041615497
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3216072549129654320, guid: 5cea0928102e67b4090923895ea27670, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1860,6 +2973,82 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: maxRange
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: minRange
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217099084684916413, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: enemySpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: lag
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: range
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: radius
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackCd
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: cooldown
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: duration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackLag
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: showDebug
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackRange
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxRange
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxRadius
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: attackDuration
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: hitboxDuration
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961718545271300150, guid: 5cea0928102e67b4090923895ea27670, type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1873,6 +3062,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3182759348421872709, guid: aedf39e926b640b4687e56297141b15d, type: 3}
+      propertyPath: showDebug
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3182759348421872709, guid: aedf39e926b640b4687e56297141b15d, type: 3}
+      propertyPath: colliderDebugColor.g
+      value: 0.33520997
+      objectReference: {fileID: 0}
     - target: {fileID: 7335286304733664789, guid: aedf39e926b640b4687e56297141b15d, type: 3}
       propertyPath: m_Name
       value: Player
@@ -1920,19 +3117,57 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7335286304733664789, guid: aedf39e926b640b4687e56297141b15d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1993039513253133518}
   m_SourcePrefab: {fileID: 100100000, guid: aedf39e926b640b4687e56297141b15d, type: 3}
 --- !u!114 &1993039513253133507 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7143997438393673213, guid: aedf39e926b640b4687e56297141b15d, type: 3}
   m_PrefabInstance: {fileID: 1993039513253133506}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1416004189}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef25e794069e07942951e42ae85f7b57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!58 &1993039513253133518
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1416004189}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.005, y: -0.02}
+  serializedVersion: 2
+  m_Radius: 0.05
 --- !u!1001 &7158791317890422097
 PrefabInstance:
   m_ObjectHideFlags: 0
