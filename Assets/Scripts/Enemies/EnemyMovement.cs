@@ -28,14 +28,21 @@ public class EnemyMovement : MonoBehaviour
     GameObject target;
     EnemyCollision collision;
 
-    public void SetTarget(GameObject objectToTarget, EnemyCollision enemyCollision)
+    public void InitRef(EnemyCollision enemyCollision)
+    {
+        collision = enemyCollision;
+
+    }
+
+    public void SetTarget(GameObject objectToTarget)
     {
         target = objectToTarget;
-        collision = enemyCollision;
     }
 
     private void Update()
     {
+        if (target == null) return;
+        
         if (isBump)
             BumpUpdate();
 
@@ -83,7 +90,6 @@ public class EnemyMovement : MonoBehaviour
         }
 
     }
-
     public void LookAtTarget()
     {
         Vector2 TargetDirection = (target.transform.position - transform.position).normalized;

@@ -59,7 +59,9 @@ public class EnemyAttack : MonoBehaviour
     {
         animator = GetComponent<Animator>();
 
-        //Attack Sequence
+        //Attack Sequence------------------
+
+        //Initial delay before attacking
         OnAttackDelayElapsed += () =>
         {
             isAttackDelayed = false;
@@ -68,23 +70,27 @@ public class EnemyAttack : MonoBehaviour
             effects.AttackFX();
         };
 
+        //Delay Hitbox check
         OnHitboxDelayElapsed += () =>
         {
             isHitboxDelayed = false;
             isHitboxTrigger = true;
         };
 
+        //Hitbox check duration
         OnHitboxDurationElapsed += () => 
         { 
             isHitboxTrigger = false; 
         };
 
+        //End attack sequence
         OnAttackLagElapsed += () =>
         {
             isAttacking = false;
             isOnCooldown = true;
         };
 
+        //Attack available again
         OnAttackCooldownElapsed += () =>
         {
             isOnCooldown = false;
@@ -92,14 +98,20 @@ public class EnemyAttack : MonoBehaviour
 
     }
 
-    public void SetTarget(GameObject objectToTarget, EnemyEffectSystem effectSystem)
+    public void InitRef(EnemyEffectSystem effectSystem)
+    {
+        effects = effectSystem;
+    }
+
+    public void SetTarget(GameObject objectToTarget)
     {
         target = objectToTarget;
-        effects = effectSystem;
     }
 
     private void Update()
     {
+        if (target == null) return;
+
         if (isAttackDelayed)
             CustomTimer(ref attackDelayTime, attackDelayDuration, OnAttackDelayElapsed);
 
@@ -130,10 +142,20 @@ public class EnemyAttack : MonoBehaviour
         }
     }
 
+    void HitboxDetection()
+    {
+        //Check for player presence then apply damage
+        RaycastHit2D hit = Physics2D.CircleCast(transform.position, hitboxRadius, transform.up, hitboxRange, playerLayer);
+        if (hit)
+            hit.transform.GetComponent<PlayerLifeSystem>().TakeDamage(baseDamage);
+
+    }
+
     public void EnemyAttackActivation()
     {
         if (!target || isOnCooldown) return;
 
+        //Check range from target and launch attack sequence
         float dist = Vector3.Distance(target.transform.position, transform.position);
         if (dist <= attackActivationRange)
         {
@@ -141,16 +163,6 @@ public class EnemyAttack : MonoBehaviour
             isAttacking = true;
         }
     }
-
-    public void HitboxDetection()
-    {
-        RaycastHit2D hit = Physics2D.CircleCast(transform.position, hitboxRadius, transform.up, hitboxRange, playerLayer);
-
-        if (hit)
-            hit.transform.GetComponent<PlayerLifeSystem>().TakeDamage(baseDamage);
-
-    }
-
 
     private void OnDrawGizmos()
     {
@@ -162,6 +174,5 @@ public class EnemyAttack : MonoBehaviour
 
         }
     }
-
 
 }

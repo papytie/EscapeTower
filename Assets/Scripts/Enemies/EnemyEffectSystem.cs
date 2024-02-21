@@ -6,12 +6,10 @@ using UnityEngine;
 
 public class EnemyEffectSystem : MonoBehaviour
 {
-    SpriteRenderer spriteRenderer;
     Animator animator;
 
     private void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
     }
 

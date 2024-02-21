@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator), typeof(EnemyLifeSystem), typeof(EnemyAttack))]
-[RequireComponent(typeof(EnemyMovement), typeof(EnemyCollision))]
+[RequireComponent(typeof(EnemyMovement), typeof(EnemyCollision), typeof(EnemyDetection))]
 
 public class EnemyController : MonoBehaviour
 {
@@ -20,42 +20,48 @@ public class EnemyController : MonoBehaviour
     EnemyMovement movement;
     EnemyCollision collision;
     EnemyEffectSystem effectSystem;
+    EnemyDetection detection;
 
     private void Awake()
     {
+        playerObject = null;
         animator = GetComponent<Animator>();
         lifeSystem = GetComponent<EnemyLifeSystem>();
         attack = GetComponent<EnemyAttack>();
         movement = GetComponent<EnemyMovement>();
         collision = GetComponent<EnemyCollision>();
+        detection = GetComponent<EnemyDetection>();
         effectSystem = transform.GetComponentInChildren<EnemyEffectSystem>();
-
-        playerObject = FindFirstObjectByType<PlayerController>().transform.gameObject;
-        if(!playerObject)
-        {
-            Debug.Log("No Player target!");
-            return;
-        }
+        
     }
 
     void Start()
     {
         lifeSystem.InitRef(animator);
-        movement.SetTarget(playerObject, collision);
-        attack.SetTarget(playerObject, effectSystem);
+        movement.InitRef(collision);
+        attack.InitRef(effectSystem);
     }
 
     private void Update()
     {
-        if (!attack.IsAttacking && !lifeSystem.IsDead)
+        //Run detection until enemy find player
+        if(detection.PlayerDetection(out GameObject target) && playerObject == null)
+        {
+            playerObject = target;
+            movement.SetTarget(target);
+            attack.SetTarget(target);
+        }
+
+        //Check and use right behavior option
+        if (!attack.IsAttacking && !lifeSystem.IsDead && playerObject != null)
         {
 
             if(movement.CanMove)
             {
+                movement.LookAtTarget();
+
                 if (AutoAttack && !attack.IsOnCooldown)
                     attack.EnemyAttackActivation();
-
-                movement.LookAtTarget();
             
                 if (chaseBehavior)
                     movement.ChaseTarget();

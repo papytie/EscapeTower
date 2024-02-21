@@ -6,8 +6,6 @@ using static GameParams;
 public class EnemyLifeSystem : MonoBehaviour
 {
     public bool IsDead => isDead;
-    public int CurrentLifePoints => currentLifePoints;
-    public int MaxLifePoints => maxLifePoints;
 
     [Header("Life Settings")]
     [SerializeField] int currentLifePoints = 10;
