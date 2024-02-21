@@ -21,8 +21,9 @@ public static class GameParams
 
         #region ENEMIES
         public static string ENEMY_TAKEDAMAGE_TRIGGER = "takeDamage";
+        public static string ENEMY_ATTACKFX_TRIGGER = "attackFX";
         public static string ENEMY_DIE_BOOL = "isDead";
-        public static string ENEMY_ATTACKING_BOOL = "isAttacking";
+        public static string ENEMY_ATTACK_TRIGGER = "attack";
         #endregion
     }
 

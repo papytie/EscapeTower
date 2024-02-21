@@ -1,25 +1,33 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.UI.Image;
 
 public class EnemyAttack : MonoBehaviour
 {
     public int BaseDamage => baseDamage;
-
-    public bool AttackAvailable => !isAttacking && !isOnCooldown;
+    public bool IsOnCooldown => isOnCooldown;
+    public bool IsAttacking => isAttacking;
 
     [Header("Attack Settings")]
     [SerializeField] int baseDamage = 1;
-    [SerializeField] float attackCd = .5f;
-    [SerializeField] float attackLag = .2f;
-    [SerializeField] float attackRange = .5f;
+    [SerializeField] float attackActivationRange = .5f;
+    [Header("Delay")]
+    [SerializeField] float attackDelayDuration = .2f;
+    [Header("Lag")]
+    [SerializeField] float attackLagDuration = .2f;
+    [Header("CoolDown")]
+    [SerializeField] float attackCooldown = .5f;
 
     [Header("Hitbox Settings")]
     [SerializeField] float hitboxRadius = .5f;
     [SerializeField] float hitboxRange = .5f;
-    [SerializeField] float hitboxDuration = .1f;
+    [Header("Layer")]
     [SerializeField] LayerMask playerLayer;
+    [Header("Duration")]
+    [SerializeField] float hitboxDuration = .1f;
+    [Header("Delay")]
+    [SerializeField] float hitboxDelayDuration = .1f;
 
     [Header("Debug")]
     [SerializeField] bool showDebug;
@@ -27,112 +35,129 @@ public class EnemyAttack : MonoBehaviour
 
     Animator animator;
     GameObject target;
+    EnemyEffectSystem effects;
 
-    float lagtime = 0;
-    float cdTime = 0;
+    Action OnAttackLagElapsed;
+    Action OnAttackCooldownElapsed;
+    Action OnAttackDelayElapsed;
+    Action OnHitboxDelayElapsed;
+    Action OnHitboxDurationElapsed;
+
+    float LagTime = 0;
+    float CDTime = 0;
     float durationTime = 0;
+    float hitboxDelayTime = 0;
+    float attackDelayTime = 0;
 
     bool isAttacking = false;
+    bool isAttackDelayed = false;
     bool isOnCooldown = false;
-    bool isTrigger = false;
+    bool isHitboxTrigger = false;
+    bool isHitboxDelayed = false;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
+
+        //Attack Sequence
+        OnAttackDelayElapsed += () =>
+        {
+            isAttackDelayed = false;
+            isHitboxDelayed = true;
+            animator.SetTrigger(GameParams.Animation.ENEMY_ATTACK_TRIGGER);
+            effects.AttackFX();
+        };
+
+        OnHitboxDelayElapsed += () =>
+        {
+            isHitboxDelayed = false;
+            isHitboxTrigger = true;
+        };
+
+        OnHitboxDurationElapsed += () => 
+        { 
+            isHitboxTrigger = false; 
+        };
+
+        OnAttackLagElapsed += () =>
+        {
+            isAttacking = false;
+            isOnCooldown = true;
+        };
+
+        OnAttackCooldownElapsed += () =>
+        {
+            isOnCooldown = false;
+        };
+
     }
-    public void SetTarget(GameObject objectToTarget)
+
+    public void SetTarget(GameObject objectToTarget, EnemyEffectSystem effectSystem)
     {
         target = objectToTarget;
+        effects = effectSystem;
     }
 
     private void Update()
     {
+        if (isAttackDelayed)
+            CustomTimer(ref attackDelayTime, attackDelayDuration, OnAttackDelayElapsed);
+
         if (isAttacking)
-            LagTimer();
+            CustomTimer(ref LagTime, attackLagDuration, OnAttackLagElapsed);
+
+        if (isHitboxDelayed)
+            CustomTimer(ref hitboxDelayTime, hitboxDelayDuration, OnHitboxDelayElapsed);
+
+        if (isHitboxTrigger)
+        {
+            CustomTimer(ref durationTime, hitboxDuration, OnHitboxDurationElapsed);
+            HitboxDetection();
+            Debug.Log("hitboxDetection");
+        }
 
         if (isOnCooldown)
-            CooldownTimer();
-
-        if (isTrigger)
-            HitboxDetectionTimer();
+            CustomTimer(ref CDTime, attackCooldown, OnAttackCooldownElapsed);
     }
 
-    void LagTimer()
+    void CustomTimer(ref float currentTime, float maxTime, Action OnTimeElapsed)
     {
-        lagtime += Time.deltaTime;
-        if (lagtime >= attackLag)
+        currentTime += Time.deltaTime;
+        if (currentTime >= maxTime)
         {
-            lagtime = 0;
-            isAttacking = false;
-            animator.SetBool(GameParams.Animation.ENEMY_ATTACKING_BOOL, false);
-        }
-    }
-
-    void CooldownTimer()
-    {
-        cdTime += Time.deltaTime;
-        if (cdTime >= attackCd)
-        {
-            cdTime = 0;
-            isOnCooldown = false;
-        }
-    }
-
-    void HitboxDetectionTimer()
-    {
-        durationTime += Time.deltaTime;
-        HitboxDetection();
-        if (durationTime >= hitboxDuration)
-        {
-            durationTime = 0;
-            isTrigger = false;
+            currentTime = 0;
+            OnTimeElapsed.Invoke();
         }
     }
 
     public void EnemyAttackActivation()
     {
-        if (!target) return;
+        if (!target || isOnCooldown) return;
 
         float dist = Vector3.Distance(target.transform.position, transform.position);
-        if (dist <= attackRange)
+        if (dist <= attackActivationRange)
         {
-            Debug.Log("attack launched");
+            isAttackDelayed = true;
             isAttacking = true;
-            isOnCooldown = true;
-            isTrigger = true;
-            AttackFX();
         }
-    }
-
-    void AttackFX()
-    {
-        animator.SetBool(GameParams.Animation.ENEMY_ATTACKING_BOOL, true);
-
     }
 
     public void HitboxDetection()
     {
-        Vector2 targetDirection = (target.transform.position - transform.position).normalized;
-        RaycastHit2D hit = Physics2D.CircleCast(transform.position, hitboxRadius, targetDirection, hitboxRange, playerLayer);
+        RaycastHit2D hit = Physics2D.CircleCast(transform.position, hitboxRadius, transform.up, hitboxRange, playerLayer);
 
         if (hit)
             hit.transform.GetComponent<PlayerLifeSystem>().TakeDamage(baseDamage);
 
     }
 
-    public bool EnemyHitBoxResult(Vector2 origin, Vector2 direction, out RaycastHit2D hit)
-    {
-        hit = Physics2D.CircleCast(origin, hitboxRadius, direction, hitboxRange, playerLayer);
-        return hit ? true : false;
-    }
 
     private void OnDrawGizmos()
     {
-        if (showDebug && Application.isPlaying && isTrigger)
+        if (showDebug && Application.isPlaying && isHitboxTrigger)
         {
             Gizmos.color = colliderDebugColor;
-            Vector2 targetDirection = (target.transform.position - transform.position).normalized;
-            Gizmos.DrawWireSphere(transform.position.ToVector2() + targetDirection * hitboxRange, hitboxRadius);
+            Gizmos.DrawSphere(transform.position.ToVector2() + transform.up.ToVector2() * hitboxRange, hitboxRadius);
             Gizmos.color = Color.white;
 
         }

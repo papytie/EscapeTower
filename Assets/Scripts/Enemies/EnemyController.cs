@@ -3,23 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator), typeof(EnemyLifeSystem), typeof(EnemyAttack))]
-[RequireComponent(typeof(EnemyMovement))]
+[RequireComponent(typeof(EnemyMovement), typeof(EnemyCollision))]
 
 public class EnemyController : MonoBehaviour
 {
-    [Header("Enemy Settings")]
-    [SerializeField] GameObject playerObject;
-
     [Header("Behaviors")]
     [SerializeField] bool chaseBehavior = false;
     [SerializeField] bool fleeBehavior = false;
     [SerializeField] bool StayAtBehavior = false;
     [SerializeField] bool AutoAttack = false;
 
+    GameObject playerObject;
     Animator animator;
     EnemyLifeSystem lifeSystem;
     EnemyAttack attack;
     EnemyMovement movement;
+    EnemyCollision collision;
+    EnemyEffectSystem effectSystem;
 
     private void Awake()
     {
@@ -27,11 +27,13 @@ public class EnemyController : MonoBehaviour
         lifeSystem = GetComponent<EnemyLifeSystem>();
         attack = GetComponent<EnemyAttack>();
         movement = GetComponent<EnemyMovement>();
+        collision = GetComponent<EnemyCollision>();
+        effectSystem = transform.GetComponentInChildren<EnemyEffectSystem>();
 
         playerObject = FindFirstObjectByType<PlayerController>().transform.gameObject;
         if(!playerObject)
         {
-            Debug.Log("No target!");
+            Debug.Log("No Player target!");
             return;
         }
     }
@@ -39,23 +41,34 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         lifeSystem.InitRef(animator);
-        movement.SetTarget(playerObject);
-        attack.SetTarget(playerObject);
+        movement.SetTarget(playerObject, collision);
+        attack.SetTarget(playerObject, effectSystem);
     }
 
     private void Update()
     {
-        if (attack.AttackAvailable && AutoAttack)
-            attack.EnemyAttackActivation();
+        if (!attack.IsAttacking && !lifeSystem.IsDead)
+        {
 
-        if (chaseBehavior)
-            movement.ChaseTarget();
+            if(movement.CanMove)
+            {
+                if (AutoAttack && !attack.IsOnCooldown)
+                    attack.EnemyAttackActivation();
 
-        if (fleeBehavior)
-            movement.FleeTarget();
+                movement.LookAtTarget();
+            
+                if (chaseBehavior)
+                    movement.ChaseTarget();
 
-        if (StayAtBehavior)
-            movement.StayAtRangeFromTarget();
+                if (fleeBehavior)
+                    movement.FleeTarget();
+
+                if (StayAtBehavior)
+                    movement.StayAtRangeFromTarget();
+
+            }
+
+        }
 
     }
 }

@@ -16,8 +16,9 @@ GameObject:
   - component: {fileID: 1368632166005367084}
   - component: {fileID: 5961718545271300150}
   - component: {fileID: 5217099084684916413}
+  - component: {fileID: 4389012223073274888}
   m_Layer: 7
-  m_Name: Enemy
+  m_Name: SeaUrchin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -190,15 +191,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseDamage: 1
-  cooldown: 0.5
-  lag: 0.2
-  radius: 0.5
-  range: 0.5
-  duration: 0.1
+  attackCd: 0.5
+  attackLag: 0.2
+  attackRange: 0.5
+  hitboxRadius: 0.5
+  hitboxRange: 0.5
+  hitboxDuration: 0.1
   playerLayer:
     serializedVersion: 2
-    m_Bits: 64
-  target: {fileID: 0}
+    m_Bits: 0
+  showDebug: 0
+  colliderDebugColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &5217099084684916413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,3 +218,25 @@ MonoBehaviour:
   minRange: 1
   maxRange: 5
   target: {fileID: 0}
+--- !u!114 &4389012223073274888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4193726905746096626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9755a6a656b07a4cbd161c08a36a075, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collisionMinDist: 0.01
+  colliderRadius: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  showDebug: 0
+  colliderDebugColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}

@@ -92,13 +92,19 @@ public class PlayerAttack : MonoBehaviour
             foreach(RaycastHit2D collision in collisions)
             {
                 //Cast to enemy script
-                EnemyLifeSystem enemy = collision.transform.GetComponent<EnemyLifeSystem>();
+                EnemyLifeSystem enemyLifesystem = collision.transform.GetComponent<EnemyLifeSystem>();
 
                 //Check enemy then apply damages and add to list
-                if (enemy && !enemiesHit.Contains(enemy))
+                if (enemyLifesystem && !enemiesHit.Contains(enemyLifesystem))
                 {
-                    enemy.TakeDamage(playerWeaponSlot.EquippedWeapon.Damage);
-                    enemiesHit.Add(enemy);
+                    //Apply damages
+                    enemyLifesystem.TakeDamage(playerWeaponSlot.EquippedWeapon.Damage);
+
+                    //Bump enemy away from hit
+                    collision.transform.GetComponent<EnemyMovement>().BumpedAwayActivation(-collision.normal);
+
+                    //Add enemy to list
+                    enemiesHit.Add(enemyLifesystem);
 
                 }
 

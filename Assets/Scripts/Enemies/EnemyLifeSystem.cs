@@ -9,16 +9,25 @@ public class EnemyLifeSystem : MonoBehaviour
     public int CurrentLifePoints => currentLifePoints;
     public int MaxLifePoints => maxLifePoints;
 
+    [Header("Life Settings")]
     [SerializeField] int currentLifePoints = 10;
     [SerializeField] int maxLifePoints = 20;
+    [SerializeField] float despawnTime = 3f;
 
     bool isDead = false;
+    float currentTime;
 
     Animator animator;
 
     public void InitRef(Animator animatorRef)
     {
         animator = animatorRef;
+    }
+
+    private void Update()
+    {
+        if(isDead)
+            DespawnTimer();
     }
 
     public void TakeDamage(int damageValue)
@@ -36,6 +45,15 @@ public class EnemyLifeSystem : MonoBehaviour
         animator.SetTrigger(GameParams.Animation.ENEMY_TAKEDAMAGE_TRIGGER);
     }
 
+    void DespawnTimer()
+    {
+        currentTime += Time.deltaTime;
+        if (currentTime > despawnTime) 
+        {
+            Destroy(gameObject);
+        }
+    }
+
     public void HealUp(int healValue)
     {
         if (isDead) return;
@@ -43,8 +61,4 @@ public class EnemyLifeSystem : MonoBehaviour
         currentLifePoints = Mathf.Min(currentLifePoints + healValue, maxLifePoints);
     }
 
-    public void DestroyEnemy()
-    {
-        Destroy(gameObject);
-    }
 }
