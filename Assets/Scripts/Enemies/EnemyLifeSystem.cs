@@ -24,8 +24,8 @@ public class EnemyLifeSystem : MonoBehaviour
 
     private void Update()
     {
-        if(isDead)
-            DespawnTimer();
+        if (isDead && TimeUtils.CustomTimer(ref currentTime, despawnTime))
+            Destroy(gameObject);
     }
 
     public void TakeDamage(int damageValue)
@@ -41,15 +41,6 @@ public class EnemyLifeSystem : MonoBehaviour
             return;
         }
         animator.SetTrigger(GameParams.Animation.ENEMY_TAKEDAMAGE_TRIGGER);
-    }
-
-    void DespawnTimer()
-    {
-        currentTime += Time.deltaTime;
-        if (currentTime > despawnTime) 
-        {
-            Destroy(gameObject);
-        }
     }
 
     public void HealUp(int healValue)

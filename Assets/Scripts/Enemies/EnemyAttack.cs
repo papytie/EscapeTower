@@ -36,12 +36,6 @@ public class EnemyAttack : MonoBehaviour
     Animator animator;
     EnemyEffectSystem effects;
 
-    Action OnAttackLagElapsed;
-    Action OnAttackCooldownElapsed;
-    Action OnAttackDelayElapsed;
-    Action OnHitboxDelayElapsed;
-    Action OnHitboxDurationElapsed;
-
     float LagTime = 0;
     float CDTime = 0;
     float durationTime = 0;
@@ -57,44 +51,6 @@ public class EnemyAttack : MonoBehaviour
     private void Start()
     {
         animator = GetComponent<Animator>();
-
-        //Attack Sequence------------------
-
-        //Initial delay before attacking
-        OnAttackDelayElapsed += () =>
-        {
-            isAttackDelayed = false;
-            isHitboxDelayed = true;
-            animator.SetTrigger(GameParams.Animation.ENEMY_ATTACK_TRIGGER);
-            effects.AttackFX();
-        };
-
-        //Delay Hitbox check
-        OnHitboxDelayElapsed += () =>
-        {
-            isHitboxDelayed = false;
-            isHitboxTrigger = true;
-        };
-
-        //Hitbox check duration
-        OnHitboxDurationElapsed += () => 
-        { 
-            isHitboxTrigger = false; 
-        };
-
-        //End attack sequence
-        OnAttackLagElapsed += () =>
-        {
-            isAttacking = false;
-            isOnCooldown = true;
-        };
-
-        //Attack available again
-        OnAttackCooldownElapsed += () =>
-        {
-            isOnCooldown = false;
-        };
-
     }
 
     public void InitRef(EnemyEffectSystem effectSystem)
@@ -105,34 +61,36 @@ public class EnemyAttack : MonoBehaviour
     private void Update()
     {
 
-        if (isAttackDelayed)
-            CustomTimer(ref attackDelayTime, attackDelayDuration, OnAttackDelayElapsed);
+        if (isAttackDelayed && TimeUtils.CustomTimer(ref attackDelayTime, attackDelayDuration))
+        {
+            isAttackDelayed = false;
+            isHitboxDelayed = true;
+            animator.SetTrigger(GameParams.Animation.ENEMY_ATTACK_TRIGGER);
+            effects.AttackFX();
+        }
 
-        if (isAttacking)
-            CustomTimer(ref LagTime, attackLagDuration, OnAttackLagElapsed);
+        if (isAttacking && TimeUtils.CustomTimer(ref LagTime, attackLagDuration))
+        {
+            isAttacking = false;
+            isOnCooldown = true;
+        }
 
-        if (isHitboxDelayed)
-            CustomTimer(ref hitboxDelayTime, hitboxDelayDuration, OnHitboxDelayElapsed);
+        if (isHitboxDelayed && TimeUtils.CustomTimer(ref hitboxDelayTime, hitboxDelayDuration))
+        {
+            isHitboxDelayed = false;
+            isHitboxTrigger = true;
+        }
 
         if (isHitboxTrigger)
         {
-            CustomTimer(ref durationTime, hitboxDuration, OnHitboxDurationElapsed);
             HitboxDetection();
-            Debug.Log("hitboxDetection");
+            if (TimeUtils.CustomTimer(ref durationTime, hitboxDuration))
+                isHitboxTrigger = false;
         }
 
-        if (isOnCooldown)
-            CustomTimer(ref CDTime, attackCooldown, OnAttackCooldownElapsed);
-    }
+        if (isOnCooldown && TimeUtils.CustomTimer(ref CDTime, attackCooldown))
+            isOnCooldown = false;
 
-    void CustomTimer(ref float currentTime, float maxTime, Action OnTimeElapsed)
-    {
-        currentTime += Time.deltaTime;
-        if (currentTime >= maxTime)
-        {
-            currentTime = 0;
-            OnTimeElapsed.Invoke();
-        }
     }
 
     void HitboxDetection()
@@ -141,7 +99,6 @@ public class EnemyAttack : MonoBehaviour
         RaycastHit2D hit = Physics2D.CircleCast(transform.position, hitboxRadius, transform.up, hitboxRange, playerLayer);
         if (hit)
             hit.transform.GetComponent<PlayerLifeSystem>().TakeDamage(baseDamage);
-
     }
 
     public void EnemyAttackActivation(GameObject target)

@@ -29,12 +29,34 @@ public class EnemyBump : MonoBehaviour
 
     private void Update()
     {
-
         if (isBump)
-            BumpUpdate();
+        {
+            float t = Mathf.Clamp01(bumpCurrentDuration / bumpDuration);
 
-        if (isStun)
-            StunTimer();
+            //Use curve to modify lerp transition
+            Vector3 bumpTargetPos = Vector3.Lerp(bumpStart, bumpTarget, bumpCurve.Evaluate(t));
+
+            //Calculate value of next Dash movement
+            float bumpStepValue = (bumpTargetPos - transform.position).magnitude;
+
+            //Check at next dash step position if collision occurs
+            collision.MoveCollisionCheck(bumpTarget.normalized, bumpStepValue, collision.CollisionLayer, out Vector3 fixedPosition, out RaycastHit2D hit);
+
+            if (hit)
+                transform.position = fixedPosition;
+            else
+                transform.position = bumpTargetPos;
+
+            if (hit || TimeUtils.CustomTimer(ref bumpCurrentDuration, bumpDuration))
+            {
+                isBump = false;
+                isStun = true;
+            }
+
+        }
+
+        if (isStun && TimeUtils.CustomTimer(ref stunCurrentDuration, stunDuration))
+            isStun = false;
     }
 
     public void BumpedAwayActivation(Vector3 dir)
@@ -44,41 +66,4 @@ public class EnemyBump : MonoBehaviour
         isBump = true;
     }
 
-    void BumpUpdate()
-    {
-        bumpCurrentDuration += Time.deltaTime;
-        float t = Mathf.Clamp01(bumpCurrentDuration / bumpDuration);
-
-        //Use curve to modify lerp transition
-        Vector3 dashTargetPos = Vector3.Lerp(bumpStart, bumpTarget, bumpCurve.Evaluate(t));
-
-        //Calculate value of next Dash movement
-        float dashStepValue = (dashTargetPos - transform.position).magnitude;
-
-        //Check at next dash step position if collision occurs
-        collision.MoveCollisionCheck(bumpTarget.normalized, dashStepValue, collision.CollisionLayer, out Vector3 fixedPosition, out RaycastHit2D hit);
-
-        if (hit)
-            transform.position = fixedPosition;
-        else
-            transform.position = dashTargetPos;
-
-        //Reset dash when Dash duration end or Collision hit
-        if (bumpCurrentDuration >= bumpDuration || hit)
-        {
-            isBump = false;
-            isStun = true;
-            bumpCurrentDuration = 0;
-        }
-    }
-
-    void StunTimer()
-    {
-        stunCurrentDuration += Time.deltaTime;
-        if (stunCurrentDuration >= stunDuration)
-        {
-            stunCurrentDuration = 0;
-            isStun = false;
-        }
-    }
 }

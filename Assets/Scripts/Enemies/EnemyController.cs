@@ -2,6 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum MovementType
+{
+    None,
+    Chase,
+    Flee,
+    StayInRange
+}
+
 [RequireComponent(typeof(Animator), typeof(EnemyLifeSystem), typeof(EnemyAttack))]
 [RequireComponent(typeof(EnemyCollision), typeof(EnemyDetection))]
 [RequireComponent(typeof(EnemyAttack), typeof(EnemyChase), typeof(EnemyFlee))]
@@ -10,9 +18,7 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     [Header("Behaviors")]
-    [SerializeField] bool chaseBehavior = false;
-    [SerializeField] bool fleeBehavior = false;
-    [SerializeField] bool StayAtBehavior = false;
+    [SerializeField] MovementType movementType;
     [SerializeField] bool AutoAttack = false;
 
     //Target Player Object
@@ -78,26 +84,35 @@ public class EnemyController : MonoBehaviour
         if (targetObject == null) return;
 
         //Check and use right behavior option
-        if (!attack.IsAttacking && !lifeSystem.IsDead && targetObject != null)
+        if (!attack.IsAttacking && !lifeSystem.IsDead)
         {
 
             if(bump.CanMove)
-            {
+            { 
                 if (AutoAttack && !attack.IsOnCooldown)
                     attack.EnemyAttackActivation(targetObject);
-            
-                if (chaseBehavior)
-                    chase.ChaseTarget(targetObject);
 
-                if (fleeBehavior)
-                    flee.FleeTarget(targetObject);
+                switch (movementType)
+                {
+                    case MovementType.None:
+                        break;
+                    case MovementType.Chase:
+                        chase.ChaseTarget(targetObject);
+                        break;
+                    case MovementType.Flee:
+                        flee.FleeTarget(targetObject);
+                        break;
+                    case MovementType.StayInRange:
+                        stayAtRange.StayAtRangeFromTarget(targetObject);
+                        break;
 
-                if (StayAtBehavior)
-                    stayAtRange.StayAtRangeFromTarget(targetObject);
+                }
 
             }
 
         }
 
     }
+
 }
+

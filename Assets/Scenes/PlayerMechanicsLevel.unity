@@ -528,12 +528,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5414690251869928118, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
+      propertyPath: movementType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5414690251869928118, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
       propertyPath: chaseBehavior
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5414690251869928118, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
       propertyPath: StayAtBehavior
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5447228568549962305, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
       propertyPath: moveSpeed
@@ -1069,12 +1073,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5414690251869928118, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
+      propertyPath: movementType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5414690251869928118, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
       propertyPath: chaseBehavior
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5414690251869928118, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
       propertyPath: StayAtBehavior
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5447228568549962305, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
       propertyPath: moveSpeed
@@ -1610,12 +1618,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5414690251869928118, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
+      propertyPath: movementType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5414690251869928118, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
       propertyPath: chaseBehavior
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5414690251869928118, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
       propertyPath: StayAtBehavior
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5447228568549962305, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
       propertyPath: moveSpeed
@@ -2198,12 +2210,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5414690251869928118, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
+      propertyPath: movementType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5414690251869928118, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
       propertyPath: chaseBehavior
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5414690251869928118, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
       propertyPath: StayAtBehavior
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5447228568549962305, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
       propertyPath: moveSpeed
@@ -2739,12 +2755,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5414690251869928118, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
+      propertyPath: movementType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5414690251869928118, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
       propertyPath: chaseBehavior
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5414690251869928118, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
       propertyPath: StayAtBehavior
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5447228568549962305, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
       propertyPath: moveSpeed
@@ -3276,12 +3296,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5414690251869928118, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
+      propertyPath: movementType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5414690251869928118, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
       propertyPath: chaseBehavior
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5414690251869928118, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
       propertyPath: StayAtBehavior
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5447228568549962305, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
       propertyPath: moveSpeed
