@@ -132,6 +132,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 841121018022624058, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
+      propertyPath: collisionMinDist
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 841121018022624058, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
       propertyPath: wallLayer.m_Bits
       value: 256
       objectReference: {fileID: 0}
@@ -672,6 +676,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 841121018022624058, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
+      propertyPath: collisionMinDist
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 841121018022624058, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
       propertyPath: wallLayer.m_Bits
       value: 256
@@ -1217,6 +1225,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 841121018022624058, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
+      propertyPath: collisionMinDist
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 841121018022624058, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
       propertyPath: wallLayer.m_Bits
       value: 256
@@ -1810,6 +1822,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 841121018022624058, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
+      propertyPath: collisionMinDist
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 841121018022624058, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
       propertyPath: wallLayer.m_Bits
       value: 256
       objectReference: {fileID: 0}
@@ -2355,6 +2371,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 841121018022624058, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
+      propertyPath: collisionMinDist
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 841121018022624058, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
       propertyPath: wallLayer.m_Bits
       value: 256
       objectReference: {fileID: 0}
@@ -2899,6 +2919,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 841121018022624058, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
+      propertyPath: collisionMinDist
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 841121018022624058, guid: fa93121d9d477d2438a39678ae0caf09, type: 3}
       propertyPath: wallLayer.m_Bits
       value: 256
