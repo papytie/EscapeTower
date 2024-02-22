@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator), typeof(EnemyLifeSystem), typeof(EnemyAttack))]
-[RequireComponent(typeof(EnemyMovement), typeof(EnemyCollision), typeof(EnemyDetection))]
+[RequireComponent(typeof(EnemyCollision), typeof(EnemyDetection))]
+[RequireComponent(typeof(EnemyAttack), typeof(EnemyChase), typeof(EnemyFlee))]
+[RequireComponent(typeof(EnemyStayAtRange), typeof(EnemyBump))]
 
 public class EnemyController : MonoBehaviour
 {
@@ -13,64 +15,84 @@ public class EnemyController : MonoBehaviour
     [SerializeField] bool StayAtBehavior = false;
     [SerializeField] bool AutoAttack = false;
 
-    GameObject playerObject;
+    //Target Player Object
+    GameObject targetObject;
+
+    //Unity components
     Animator animator;
+
+    //Enemy scripts
     EnemyLifeSystem lifeSystem;
-    EnemyAttack attack;
-    EnemyMovement movement;
     EnemyCollision collision;
     EnemyEffectSystem effectSystem;
     EnemyDetection detection;
 
+    //Behavior scripts
+    EnemyAttack attack;
+    EnemyChase chase;
+    EnemyFlee flee;
+    EnemyStayAtRange stayAtRange;
+    EnemyBump bump;
+    
+
     private void Awake()
     {
-        playerObject = null;
+        targetObject = null;
+
         animator = GetComponent<Animator>();
+
         lifeSystem = GetComponent<EnemyLifeSystem>();
-        attack = GetComponent<EnemyAttack>();
-        movement = GetComponent<EnemyMovement>();
         collision = GetComponent<EnemyCollision>();
         detection = GetComponent<EnemyDetection>();
         effectSystem = transform.GetComponentInChildren<EnemyEffectSystem>();
         
+        attack = GetComponent<EnemyAttack>();
+        chase = GetComponent<EnemyChase>();
+        flee = GetComponent<EnemyFlee>();
+        stayAtRange = GetComponent<EnemyStayAtRange>();
+        bump = GetComponent<EnemyBump>();
     }
 
     void Start()
     {
+        //Animator ref
         lifeSystem.InitRef(animator);
-        movement.InitRef(collision);
+
+        //Effect ref
         attack.InitRef(effectSystem);
+
+        //Collision ref
+        chase.InitRef(collision);
+        flee.InitRef(collision);
+        stayAtRange.InitRef(collision);
+        bump.InitRef(collision);
     }
 
     private void Update()
     {
         //Run detection until enemy find player
-        if(detection.PlayerDetection(out GameObject target) && playerObject == null)
-        {
-            playerObject = target;
-            movement.SetTarget(target);
-            attack.SetTarget(target);
-        }
+        if(detection.PlayerDetection(out GameObject target) && targetObject == null)
+            targetObject = target;
+
+        if (targetObject == null) return;
 
         //Check and use right behavior option
-        if (!attack.IsAttacking && !lifeSystem.IsDead && playerObject != null)
+        if (!attack.IsAttacking && !lifeSystem.IsDead && targetObject != null)
         {
 
-            if(movement.CanMove)
+            if(bump.CanMove)
             {
-                movement.LookAtTarget();
-
                 if (AutoAttack && !attack.IsOnCooldown)
-                    attack.EnemyAttackActivation();
+                    attack.EnemyAttackActivation(targetObject);
             
                 if (chaseBehavior)
-                    movement.ChaseTarget();
+                    chase.ChaseTarget(targetObject);
 
                 if (fleeBehavior)
-                    movement.FleeTarget();
+                    flee.FleeTarget(targetObject);
 
                 if (StayAtBehavior)
-                    movement.StayAtRangeFromTarget();
+                    stayAtRange.StayAtRangeFromTarget(targetObject);
 
             }
 

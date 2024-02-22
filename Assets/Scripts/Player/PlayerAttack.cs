@@ -101,7 +101,7 @@ public class PlayerAttack : MonoBehaviour
                     enemyLifesystem.TakeDamage(playerWeaponSlot.EquippedWeapon.Damage);
 
                     //Bump enemy away from hit
-                    collision.transform.GetComponent<EnemyMovement>().BumpedAwayActivation(-collision.normal);
+                    collision.transform.GetComponent<EnemyBump>().BumpedAwayActivation(-collision.normal);
 
                     //Add enemy to list
                     enemiesHit.Add(enemyLifesystem);

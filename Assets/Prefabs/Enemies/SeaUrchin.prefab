@@ -15,8 +15,12 @@ GameObject:
   - component: {fileID: 2698898743311465138}
   - component: {fileID: 1368632166005367084}
   - component: {fileID: 5961718545271300150}
-  - component: {fileID: 5217099084684916413}
   - component: {fileID: 4389012223073274888}
+  - component: {fileID: 5460326821182905200}
+  - component: {fileID: 2775720473765504495}
+  - component: {fileID: 7027227999844460060}
+  - component: {fileID: 3078748247632241890}
+  - component: {fileID: 5193397957466583258}
   m_Layer: 7
   m_Name: SeaUrchin
   m_TagString: Untagged
@@ -161,6 +165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentLifePoints: 10
   maxLifePoints: 20
+  despawnTime: 3
 --- !u!114 &1368632166005367084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,9 +178,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b2a66150ab8292479a92f49da9b9ecc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerObject: {fileID: 0}
   chaseBehavior: 0
-  fleeBehavior: 0
+  fleeBehavior: 1
   StayAtBehavior: 0
   AutoAttack: 0
 --- !u!114 &5961718545271300150
@@ -191,33 +195,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseDamage: 1
-  attackCd: 0.5
-  attackLag: 0.2
-  attackRange: 0.5
+  attackActivationRange: 0.5
+  attackDelayDuration: 0.2
+  attackLagDuration: 0.2
+  attackCooldown: 0.5
   hitboxRadius: 0.5
   hitboxRange: 0.5
-  hitboxDuration: 0.1
   playerLayer:
     serializedVersion: 2
     m_Bits: 0
+  hitboxDuration: 0.1
+  hitboxDelayDuration: 0.1
   showDebug: 0
   colliderDebugColor: {r: 1, g: 0, b: 0, a: 1}
---- !u!114 &5217099084684916413
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4193726905746096626}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 530b6b67c74e1e145924b8d2f0a71418, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemySpeed: 2
-  minRange: 1
-  maxRange: 5
-  target: {fileID: 0}
 --- !u!114 &4389012223073274888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,11 +222,89 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collisionMinDist: 0.01
   colliderRadius: 1
-  wallLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  enemyLayer:
+  collisionLayer:
     serializedVersion: 2
     m_Bits: 0
   showDebug: 0
   colliderDebugColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+--- !u!114 &5460326821182905200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4193726905746096626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9de959b942b67f747a12ec9d824358dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectionRadius: 5
+  detectionLayer:
+    serializedVersion: 2
+    m_Bits: 0
+--- !u!114 &2775720473765504495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4193726905746096626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8087a1acfac6924b8b423d13d7b1ef4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 3
+  minRange: 1
+--- !u!114 &7027227999844460060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4193726905746096626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83df9ddcf7541724a9c61109e193887e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 3
+  minRange: 1
+  maxRange: 5
+--- !u!114 &3078748247632241890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4193726905746096626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4371a93e6b6a1b844bdb475b0189e3e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 2
+  minRange: 1
+  maxRange: 5
+--- !u!114 &5193397957466583258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4193726905746096626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0fa46b7d04c21f4b9d90c18a15a7945, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bumpCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  bumpDistance: 1
+  bumpDuration: 0.1
+  stunDuration: 0.5

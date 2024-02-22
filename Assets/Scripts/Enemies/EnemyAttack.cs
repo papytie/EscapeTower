@@ -34,7 +34,6 @@ public class EnemyAttack : MonoBehaviour
     [SerializeField] Color colliderDebugColor = Color.red;
 
     Animator animator;
-    GameObject target;
     EnemyEffectSystem effects;
 
     Action OnAttackLagElapsed;
@@ -103,14 +102,8 @@ public class EnemyAttack : MonoBehaviour
         effects = effectSystem;
     }
 
-    public void SetTarget(GameObject objectToTarget)
-    {
-        target = objectToTarget;
-    }
-
     private void Update()
     {
-        if (target == null) return;
 
         if (isAttackDelayed)
             CustomTimer(ref attackDelayTime, attackDelayDuration, OnAttackDelayElapsed);
@@ -151,7 +144,7 @@ public class EnemyAttack : MonoBehaviour
 
     }
 
-    public void EnemyAttackActivation()
+    public void EnemyAttackActivation(GameObject target)
     {
         if (!target || isOnCooldown) return;
 
