@@ -106,9 +106,12 @@ public class EnemyAttack : MonoBehaviour
         if (!target || isOnCooldown) return;
 
         //Check range from target and launch attack sequence
-        float dist = Vector3.Distance(target.transform.position, transform.position);
-        if (dist <= attackActivationRange)
+        Vector2 toTargetVector = target.transform.position - transform.position;
+        if (toTargetVector.magnitude <= attackActivationRange)
         {
+            //Look At Rotation
+            transform.rotation = Quaternion.LookRotation(Vector3.forward, toTargetVector.normalized);
+
             isAttackDelayed = true;
             isAttacking = true;
         }
