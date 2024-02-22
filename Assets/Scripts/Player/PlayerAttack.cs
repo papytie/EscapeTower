@@ -35,46 +35,19 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
-        if (isOnCooldown)
-            AttackCoolDownTimer();
+        if (isOnCooldown && TimeUtils.CustomTimer(ref coolDownTime, playerWeaponSlot.EquippedWeapon.Cooldown))
+            isOnCooldown = false;
 
-        if (isAttacking)
-            AttackLagTimer();
+        if (isAttacking && TimeUtils.CustomTimer(ref attackLagTime, playerWeaponSlot.EquippedWeapon.Lag))
+            isAttacking = false;
 
         if (isTrigger)
-            AttackHitboxTimer();
-    }
-
-    void AttackCoolDownTimer()
-    {
-        coolDownTime += Time.deltaTime;
-        if (coolDownTime >= playerWeaponSlot.EquippedWeapon.Cooldown)
-        {
-            coolDownTime = 0;
-            isOnCooldown = false;
-        }
-    }
-
-    void AttackLagTimer()
-    {
-        attackLagTime += Time.deltaTime;
-        if (attackLagTime >= playerWeaponSlot.EquippedWeapon.Lag)
-        {
-            attackLagTime = 0;
-            isAttacking = false;
-        }
-    }
-
-    void AttackHitboxTimer()
-    {
-        hitboxTime += Time.deltaTime;
-        HitboxDetection();
-        if (hitboxTime >= playerWeaponSlot.EquippedWeapon.HitboxDuration)
-        {
-            isTrigger = false;
-            hitboxTime = 0;
-            enemiesHit.Clear();
-        }
+            HitboxDetection();
+            if(TimeUtils.CustomTimer(ref hitboxTime, playerWeaponSlot.EquippedWeapon.HitboxDuration))
+            {
+                isTrigger = false;
+                enemiesHit.Clear();
+            }
     }
 
     public void AttackActivation()

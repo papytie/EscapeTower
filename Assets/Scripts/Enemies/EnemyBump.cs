@@ -14,7 +14,7 @@ public class EnemyBump : MonoBehaviour
 
     bool isBump;
     bool isStun;
-    float bumpCurrentDuration;
+    float bumpCurrentTime;
     float stunCurrentDuration;
     Vector3 bumpTarget = Vector3.zero;
     Vector3 bumpStart = Vector3.zero;
@@ -31,7 +31,7 @@ public class EnemyBump : MonoBehaviour
     {
         if (isBump)
         {
-            float t = Mathf.Clamp01(bumpCurrentDuration / bumpDuration);
+            float t = Mathf.Clamp01(bumpCurrentTime / bumpDuration);
 
             //Use curve to modify lerp transition
             Vector3 bumpTargetPos = Vector3.Lerp(bumpStart, bumpTarget, bumpCurve.Evaluate(t));
@@ -47,9 +47,10 @@ public class EnemyBump : MonoBehaviour
             else
                 transform.position = bumpTargetPos;
 
-            if (hit || TimeUtils.CustomTimer(ref bumpCurrentDuration, bumpDuration))
+            if (hit || TimeUtils.CustomTimer(ref bumpCurrentTime, bumpDuration))
             {
                 isBump = false;
+                bumpCurrentTime = 0;
                 isStun = true;
             }
 
