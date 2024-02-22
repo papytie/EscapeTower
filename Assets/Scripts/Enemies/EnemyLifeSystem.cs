@@ -6,19 +6,26 @@ using static GameParams;
 public class EnemyLifeSystem : MonoBehaviour
 {
     public bool IsDead => isDead;
-    public int CurrentLifePoints => currentLifePoints;
-    public int MaxLifePoints => maxLifePoints;
 
+    [Header("Life Settings")]
     [SerializeField] int currentLifePoints = 10;
     [SerializeField] int maxLifePoints = 20;
+    [SerializeField] float despawnTime = 3f;
 
     bool isDead = false;
+    float currentTime;
 
     Animator animator;
 
     public void InitRef(Animator animatorRef)
     {
         animator = animatorRef;
+    }
+
+    private void Update()
+    {
+        if (isDead && TimeUtils.CustomTimer(ref currentTime, despawnTime))
+            Destroy(gameObject);
     }
 
     public void TakeDamage(int damageValue)
@@ -43,8 +50,4 @@ public class EnemyLifeSystem : MonoBehaviour
         currentLifePoints = Mathf.Min(currentLifePoints + healValue, maxLifePoints);
     }
 
-    public void DestroyEnemy()
-    {
-        Destroy(gameObject);
-    }
 }

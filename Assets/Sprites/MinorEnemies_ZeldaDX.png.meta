@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b59de662703819f438d58548e8a27ad2
+guid: 1e09720c0c206324595c2f79b7a569bf
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -81,6 +81,19 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -106,28 +119,15 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: linksAwakening_SeaUrchinSpritesheet_0
+      name: MoblinFront
       rect:
         serializedVersion: 2
         x: 1
-        y: 1
+        y: 717
         width: 16
         height: 16
       alignment: 0
@@ -137,18 +137,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ff073aa437b42a34f92d2f4c635e7bdb
-      internalID: 1426593189
+      spriteID: 731f4d8c64919fd45a32d97f15c5480f
+      internalID: 1906672973
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: linksAwakening_SeaUrchinSpritesheet_1
+      name: MoblinBack
       rect:
         serializedVersion: 2
         x: 18
-        y: 1
+        y: 717
         width: 16
         height: 16
       alignment: 0
@@ -158,18 +158,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c835f2709ddfe08419f9e597509aa70b
-      internalID: 1213419733
+      spriteID: c1fce79298b795b4a8ea485866e97e76
+      internalID: 1467303241
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: linksAwakening_SeaUrchinSpritesheet_2
+      name: MoblinSideA
       rect:
         serializedVersion: 2
         x: 35
-        y: 1
+        y: 717
         width: 16
         height: 16
       alignment: 0
@@ -179,18 +179,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: de4fcb7daf06345409ff71b8c52cb58e
-      internalID: -1932545849
+      spriteID: 205e5be636cfe304d94af79e054ea20f
+      internalID: -2064587384
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: linksAwakening_SeaUrchinSpritesheet_3
+      name: MoblinSideB
       rect:
         serializedVersion: 2
         x: 52
-        y: 1
+        y: 717
         width: 16
         height: 16
       alignment: 0
@@ -200,8 +200,92 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1cd0274c70972d9449a0fedad96517a4
-      internalID: 2092815555
+      spriteID: 9557bb3b185a9dd43971c14db7e54b7b
+      internalID: -526572800
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SideSlashA
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 38
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b99a13a8023752642b8931d4b02ebb52
+      internalID: 86840518
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SideSlashB
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 38
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7297ae661e14cc24ea1d03c439be430d
+      internalID: 1341946079
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FrontSlashA
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 38
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be0712e5d3a1ea04a9870777d08b9306
+      internalID: 400128509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FrontSlashB
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 38
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f97f6ed0337493449b312b33d79c95b0
+      internalID: -1009764552
       vertices: []
       indices: 
       edges: []
@@ -217,10 +301,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      linksAwakening_SeaUrchinSpritesheet_0: 1426593189
-      linksAwakening_SeaUrchinSpritesheet_1: 1213419733
-      linksAwakening_SeaUrchinSpritesheet_2: -1932545849
-      linksAwakening_SeaUrchinSpritesheet_3: 2092815555
+      FrontSlashA: 400128509
+      FrontSlashB: -1009764552
+      MoblinBack: 1467303241
+      MoblinFront: 1906672973
+      MoblinSideA: -2064587384
+      MoblinSideB: -526572800
+      SideSlashA: 86840518
+      SideSlashB: 1341946079
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

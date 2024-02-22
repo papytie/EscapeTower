@@ -92,13 +92,19 @@ public class PlayerAttack : MonoBehaviour
             foreach(RaycastHit2D collision in collisions)
             {
                 //Cast to enemy script
-                EnemyLifeSystem enemy = collision.transform.GetComponent<EnemyLifeSystem>();
+                EnemyLifeSystem enemyLifesystem = collision.transform.GetComponent<EnemyLifeSystem>();
 
                 //Check enemy then apply damages and add to list
-                if (enemy && !enemiesHit.Contains(enemy))
+                if (enemyLifesystem && !enemiesHit.Contains(enemyLifesystem))
                 {
-                    enemy.TakeDamage(playerWeaponSlot.EquippedWeapon.Damage);
-                    enemiesHit.Add(enemy);
+                    //Apply damages
+                    enemyLifesystem.TakeDamage(playerWeaponSlot.EquippedWeapon.Damage);
+
+                    //Bump enemy away from hit
+                    collision.transform.GetComponent<EnemyBump>().BumpedAwayActivation(-collision.normal);
+
+                    //Add enemy to list
+                    enemiesHit.Add(enemyLifesystem);
 
                 }
 
@@ -110,7 +116,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (showDebug && Application.isPlaying)
+        if (showDebug && Application.isPlaying && isTrigger)
         {
             Gizmos.color = colliderDebugColor;
             Gizmos.DrawWireSphere(transform.position.ToVector2() + transform.up.ToVector2() * playerWeaponSlot.EquippedWeapon.HitboxRange, playerWeaponSlot.EquippedWeapon.HitboxRadius);

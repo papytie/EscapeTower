@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -374,6 +374,90 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: explo01
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 73
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 61f208b74cfbf204d87a345b4fd9511c
+      internalID: 1369694311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: explo02
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 73
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ce02c8c6211ca34db1475cc82257a9c
+      internalID: 1847778026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: explo03
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 73
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3dd294639d65a86409416d4b94f2a1a3
+      internalID: 874254727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: explo0
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 73
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 38fd50346b051f344b319beaa5234249
+      internalID: -1376874097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -397,6 +481,10 @@ TextureImporter:
       LinkSpriteSheet_LinksAwakening_8: -1729784618
       LinkWalkBack: 1347178644
       RedSword: -1871169563
+      explo0: -1376874097
+      explo01: 1369694311
+      explo02: 1847778026
+      explo03: 874254727
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

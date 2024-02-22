@@ -9,26 +9,26 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float playerAcceleration = 50f;
     float currentSpeed = 0;
 
-    PlayerInputs playerInputs;
-    PlayerCollision playerCollision;
+    PlayerInputs inputs;
+    PlayerCollision collision;
 
     public void InitRef(PlayerInputs inputRef, PlayerCollision collisionRef)
     {
-        playerInputs = inputRef;
-        playerCollision = collisionRef;
+        inputs = inputRef;
+        collision = collisionRef;
     }
 
     private void Update()
     {
         //Speed acceleration damping
-        Vector2 moveAxis = playerInputs.MoveAxisInput.ReadValue<Vector2>();
+        Vector2 moveAxis = inputs.MoveAxisInput.ReadValue<Vector2>();
         currentSpeed = Mathf.MoveTowards(currentSpeed, moveAxis.magnitude * playerSpeed, Time.deltaTime * playerAcceleration);
     }
 
     public void CheckedMove(Vector3 moveAxis)
     {
 
-        playerCollision.MoveCollisionCheck(moveAxis, currentSpeed * Time.deltaTime, playerCollision.WallLayer, out Vector3 finalPosition, out RaycastHit2D hit);
+        collision.MoveCollisionCheck(moveAxis, currentSpeed * Time.deltaTime, collision.WallLayer, out Vector3 finalPosition, out RaycastHit2D hit);
         transform.position = finalPosition;
 
     }
