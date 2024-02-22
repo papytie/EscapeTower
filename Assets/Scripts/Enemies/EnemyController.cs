@@ -16,7 +16,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] bool AutoAttack = false;
 
     //Target Player Object
-    GameObject targetObject;
+    GameObject targetObject = null;
 
     //Unity components
     Animator animator;
@@ -33,7 +33,6 @@ public class EnemyController : MonoBehaviour
     EnemyFlee flee;
     EnemyStayAtRange stayAtRange;
     EnemyBump bump;
-    
 
     private void Awake()
     {
@@ -71,8 +70,10 @@ public class EnemyController : MonoBehaviour
     private void Update()
     {
         //Run detection until enemy find player
-        if(detection.PlayerDetection(out GameObject target) && targetObject == null)
+        if (detection.PlayerDetection(out GameObject target) && targetObject == null)
             targetObject = target;
+
+        else targetObject = null;
 
         if (targetObject == null) return;
 
