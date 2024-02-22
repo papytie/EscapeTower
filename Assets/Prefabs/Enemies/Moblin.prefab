@@ -38,7 +38,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1, y: 1.96, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6077348392752705561}
@@ -118,9 +118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b2a66150ab8292479a92f49da9b9ecc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chaseBehavior: 1
-  fleeBehavior: 0
-  StayAtBehavior: 0
+  movementType: 1
   AutoAttack: 1
 --- !u!114 &841121018022624058
 MonoBehaviour:
@@ -134,7 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9755a6a656b07a4cbd161c08a36a075, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionMinDist: 0.01
+  collisionMinDist: 0.05
   colliderRadius: 0.3
   collisionLayer:
     serializedVersion: 2
@@ -240,15 +238,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9de959b942b67f747a12ec9d824358dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRadius: 3
+  detectionRadius: 5
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
   obstructionLayer:
     serializedVersion: 2
-    m_Bits: 384
-  showDebug: 0
-  debugColor: {r: 0, g: 0, b: 0, a: 0}
+    m_Bits: 256
+  showDebug: 1
+  debugColor: {r: 1, g: 0, b: 0.65255785, a: 1}
 --- !u!114 &5778494485833693162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,7 +259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8087a1acfac6924b8b423d13d7b1ef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 4
   minRange: 1
 --- !u!114 &1066710493659318942
 MonoBehaviour:
@@ -276,7 +274,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  maxRange: 5
+  maxRange: 3
 --- !u!114 &5447228568549962305
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,7 +287,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4371a93e6b6a1b844bdb475b0189e3e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 4
   minRange: 2
   maxRange: 3
 --- !u!114 &7977848939217380678
