@@ -102,7 +102,7 @@ MonoBehaviour:
   damage: 3
   cooldown: 1
   lag: 0.5
-  hitboxRadius: 1
+  hitboxRadius: 0.25
   hitboxRange: 0
   hitboxDuration: 0.4
   enemyLayer:
