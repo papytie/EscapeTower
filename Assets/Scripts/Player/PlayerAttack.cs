@@ -27,10 +27,12 @@ public class PlayerAttack : MonoBehaviour
     List<EnemyLifeSystem> enemiesHit = new();
 
     PlayerWeaponSlot playerWeaponSlot;
+    PlayerStats stats;
 
-    public void InitRef(PlayerWeaponSlot slot)
+    public void InitRef(PlayerWeaponSlot weaponSlotRef, PlayerStats statsRef)
     {
-        playerWeaponSlot = slot;
+        playerWeaponSlot = weaponSlotRef;
+        stats = statsRef;
     }
 
     void Update()
@@ -71,7 +73,7 @@ public class PlayerAttack : MonoBehaviour
                 if (enemyLifesystem && !enemiesHit.Contains(enemyLifesystem))
                 {
                     //Apply damages
-                    enemyLifesystem.TakeDamage(playerWeaponSlot.EquippedWeapon.Damage);
+                    enemyLifesystem.TakeDamage(stats.GetUpdatedStat(StatConcerned.Damage));
 
                     //Bump enemy away from hit
                     collision.transform.GetComponent<EnemyBump>().BumpedAwayActivation(-collision.normal);

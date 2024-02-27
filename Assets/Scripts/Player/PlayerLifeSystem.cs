@@ -6,11 +6,11 @@ public class PlayerLifeSystem : MonoBehaviour
 {
     public bool IsDead => isDead;
     public bool IsInvincible { get => isInvincible; set { isInvincible = value; } }
-    public int CurrentLifePoints => currentLifePoints;
-    public int MaxLifePoints => maxLifePoints;
+    public float CurrentLifePoints => currentLifePoints;
+    public float MaxLifePoints => maxLifePoints;
 
-    [SerializeField] int currentLifePoints = 10;
-    [SerializeField] int maxLifePoints = 20;
+    [SerializeField] float currentLifePoints = 10;
+    [SerializeField] float maxLifePoints = 20;
     [SerializeField] float InvincibilityDuration = .2f;
 
     float currentInvincibilityTime = 0;
@@ -30,7 +30,7 @@ public class PlayerLifeSystem : MonoBehaviour
             isInvincible = false;
     }
 
-    public void TakeDamage(int damageValue)
+    public void TakeDamage(float damageValue)
     {
         if (isDead || isInvincible) return;
 
@@ -46,7 +46,7 @@ public class PlayerLifeSystem : MonoBehaviour
         animator.SetTrigger(GameParams.Animation.PLAYER_TAKEDAMAGE_TRIGGER);
     }
 
-    public void HealUp(int healValue)
+    public void HealUp(float healValue)
     {
         if (isDead) return;
 

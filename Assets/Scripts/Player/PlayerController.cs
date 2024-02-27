@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.Universal;
 
 [RequireComponent(typeof(PlayerInputs), typeof(PlayerMovement), typeof(PlayerDash))]
 [RequireComponent(typeof(PlayerWeaponSlot), typeof(PlayerAttack), typeof(Animator))]
-[RequireComponent(typeof(PlayerLifeSystem), typeof(PlayerCollision))]
+[RequireComponent(typeof(PlayerLifeSystem), typeof(PlayerCollision), typeof(PlayerStats))]
+[RequireComponent(typeof(PlayerPickupCollector))]
 
 public class PlayerController : MonoBehaviour
 {
@@ -15,12 +17,14 @@ public class PlayerController : MonoBehaviour
     public bool CanTakeDamage => !lifeSystem.IsInvincible && !lifeSystem.IsDead;
 
     PlayerInputs inputs;
+    PlayerStats stats;
     PlayerMovement movement;
     PlayerDash dash;
     PlayerAttack attack;
     PlayerWeaponSlot slot;
     PlayerLifeSystem lifeSystem;
     PlayerCollision collision;
+    PlayerPickupCollector collector;
     Animator animator;
 
     private void Awake()
@@ -31,12 +35,14 @@ public class PlayerController : MonoBehaviour
     void GetComponentsRef()
     {
         inputs = GetComponent<PlayerInputs>();
+        stats = GetComponent<PlayerStats>();
         movement = GetComponent<PlayerMovement>();
         dash = GetComponent<PlayerDash>();
         attack = GetComponent<PlayerAttack>();
         slot = GetComponent<PlayerWeaponSlot>();
         lifeSystem = GetComponent<PlayerLifeSystem>();
         collision = GetComponent<PlayerCollision>();
+        collector = GetComponent<PlayerPickupCollector>();
         animator = GetComponent<Animator>();
     }
 
@@ -47,10 +53,12 @@ public class PlayerController : MonoBehaviour
 
     void InitComponentsRef()
     {
-        movement.InitRef(inputs, collision);
+        movement.InitRef(inputs, collision, stats);
         dash.InitRef(collision, lifeSystem);
-        attack.InitRef(slot);
+        attack.InitRef(slot, stats);
         lifeSystem.InitRef(animator);
+        stats.InitRef(movement, slot);
+        collector.InitRef(stats, slot, lifeSystem);
     }
 
     void Update()
@@ -109,6 +117,13 @@ public class PlayerController : MonoBehaviour
             if (collision.EnemyCheckCollision(collision.EnemyLayer, out int dmg))
             {
                 lifeSystem.TakeDamage(dmg);
+            }
+
+            if (collision.PickupCheckCollision(collision.PickupLayer, out PickupItem item))
+            {
+                if (item.IsDespawning) return;
+
+                collector.PickUpSorting(item);
             }
         }
     }

@@ -446,7 +446,7 @@ TextureImporter:
         width: 23
         height: 23
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -454,6 +454,69 @@ TextureImporter:
       bones: []
       spriteID: 38fd50346b051f344b319beaa5234249
       internalID: -1376874097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SwordPickup
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 25
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8c3208b39d624c469269909193c42ac
+      internalID: 1230942490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LinkSpriteSheet_LinksAwakening_4
+      rect:
+        serializedVersion: 2
+        x: 217
+        y: 38
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 71eb65b7cacf6ac449a55f20d1e44317
+      internalID: -74471010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Consumable
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 1
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9fc5a463f21863d47a71b39e920f0660
+      internalID: -1263261112
       vertices: []
       indices: 
       edges: []
@@ -469,6 +532,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      Consumable: -1263261112
       GreenSword: -133592459
       LinkIdleFront01: -417275742
       LinkIdleRight: -536973167
@@ -476,11 +540,13 @@ TextureImporter:
       LinkSpriteSheet_LinksAwakening_1: -1472948647
       LinkSpriteSheet_LinksAwakening_2: -1388959494
       LinkSpriteSheet_LinksAwakening_3: 1239958421
+      LinkSpriteSheet_LinksAwakening_4: -74471010
       LinkSpriteSheet_LinksAwakening_6: 113427700
       LinkSpriteSheet_LinksAwakening_7: 269135880
       LinkSpriteSheet_LinksAwakening_8: -1729784618
       LinkWalkBack: 1347178644
       RedSword: -1871169563
+      SwordPickup: 1230942490
       explo0: -1376874097
       explo01: 1369694311
       explo02: 1847778026

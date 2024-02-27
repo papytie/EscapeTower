@@ -7,6 +7,7 @@ public class PlayerCollision : MonoBehaviour
 {
     public LayerMask WallLayer => wallLayer;
     public LayerMask EnemyLayer => enemyLayer;
+    public LayerMask PickupLayer => pickupLayer;
     public float ColliderRadius => colliderRadius;
     public bool ShowDebug => showDebug;
 
@@ -15,6 +16,7 @@ public class PlayerCollision : MonoBehaviour
     [SerializeField] float colliderRadius = 1;
     [SerializeField] LayerMask wallLayer;
     [SerializeField] LayerMask enemyLayer;
+    [SerializeField] LayerMask pickupLayer;
 
     [Header("Debug")]
     [SerializeField] bool showDebug;
@@ -73,6 +75,19 @@ public class PlayerCollision : MonoBehaviour
             damage = hit.transform.GetComponent<EnemyAttack>().BaseDamage;
             return true;
         }
+        return false;
+
+    }
+
+    public bool PickupCheckCollision(LayerMask layer, out PickupItem item)
+    {
+        RaycastHit2D hit = Physics2D.CircleCast(transform.position, colliderRadius, Vector2.zero, 0, layer);
+        if (hit)
+        {
+            item = hit.transform.GetComponent<PickupItem>();
+            return true;
+        }
+        item = null;
         return false;
 
     }

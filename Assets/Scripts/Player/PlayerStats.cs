@@ -3,143 +3,66 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class PlayerStats : MonoBehaviour
 {
-    [SerializeField] BonusStatTest bonusTest;
-    [SerializeField] List<BonusStatTest> bonusTestList = new();
+    PlayerMovement movement;
+    PlayerWeaponSlot weaponSlot;
 
-    [SerializeField] float moveSpeed = 1;
-    [SerializeField] float lifePoints = 10;
-    [SerializeField] float dashRange = 1;
-    [SerializeField] float dashCooldown = 1;
-    [SerializeField] float attackCooldown = 1;
-    [SerializeField] float defaultValue = 100;
+    float defaultValue;
+    
+    Dictionary<StatModifierTemplate, int> playerBonusList = new Dictionary<StatModifierTemplate, int>();
 
-    private void Update()
+    public void InitRef(PlayerMovement movementRef, PlayerWeaponSlot weaponSlotRef)
     {
-        //Check for MoveSpeed Bonus
-        if (Keyboard.current.bKey.wasPressedThisFrame)
+        movement = movementRef;
+        weaponSlot = weaponSlotRef;
+
+    }
+
+    public void AddBonus(StatModifierTemplate targetStat)
+    {
+        if (playerBonusList.TryGetValue(targetStat, out int value))
         {
-            if (CheckForBonus(StatToUpgrade.MoveSpeed, out float improvedStat))
+            value++;
+            playerBonusList[targetStat] = value;
+            Debug.Log(targetStat.name + " total stacks = " + value);
+            return;
+        }
+        Debug.Log("New" + targetStat.name + " added, give bonus to : " + targetStat.Stat);
+        playerBonusList.Add(targetStat, 1);
+    }
+
+    public float GetUpdatedStat(StatConcerned targetStat)
+    {
+        float baseStatValue = GetBaseStat(targetStat);
+
+        foreach (KeyValuePair<StatModifierTemplate, int> keyPair in playerBonusList) 
+        {
+            if (keyPair.Key.Stat == targetStat)
             {
-                Debug.Log(StatToUpgrade.MoveSpeed + " modified value is : " + improvedStat);
+                playerBonusList.TryGetValue(keyPair.Key, out int value);
+                baseStatValue += keyPair.Key.ModifValue * value;
             }
         }
-
-        //Check for LifePoints Bonus
-        if (Keyboard.current.lKey.wasPressedThisFrame)
-        {
-            if (CheckForBonusInList(StatToUpgrade.LifePoints, out float improvedStat))
-            {
-                Debug.Log(StatToUpgrade.LifePoints + " modified value is : " + improvedStat);
-            }
-
-        }
-
+        return baseStatValue;
     }
 
-    public bool CheckForBonusInList(StatToUpgrade targetStat, out float improvedStat)
-    {
-        int bonusCount = 0;
-        float currentStatValue = GetStatRef(targetStat);
-
-        Debug.Log("searching for " + targetStat + ", raw value : " + currentStatValue);
-
-        foreach (BonusStatTest statBonus in bonusTestList) 
-        {
-            if (statBonus.Stat == targetStat)
-            {
-                bonusCount++;
-                currentStatValue = StatCalcul(statBonus.Type, currentStatValue, statBonus.Value, statBonus.Stacks);
-                Debug.Log(statBonus.Stat + " found! Type : " + statBonus.Type + ", value : " + statBonus.Value + ", stacks : " + statBonus.Stacks);
-            }
-
-            else 
-                Debug.Log("Bonus type is not valid : " + statBonus.Stat);
-        }
-
-        improvedStat = currentStatValue;
-
-        Debug.Log(bonusCount + " Bonus found in total");
-
-        if (bonusCount > 0) 
-            return true;
-        else 
-            return false;
-    }
-
-    public bool CheckForBonus(StatToUpgrade targetStat, out float improvedStat)
-    {
-        Debug.Log("searching for " + targetStat);
-
-        if (bonusTest.Stat == targetStat)
-        {
-            improvedStat = StatCalcul(bonusTest.Type, GetStatRef(targetStat), bonusTest.Value, bonusTest.Stacks);
-            Debug.Log(bonusTest.Stat + " found! Type : " + bonusTest.Type + ", value : " + bonusTest.Value + ", stacks : " + bonusTest.Stacks);
-            return true;
-        }
-        
-        improvedStat = GetStatRef(targetStat);
-        return false;
-    }
-
-
-    float StatCalcul(BonusType type, float stat, float bonusValue, int bonusStacks)
-    {
-        switch(type)
-        {
-            case BonusType.None:
-                return stat;
-            case BonusType.Add:
-                return stat + bonusValue * bonusStacks;
-            case BonusType.Subtract:
-                return stat - bonusValue * bonusStacks;
-            case BonusType.Multiply:
-                return stat * bonusValue * bonusStacks;
-            case BonusType.Divide:
-                return stat / bonusValue * bonusStacks;
-            default:
-                return stat;
-        }
-    }
-
-    ref float GetStatRef(StatToUpgrade targetStat)
+    float GetBaseStat(StatConcerned targetStat)
     {
         switch (targetStat) 
         {
-            case StatToUpgrade.MoveSpeed: 
-                return ref moveSpeed;
-            case StatToUpgrade.LifePoints:
-                return ref lifePoints;
-            case StatToUpgrade.DashRange:
-                return ref dashRange;
-            case StatToUpgrade.DashCooldown:
-                return ref dashCooldown;
-            case StatToUpgrade.AttackCooldown:
-                return ref attackCooldown;
+            case StatConcerned.MoveSpeed: 
+                return movement.MoveSpeed;
+            case StatConcerned.Damage:
+                return weaponSlot.EquippedWeapon.Damage;
             default:
-                return ref defaultValue;
+                return defaultValue;
         }
     }
 
 }
 
-public enum BonusType
-{
-    None = 0,
-    Add = 1,
-    Subtract = 2,
-    Multiply = 3,
-    Divide = 4
-}
 
-public enum StatToUpgrade
-{
-    None = 0,
-    MoveSpeed = 1,
-    LifePoints = 2,
-    DashRange = 3,
-    DashCooldown = 4,
-    AttackCooldown = 5
-}
+
