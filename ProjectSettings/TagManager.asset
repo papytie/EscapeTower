@@ -41,11 +41,17 @@ TagManager:
   - name: Background
     uniqueID: 3487092455
     locked: 0
+  - name: test
+    uniqueID: 2316451117
+    locked: 0
   - name: Floor
     uniqueID: 2199099345
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Character
+    uniqueID: 1673295959
     locked: 0
   - name: Wall
     uniqueID: 2412018541

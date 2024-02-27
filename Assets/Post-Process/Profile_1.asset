@@ -15,7 +15,7 @@ MonoBehaviour:
   active: 1
   color:
     m_OverrideState: 1
-    m_Value: {r: 0, g: 0.045755263, b: 0.047169805, a: 1}
+    m_Value: {r: 1, g: 0.60441947, b: 0.48584908, a: 1}
   center:
     m_OverrideState: 1
     m_Value: {x: 0.5, y: 0.5}
@@ -141,7 +141,7 @@ MonoBehaviour:
   active: 1
   distance:
     m_OverrideState: 1
-    m_Value: 0.5
+    m_Value: 1
   cropToFit:
     m_OverrideState: 1
     m_Value: 1
@@ -166,13 +166,13 @@ MonoBehaviour:
     m_Value: 0.5
   intensity:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.5
   scatter:
     m_OverrideState: 1
-    m_Value: 0.5
+    m_Value: 1
   clamp:
     m_OverrideState: 1
-    m_Value: 65472
+    m_Value: 65407.19
   tint:
     m_OverrideState: 1
     m_Value: {r: 1, g: 1, b: 1, a: 1}
