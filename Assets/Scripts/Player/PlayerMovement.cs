@@ -27,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
         //Speed acceleration damping
         Vector2 moveAxis = inputs.MoveAxisInput.ReadValue<Vector2>();
 
-        currentSpeed = Mathf.MoveTowards(currentSpeed, moveAxis.magnitude * stats.GetUpdatedStat(StatConcerned.MoveSpeed), Time.deltaTime * acceleration);
+        currentSpeed = Mathf.MoveTowards(currentSpeed, moveAxis.magnitude * stats.GetModifiedMainStat(MainStat.MoveSpeed), Time.deltaTime * acceleration);
     }
 
     public void CheckedMove(Vector3 moveAxis)

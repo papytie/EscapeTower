@@ -1,7 +1,6 @@
 public enum PickableType
 {
-    None,
-    StatModifier,
-    Weapon,
-    consumable
+    StatModifier = 0,
+    Weapon = 1,
+    consumable = 2,
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class PlayerPickupCollector : MonoBehaviour
 {
@@ -21,14 +22,10 @@ public class PlayerPickupCollector : MonoBehaviour
     {
         switch (item.TemplateType)
         {
-            case PickableType.None:
-                Debug.Log("Item type : " + item.TemplateType + ", no behavior linked to NONE");
-                return;
-
             //StatModifier add a bonus to a specific stat
             case PickableType.StatModifier:
                 stats.AddBonus(item.StatModifier);
-                Debug.Log("Item Type : " + item.TemplateType + ", get Bonus/Malus to : " + item.StatModifier.Stat + ", current value : " + stats.GetUpdatedStat(item.StatModifier.Stat));
+                Debug.Log("Item Type : " + item.TemplateType + ", get Bonus/Malus to : " + item.StatModifier.MainStat + ", current value : " + stats.GetModifiedMainStat(item.StatModifier.MainStat));
                 break;
 
             //WeaponPickup equip a new weapon
@@ -40,20 +37,8 @@ public class PlayerPickupCollector : MonoBehaviour
 
             //Consumable effect Switch
             case PickableType.consumable:
-                switch (item.Consumable.Effect)
-                {
-                    case ConsumableEffect.None:
-                        break;
-
-                    case ConsumableEffect.Heal:
-                        lifeSystem.HealUp(item.Consumable.Value);
-                        Debug.Log("Item Type : " + item.TemplateType + ", name : " + item.Consumable.name + ", gain " + item.Consumable.Value + " LifePoints, for a total of " + lifeSystem.CurrentLifePoints + " on " + lifeSystem.MaxLifePoints);
-                        break;
-
-                    default:
-                        break;
-
-                }
+                UseConsumable(item);
+                Debug.Log("Item Type : " + item.TemplateType + ", name : " + item.Consumable.name + ", gain " + item.Consumable.Value + " LifePoints, for a total of " + lifeSystem.CurrentLifePoints + " on " + lifeSystem.MaxLifePoints);
                 break;
 
             default:
@@ -62,5 +47,18 @@ public class PlayerPickupCollector : MonoBehaviour
 
         //Destroy Pickup
         item.DelayedDestroy(despawnDelay);
+    }
+
+    void UseConsumable(PickupItem item)
+    {
+        switch (item.Consumable.Effect)
+        {
+            case ConsumableEffect.Heal:
+                lifeSystem.HealUp(item.Consumable.Value);
+                break;
+            default:
+                break;
+
+        }
     }
 }

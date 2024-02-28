@@ -7,8 +7,13 @@ public class ConsumableTemplate : ScriptableObject, IPickup
     public float Value => value;
     public ConsumableEffect Effect => effect;
 
-    [SerializeField] string pickupName;
+    [Header("Type")]
     [SerializeField] PickableType type;
+
+    [Header("Name")]
+    [SerializeField] string pickupName;
+
+    [Header("Settings")]
     [SerializeField] ConsumableEffect effect;
     [SerializeField] float value;
     [SerializeField] Sprite itemSprite;
@@ -19,7 +24,6 @@ public class ConsumableTemplate : ScriptableObject, IPickup
 
 public enum ConsumableEffect
 {
-    None = 0,
-    Heal = 1,
+    Heal = 0
 }
 

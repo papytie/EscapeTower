@@ -5,9 +5,14 @@ public class WeaponPickupTemplate : ScriptableObject, IPickup
 {
     public PlayerWeapon Weapon => weapon;
 
-    [SerializeField] string pickupName;
-    [SerializeField] PlayerWeapon weapon;
+    [Header("Type")]
     [SerializeField] PickableType type;
+
+    [Header("Name")]
+    [SerializeField] string pickupName;
+
+    [Header("Settings")]
+    [SerializeField] PlayerWeapon weapon;
     [SerializeField] Sprite itemSprite;
 
     public PickableType Type { get => type; }
