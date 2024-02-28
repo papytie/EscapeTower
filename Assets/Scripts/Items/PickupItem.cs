@@ -1,9 +1,10 @@
+using DG.Tweening;
 using UnityEngine;
+using UnityEngine.U2D;
 
-[RequireComponent (typeof(SpriteRenderer))]
 public class PickupItem : MonoBehaviour
 {
-    public bool IsDespawning => isDespawning;
+    public bool IsDespawning { get; private set; }
     public PickableType TemplateType => templateType;
     public StatModifierTemplate StatModifier => statModifierTemplate;
     public ConsumableTemplate Consumable => consumableTemplate;
@@ -14,19 +15,21 @@ public class PickupItem : MonoBehaviour
     [SerializeField] ConsumableTemplate consumableTemplate;
     [SerializeField] WeaponPickupTemplate weaponPickupTemplate;
 
-    IPickup template;
-    SpriteRenderer spriteRenderer;
+    [Header("Visual")]
+    [SerializeField] SpriteRenderer borderSprite;
+    [SerializeField] SpriteRenderer contentSprite;
+    [SerializeField] float scaleAnim = 2f;
+    [SerializeField] float scaleAnimDuration = 1f;
+    [SerializeField] float fadeAnimDuration = 0.5f;
 
-    float despawnDelay = 1;
-    float despawnTime = 0;
-    bool isDespawning = false;
+    IPickup template;
 
     void Init(IPickup templateToApply)
     {
         template = templateToApply;
         templateType = template.Type;
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = template.Sprite;
+        contentSprite.sprite = template.Sprite;
+        borderSprite.color = GetBorderColor();
     }
 
     private void Start()
@@ -39,7 +42,7 @@ public class PickupItem : MonoBehaviour
             case PickableType.StatModifier: 
                 template = statModifierTemplate;
                 break;
-            case PickableType.consumable:
+            case PickableType.Consumable:
                 template = consumableTemplate;
                 break;
             default:
@@ -49,22 +52,25 @@ public class PickupItem : MonoBehaviour
         Init(template);
     }
 
-    private void Update()
-    {
-        if (isDespawning && TimeUtils.CustomTimer(ref despawnTime, despawnDelay))
-            Destroy(gameObject);
-
+    private Color GetBorderColor() {
+        return template.Type switch {
+            PickableType.Weapon => GameSettings.Instance.weaponColor,
+            PickableType.Consumable => GameSettings.Instance.consumableColor,
+            PickableType.StatModifier => GameSettings.Instance.bonusColor,
+            _ => Color.white
+        };
     }
 
-    public void DelayedDestroy(float despawnDelayRef)
+    public void Pick()
     {
-        despawnDelay = despawnDelayRef;
-        isDespawning = true;
-    }
-
-    void Animation()
-    {
-        //TODO: trigger animation when pickup
+        IsDespawning = true;
+        borderSprite.sortingLayerName = GameParams.SortingLayer.UI;
+        contentSprite.sortingLayerName = GameParams.SortingLayer.UI;
+        Sequence sequence = DOTween.Sequence()
+            .Append(transform.DOScale(scaleAnim, scaleAnimDuration).SetEase(Ease.OutQuad))
+            .Join(borderSprite.DOFade(0f, fadeAnimDuration).SetEase(Ease.OutQuad))
+            .Join(contentSprite.DOFade(0f, fadeAnimDuration).SetEase(Ease.OutQuad))
+            .OnComplete(() => Destroy(gameObject));
     }
 }
 

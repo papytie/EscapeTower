@@ -36,7 +36,7 @@ public class PlayerPickupCollector : MonoBehaviour
                 break;
 
             //Consumable effect Switch
-            case PickableType.consumable:
+            case PickableType.Consumable:
                 UseConsumable(item);
                 Debug.Log("Item Type : " + item.TemplateType + ", name : " + item.Consumable.name + ", gain " + item.Consumable.Value + " LifePoints, for a total of " + lifeSystem.CurrentLifePoints + " on " + lifeSystem.MaxLifePoints);
                 break;
@@ -46,7 +46,7 @@ public class PlayerPickupCollector : MonoBehaviour
         }
 
         //Destroy Pickup
-        item.DelayedDestroy(despawnDelay);
+        item.Pick();
     }
 
     void UseConsumable(PickupItem item)
