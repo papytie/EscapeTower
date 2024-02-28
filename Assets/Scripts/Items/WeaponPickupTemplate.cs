@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Pickup", menuName = "Scripts/Items/ScriptableObjects/WeaponPickupTemplate", order = 1)]
+[CreateAssetMenu(fileName = "Weapon", menuName = "EscapeTower/Items/Create Weapon", order = 1)]
 public class WeaponPickupTemplate : ScriptableObject, IPickup
 {
     public PlayerWeapon Weapon => weapon;

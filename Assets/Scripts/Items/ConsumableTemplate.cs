@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Pickup", menuName = "Scripts/Items/ScriptableObjects/ConsumableTemplate", order = 1)]
+[CreateAssetMenu(fileName = "Consumable", menuName = "EscapeTower/Items/Create Consumable", order = 1)]
 public class ConsumableTemplate : ScriptableObject, IPickup
 {
     public float Value => value;

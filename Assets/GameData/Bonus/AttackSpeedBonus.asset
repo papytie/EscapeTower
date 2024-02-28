@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d3efc1018674cc0489991110a0051ea0, type: 3}
-  m_Name: AttackSpeedModifierTemplate
+  m_Name: AttackSpeedBonus
   m_EditorClassIdentifier: 
   type: 0
   pickupName: AttackSpeedBonus

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Pickup", menuName = "Scripts/Items/ScriptableObjects/StatModifierTemplate", order = 1)]
+[CreateAssetMenu(fileName = "Bonus", menuName = "EscapeTower/Items/Create Bonus", order = 1)]
 public class StatModifierTemplate : ScriptableObject, IPickup
 {
     public MainStat MainStat => mainStat;
