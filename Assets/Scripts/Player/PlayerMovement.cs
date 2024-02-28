@@ -5,24 +5,29 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] float playerSpeed = 5f;
-    [SerializeField] float playerAcceleration = 50f;
+    public float MoveSpeed => moveSpeed;
+
+    [SerializeField] float moveSpeed = 1f;
+    [SerializeField] float acceleration = 50f;
     float currentSpeed = 0;
 
     PlayerInputs inputs;
     PlayerCollision collision;
+    PlayerStats stats;
 
-    public void InitRef(PlayerInputs inputRef, PlayerCollision collisionRef)
+    public void InitRef(PlayerInputs inputRef, PlayerCollision collisionRef, PlayerStats statsRef)
     {
         inputs = inputRef;
         collision = collisionRef;
+        stats = statsRef;
     }
 
     private void Update()
     {
         //Speed acceleration damping
         Vector2 moveAxis = inputs.MoveAxisInput.ReadValue<Vector2>();
-        currentSpeed = Mathf.MoveTowards(currentSpeed, moveAxis.magnitude * playerSpeed, Time.deltaTime * playerAcceleration);
+
+        currentSpeed = Mathf.MoveTowards(currentSpeed, moveAxis.magnitude * stats.GetUpdatedStat(StatConcerned.MoveSpeed), Time.deltaTime * acceleration);
     }
 
     public void CheckedMove(Vector3 moveAxis)

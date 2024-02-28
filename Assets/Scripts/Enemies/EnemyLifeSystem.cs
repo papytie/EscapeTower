@@ -8,8 +8,8 @@ public class EnemyLifeSystem : MonoBehaviour
     public bool IsDead => isDead;
 
     [Header("Life Settings")]
-    [SerializeField] int currentLifePoints = 10;
-    [SerializeField] int maxLifePoints = 20;
+    [SerializeField] float currentLifePoints = 10;
+    [SerializeField] float maxLifePoints = 20;
     [SerializeField] float despawnTime = 3f;
 
     bool isDead = false;
@@ -28,7 +28,7 @@ public class EnemyLifeSystem : MonoBehaviour
             Destroy(gameObject);
     }
 
-    public void TakeDamage(int damageValue)
+    public void TakeDamage(float damageValue)
     {
         if (isDead) return;
 

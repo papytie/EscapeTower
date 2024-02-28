@@ -105,6 +105,8 @@ public class EnemyController : MonoBehaviour
                     case MovementType.StayInRange:
                         stayAtRange.StayAtRangeFromTarget(targetObject);
                         break;
+                    default:
+                        break;
 
                 }
 

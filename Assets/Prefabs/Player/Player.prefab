@@ -20,6 +20,8 @@ GameObject:
   - component: {fileID: 13529745838042828}
   - component: {fileID: 1373889046866348026}
   - component: {fileID: 9108721139014105634}
+  - component: {fileID: 2362480671103767318}
+  - component: {fileID: 7489404967340477273}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -140,8 +142,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc48b2987b235964892fa8bee51784ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeed: 1
-  playerAcceleration: 80
+  moveSpeed: 1
+  acceleration: 50
 --- !u!114 &5299433897241918024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,7 +309,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  dashDistance: 3
+  dashDistance: 0.8
   cooldownDuration: 0
   dashDuration: 0.2
   showDebug: 0
@@ -342,7 +344,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoAttackOnStick: 1
   showDebug: 1
-  colliderDebugColor: {r: 1, g: 0.33520997, b: 0, a: 1}
+  colliderDebugColor: {r: 1, g: 0.047002308, b: 0, a: 1}
 --- !u!114 &13529745838042828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -370,14 +372,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21fc78d18fc726543bd59987ecfebd51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionMinDist: 0.05
-  colliderRadius: 0.05
+  collisionMinDist: 0.01
+  colliderRadius: 0.07
   wallLayer:
     serializedVersion: 2
     m_Bits: 256
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
+  pickupLayer:
+    serializedVersion: 2
+    m_Bits: 512
   showDebug: 0
   colliderDebugColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!58 &9108721139014105634
@@ -412,9 +417,34 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.005, y: -0.02}
+  m_Offset: {x: 0, y: -0.02}
   serializedVersion: 2
-  m_Radius: 0.05
+  m_Radius: 0.07
+--- !u!114 &2362480671103767318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7335286304733664789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54c06e762fb9508409d46bcd21cb2354, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7489404967340477273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7335286304733664789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3eb5bf9a4402edd4bbada22d7cb4d6e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  despawnDelay: 0.1
 --- !u!1001 &5591629125601350420
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -469,7 +499,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8438143753717852558, guid: 342c743fa1afecd4f847bf50519d527d, type: 3}
       propertyPath: hitboxRange
-      value: 0.4
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
