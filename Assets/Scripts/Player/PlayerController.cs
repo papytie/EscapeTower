@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
         dash.InitRef(collision, lifeSystem);
         attack.InitRef(slot, stats);
         lifeSystem.InitRef(animator);
-        stats.InitRef(movement, slot);
+        stats.InitRef(movement, slot, dash, attack);
         collector.InitRef(stats, slot, lifeSystem);
     }
 
@@ -103,6 +103,7 @@ public class PlayerController : MonoBehaviour
                 dash.DashActivation(moveAxis);
                 movement.RotateToMoveDirection(moveAxis);
             }
+
             else
             {
                 dash.DashActivation(transform.up);

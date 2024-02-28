@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d3efc1018674cc0489991110a0051ea0, type: 3}
-  m_Name: DamageModifierTemplate
+  m_Name: AttackSpeedModifierTemplate
   m_EditorClassIdentifier: 
   type: 0
-  pickupName: DamageBonus
-  mainStat: 1
-  modifValue: 20
+  pickupName: AttackSpeedBonus
+  mainStat: 2
+  modifValue: 10
   valueType: 1
   calculType: 0
   itemSprite: {fileID: 1230942490, guid: e2951f7976b89a749b6afef08989dcdb, type: 3}

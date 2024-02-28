@@ -6,12 +6,17 @@ public class PlayerDash : MonoBehaviour
 {
     public bool DashAvailable => !isOnCooldown && !isDashing;
     public bool IsDashing => isDashing;
+    public float Cooldown => cooldown;
+    public float Duration => duration;
+    public float Speed => speed;
+    public float Distance => distance;
 
     [Header("Dash Settings")]
     [SerializeField] AnimationCurve dashCurve;
-    [SerializeField] float dashDistance;
-    [SerializeField] float cooldownDuration;
-    [SerializeField] float dashDuration;
+    [SerializeField] float distance;
+    [SerializeField] float speed;
+    [SerializeField] float cooldown;
+    [SerializeField] float duration;
 
     [Header("Debug")]
     [SerializeField] bool showDebug;
@@ -36,13 +41,13 @@ public class PlayerDash : MonoBehaviour
 
     private void Update()
     {
-        if (isOnCooldown && TimeUtils.CustomTimer(ref coolDownTime, cooldownDuration))
+        if (isOnCooldown && TimeUtils.CustomTimer(ref coolDownTime, cooldown))
             isOnCooldown = false;
 
         if (isDashing)
         {
             dashCurrentTime += Time.deltaTime;
-            float t = Mathf.Clamp01(dashCurrentTime / dashDuration);
+            float t = Mathf.Clamp01(dashCurrentTime / duration);
 
             //Use curve to modify lerp transition
             Vector3 dashTargetPos = Vector3.Lerp(dashStart, dashTarget, dashCurve.Evaluate(t));
@@ -59,7 +64,7 @@ public class PlayerDash : MonoBehaviour
                 transform.position = dashTargetPos;
 
 
-            if (hit || TimeUtils.CustomTimer(ref dashCurrentTime, dashDuration))
+            if (hit || TimeUtils.CustomTimer(ref dashCurrentTime, duration))
             {
                 isDashing = false;
                 lifeSystem.IsInvincible = false;
@@ -72,7 +77,7 @@ public class PlayerDash : MonoBehaviour
     public void DashActivation(Vector3 dir)
     {
         dashStart = transform.position;
-        dashTarget = transform.position + dir.normalized * dashDistance;
+        dashTarget = transform.position + dir.normalized * distance;
         isDashing = true;
         isOnCooldown = true;
         //Player is invincible during Dash

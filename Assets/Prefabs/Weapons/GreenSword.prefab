@@ -99,15 +99,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponAnimator: {fileID: 0}
+  weaponSlot: {fileID: 0}
   damage: 1
-  cooldown: 0.5
+  cooldown: 0.4
   lag: 0
-  hitboxRadius: 0.12
-  hitboxRange: 0.1
-  hitboxDuration: 0.2
+  hitboxDuration: 0.1
+  hitboxShape: 0
+  hitboxCircleRadius: 0.1
+  hitboxBoxSize: {x: 0, y: 0}
+  hitboxMinDist: 0
+  hitboxMaxDist: 0.1
+  targetMax: 3
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
+  showDebug: 1
+  debugCube: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  startColor: {r: 1, g: 0.49217385, b: 0, a: 0.5882353}
+  endColor: {r: 1, g: 0.07178359, b: 0, a: 0.5882353}
 --- !u!95 &1502074468152758371
 Animator:
   serializedVersion: 5

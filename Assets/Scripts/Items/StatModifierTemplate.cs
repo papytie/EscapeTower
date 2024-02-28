@@ -1,26 +1,29 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Pickup", menuName = "Scripts/Items/ScriptableObjects/StatModifierTemplate", order = 1)]
 public class StatModifierTemplate : ScriptableObject, IPickup
 {
-    public StatConcerned Stat => stat;
+    public MainStat MainStat => mainStat;
     public float ModifValue => modifValue;
+    public ValueType ValueType => valueType;
+    public CalculType Calcul => calculType;
 
-    [SerializeField] string pickupName;
-    [SerializeField] float modifValue;
+    [Header("Type")]
     [SerializeField] PickableType type;
-    [SerializeField] StatConcerned stat;
+
+    [Header("Name")]
+    [SerializeField] string pickupName;
+
+    [Header("Settings")]
+    [SerializeField] MainStat mainStat;
+    [SerializeField] float modifValue;
+    [SerializeField] ValueType valueType;
+    [SerializeField] CalculType calculType;
     [SerializeField] Sprite itemSprite;
 
     public PickableType Type { get => type; }
     public Sprite Sprite { get => itemSprite; }
 
-}
-
-public enum StatConcerned
-{
-    None = 0,
-    MoveSpeed = 1,
-    Damage = 2,
 }

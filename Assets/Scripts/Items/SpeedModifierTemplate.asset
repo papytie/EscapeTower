@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3efc1018674cc0489991110a0051ea0, type: 3}
   m_Name: SpeedModifierTemplate
   m_EditorClassIdentifier: 
+  type: 0
   pickupName: SpeedBonus
-  modifValue: 0.1
-  type: 1
-  stat: 1
+  mainStat: 0
+  modifValue: 10
+  valueType: 1
+  calculType: 0
   itemSprite: {fileID: 1021610318, guid: 1e09720c0c206324595c2f79b7a569bf, type: 3}

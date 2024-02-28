@@ -33,8 +33,6 @@ public class PickupItem : MonoBehaviour
     {
         switch (templateType) 
         {
-            case PickableType.None:
-                return;
             case PickableType.Weapon:
                 template = weaponPickupTemplate;
                 break;

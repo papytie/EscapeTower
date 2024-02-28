@@ -9,13 +9,11 @@ public class PlayerAttack : MonoBehaviour
     public bool IsAttacking => isAttacking;
     public bool IsTrigger => isTrigger;
     public bool AutoAttackOnStick => autoAttackOnStick;
+    public float AttackSpeed => attackSpeed;
 
     [Header("Attack Settings")]
     [SerializeField] bool autoAttackOnStick = true;
-    
-    [Header("Debug")]
-    [SerializeField] bool showDebug;
-    [SerializeField] Color colliderDebugColor = Color.red;
+    [SerializeField] float attackSpeed = 1;
 
     float coolDownTime = 0;
     bool isOnCooldown = false;
@@ -37,10 +35,10 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
-        if (isOnCooldown && TimeUtils.CustomTimer(ref coolDownTime, playerWeaponSlot.EquippedWeapon.Cooldown))
+        if (isOnCooldown && TimeUtils.CustomTimer(ref coolDownTime, stats.GetModifiedSecondaryStat(SecondaryStat.AttackCooldown)))
             isOnCooldown = false;
-
-        if (isAttacking && TimeUtils.CustomTimer(ref attackLagTime, playerWeaponSlot.EquippedWeapon.Lag))
+        
+        if (isAttacking && TimeUtils.CustomTimer(ref attackLagTime, stats.GetModifiedSecondaryStat(SecondaryStat.AttackLag)))
             isAttacking = false;
 
         if (isTrigger)
@@ -57,23 +55,23 @@ public class PlayerAttack : MonoBehaviour
         isAttacking = true;
         isOnCooldown = true;
         isTrigger = true;
-        playerWeaponSlot.EquippedWeapon.WeaponAttackFX();
+        playerWeaponSlot.EquippedWeapon.WeaponAttackFX(stats.GetModifiedMainStat(MainStat.AttackSpeed));
     }
 
     public void HitboxDetection()
     {
-        if (playerWeaponSlot.EquippedWeapon.WeaponHitBoxResult(transform.position.ToVector2(), transform.up, out RaycastHit2D[] collisions))
-        {
-            foreach(RaycastHit2D collision in collisions)
+        if (playerWeaponSlot.EquippedWeapon.WeaponHitBoxResult(out RaycastHit2D[] collisionsList))
+        {   
+            foreach (RaycastHit2D collision in collisionsList)
             {
                 //Cast to enemy script
                 EnemyLifeSystem enemyLifesystem = collision.transform.GetComponent<EnemyLifeSystem>();
 
                 //Check enemy then apply damages and add to list
-                if (enemyLifesystem && !enemiesHit.Contains(enemyLifesystem))
+                if (enemyLifesystem && !enemiesHit.Contains(enemyLifesystem) && enemiesHit.Count < playerWeaponSlot.EquippedWeapon.TargetMax)
                 {
                     //Apply damages
-                    enemyLifesystem.TakeDamage(stats.GetUpdatedStat(StatConcerned.Damage));
+                    enemyLifesystem.TakeDamage(stats.GetModifiedMainStat(MainStat.Damage));
 
                     //Bump enemy away from hit
                     collision.transform.GetComponent<EnemyBump>().BumpedAwayActivation(-collision.normal);
@@ -87,17 +85,6 @@ public class PlayerAttack : MonoBehaviour
 
         }
 
-    }
-
-    private void OnDrawGizmos()
-    {
-        if (showDebug && Application.isPlaying && isTrigger)
-        {
-            Gizmos.color = colliderDebugColor;
-            Gizmos.DrawWireSphere(transform.position.ToVector2() + transform.up.ToVector2() * playerWeaponSlot.EquippedWeapon.HitboxRange, playerWeaponSlot.EquippedWeapon.HitboxRadius);
-            Gizmos.color = Color.white;
-
-        }
     }
 
 }

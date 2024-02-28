@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ConsumableTemplate
   m_EditorClassIdentifier: 
   pickupName: HealConsumable
-  type: 3
-  effect: 1
+  type: 2
+  effect: 0
   value: 1
   itemSprite: {fileID: -1263261112, guid: e2951f7976b89a749b6afef08989dcdb, type: 3}

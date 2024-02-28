@@ -5,14 +5,15 @@ using UnityEngine;
 public class PlayerWeaponSlot : MonoBehaviour
 {
     public PlayerWeapon EquippedWeapon => equippedWeapon;
+    public Transform SlotTransform => slotTransform;
 
     [SerializeField] PlayerWeapon equippedWeapon = null;
-    [SerializeField] Vector3 slotPosition;
-    [SerializeField] Vector3 slotRotation;
+    [SerializeField] Transform slotTransform;
 
     private void Start()
     {
-        equippedWeapon.transform.SetLocalPositionAndRotation(slotPosition, Quaternion.Euler(slotRotation));
+        equippedWeapon.transform.SetLocalPositionAndRotation(slotTransform.position, Quaternion.Euler(slotTransform.rotation.eulerAngles));
+        equippedWeapon.InitRef(this);
     }
 
     public void EquipWeapon(PlayerWeapon weapon)
@@ -21,7 +22,8 @@ public class PlayerWeaponSlot : MonoBehaviour
             Destroy(equippedWeapon.gameObject);
 
         equippedWeapon = Instantiate(weapon, transform);
-        equippedWeapon.transform.SetLocalPositionAndRotation(slotPosition, Quaternion.Euler(slotRotation));
+        equippedWeapon.InitRef(this);
+        equippedWeapon.transform.SetPositionAndRotation(slotTransform.position, Quaternion.Euler(slotTransform.rotation.eulerAngles));
 
     }
 
