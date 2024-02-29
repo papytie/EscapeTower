@@ -60,6 +60,7 @@ public class PlayerStats : MonoBehaviour
         {
             SecondaryStat.AttackCooldown => Mathf.Max(statValue / GetModifiedMainStat(MainStat.AttackSpeed), 0),
             SecondaryStat.AttackLag => Mathf.Max(statValue / GetModifiedMainStat(MainStat.AttackSpeed), 0),
+            SecondaryStat.HitboxDuration => Mathf.Max(statValue / GetModifiedMainStat(MainStat.AttackSpeed), 0),
             SecondaryStat.DashCooldown => Mathf.Max(statValue / GetModifiedMainStat(MainStat.DashSpeed), 0),
             SecondaryStat.DashDuration => Mathf.Max(statValue / GetModifiedMainStat(MainStat.DashSpeed), 0),
             _ => statValue,
@@ -109,6 +110,7 @@ public class PlayerStats : MonoBehaviour
         return targetStat switch
         {   SecondaryStat.AttackCooldown => weaponSlot.EquippedWeapon.Cooldown,
             SecondaryStat.AttackLag => weaponSlot.EquippedWeapon.Lag,
+            SecondaryStat.HitboxDuration => weaponSlot.EquippedWeapon.HitboxDuration,
             SecondaryStat.DashCooldown => dash.Cooldown,
             SecondaryStat.DashDuration => dash.Duration,
             _ => defaultValue,
@@ -132,6 +134,7 @@ public enum SecondaryStat
     AttackLag = 1,
     DashCooldown = 2,
     DashDuration = 3,
+    HitboxDuration = 4,
 }
 
 public enum ValueType

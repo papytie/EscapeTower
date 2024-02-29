@@ -103,13 +103,15 @@ MonoBehaviour:
   damage: 1
   cooldown: 0.4
   lag: 0
-  hitboxDuration: 0.1
-  hitboxShape: 0
-  hitboxCircleRadius: 0.1
-  hitboxBoxSize: {x: 0, y: 0}
-  hitboxMinDist: 0
-  hitboxMaxDist: 0.1
-  targetMax: 3
+  detectionType: 0
+  numberOfTick: 4
+  duration: 0.1
+  shapeType: 1
+  circleRadius: 0.1
+  boxSize: {x: 0.12, y: 0.06}
+  startPos: {x: 0, y: 0.1}
+  targetPos: {x: 0, y: 0.1}
+  numberOfTarget: 1
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128

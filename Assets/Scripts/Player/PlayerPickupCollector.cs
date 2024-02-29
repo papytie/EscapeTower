@@ -5,7 +5,7 @@ using static UnityEditor.Progress;
 
 public class PlayerPickupCollector : MonoBehaviour
 {
-    [SerializeField] float despawnDelay = 1;
+    //[SerializeField] float despawnDelay = 1;
 
     PlayerStats stats;
     PlayerWeaponSlot slot;

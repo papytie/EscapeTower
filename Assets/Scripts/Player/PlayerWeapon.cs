@@ -13,8 +13,14 @@ public class PlayerWeapon : MonoBehaviour
     public float Damage => damage;
     public float Cooldown => cooldown;
     public float Lag => lag;
-    public float HitboxDuration => hitboxDuration;
-    public int TargetMax => targetMax;
+    public float HitboxDuration => duration;
+    public float CircleRadius => circleRadius;
+    public int TargetMax => numberOfTarget;
+    public int HitboxTicks => numberOfTick;
+    public Vector2 BoxSize => boxSize;
+    public HitboxDetectionType DetectionType => detectionType;
+    public HitboxShapeType ShapeType => shapeType;
+    public Vector2 HitboxCurrentPos => hitboxCurrentPos;
 
     [Header("Weapon Settings")]
     [SerializeField] Animator weaponAnimator;
@@ -22,16 +28,20 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField] float damage = 1;
     [SerializeField] float cooldown = .5f;
     [SerializeField] float lag = .2f;
-    [SerializeField] float hitboxDuration = .1f;
 
     [Header("Hitbox Settings")]
-    [SerializeField] HitboxShape hitboxShape;
-    [SerializeField] float hitboxCircleRadius = .1f;
-    [SerializeField] Vector2 hitboxBoxSize = Vector2.zero;
-    [SerializeField] float hitboxMinDist = 0;
-    [SerializeField] float hitboxMaxDist = 0;
-    [SerializeField] int targetMax;
+    [SerializeField] HitboxDetectionType detectionType;
+    [SerializeField] int numberOfTick = 5;
+    [SerializeField] float duration = .1f;
+    [SerializeField] HitboxShapeType shapeType;
+    [SerializeField] float circleRadius = .1f;
+    [SerializeField] Vector2 boxSize = new Vector2(.1f, .1f);
+    [SerializeField] Vector2 startPos = Vector2.zero;
+    [SerializeField] Vector2 targetPos = Vector2.zero;
+    [SerializeField] int numberOfTarget = 1;
     [SerializeField] LayerMask enemyLayer;
+
+    Vector2 hitboxCurrentPos = Vector2.zero;
 
     [Header("Debug")]
     [SerializeField] bool showDebug;
@@ -56,35 +66,63 @@ public class PlayerWeapon : MonoBehaviour
         weaponAnimator.SetFloat(GameParams.Animation.WEAPON_ATTACKSPEED_FLOAT, playerAttackSpeed);
     }
 
-    public bool WeaponHitBoxResult(out RaycastHit2D[] collisionsList)
+    public bool WeaponHitBoxResult(out RaycastHit2D[] collisionsList, float time)
     {
-        collisionsList = hitboxShape switch
+        Vector2 weaponPos = transform.position;
+        Vector2 weaponForward = transform.up;
+        Vector2 weaponRight = transform.right;
+        Vector2 hitboxStartPos = weaponPos + weaponRight * startPos.y + weaponForward * startPos.x;
+        Vector2 hitboxTargetPos = weaponPos + weaponRight * targetPos.y + weaponForward * targetPos.x;
+        hitboxCurrentPos = Vector2.Lerp(hitboxStartPos, hitboxTargetPos, time);
+
+        collisionsList = shapeType switch
         {
-            HitboxShape.Circle => Physics2D.CircleCastAll(weaponSlot.SlotTransform.position + weaponSlot.SlotTransform.up * hitboxMinDist, hitboxCircleRadius, weaponSlot.SlotTransform.up, hitboxMaxDist, enemyLayer),
-            HitboxShape.Box => Physics2D.BoxCastAll(weaponSlot.SlotTransform.position + weaponSlot.SlotTransform.up * hitboxMinDist, hitboxBoxSize, Quaternion.Angle(Quaternion.identity, weaponSlot.transform.rotation), weaponSlot.SlotTransform.up, hitboxMaxDist, enemyLayer),
+            HitboxShapeType.Circle => Physics2D.CircleCastAll(hitboxCurrentPos, circleRadius, Vector2.zero, 0, enemyLayer),
+            HitboxShapeType.Box => Physics2D.BoxCastAll(hitboxCurrentPos, boxSize, Quaternion.Angle(Quaternion.identity, transform.rotation), Vector2.zero, 0, enemyLayer),
             _ => null,
         };
+
         return collisionsList.Length > 0;
+    }
+
+    public Vector2 GetHitboxPosition(float time)
+    {
+        Vector2 weaponPos = transform.position;
+        Vector2 weaponForward = transform.up;
+        Vector2 weaponRight = transform.right;
+        Vector2 hitboxStartPos = weaponPos + weaponRight * startPos.y + weaponForward * startPos.x;
+        Vector2 hitboxTargetPos = weaponPos + weaponRight * targetPos.y + weaponForward * targetPos.x;
+        return Vector2.Lerp(hitboxStartPos, hitboxTargetPos, time);
     }
 
     private void OnDrawGizmos()
     {
         if (showDebug)
         {
-            switch (hitboxShape)
+            Vector2 weaponPos = transform.position;
+            Vector2 weaponForward = transform.up;
+            Vector2 weaponRight = transform.right;
+            Vector2 hitboxStartPos = weaponPos + weaponRight * startPos.y + weaponForward * startPos.x;
+            Vector2 hitboxTargetPos = weaponPos + weaponRight * targetPos.y + weaponForward * targetPos.x;
+
+            switch (shapeType)
             {
-                case HitboxShape.Circle:
+                case HitboxShapeType.Circle:
                     Gizmos.color = startColor;
-                    Gizmos.DrawSphere(weaponSlot.SlotTransform.position + weaponSlot.SlotTransform.up * hitboxMinDist, hitboxCircleRadius);
+                    Gizmos.DrawWireSphere(hitboxStartPos, circleRadius);
+                    Gizmos.color = Color.white;
                     Gizmos.color = endColor;
-                    Gizmos.DrawSphere(weaponSlot.SlotTransform.position + weaponSlot.SlotTransform.up * hitboxMaxDist, hitboxCircleRadius);
+                    Gizmos.DrawWireSphere(hitboxTargetPos, circleRadius);
+                    Gizmos.color = Color.white;
                     break;
 
-                case HitboxShape.Box:
+                case HitboxShapeType.Box:
                     Gizmos.color = startColor;
-                    Gizmos.DrawMesh(debugCube, -1, weaponSlot.SlotTransform.position + weaponSlot.SlotTransform.up * hitboxMinDist, weaponSlot.SlotTransform.rotation, hitboxBoxSize);
+                    Gizmos.DrawWireMesh(debugCube, -1, hitboxStartPos, transform.rotation, boxSize);
+                    Gizmos.color = Color.white;
                     Gizmos.color = endColor;
-                    Gizmos.DrawMesh(debugCube, -1, weaponSlot.SlotTransform.position + weaponSlot.SlotTransform.up * hitboxMaxDist, weaponSlot.SlotTransform.rotation, hitboxBoxSize);
+                    Gizmos.DrawWireMesh(debugCube, -1, hitboxTargetPos, transform.rotation, boxSize);
+                    Gizmos.color = Color.white;
                     break;
             }
 
@@ -93,8 +131,14 @@ public class PlayerWeapon : MonoBehaviour
 
 }
 
-enum HitboxShape
+public enum HitboxShapeType
 {
     Box = 1,
     Circle = 2
+}
+
+public enum HitboxDetectionType
+{
+    EachFrame = 0,
+    CustomTick = 1,
 }
