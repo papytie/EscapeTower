@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
     void InitComponentsRef()
     {
         movement.InitRef(inputs, collision, stats);
-        dash.InitRef(collision, lifeSystem);
+        dash.InitRef(collision, lifeSystem, stats);
         attack.InitRef(slot, stats);
         lifeSystem.InitRef(animator);
         stats.InitRef(movement, slot, dash, attack);
