@@ -12,7 +12,7 @@ public class PlayerWeaponSlot : MonoBehaviour
 
     private void Start()
     {
-        equippedWeapon.transform.SetLocalPositionAndRotation(slotTransform.position, Quaternion.Euler(slotTransform.rotation.eulerAngles));
+        equippedWeapon.transform.SetPositionAndRotation(slotTransform.position, Quaternion.Euler(slotTransform.rotation.eulerAngles));
         equippedWeapon.InitRef(this);
     }
 

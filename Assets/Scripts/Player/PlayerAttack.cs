@@ -26,13 +26,21 @@ public class PlayerAttack : MonoBehaviour
     bool isAttacking = false;
     bool isTrigger = false;
     float hitboxTime = 0;
-    float hitboxTimerDuration = 0;
+    float hitboxTimerDurationTotal = 0;
+    float hitboxTimerDurationTick = 0;
     int tickCount = 0;
+    bool showHitboxInDebug = false;
+    float showHitboxTime = 0;
 
     List<EnemyLifeSystem> enemiesHit = new();
 
     PlayerWeaponSlot weaponSlot;
     PlayerStats stats;
+
+    float angle;
+    Vector2 startPos;
+    Vector2 endPos;
+    Quaternion startRotation;
 
     public void InitRef(PlayerWeaponSlot weaponSlotRef, PlayerStats statsRef)
     {
@@ -42,98 +50,98 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
-        if (isOnCooldown && TimeUtils.CustomTimer(ref coolDownTime, stats.GetModifiedSecondaryStat(SecondaryStat.AttackCooldown)))
-            isOnCooldown = false;
-        
-        if (isAttacking && TimeUtils.CustomTimer(ref attackLagTime, stats.GetModifiedSecondaryStat(SecondaryStat.AttackLag)))
-            isAttacking = false;
-
-        if (isTrigger)
+        if(isTrigger)
         {
-            if(weaponSlot.EquippedWeapon.DetectionType == HitboxDetectionType.EachFrame)
-            {
-                HitboxDetection();
-            }
-
-            if (TimeUtils.CustomTimer(ref hitboxTime, hitboxTimerDuration))
-            {
-                isTrigger = false;
-                enemiesHit.Clear();
-            }
-
-
-        }
-            
-           /* switch (weaponSlot.EquippedWeapon.DetectionType)
+            switch (weaponSlot.EquippedWeapon.DetectionType)
             {
                 case HitboxDetectionType.EachFrame:
-                    HitboxDetection();
-                    Debug.Log("Detection each frame");
-                    if (isTrigger && TimeUtils.CustomTimer(ref hitboxTime, hitboxTimerDuration))
+
+                    HitboxDetection(Mathf.Clamp01(hitboxTime / hitboxTimerDurationTotal));
+
+                    if (TimeUtils.CustomTimer(ref hitboxTime, hitboxTimerDurationTotal))
                     {
                         isTrigger = false;
                         enemiesHit.Clear();
                     }
                     break;
 
+                //CustomTick divide HitboxDuration in X individual detection of 1 frame
                 case HitboxDetectionType.CustomTick:
-                    if(isTrigger && TimeUtils.CustomTimer(ref hitboxTime, hitboxTimerDuration))
+                    if(TimeUtils.CustomTimer(ref hitboxTime, hitboxTimerDurationTick))
                     {
-                        Debug.Log("Detection on tick");
-                        Debug.Log("currentTime " + hitboxTime);
-                        Debug.Log("duration " + hitboxTimerDuration);
-                        HitboxDetection();
+                        HitboxDetection(Mathf.Clamp01(tickCount * hitboxTimerDurationTick / hitboxTimerDurationTotal));
+
+                        showHitboxInDebug = true;
                         tickCount++;
-                        if (tickCount >= weaponSlot.EquippedWeapon.HitboxTicks - 1) 
+                        if (tickCount >= weaponSlot.EquippedWeapon.HitboxTicks) 
                         {
+                            tickCount = 0;
                             isTrigger = false;
                             enemiesHit.Clear();               
                         }
                     }
                     break;
-            }*/
+            }
+        }
+
+        //------------------------------------------------Debug--------------------------------------------------
+        if (showHitboxInDebug && TimeUtils.CustomTimer(ref showHitboxTime, .05f))
+            showHitboxInDebug = false;
+        //------------------------------------------------Debug--------------------------------------------------
+
+        if (isOnCooldown && TimeUtils.CustomTimer(ref coolDownTime, stats.GetModifiedSecondaryStat(SecondaryStat.AttackCooldown)))
+            isOnCooldown = false;
+        
+        if (isAttacking && TimeUtils.CustomTimer(ref attackLagTime, stats.GetModifiedSecondaryStat(SecondaryStat.AttackLag)))
+            isAttacking = false;
     }
 
     public void AttackActivation()
     {
+        hitboxTimerDurationTotal = stats.GetModifiedSecondaryStat(SecondaryStat.HitboxDuration);
         switch (weaponSlot.EquippedWeapon.DetectionType)
         {
             case HitboxDetectionType.EachFrame:
-                hitboxTimerDuration = stats.GetModifiedSecondaryStat(SecondaryStat.HitboxDuration);
                 hitboxTime = 0;
                 break;
 
             case HitboxDetectionType.CustomTick:
-                hitboxTimerDuration = stats.GetModifiedSecondaryStat(SecondaryStat.HitboxDuration) / (weaponSlot.EquippedWeapon.HitboxTicks - 1);
-                hitboxTime = hitboxTimerDuration;
+                hitboxTimerDurationTick = hitboxTimerDurationTotal / (weaponSlot.EquippedWeapon.HitboxTicks - 1);
+                hitboxTime = hitboxTimerDurationTick;
                 break;
         }
+
+        /*//initialise all values for hitbox
+        startPos = weaponSlot.EquippedWeapon.HitboxStartPos;
+        endPos = weaponSlot.EquippedWeapon.HitboxTargetPos;
+        angle = weaponSlot.EquippedWeapon.HitboxAngle;
+        startRotation = weaponSlot.EquippedWeapon.transform.rotation;*/
 
         isAttacking = true;
         isOnCooldown = true;
         isTrigger = true;
-        weaponSlot.EquippedWeapon.WeaponAttackFX(stats.GetModifiedMainStat(MainStat.AttackSpeed));
+        weaponSlot.EquippedWeapon.AttackFX(stats.GetModifiedMainStat(MainStat.AttackSpeed));
+
+        if (weaponSlot.EquippedWeapon.IsSpawningProjectile)
+            weaponSlot.EquippedWeapon.SpawnProjectile();
+        
     }
 
-    public void HitboxDetection()
+    public void HitboxDetection(float currentTime)
     {
-        if (weaponSlot.EquippedWeapon.WeaponHitBoxResult(out RaycastHit2D[] collisionsList, hitboxTime/hitboxTimerDuration))
+        if (weaponSlot.EquippedWeapon.HitBoxResult(currentTime, out RaycastHit2D[] collisionsList))
         {   
             foreach (RaycastHit2D collision in collisionsList)
             {
-                //Cast to enemy script
                 EnemyLifeSystem enemyLifesystem = collision.transform.GetComponent<EnemyLifeSystem>();
 
-                //Check enemy then apply damages and add to list
                 if (enemyLifesystem && !enemiesHit.Contains(enemyLifesystem) && enemiesHit.Count < weaponSlot.EquippedWeapon.TargetMax)
                 {
-                    //Apply damages
                     enemyLifesystem.TakeDamage(stats.GetModifiedMainStat(MainStat.Damage));
 
-                    //Bump enemy away from hit
+                    //Call enemy Bump and give direction which is the inverted Normal of the collision
                     collision.transform.GetComponent<EnemyBump>().BumpedAwayActivation(-collision.normal);
 
-                    //Add enemy to list
                     enemiesHit.Add(enemyLifesystem);
 
                 }
@@ -146,8 +154,10 @@ public class PlayerAttack : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if(showDebug && Application.isPlaying && isTrigger)
+        if(showDebug && Application.isPlaying && (weaponSlot.EquippedWeapon.DetectionType == HitboxDetectionType.CustomTick && showHitboxInDebug || weaponSlot.EquippedWeapon.DetectionType == HitboxDetectionType.EachFrame && isTrigger))
         {
+            weaponSlot.EquippedWeapon.GetPositions(weaponSlot.EquippedWeapon.RelativeTo, out Vector2 startPos, out Vector2 targetPos, out Quaternion rotation);
+
             switch (weaponSlot.EquippedWeapon.ShapeType)
             {
                 case HitboxShapeType.Circle:
@@ -158,7 +168,7 @@ public class PlayerAttack : MonoBehaviour
 
                 case HitboxShapeType.Box:
                     Gizmos.color = debugColor;
-                    Gizmos.DrawMesh(debugCube, -1, weaponSlot.EquippedWeapon.HitboxCurrentPos, weaponSlot.EquippedWeapon.transform.rotation, weaponSlot.EquippedWeapon.BoxSize);
+                    Gizmos.DrawMesh(debugCube, -1, weaponSlot.EquippedWeapon.HitboxCurrentPos, rotation, weaponSlot.EquippedWeapon.BoxSize);
                     Gizmos.color = Color.white;
                     break;
 
