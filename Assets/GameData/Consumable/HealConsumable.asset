@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ce973b49f7637b45bb55d60f3792bcb, type: 3}
   m_Name: HealConsumable
   m_EditorClassIdentifier: 
-  pickupName: HealConsumable
   type: 2
+  pickupName: HealConsumable
   effect: 0
   value: 1
-  itemSprite: {fileID: -1263261112, guid: e2951f7976b89a749b6afef08989dcdb, type: 3}
+  itemSprite: {fileID: 21300000, guid: a45e0afd0923e0948af000cad9b3ad56, type: 3}

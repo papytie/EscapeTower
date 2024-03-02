@@ -1,10 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
+    public IReadOnlyDictionary<StatModifierTemplate, int> CurrentBonuses { get; private set; }
+
     PlayerMovement movement;
     PlayerWeaponSlot weaponSlot;
     PlayerDash dash;
@@ -16,6 +19,7 @@ public class PlayerStats : MonoBehaviour
 
     public void InitRef(PlayerMovement movementRef, PlayerWeaponSlot weaponSlotRef, PlayerDash dashRef, PlayerAttack attackRef)
     {
+        CurrentBonuses = new ReadOnlyDictionary<StatModifierTemplate, int>(playerBonusList);
         movement = movementRef;
         weaponSlot = weaponSlotRef;
         dash = dashRef;
