@@ -14,5 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupName: RedSword
   weapon: {fileID: 8438143753717852558, guid: 44b60e42f03d0e144bc52770b405d8fb, type: 3}
-  type: 1
   itemSprite: {fileID: -1871169563, guid: e2951f7976b89a749b6afef08989dcdb, type: 3}

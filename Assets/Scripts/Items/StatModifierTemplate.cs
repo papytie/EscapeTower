@@ -10,9 +10,6 @@ public class StatModifierTemplate : ScriptableObject, IPickup
     public ValueType ValueType => valueType;
     public CalculType Calcul => calculType;
 
-    [Header("Type")]
-    [SerializeField] PickableType type;
-
     [Header("Name")]
     [SerializeField] string pickupName;
 
@@ -23,7 +20,7 @@ public class StatModifierTemplate : ScriptableObject, IPickup
     [SerializeField] CalculType calculType;
     [SerializeField] Sprite itemSprite;
 
-    public PickableType Type { get => type; }
+    public PickableType Type => PickableType.StatModifier;
     public Sprite Sprite { get => itemSprite; }
 
 }

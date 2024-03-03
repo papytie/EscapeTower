@@ -64,8 +64,8 @@ public class PickupItem : MonoBehaviour
     public void Pick()
     {
         IsDespawning = true;
-        borderSprite.sortingLayerName = GameParams.SortingLayer.UI;
-        contentSprite.sortingLayerName = GameParams.SortingLayer.UI;
+        borderSprite.sortingLayerName = SRSortingLayers.UI;
+        contentSprite.sortingLayerName = SRSortingLayers.UI;
         Sequence sequence = DOTween.Sequence()
             .Append(transform.DOScale(scaleAnim, scaleAnimDuration).SetEase(Ease.OutQuad))
             .Join(borderSprite.DOFade(0f, fadeAnimDuration).SetEase(Ease.OutQuad))
