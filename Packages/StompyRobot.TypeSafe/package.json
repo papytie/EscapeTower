@@ -4,8 +4,5 @@
   "displayName": "StompyRobot.TypeSafe",
   "license": "MIT",
   "name": "com.stompyrobot.typesafe",
-  "version": "1.0.0",
-  "dependencies": {
-    "com.unity.addressables": "1.21.20"
-  }
+  "version": "1.0.0"
 }

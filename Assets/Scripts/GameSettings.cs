@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "EscapeTower/GameSettings", order = 100)]
 public class GameSettings : ScriptableObject {
 
     public static GameSettings Instance {
