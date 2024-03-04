@@ -3196,6 +3196,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1993039513253133507}
     - target: {fileID: 8438143753717852558, guid: 342c743fa1afecd4f847bf50519d527d, type: 3}
+      propertyPath: detectionType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8438143753717852558, guid: 342c743fa1afecd4f847bf50519d527d, type: 3}
       propertyPath: startPositionOffset.x
       value: 0.09
       objectReference: {fileID: 0}
@@ -5112,6 +5116,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 13529745838042828, guid: aedf39e926b640b4687e56297141b15d, type: 3}
       propertyPath: InvincibilityDuration
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 984688515047404515, guid: aedf39e926b640b4687e56297141b15d, type: 3}
+      propertyPath: distance
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3182759348421872709, guid: aedf39e926b640b4687e56297141b15d, type: 3}

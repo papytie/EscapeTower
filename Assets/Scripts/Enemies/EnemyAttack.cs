@@ -7,7 +7,7 @@ public class EnemyAttack : MonoBehaviour
 {
     public int BaseDamage => baseDamage;
     public bool IsOnCooldown => isOnCooldown;
-    public bool IsAttacking => isAttacking;
+    public bool IsAttacking => isOnAttackLag;
 
     [Header("Attack Settings")]
     [SerializeField] int baseDamage = 1;
@@ -17,7 +17,7 @@ public class EnemyAttack : MonoBehaviour
     [Header("Lag")]
     [SerializeField] float attackLagDuration = .2f;
     [Header("CoolDown")]
-    [SerializeField] float attackCooldown = .5f;
+    [SerializeField] float attackCooldownDuration = .5f;
 
     [Header("Hitbox Settings")]
     [SerializeField] float hitboxRadius = .5f;
@@ -25,7 +25,7 @@ public class EnemyAttack : MonoBehaviour
     [Header("Layer")]
     [SerializeField] LayerMask playerLayer;
     [Header("Duration")]
-    [SerializeField] float hitboxDuration = .1f;
+    [SerializeField] float hitboxDetectionDuration = .1f;
     [Header("Delay")]
     [SerializeField] float hitboxDelayDuration = .1f;
 
@@ -36,16 +36,16 @@ public class EnemyAttack : MonoBehaviour
     Animator animator;
     EnemyEffectSystem effects;
 
-    float LagTime = 0;
-    float CDTime = 0;
-    float durationTime = 0;
-    float hitboxDelayTime = 0;
-    float attackDelayTime = 0;
+    float attackLagEndTime = 0;
+    float attackCoolDownEndTime = 0;
+    float hitboxDetectionEndTime = 0;
+    float hitboxDelayEndTime = 0;
+    float attackDelayEndTime = 0;
 
-    bool isAttacking = false;
+    bool isOnAttackLag = false;
     bool isAttackDelayed = false;
     bool isOnCooldown = false;
-    bool isHitboxTrigger = false;
+    bool isOnHitboxDetection = false;
     bool isHitboxDelayed = false;
 
     private void Start()
@@ -61,37 +61,38 @@ public class EnemyAttack : MonoBehaviour
     private void Update()
     {
 
-        if (isAttackDelayed && TimeUtils.CustomTimer(ref attackDelayTime, attackDelayDuration))
+        if (isAttackDelayed && Time.time >= attackDelayEndTime)
         {
             isAttackDelayed = false;
-            isHitboxDelayed = true;
+            SetHitboxDelayTimer(hitboxDelayDuration);
             animator.SetTrigger(GameParams.Animation.ENEMY_ATTACK_TRIGGER);
             effects.AttackFX();
         }
 
-        if (isAttacking && TimeUtils.CustomTimer(ref LagTime, attackLagDuration))
+        if (isOnAttackLag && Time.time >= attackLagEndTime)
         {
-            isAttacking = false;
-            isOnCooldown = true;
+            isOnAttackLag = false;
+            SetAttackCooldownTimer(attackCooldownDuration);
         }
 
-        if (isHitboxDelayed && TimeUtils.CustomTimer(ref hitboxDelayTime, hitboxDelayDuration))
+        if (isHitboxDelayed && Time.time >= hitboxDelayEndTime)
         {
             isHitboxDelayed = false;
-            isHitboxTrigger = true;
+            SetHitboxDetectionTimer(hitboxDetectionDuration);
         }
 
-        if (isHitboxTrigger)
+        if (isOnHitboxDetection)
         {
             HitboxDetection();
-            if (TimeUtils.CustomTimer(ref durationTime, hitboxDuration))
-                isHitboxTrigger = false;
+            if (Time.time >= hitboxDetectionEndTime)
+                isOnHitboxDetection = false;
         }
 
-        if (isOnCooldown && TimeUtils.CustomTimer(ref CDTime, attackCooldown))
+        if (isOnCooldown && Time.time >= attackCoolDownEndTime)
             isOnCooldown = false;
 
     }
+
 
     void HitboxDetection()
     {
@@ -112,14 +113,44 @@ public class EnemyAttack : MonoBehaviour
             //Look At Rotation
             transform.rotation = Quaternion.LookRotation(Vector3.forward, toTargetVector.normalized);
 
-            isAttackDelayed = true;
-            isAttacking = true;
+            SetAttackDelayTimer(attackDelayDuration);
+            SetAttackLagTimer(attackLagDuration);
         }
+    }
+
+    void SetAttackDelayTimer(float duration)
+    {
+        attackDelayEndTime = Time.time + duration;
+        isAttackDelayed = true;
+    }
+
+    void SetHitboxDelayTimer(float duration)
+    {
+        hitboxDelayEndTime = Time.time + duration;
+        isHitboxDelayed = true;
+    }
+
+    void SetHitboxDetectionTimer(float duration)
+    {
+        hitboxDetectionEndTime = Time.time + duration;
+        isOnHitboxDetection = true;
+    }
+
+    void SetAttackCooldownTimer(float duration)
+    {
+        attackCoolDownEndTime = Time.time + duration;
+        isOnCooldown = true;
+    }
+
+    void SetAttackLagTimer(float duration)
+    {
+        attackLagEndTime = Time.time + duration;
+        isOnAttackLag = true;
     }
 
     private void OnDrawGizmos()
     {
-        if (showDebug && Application.isPlaying && isHitboxTrigger)
+        if (showDebug && Application.isPlaying && isOnHitboxDetection)
         {
             Gizmos.color = colliderDebugColor;
             Gizmos.DrawSphere(transform.position.ToVector2() + transform.up.ToVector2() * hitboxRange, hitboxRadius);

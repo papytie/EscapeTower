@@ -25,8 +25,9 @@ public class PlayerDash : MonoBehaviour
     
     bool isOnCooldown;
     bool isDashing;
-    float coolDownTime;
+    float cooldownEndTime;
     float dashCurrentTime;
+    float dashStartTime;
     Vector3 dashTarget = Vector3.zero;
     Vector3 dashStart = Vector3.zero;
 
@@ -43,13 +44,12 @@ public class PlayerDash : MonoBehaviour
 
     private void Update()
     {
-        if (isOnCooldown && TimeUtils.CustomTimer(ref coolDownTime, stats.GetModifiedSecondaryStat(SecondaryStat.DashCooldown)))
+        if (isOnCooldown && Time.time >= cooldownEndTime)
             isOnCooldown = false;
 
         if (isDashing)
         {
-            dashCurrentTime += Time.deltaTime;
-            float t = Mathf.Clamp01(dashCurrentTime / stats.GetModifiedSecondaryStat(SecondaryStat.DashDuration));
+            float t = Mathf.Clamp01((Time.time - dashStartTime) / dashStartTime);
 
             //Use curve to modify lerp transition
             Vector3 dashTargetPos = Vector3.Lerp(dashStart, dashTarget, dashCurve.Evaluate(t));
@@ -66,11 +66,11 @@ public class PlayerDash : MonoBehaviour
                 transform.position = dashTargetPos;
 
 
-            if (hit || TimeUtils.CustomTimer(ref dashCurrentTime, stats.GetModifiedSecondaryStat(SecondaryStat.DashDuration)))
+            if (hit || Time.time >= dashStartTime + stats.GetModifiedSecondaryStat(SecondaryStat.DashDuration))
             {
                 isDashing = false;
                 lifeSystem.IsInvincible = false;
-                dashCurrentTime = 0;
+                SetCooldownTimer(stats.GetModifiedSecondaryStat(SecondaryStat.DashCooldown));
             }
         }
 
@@ -80,10 +80,21 @@ public class PlayerDash : MonoBehaviour
     {
         dashStart = transform.position;
         dashTarget = transform.position + dir.normalized * stats.GetModifiedMainStat(MainStat.DashDistance);
-        isDashing = true;
-        isOnCooldown = true;
+        SetDashTimer();
         //Player is invincible during Dash
-        lifeSystem.IsInvincible = true;
+        lifeSystem.SetInvincibleTimer(stats.GetModifiedSecondaryStat(SecondaryStat.DashDuration));
+    }
+
+    void SetCooldownTimer(float duration)
+    {
+        cooldownEndTime = Time.time + duration;
+        isOnCooldown = true;
+    }
+
+    void SetDashTimer()
+    {
+        dashStartTime = Time.time;
+        isDashing = true;
     }
 
     private void OnDrawGizmos()

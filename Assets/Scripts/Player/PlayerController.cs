@@ -11,7 +11,7 @@ using UnityEngine.Rendering.Universal;
 
 public class PlayerController : MonoBehaviour
 {
-    public bool CanMove => !dash.IsDashing && !attack.IsAttacking && !lifeSystem.IsDead;
+    public bool CanMove => !dash.IsDashing && !attack.IsOnAttackLag && !lifeSystem.IsDead;
     public bool CanDash => dash.DashAvailable && !lifeSystem.IsDead;
     public bool CanAttack => attack.AttackAvailable && !dash.IsDashing && !lifeSystem.IsDead;
     public bool CanTakeDamage => !lifeSystem.IsInvincible && !lifeSystem.IsDead;

@@ -84,7 +84,7 @@ public class EnemyController : MonoBehaviour
         if (targetObject == null) return;
 
         //Check and use right behavior option
-        if (!attack.IsAttacking && !lifeSystem.IsDead)
+        if (!attack.IsAttacking && !lifeSystem.IsDespawning)
         {
 
             if(bump.CanMove)

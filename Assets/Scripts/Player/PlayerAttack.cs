@@ -5,9 +5,9 @@ using UnityEngine.Windows;
 
 public class PlayerAttack : MonoBehaviour
 {
-    public bool AttackAvailable => !isOnCooldown;
+    public bool AttackAvailable => !isAttacking && !isOnCooldown;
     public bool IsAttacking => isAttacking;
-    public bool IsTrigger => isTrigger;
+    public bool IsOnAttackLag => isOnAttackLag;
     public bool AutoAttackOnStick => autoAttackOnStick;
     public float AttackSpeed => attackSpeed;
 
@@ -20,27 +20,20 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] Color debugColor = Color.red;
     [SerializeField] Mesh debugCube;
 
-    float coolDownTime = 0;
+    float cooldownEndTime = 0;
     bool isOnCooldown = false;
-    float attackLagTime = 0; 
-    bool isAttacking = false;
-    bool isTrigger = false;
-    float hitboxTime = 0;
-    float hitboxTimerDurationTotal = 0;
-    float hitboxTimerDurationTick = 0;
-    int tickCount = 0;
+    float attackLagEndTime = 0; 
+    bool isOnAttackLag = false;
+    float hitboxEndTime = 0;
+    bool isOnHitboxDetection = false;
+    float showHitboxEndTime = 0;
     bool showHitboxInDebug = false;
-    float showHitboxTime = 0;
+    bool isAttacking = false;
 
     List<EnemyLifeSystem> enemiesHit = new();
 
     PlayerWeaponSlot weaponSlot;
     PlayerStats stats;
-
-    float angle;
-    Vector2 startPos;
-    Vector2 endPos;
-    Quaternion startRotation;
 
     public void InitRef(PlayerWeaponSlot weaponSlotRef, PlayerStats statsRef)
     {
@@ -50,86 +43,40 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
-        if(isTrigger)
+        if (isOnAttackLag && Time.time >= attackLagEndTime)
+            isOnAttackLag = false;
+
+        if(isOnHitboxDetection)
         {
-            switch (weaponSlot.EquippedWeapon.DetectionType)
+            HitboxDetection();
+            if(Time.time >= hitboxEndTime)
             {
-                case HitboxDetectionType.EachFrame:
-
-                    HitboxDetection(Mathf.Clamp01(hitboxTime / hitboxTimerDurationTotal));
-
-                    if (TimeUtils.CustomTimer(ref hitboxTime, hitboxTimerDurationTotal))
-                    {
-                        isTrigger = false;
-                        enemiesHit.Clear();
-                    }
-                    break;
-
-                //CustomTick divide HitboxDuration in X individual detection of 1 frame
-                case HitboxDetectionType.CustomTick:
-                    if(TimeUtils.CustomTimer(ref hitboxTime, hitboxTimerDurationTick))
-                    {
-                        HitboxDetection(Mathf.Clamp01(tickCount * hitboxTimerDurationTick / hitboxTimerDurationTotal));
-
-                        showHitboxInDebug = true;
-                        tickCount++;
-                        if (tickCount >= weaponSlot.EquippedWeapon.HitboxTicks) 
-                        {
-                            tickCount = 0;
-                            isTrigger = false;
-                            enemiesHit.Clear();               
-                        }
-                    }
-                    break;
+                isOnHitboxDetection = false;
+                isAttacking = false;
+                SetAttackCooldownTimer();
             }
         }
 
-        //------------------------------------------------Debug--------------------------------------------------
-        if (showHitboxInDebug && TimeUtils.CustomTimer(ref showHitboxTime, .05f))
-            showHitboxInDebug = false;
-        //------------------------------------------------Debug--------------------------------------------------
-
-        if (isOnCooldown && TimeUtils.CustomTimer(ref coolDownTime, stats.GetModifiedSecondaryStat(SecondaryStat.AttackCooldown)))
+        if (isOnCooldown && Time.time >= cooldownEndTime)
             isOnCooldown = false;
         
-        if (isAttacking && TimeUtils.CustomTimer(ref attackLagTime, stats.GetModifiedSecondaryStat(SecondaryStat.AttackLag)))
-            isAttacking = false;
+        //------------------------------------------------Debug--------------------------------------------------
+        if (showHitboxInDebug && Time.time >= showHitboxEndTime)
+            showHitboxInDebug = false;
+        //------------------------------------------------Debug--------------------------------------------------
     }
 
     public void AttackActivation()
     {
-        hitboxTimerDurationTotal = stats.GetModifiedSecondaryStat(SecondaryStat.HitboxDuration);
-        switch (weaponSlot.EquippedWeapon.DetectionType)
-        {
-            case HitboxDetectionType.EachFrame:
-                hitboxTime = 0;
-                break;
-
-            case HitboxDetectionType.CustomTick:
-                hitboxTimerDurationTick = hitboxTimerDurationTotal / (weaponSlot.EquippedWeapon.HitboxTicks - 1);
-                hitboxTime = hitboxTimerDurationTick;
-                break;
-        }
-
-        /*//initialise all values for hitbox
-        startPos = weaponSlot.EquippedWeapon.HitboxStartPos;
-        endPos = weaponSlot.EquippedWeapon.HitboxTargetPos;
-        angle = weaponSlot.EquippedWeapon.HitboxAngle;
-        startRotation = weaponSlot.EquippedWeapon.transform.rotation;*/
-
         isAttacking = true;
-        isOnCooldown = true;
-        isTrigger = true;
+        SetAttackLagTimer();
+        SetHitboxDetectionTimer();
         weaponSlot.EquippedWeapon.AttackFX(stats.GetModifiedMainStat(MainStat.AttackSpeed));
-
-        if (weaponSlot.EquippedWeapon.IsSpawningProjectile)
-            weaponSlot.EquippedWeapon.SpawnProjectile();
-        
     }
 
-    public void HitboxDetection(float currentTime)
+    public void HitboxDetection()
     {
-        if (weaponSlot.EquippedWeapon.HitBoxResult(currentTime, out RaycastHit2D[] collisionsList))
+        if (weaponSlot.EquippedWeapon.HitBoxResult(out RaycastHit2D[] collisionsList))
         {   
             foreach (RaycastHit2D collision in collisionsList)
             {
@@ -152,11 +99,29 @@ public class PlayerAttack : MonoBehaviour
 
     }
 
+    void SetAttackCooldownTimer()
+    {
+        cooldownEndTime = Time.time + stats.GetModifiedSecondaryStat(SecondaryStat.AttackCooldownDuration);
+        isOnCooldown = true;
+    }
+
+    void SetHitboxDetectionTimer()
+    {
+        hitboxEndTime = Time.time + stats.GetModifiedSecondaryStat(SecondaryStat.HitboxDuration);
+        isOnHitboxDetection = true;
+    }
+
+    void SetAttackLagTimer()
+    {
+        attackLagEndTime = Time.time + stats.GetModifiedSecondaryStat(SecondaryStat.AttackLagDuration);
+        isOnAttackLag = true;
+    }
+
     private void OnDrawGizmos()
     {
-        if(showDebug && Application.isPlaying && (weaponSlot.EquippedWeapon.DetectionType == HitboxDetectionType.CustomTick && showHitboxInDebug || weaponSlot.EquippedWeapon.DetectionType == HitboxDetectionType.EachFrame && isTrigger))
+        if(showDebug && Application.isPlaying && (weaponSlot.EquippedWeapon.DetectionType == HitboxDetectionType.CustomTick && showHitboxInDebug || weaponSlot.EquippedWeapon.DetectionType == HitboxDetectionType.EachFrame && isOnHitboxDetection))
         {
-            weaponSlot.EquippedWeapon.GetPositions(weaponSlot.EquippedWeapon.RelativeTo, out Vector2 startPos, out Vector2 targetPos, out Quaternion rotation);
+            weaponSlot.EquippedWeapon.GetPositions(weaponSlot.EquippedWeapon.RelativeTo, out Vector2 startPos, out Quaternion rotation);
 
             switch (weaponSlot.EquippedWeapon.ShapeType)
             {
