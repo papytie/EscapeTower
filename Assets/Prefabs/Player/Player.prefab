@@ -309,9 +309,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  dashDistance: 0.8
-  cooldownDuration: 0
-  dashDuration: 0.2
+  distance: 0
+  speed: 0
+  cooldown: 0
+  duration: 0
   showDebug: 0
   debugSize: 0.2
   debugColor: {r: 0, g: 1, b: 0.8927181, a: 1}
@@ -328,8 +329,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equippedWeapon: {fileID: 4072162367377177242}
-  slotPosition: {x: 0.03, y: 0.03, z: 0}
-  slotRotation: {x: 0, y: 0, z: 90}
+  slotTransform: {fileID: 0}
 --- !u!114 &3182759348421872709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -343,8 +343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   autoAttackOnStick: 1
-  showDebug: 1
-  colliderDebugColor: {r: 1, g: 0.047002308, b: 0, a: 1}
+  attackSpeed: 1
 --- !u!114 &13529745838042828
 MonoBehaviour:
   m_ObjectHideFlags: 0
