@@ -6,171 +6,293 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 
-[RequireComponent(typeof(Animator))]
-
-public class PlayerWeapon : MonoBehaviour
-{
-    public bool IsSpawningProjectile => isSpawningProjectile;
-    public float Damage => damage;
-    public float Cooldown => cooldown;
-    public float Lag => lag;
-    public float HitboxDuration => duration;
-    public float CircleRadius => circleRadius;
-    public int TargetMax => numberOfTarget;
-    public int HitboxTicks => numberOfTick;
-    public Vector2 BoxSize => boxSize;
-    public HitboxDetectionType DetectionType => detectionType;
-    public HitboxShapeType ShapeType => shapeType;
-    public HitboxRelativePosition RelativeTo => relativeTo;
-    public Vector2 HitboxCurrentPos => hitboxCurrentPos;
-
-    [Header("Weapon Settings")]
-    [SerializeField] PlayerWeaponSlot weaponSlot;
-    [SerializeField] float damage = 1;
-    [SerializeField] float cooldown = .5f;
-    [SerializeField] float lag = .2f;
-    [Header("Projectile Option")]
-    [SerializeField] bool isSpawningProjectile = false;
-    [SerializeField] PlayerProjectile projectileToSpawn;
-
-    [Header("Hitbox Settings")]
-    [SerializeField] LayerMask enemyLayer;
-    [SerializeField] HitboxRelativePosition relativeTo;
-    [SerializeField] Vector2 startPositionOffset = Vector2.zero;
-    [SerializeField] bool isMoving;
-    [SerializeField] Vector2 targetPositionOffset = Vector2.zero;
-    [SerializeField] float duration = .1f;
-    [SerializeField] float delay = .1f;
-    [SerializeField] int numberOfTarget = 1;
-    [Header("Hitbox Shape")]
-    [SerializeField] HitboxShapeType shapeType;
-    [SerializeField] float circleRadius = .1f;
-    [SerializeField] Vector2 boxSize = new Vector2(.1f, .1f);
-    [Header("Hitbox Type")]
-    [SerializeField] HitboxDetectionType detectionType;
-    [SerializeField] int numberOfTick = 5;
-
-    [Header("Debug")]
-    [SerializeField] bool showDebug;
-    [SerializeField] Mesh debugCube;
-    [SerializeField] Color startColor;
-    [SerializeField] Color endColor;
-
-    Vector2 hitboxCurrentPos = Vector2.zero;
-    Animator weaponAnimator;
-/*
-    public Vector3 HitboxStartPos => transform.position + transform.right * startPositionOffset.y + transform.up * startPositionOffset.x;
-    public Vector3 HitboxTargetPos => transform.position + transform.right * targetPositionOffset.y + transform.up * targetPositionOffset.x;
-    public float HitboxAngle => Quaternion.Angle(Quaternion.identity, transform.rotation);
-*/
-    private void Awake()
-    {
-        weaponAnimator = GetComponent<Animator>();
-    }
-
-    public void InitRef(PlayerWeaponSlot slot)
-    {
-        weaponSlot = slot;
-    }
-
-    public void AttackFX(float playerAttackSpeed)
-    {
-        weaponAnimator.SetTrigger(GameParams.Animation.WEAPON_ATTACK_TRIGGER);
-        weaponAnimator.SetFloat(GameParams.Animation.WEAPON_ATTACKSPEED_FLOAT, playerAttackSpeed);
-    }
-
-    public bool HitBoxResult(out RaycastHit2D[] collisionsList)
-    {
-        GetPositions(relativeTo, out Vector2 relativeStartPos, out Quaternion relativeRotation);
-        hitboxCurrentPos = relativeStartPos;
-        collisionsList = shapeType switch
-        {
-            HitboxShapeType.Circle => Physics2D.CircleCastAll(hitboxCurrentPos, circleRadius, Vector2.zero, 0, enemyLayer),
-            HitboxShapeType.Box => Physics2D.BoxCastAll(hitboxCurrentPos, boxSize, Quaternion.Angle(Quaternion.identity, relativeRotation), Vector2.zero, 0, enemyLayer),
-            _ => null,
-        };
-        return collisionsList.Length > 0;
-    }
-
-    public void GetPositions(HitboxRelativePosition relativeTo, out Vector2 relativeStartPos, out Quaternion relativeRotation)
-    {
-        switch (relativeTo)
-        {
-            case HitboxRelativePosition.World:
-                relativeStartPos = startPositionOffset;
-                relativeRotation = Quaternion.identity;
-                break;
-
-            case HitboxRelativePosition.Weapon:
-                relativeStartPos = transform.position + transform.right * startPositionOffset.y + transform.up * startPositionOffset.x;
-                relativeRotation = transform.rotation;
-                break;
-
-            case HitboxRelativePosition.Player:
-                relativeStartPos = weaponSlot.transform.position + weaponSlot.transform.right * startPositionOffset.y + weaponSlot.transform.up * startPositionOffset.x;
-                relativeRotation = weaponSlot.transform.rotation;
-                break;
-
-            case HitboxRelativePosition.WeaponSlot:
-                relativeStartPos = weaponSlot.SlotTransform.position + weaponSlot.SlotTransform.right * startPositionOffset.y + weaponSlot.SlotTransform.up * startPositionOffset.x;
-                relativeRotation = weaponSlot.SlotTransform.rotation;
-                break;
-
-            default:
-                relativeStartPos = Vector2.zero;
-                relativeRotation = Quaternion.identity;
-                break;
-        }
-
-    }
-
-    public void SpawnProjectile()
-    {
-        GetPositions(relativeTo, out Vector2 startPos, out Quaternion rotation);
-        //Instantiate(projectileToSpawn, startPos, rotation).Init(this, targetPos);
-    }
-
-
-    private void OnDrawGizmos()
-    {
-        if (showDebug)
-        {
-            GetPositions(relativeTo, out Vector2 startPos, out Quaternion rotation);
-            switch (shapeType)
-            {
-                case HitboxShapeType.Circle:
-                    Gizmos.color = startColor;
-                    Gizmos.DrawWireSphere(startPos, circleRadius);
-                    Gizmos.color = Color.white;
-                    break;
-
-                case HitboxShapeType.Box:
-                    Gizmos.color = startColor;
-                    Gizmos.DrawWireMesh(debugCube, -1, startPos, rotation, boxSize);
-                    Gizmos.color = Color.white;
-                    break;
-            }
-
-        }
-    }
-}
-
 public enum HitboxShapeType
 {
     Box = 1,
     Circle = 2
 }
 
-public enum HitboxDetectionType
-{
-    EachFrame = 0,
-    CustomTick = 1,
-}
-
 public enum HitboxRelativePosition
 {
-    World = 0,
-    Weapon = 1,
-    Player = 2,
-    WeaponSlot = 3,
+    ToWeapon = 0,
+    ToPlayer = 1,
+    ToWeaponSlot = 2,
+}
+
+public enum WeaponAttackType
+{
+    Melee = 0,
+    Ranged = 1,
+}
+
+[RequireComponent(typeof(Animator))]
+
+public class PlayerWeapon : MonoBehaviour
+{
+    public bool AttackAvailable => !isAttacking && !isOnCooldown;
+    public bool IsOnAttackLag => isOnAttackLag;
+    public bool ShowDebug => showDebug;
+    public float Damage => damage;
+    public float Cooldown => cooldown;
+    public float Lag => lag;
+    public float HitboxDuration => duration;
+    public float Range => range;
+    public Color DebugColor => debugColor;
+
+    [Header("Weapon Settings")]
+    [SerializeField] WeaponAttackType attackType;
+    [SerializeField] float damage = 1;
+    [SerializeField] float cooldown = .5f;
+    [SerializeField] float lag = .2f;
+    [Header("Projectile Option")]
+    [SerializeField] PlayerProjectile projectileToSpawn;
+    [SerializeField] float range = 1;
+    [SerializeField] int projectileNumber = 1;
+    [SerializeField] float spreadAngle = 60;
+
+    [Header("Hitbox Settings")]
+    [SerializeField] LayerMask enemyLayer;
+    [SerializeField] HitboxRelativePosition relativePostition;
+    [SerializeField] Vector2 hitboxPositionOffset = Vector2.zero;
+    [SerializeField] bool isMoving;
+    [SerializeField] Vector2 targetPosition = Vector2.zero;
+    [SerializeField] float duration = .1f;
+    [SerializeField] float delay = .1f;
+    [SerializeField] int numberOfTarget = 1;
+
+    [Header("Hitbox Shape")]
+    [SerializeField] HitboxShapeType shapeType;
+    [SerializeField] float circleRadius = .1f;
+    [SerializeField] Vector2 boxSize = new(.1f, .1f);
+
+    [Header("Debug")]
+    [SerializeField] bool showDebug;
+    [SerializeField] Mesh debugCube;
+    [SerializeField] Color debugColor;
+
+    Animator weaponAnimator;
+    PlayerWeaponSlot weaponSlot;
+    PlayerStats stats;
+
+    List<EnemyLifeSystem> enemiesHit = new();
+
+    float cooldownEndTime = 0;
+    bool isOnCooldown = false;
+    float attackLagEndTime = 0;
+    bool isOnAttackLag = false;
+    float startTime = 0;
+    bool isOnHitboxDetection = false;
+    bool isAttacking = false;
+
+    private void Awake()
+    {
+        weaponAnimator = GetComponent<Animator>();
+    }
+
+    public void InitRef(PlayerWeaponSlot slotRef, PlayerStats statsRef)
+    {
+        weaponSlot = slotRef;
+        stats = statsRef;
+    }
+
+    private void Update()
+    {
+        if (isOnAttackLag && Time.time >= attackLagEndTime)
+            isOnAttackLag = false;
+
+        if (isOnHitboxDetection)
+        {
+            MeleeHitboxDetection();
+            if (Time.time >= startTime + stats.GetModifiedSecondaryStat(SecondaryStat.HitboxDuration))
+            {
+                isOnHitboxDetection = false;
+                isAttacking = false;
+                enemiesHit.Clear();
+                SetAttackCooldownTimer();
+            }
+        }
+
+        if (isOnCooldown && Time.time >= cooldownEndTime)
+            isOnCooldown = false;
+
+    }
+
+    public void AttackActivation()
+    {
+        isAttacking = true;
+        SetAttackLagTimer();
+        TriggerAttackAnim(stats.GetModifiedMainStat(MainStat.AttackSpeed));
+
+        switch (attackType)
+        {
+            case WeaponAttackType.Melee:
+                SetMeleeHitboxDetectionTimer();
+                break;
+
+            case WeaponAttackType.Ranged:
+                SpawnProjectile();
+                SetAttackCooldownTimer();
+                isAttacking = false;
+                break;
+
+            default:
+                Debug.LogWarning("Weapon Attack Type is not defined");
+                break;
+        }
+    }
+
+    void TriggerAttackAnim(float playerAttackSpeed)
+    {
+        weaponAnimator.SetTrigger(GameParams.Animation.WEAPON_ATTACK_TRIGGER);
+        weaponAnimator.SetFloat(GameParams.Animation.WEAPON_ATTACKSPEED_FLOAT, playerAttackSpeed);
+    }
+
+    bool WeaponHitBoxResult(out RaycastHit2D[] collisionsList)
+    {
+        Transform relative = GetRelativeTransform(relativePostition);
+        Vector3 offsetPos = relative.position + (relative.right * hitboxPositionOffset.x + relative.up * hitboxPositionOffset.y);
+
+        if (isMoving)
+        {
+            Vector2 targetPos = relative.position + (relative.right * targetPosition.x + relative.up * targetPosition.y);
+            float t = Mathf.Clamp01((Time.time - startTime) / stats.GetModifiedSecondaryStat(SecondaryStat.HitboxDuration));
+            offsetPos = Vector2.Lerp(offsetPos, targetPos, t);
+        }
+
+        collisionsList = shapeType switch
+        {
+            HitboxShapeType.Circle => Physics2D.CircleCastAll(offsetPos, circleRadius, Vector2.zero, 0, enemyLayer),
+            HitboxShapeType.Box => Physics2D.BoxCastAll(offsetPos, boxSize, Quaternion.Angle(Quaternion.identity, relative.transform.rotation), Vector2.zero, 0, enemyLayer),
+            _ => null,
+        };
+        return collisionsList.Length > 0;
+    }
+
+    void MeleeHitboxDetection()
+    {
+        if (WeaponHitBoxResult(out RaycastHit2D[] collisionsList))
+        {
+            foreach (RaycastHit2D collision in collisionsList)
+            {
+                EnemyLifeSystem enemyLifesystem = collision.transform.GetComponent<EnemyLifeSystem>();
+
+                if (enemyLifesystem && !enemiesHit.Contains(enemyLifesystem) && enemiesHit.Count < numberOfTarget)
+                {
+                    enemyLifesystem.TakeDamage(stats.GetModifiedMainStat(MainStat.Damage));
+
+                    //Call enemy Bump and give direction which is the inverted Normal of the collision
+                    collision.transform.GetComponent<EnemyBump>().BumpedAwayActivation(-collision.normal);
+
+                    enemiesHit.Add(enemyLifesystem);
+                }
+            }
+        }
+    }
+
+    void SpawnProjectile()
+    {
+        Transform relative = GetRelativeTransform(relativePostition);
+        Vector3 offsetPos = relative.position + (relative.right * hitboxPositionOffset.x + relative.up * hitboxPositionOffset.y);
+        if (projectileNumber > 1)
+        {
+            float minAngle = spreadAngle / 2f;
+            float angleIncrValue = spreadAngle / (projectileNumber-1);
+
+            for (int i = 0; i < projectileNumber; i++)
+            {
+                float angle = minAngle - i * angleIncrValue;
+                Quaternion angleResult = Quaternion.AngleAxis(angle, transform.forward);
+                
+                Instantiate(projectileToSpawn, offsetPos, relative.rotation * angleResult).Init(this, stats, relative.position, range);
+            }
+        }
+        else Instantiate(projectileToSpawn, offsetPos, relative.rotation).Init(this, stats, relative.position, range);
+    }
+
+    void SetAttackCooldownTimer()
+    {
+        cooldownEndTime = Time.time + stats.GetModifiedSecondaryStat(SecondaryStat.AttackCooldownDuration);
+        isOnCooldown = true;
+    }
+
+    void SetMeleeHitboxDetectionTimer()
+    {
+        startTime = Time.time;
+        isOnHitboxDetection = true;
+    }
+
+    void SetAttackLagTimer()
+    {
+        attackLagEndTime = Time.time + stats.GetModifiedSecondaryStat(SecondaryStat.AttackLagDuration);
+        isOnAttackLag = true;
+    }
+
+    public Transform GetRelativeTransform(HitboxRelativePosition relativeTo)
+    {
+        return relativeTo switch
+        {
+            HitboxRelativePosition.ToWeapon => transform,
+            HitboxRelativePosition.ToPlayer => weaponSlot.transform,
+            HitboxRelativePosition.ToWeaponSlot => weaponSlot.SlotTransform,
+            _ => null,
+        };
+    }
+
+
+    private void OnDrawGizmos()
+    {
+        if (showDebug && attackType == WeaponAttackType.Melee)
+        {
+            Transform relative = GetRelativeTransform(relativePostition);
+            Vector3 offsetPos = relative.position + (relative.right * hitboxPositionOffset.x + relative.up * hitboxPositionOffset.y);
+
+            Gizmos.color = debugColor;
+            switch (shapeType)
+            {
+                case HitboxShapeType.Circle:
+                    Gizmos.DrawWireSphere(offsetPos, circleRadius);
+                    break;
+
+                case HitboxShapeType.Box:
+                    Gizmos.DrawWireMesh(debugCube, -1, offsetPos, relative.rotation, boxSize);
+                    break;
+
+            }
+
+            if(isMoving)
+            {
+                Vector2 targetPos = relative.position + (relative.right * targetPosition.x + relative.up * targetPosition.y);
+
+                switch (shapeType)
+                {
+                    case HitboxShapeType.Circle:
+                        Gizmos.DrawWireSphere(targetPos, circleRadius);
+                        break;
+
+                    case HitboxShapeType.Box:
+                        Gizmos.DrawWireMesh(debugCube, -1, targetPos, relative.rotation, boxSize);
+                        break;
+
+                }
+                float t = Mathf.Clamp01((Time.time - startTime) / duration);
+                offsetPos = Vector2.Lerp(offsetPos, targetPos, t);
+            }
+
+            if (isOnHitboxDetection)
+            {
+                switch (shapeType)
+                {
+                    case HitboxShapeType.Circle:
+                        Gizmos.DrawSphere(offsetPos, circleRadius);
+                        break;
+
+                    case HitboxShapeType.Box:
+                        Gizmos.DrawMesh(debugCube, -1, offsetPos, relative.rotation, boxSize);
+                        break;
+
+                }
+            }
+            Gizmos.color = Color.white;
+        }
+    }
 }

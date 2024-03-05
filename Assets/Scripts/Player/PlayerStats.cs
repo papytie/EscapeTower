@@ -17,13 +17,12 @@ public class PlayerStats : MonoBehaviour
     
     Dictionary<StatModifierTemplate, int> playerBonusList = new();
 
-    public void InitRef(PlayerMovement movementRef, PlayerWeaponSlot weaponSlotRef, PlayerDash dashRef, PlayerAttack attackRef)
+    public void InitRef(PlayerMovement movementRef, PlayerWeaponSlot weaponSlotRef, PlayerDash dashRef)
     {
         CurrentBonuses = new ReadOnlyDictionary<StatModifierTemplate, int>(playerBonusList);
         movement = movementRef;
         weaponSlot = weaponSlotRef;
         dash = dashRef;
-        attack = attackRef;
     }
 
     public void AddBonus(StatModifierTemplate targetStat)
@@ -102,8 +101,8 @@ public class PlayerStats : MonoBehaviour
         {
             MainStat.MoveSpeed => movement.MoveSpeed,
             MainStat.Damage => weaponSlot.EquippedWeapon.Damage,
-            MainStat.AttackSpeed => attack.AttackSpeed,
-            MainStat.DashSpeed => dash.Speed,
+            MainStat.AttackSpeed => 1,
+            MainStat.DashSpeed => 1,
             MainStat.DashDistance => dash.Distance,
             _ => defaultValue,
         };

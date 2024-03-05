@@ -8,13 +8,11 @@ public class PlayerDash : MonoBehaviour
     public bool IsDashing => isDashing;
     public float Cooldown => cooldown;
     public float Duration => duration;
-    public float Speed => speed;
     public float Distance => distance;
 
     [Header("Dash Settings")]
     [SerializeField] AnimationCurve dashCurve;
     [SerializeField] float distance;
-    [SerializeField] float speed = 1;
     [SerializeField] float cooldown;
     [SerializeField] float duration;
 
@@ -27,7 +25,7 @@ public class PlayerDash : MonoBehaviour
     bool isDashing;
     float cooldownEndTime;
     float dashCurrentTime;
-    float dashStartTime;
+    float startTime;
     Vector3 dashTarget = Vector3.zero;
     Vector3 dashStart = Vector3.zero;
 
@@ -49,7 +47,7 @@ public class PlayerDash : MonoBehaviour
 
         if (isDashing)
         {
-            float t = Mathf.Clamp01((Time.time - dashStartTime) / dashStartTime);
+            float t = Mathf.Clamp01((Time.time - startTime) / stats.GetModifiedSecondaryStat(SecondaryStat.DashDuration));
 
             //Use curve to modify lerp transition
             Vector3 dashTargetPos = Vector3.Lerp(dashStart, dashTarget, dashCurve.Evaluate(t));
@@ -66,7 +64,7 @@ public class PlayerDash : MonoBehaviour
                 transform.position = dashTargetPos;
 
 
-            if (hit || Time.time >= dashStartTime + stats.GetModifiedSecondaryStat(SecondaryStat.DashDuration))
+            if (hit || Time.time >= startTime + stats.GetModifiedSecondaryStat(SecondaryStat.DashDuration))
             {
                 isDashing = false;
                 lifeSystem.IsInvincible = false;
@@ -93,7 +91,7 @@ public class PlayerDash : MonoBehaviour
 
     void SetDashTimer()
     {
-        dashStartTime = Time.time;
+        startTime = Time.time;
         isDashing = true;
     }
 

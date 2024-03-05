@@ -16,10 +16,16 @@ public class EnemyLifeSystem : MonoBehaviour
     float despawnEndTime;
 
     Animator animator;
+    Collider2D enemyCollider;
 
     public void InitRef(Animator animatorRef)
     {
         animator = animatorRef;
+    }
+
+    private void Start()
+    {
+        enemyCollider = GetComponent<Collider2D>();
     }
 
     private void Update()
@@ -37,6 +43,7 @@ public class EnemyLifeSystem : MonoBehaviour
         {
             currentLifePoints = 0;
             SetDespawnTimer(despawnDuration);
+            enemyCollider.enabled = false;
             animator.SetBool(GameParams.Animation.ENEMY_DIE_BOOL, true);
             return;
         }

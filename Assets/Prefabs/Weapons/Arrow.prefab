@@ -45,6 +45,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6c11f3f29686cd448d0a8ef5896fc46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 1
+  hitboxShape: 2
+  hitboxOffset: {x: 0, y: 0.04}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  obstructionLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  boxSize: {x: 0, y: 0}
+  circleRadius: 0.05
+  numberOfTarget: 1
+  showDebug: 1
+  debugColor: {r: 1, g: 0, b: 0, a: 1}
+  boxMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &7798645214011579504
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,10 +10,24 @@ public class PlayerWeaponSlot : MonoBehaviour
     [SerializeField] PlayerWeapon equippedWeapon = null;
     [SerializeField] Transform slotTransform;
 
+    PlayerStats stats;
+
+    public void InitRef(PlayerStats statsRef)
+    {
+        stats = statsRef;
+    }
+
     private void Start()
     {
+        equippedWeapon = GetComponentInChildren<PlayerWeapon>();
+        if (equippedWeapon == null)
+        {
+            Debug.LogWarning("Player has no weapon");
+            return;
+        }
+
         equippedWeapon.transform.SetPositionAndRotation(slotTransform.position, Quaternion.Euler(slotTransform.rotation.eulerAngles));
-        equippedWeapon.InitRef(this);
+        equippedWeapon.InitRef(this, stats);
     }
 
     public void EquipWeapon(PlayerWeapon weapon)
@@ -22,7 +36,7 @@ public class PlayerWeaponSlot : MonoBehaviour
             Destroy(equippedWeapon.gameObject);
 
         equippedWeapon = Instantiate(weapon, transform);
-        equippedWeapon.InitRef(this);
+        equippedWeapon.InitRef(this, stats);
         equippedWeapon.transform.SetPositionAndRotation(slotTransform.position, Quaternion.Euler(slotTransform.rotation.eulerAngles));
 
     }
