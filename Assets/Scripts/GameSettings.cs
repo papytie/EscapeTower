@@ -1,19 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using EscapeTower.GameSettings;
 
 public class GameSettings : ScriptableObject {
 
-    public static GameSettings Instance {
-        get {
-            if(!SRResources.GameSettings.IsLoaded)
-                SRResources.GameSettings.Load();
-            return SRResources.GameSettings;
-        }
-    }
+    [Header("Sound Settings"), Space]
+    public MusicSettings Music;
 
-    [Header("Pickup Color")]
-    public Color bonusColor;
-    public Color weaponColor;
-    public Color consumableColor;
+    [Header("Pickup Settings"), Space]
+    public PickupSettings Pickup;
 }

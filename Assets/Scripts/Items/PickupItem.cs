@@ -54,9 +54,9 @@ public class PickupItem : MonoBehaviour
 
     private Color GetBorderColor() {
         return template.Type switch {
-            PickableType.Weapon => GameSettings.Instance.weaponColor,
-            PickableType.Consumable => GameSettings.Instance.consumableColor,
-            PickableType.StatModifier => GameSettings.Instance.bonusColor,
+            PickableType.Weapon => Game.GameSettings.Pickup.weaponColor,
+            PickableType.Consumable => Game.GameSettings.Pickup.consumableColor,
+            PickableType.StatModifier => Game.GameSettings.Pickup.bonusColor,
             _ => Color.white
         };
     }
