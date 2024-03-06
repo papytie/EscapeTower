@@ -36,6 +36,7 @@ public class PlayerWeapon : MonoBehaviour
     public Color DebugColor => debugColor;
 
     [Header("Weapon Settings")]
+    [SerializeField] PlayerWeaponSlot weaponSlot;
     [SerializeField] WeaponAttackType attackType;
     [SerializeField] float damage = 1;
     [SerializeField] float cooldown = .5f;
@@ -66,7 +67,6 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField] Color debugColor;
 
     Animator weaponAnimator;
-    PlayerWeaponSlot weaponSlot;
     PlayerStats stats;
 
     List<EnemyLifeSystem> enemiesHit = new();
@@ -345,9 +345,6 @@ public class PlayerWeapon : MonoBehaviour
             Gizmos.color = Color.white;
 
         }
-        
-        
-
 
     }
 }
