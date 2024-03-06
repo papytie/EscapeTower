@@ -35,7 +35,7 @@ public class PlayerLifeSystem : MonoBehaviour
     {
         if (isDead || isInvincible) return;
 
-        SetInvincibleTimer(InvincibilityDuration);
+        StartInvincibility(InvincibilityDuration);
         currentLifePoints -= damageValue;
         if (currentLifePoints <= 0) 
         {
@@ -54,7 +54,7 @@ public class PlayerLifeSystem : MonoBehaviour
         currentLifePoints = Mathf.Min(currentLifePoints + healValue, maxLifePoints);
     }
 
-    public void SetInvincibleTimer(float duration)
+    public void StartInvincibility(float duration)
     {
         invincibilityEndTime = MathF.Max(invincibilityEndTime, Time.time + duration);
         isInvincible = true;

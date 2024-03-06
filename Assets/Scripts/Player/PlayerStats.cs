@@ -26,30 +26,26 @@ public class PlayerStats : MonoBehaviour
 
     public void AddBonus(StatModifierTemplate targetStat)
     {
-        if (playerBonusList.TryGetValue(targetStat, out int value))
+        if (playerBonusList.ContainsKey(targetStat))
         {
-            value++;
-            playerBonusList[targetStat] = value;
-            Debug.Log(targetStat.name + " total stacks = " + value);
-            return;
+            Debug.Log(targetStat.name + " total stacks = " + playerBonusList[targetStat]);
+            playerBonusList[targetStat] += 1;
         }
-        Debug.Log("New" + targetStat.name + " added, give bonus to : " + targetStat.MainStat);
-        playerBonusList.Add(targetStat, 1);
+        else
+        {
+            playerBonusList.Add(targetStat, 1);
+            Debug.Log("New" + targetStat.name + " added, give bonus to : " + targetStat.MainStat);
+        }
     }
 
     public float GetModifiedMainStat(MainStat mainStat)
     {
         float statValue = GetBaseMainStatValue(mainStat);
 
-        foreach (KeyValuePair<StatModifierTemplate, int> bonusID in playerBonusList) 
+        foreach (KeyValuePair<StatModifierTemplate, int> bonusStack in playerBonusList) 
         {
-            if (bonusID.Key.MainStat == mainStat)
-            {
-                playerBonusList.TryGetValue(bonusID.Key, out int bonusStack);
-
-                //Calcul final value depending on Calcul Type and number of stacks
-                return ReturnOperationResult(statValue, bonusID.Key.ModifValue, bonusStack, bonusID.Key.Calcul, bonusID.Key.ValueType);
-            }
+            if (bonusStack.Key.MainStat == mainStat)
+                statValue = ReturnOperationResult(statValue, bonusStack.Key.ModifValue, bonusStack.Value, bonusStack.Key.Calcul, bonusStack.Key.ValueType);
         }
         return statValue;
     }
@@ -151,10 +147,4 @@ public enum CalculType
     Subtract = 1,
     Multiply = 2,
     Divide = 3,
-}
-
-public enum SecondaryStatBehavior
-{
-    Same = 0,
-    Invert = 1,
 }

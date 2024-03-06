@@ -2,25 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum HitboxShapeType
-{
-    Box = 1,
-    Circle = 2
-}
-
-public enum HitboxRelativePosition
-{
-    ToWeapon = 0,
-    ToPlayer = 1,
-    ToWeaponSlot = 2,
-}
-
-public enum WeaponAttackType
-{
-    Melee = 0,
-    Ranged = 1,
-}
-
 [RequireComponent(typeof(Animator))]
 
 public class PlayerWeapon : MonoBehaviour
@@ -49,9 +30,9 @@ public class PlayerWeapon : MonoBehaviour
 
     [Header("Hitbox Settings")]
     [SerializeField] LayerMask enemyLayer;
-    [SerializeField] HitboxRelativePosition relativePostition;
-    [SerializeField] Vector2 hitboxPositionOffset = Vector2.zero;
-    [SerializeField] bool isMoving;
+    [SerializeField] HitboxRelativeTransform relativePostition;
+    [SerializeField] Vector2 hitboxPositionOffset = Vector2.zero;    
+    [SerializeField] HitboxBehaviorType behaviorType;
     [SerializeField] Vector2 targetPosition = Vector2.zero;
     [SerializeField] float duration = .1f;
     [SerializeField] int numberOfTarget = 1;
@@ -76,7 +57,7 @@ public class PlayerWeapon : MonoBehaviour
     float attackLagEndTime = 0;
     bool isOnAttackLag = false;
     float startTime = 0;
-    bool isOnHitboxDetection = false;
+    bool meleeHitboxActive = false;
     bool isAttacking = false;
 
     private void Awake()
@@ -95,15 +76,15 @@ public class PlayerWeapon : MonoBehaviour
         if (isOnAttackLag && Time.time >= attackLagEndTime)
             isOnAttackLag = false;
 
-        if (isOnHitboxDetection)
+        if (meleeHitboxActive)
         {
-            MeleeHitboxDetection();
+            MeleeHitProcess();
             if (Time.time >= startTime + stats.GetModifiedSecondaryStat(SecondaryStat.HitboxDuration))
             {
-                isOnHitboxDetection = false;
+                meleeHitboxActive = false;
                 isAttacking = false;
                 enemiesHit.Clear();
-                SetAttackCooldownTimer();
+                StartAttackCooldown();
             }
         }
 
@@ -121,12 +102,12 @@ public class PlayerWeapon : MonoBehaviour
         switch (attackType)
         {
             case WeaponAttackType.Melee:
-                SetMeleeHitboxDetectionTimer();
+                StartMeleeHitboxCheck();
                 break;
 
             case WeaponAttackType.Ranged:
-                SpawnProjectile();
-                SetAttackCooldownTimer();
+                FireProjectile();
+                StartAttackCooldown();
                 isAttacking = false;
                 break;
 
@@ -142,12 +123,12 @@ public class PlayerWeapon : MonoBehaviour
         weaponAnimator.SetFloat(GameParams.Animation.WEAPON_ATTACKSPEED_FLOAT, playerAttackSpeed);
     }
 
-    bool WeaponHitBoxResult(out RaycastHit2D[] collisionsList)
+    bool WeaponHitboxCast(out RaycastHit2D[] collisionsList)
     {
         Transform relative = GetRelativeTransform(relativePostition);
         Vector3 offsetPos = relative.position + (relative.right * hitboxPositionOffset.x + relative.up * hitboxPositionOffset.y);
 
-        if (isMoving)
+        if (behaviorType == HitboxBehaviorType.Moving)
         {
             Vector2 targetPos = relative.position + (relative.right * targetPosition.x + relative.up * targetPosition.y);
             float t = Mathf.Clamp01((Time.time - startTime) / stats.GetModifiedSecondaryStat(SecondaryStat.HitboxDuration));
@@ -163,9 +144,9 @@ public class PlayerWeapon : MonoBehaviour
         return collisionsList.Length > 0;
     }
 
-    void MeleeHitboxDetection()
+    void MeleeHitProcess()
     {
-        if (WeaponHitBoxResult(out RaycastHit2D[] collisionsList))
+        if (WeaponHitboxCast(out RaycastHit2D[] collisionsList))
         {
             foreach (RaycastHit2D collision in collisionsList)
             {
@@ -184,7 +165,7 @@ public class PlayerWeapon : MonoBehaviour
         }
     }
 
-    void SpawnProjectile()
+    void FireProjectile()
     {
         Transform relative = GetRelativeTransform(relativePostition);
         Vector3 offsetPos = relative.position + relative.rotation * hitboxPositionOffset;
@@ -204,16 +185,16 @@ public class PlayerWeapon : MonoBehaviour
         else Instantiate(projectileToSpawn, offsetPos, relative.rotation).Init(this, stats, relative.position, range);
     }
 
-    void SetAttackCooldownTimer()
+    void StartAttackCooldown()
     {
         cooldownEndTime = Time.time + stats.GetModifiedSecondaryStat(SecondaryStat.AttackCooldownDuration);
         isOnCooldown = true;
     }
 
-    void SetMeleeHitboxDetectionTimer()
+    void StartMeleeHitboxCheck()
     {
         startTime = Time.time;
-        isOnHitboxDetection = true;
+        meleeHitboxActive = true;
     }
 
     void SetAttackLagTimer()
@@ -222,13 +203,13 @@ public class PlayerWeapon : MonoBehaviour
         isOnAttackLag = true;
     }
 
-    public Transform GetRelativeTransform(HitboxRelativePosition relativeTo)
+    public Transform GetRelativeTransform(HitboxRelativeTransform transform)
     {
-        return relativeTo switch
+        return transform switch
         {
-            HitboxRelativePosition.ToWeapon => transform,
-            HitboxRelativePosition.ToPlayer => weaponSlot.transform,
-            HitboxRelativePosition.ToWeaponSlot => weaponSlot.SlotTransform,
+            HitboxRelativeTransform.ToWeapon => base.transform,
+            HitboxRelativeTransform.ToPlayer => weaponSlot.transform,
+            HitboxRelativeTransform.ToWeaponSlot => weaponSlot.SlotTransform,
             _ => null,
         };
     }
@@ -258,7 +239,7 @@ public class PlayerWeapon : MonoBehaviour
 
                     }
 
-                    if(isMoving)
+                    if(behaviorType == HitboxBehaviorType.Moving)
                     {
                         Vector2 targetPos = relative.position + (relative.right * targetPosition.x + relative.up * targetPosition.y);
 
@@ -277,7 +258,7 @@ public class PlayerWeapon : MonoBehaviour
                         offsetPos = Vector2.Lerp(offsetPos, targetPos, t);
                     }
 
-                    if (isOnHitboxDetection)
+                    if (meleeHitboxActive)
                     {
                         switch (shapeType)
                         {
@@ -347,4 +328,29 @@ public class PlayerWeapon : MonoBehaviour
         }
 
     }
+}
+
+public enum HitboxShapeType
+{
+    Box = 1,
+    Circle = 2
+}
+
+public enum HitboxRelativeTransform
+{
+    ToWeapon = 0,
+    ToPlayer = 1,
+    ToWeaponSlot = 2,
+}
+
+public enum WeaponAttackType
+{
+    Melee = 0,
+    Ranged = 1,
+}
+
+public enum HitboxBehaviorType
+{
+    Fixed = 0,
+    Moving = 1,
 }

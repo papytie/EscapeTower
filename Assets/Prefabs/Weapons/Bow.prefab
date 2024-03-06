@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e769ea181984ae4e90b90717463d30a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponSlot: {fileID: 0}
   attackType: 1
   damage: 1
   cooldown: 0.5
@@ -62,12 +63,11 @@ MonoBehaviour:
   isMoving: 0
   targetPosition: {x: 0, y: 1}
   duration: 0.5
-  delay: 0
   numberOfTarget: 1
   shapeType: 2
   circleRadius: 0.05
   boxSize: {x: 0.05, y: 0.1}
-  showDebug: 1
+  showDebug: 0
   debugCube: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   debugColor: {r: 1, g: 0, b: 0, a: 0.5882353}
 --- !u!95 &5846571700110941557

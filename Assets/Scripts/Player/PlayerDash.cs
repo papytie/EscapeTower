@@ -68,7 +68,7 @@ public class PlayerDash : MonoBehaviour
             {
                 isDashing = false;
                 lifeSystem.IsInvincible = false;
-                SetCooldownTimer(stats.GetModifiedSecondaryStat(SecondaryStat.DashCooldown));
+                StartDashCooldown(stats.GetModifiedSecondaryStat(SecondaryStat.DashCooldown));
             }
         }
 
@@ -78,18 +78,18 @@ public class PlayerDash : MonoBehaviour
     {
         dashStart = transform.position;
         dashTarget = transform.position + dir.normalized * stats.GetModifiedMainStat(MainStat.DashDistance);
-        SetDashTimer();
+        StartDash();
         //Player is invincible during Dash
-        lifeSystem.SetInvincibleTimer(stats.GetModifiedSecondaryStat(SecondaryStat.DashDuration));
+        lifeSystem.StartInvincibility(stats.GetModifiedSecondaryStat(SecondaryStat.DashDuration));
     }
 
-    void SetCooldownTimer(float duration)
+    void StartDashCooldown(float duration)
     {
         cooldownEndTime = Time.time + duration;
         isOnCooldown = true;
     }
 
-    void SetDashTimer()
+    void StartDash()
     {
         startTime = Time.time;
         isDashing = true;

@@ -51,7 +51,7 @@ public class PlayerProjectile : MonoBehaviour
 
         //Define hitbox position with offset and check collisions
         Vector3 offsetPos = transform.position + (transform.right * hitboxOffset.x + transform.up * hitboxOffset.y);
-        RangedHitboxDetection(offsetPos);
+        ProjectileHitProcess(offsetPos);
         CheckObstructionCollision(offsetPos);
 
         //Destroy if no collision at end of movement
@@ -61,7 +61,7 @@ public class PlayerProjectile : MonoBehaviour
         }
     }
 
-    bool ProjectileHitBoxResult(Vector2 position, out RaycastHit2D[] collisionsList)
+    bool ProjectileHitBoxCast(Vector2 position, out RaycastHit2D[] collisionsList)
     {
         collisionsList = hitboxShape switch
         {
@@ -89,15 +89,15 @@ public class PlayerProjectile : MonoBehaviour
 
     }
 
-    void RangedHitboxDetection(Vector2 position)
+    void ProjectileHitProcess(Vector2 position)
     {
-        if (ProjectileHitBoxResult(position, out RaycastHit2D[] collisionsList))
+        if (ProjectileHitBoxCast(position, out RaycastHit2D[] collisionsList))
         {
             foreach (RaycastHit2D collision in collisionsList)
             {
                 EnemyLifeSystem enemyLifesystem = collision.transform.GetComponent<EnemyLifeSystem>();
 
-                if (enemyLifesystem && !enemyLifesystem.IsDespawning && !enemiesHit.Contains(enemyLifesystem) && enemiesHit.Count < numberOfTarget)
+                if (enemyLifesystem && !enemyLifesystem.IsDead && !enemiesHit.Contains(enemyLifesystem) && enemiesHit.Count < numberOfTarget)
                 {
                     enemyLifesystem.TakeDamage(stats.GetModifiedMainStat(MainStat.Damage));
 

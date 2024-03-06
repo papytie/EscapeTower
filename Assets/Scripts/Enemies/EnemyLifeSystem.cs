@@ -5,14 +5,14 @@ using static GameParams;
 
 public class EnemyLifeSystem : MonoBehaviour
 {
-    public bool IsDespawning => isDespawning;
+    public bool IsDead => isDead;
 
     [Header("Life Settings")]
     [SerializeField] float currentLifePoints = 10;
     [SerializeField] float maxLifePoints = 20;
     [SerializeField] float despawnDuration = 3f;
 
-    bool isDespawning = false;
+    bool isDead = false;
     float despawnEndTime;
 
     Animator animator;
@@ -30,13 +30,13 @@ public class EnemyLifeSystem : MonoBehaviour
 
     private void Update()
     {
-        if (isDespawning && Time.time >= despawnEndTime)
+        if (isDead && Time.time >= despawnEndTime)
             Destroy(gameObject);
     }
 
     public void TakeDamage(float damageValue)
     {
-        if (isDespawning) return;
+        if (isDead) return;
 
         currentLifePoints -= damageValue;
         if (currentLifePoints <= 0)
@@ -52,7 +52,7 @@ public class EnemyLifeSystem : MonoBehaviour
 
     public void HealUp(int healValue)
     {
-        if (isDespawning) return;
+        if (isDead) return;
 
         currentLifePoints = Mathf.Min(currentLifePoints + healValue, maxLifePoints);
     }
@@ -60,7 +60,7 @@ public class EnemyLifeSystem : MonoBehaviour
     void SetDespawnTimer(float duration)
     {
         despawnEndTime = Time.time + duration;
-        isDespawning = true;
+        isDead = true;
     }
 
 }

@@ -47,27 +47,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponSlot: {fileID: 0}
+  attackType: 0
   damage: 2
   cooldown: 1
   lag: 0.5
-  isSpawningProjectile: 0
   projectileToSpawn: {fileID: 0}
+  range: 1
+  projectileNumber: 1
+  spreadAngle: 60
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
-  hitboxStartPosition: {x: 0.15, y: 0}
-  hitboxTargetPosition: {x: 0.15, y: 0}
-  duration: 10
-  numberOfTarget: 1
+  relativePostition: 0
+  hitboxPositionOffset: {x: 0, y: 0.15}
+  isMoving: 0
+  targetPosition: {x: 0, y: 0}
+  duration: 0.5
+  numberOfTarget: 10
   shapeType: 1
   circleRadius: 0.1
   boxSize: {x: 0.1, y: 0.18}
-  detectionType: 0
-  numberOfTick: 5
   showDebug: 1
   debugCube: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-  startColor: {r: 1, g: 0.07760573, b: 0, a: 0.5882353}
-  endColor: {r: 1, g: 0, b: 0, a: 0.5882353}
+  debugColor: {r: 1, g: 0, b: 0, a: 0.78431374}
 --- !u!95 &1502074468152758371
 Animator:
   serializedVersion: 5
