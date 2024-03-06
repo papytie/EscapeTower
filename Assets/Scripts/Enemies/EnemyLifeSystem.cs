@@ -10,21 +10,27 @@ public class EnemyLifeSystem : MonoBehaviour
     [Header("Life Settings")]
     [SerializeField] float currentLifePoints = 10;
     [SerializeField] float maxLifePoints = 20;
-    [SerializeField] float despawnTime = 3f;
+    [SerializeField] float despawnDuration = 3f;
 
     bool isDead = false;
-    float currentTime;
+    float despawnEndTime;
 
     Animator animator;
+    Collider2D enemyCollider;
 
     public void InitRef(Animator animatorRef)
     {
         animator = animatorRef;
     }
 
+    private void Start()
+    {
+        enemyCollider = GetComponent<Collider2D>();
+    }
+
     private void Update()
     {
-        if (isDead && TimeUtils.CustomTimer(ref currentTime, despawnTime))
+        if (isDead && Time.time >= despawnEndTime)
             Destroy(gameObject);
     }
 
@@ -36,7 +42,8 @@ public class EnemyLifeSystem : MonoBehaviour
         if (currentLifePoints <= 0)
         {
             currentLifePoints = 0;
-            isDead = true;
+            SetDespawnTimer(despawnDuration);
+            enemyCollider.enabled = false;
             animator.SetBool(GameParams.Animation.ENEMY_DIE_BOOL, true);
             return;
         }
@@ -48,6 +55,12 @@ public class EnemyLifeSystem : MonoBehaviour
         if (isDead) return;
 
         currentLifePoints = Mathf.Min(currentLifePoints + healValue, maxLifePoints);
+    }
+
+    void SetDespawnTimer(float duration)
+    {
+        despawnEndTime = Time.time + duration;
+        isDead = true;
     }
 
 }

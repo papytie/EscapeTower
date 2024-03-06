@@ -12,6 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95877e808b00e194ebc0ce339d19629e, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: 
-  bonusColor: {r: 0.5462801, g: 0.8792453, b: 0.35667494, a: 1}
-  weaponColor: {r: 0.626814, g: 0.20887856, b: 0.87169814, a: 1}
-  consumableColor: {r: 0, g: 0.81586975, b: 0.96862745, a: 1}
+  Music:
+    playlist:
+    - {fileID: 8300000, guid: 37e4f1129e0daab4ab919e52e362faf0, type: 3}
+    - {fileID: 8300000, guid: 6eadbe592d088fd42894a613da09a571, type: 3}
+    - {fileID: 8300000, guid: bad5080bd9b7f114dabd54f75dc33220, type: 3}
+    - {fileID: 8300000, guid: add843888c2e56749a3fa9e2a6cc53e4, type: 3}
+    - {fileID: 8300000, guid: 1b4ff31ebb2796e488fb8fd72a4b01d2, type: 3}
+  Pickup:
+    bonusColor: {r: 0.54509807, g: 0.8784314, b: 0.35686275, a: 1}
+    weaponColor: {r: 0.627451, g: 0.20784314, b: 0.87058824, a: 1}
+    consumableColor: {r: 0, g: 0.8156863, b: 0.96862745, a: 1}

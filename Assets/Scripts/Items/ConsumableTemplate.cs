@@ -7,9 +7,6 @@ public class ConsumableTemplate : ScriptableObject, IPickup
     public float Value => value;
     public ConsumableEffect Effect => effect;
 
-    [Header("Type")]
-    [SerializeField] PickableType type;
-
     [Header("Name")]
     [SerializeField] string pickupName;
 
@@ -18,7 +15,7 @@ public class ConsumableTemplate : ScriptableObject, IPickup
     [SerializeField] float value;
     [SerializeField] Sprite itemSprite;
 
-    public PickableType Type { get => type; }
+    public PickableType Type => PickableType.Consumable; 
     public Sprite Sprite { get => itemSprite; }
 }
 

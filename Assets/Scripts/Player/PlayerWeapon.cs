@@ -1,100 +1,356 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
 
 [RequireComponent(typeof(Animator))]
 
 public class PlayerWeapon : MonoBehaviour
 {
+    public bool AttackAvailable => !isAttacking && !isOnCooldown;
+    public bool IsOnAttackLag => isOnAttackLag;
+    public bool ShowDebug => showDebug;
     public float Damage => damage;
     public float Cooldown => cooldown;
     public float Lag => lag;
-    public float HitboxDuration => hitboxDuration;
-    public int TargetMax => targetMax;
+    public float HitboxDuration => duration;
+    public float Range => range;
+    public Color DebugColor => debugColor;
 
     [Header("Weapon Settings")]
-    [SerializeField] Animator weaponAnimator;
     [SerializeField] PlayerWeaponSlot weaponSlot;
+    [SerializeField] WeaponAttackType attackType;
     [SerializeField] float damage = 1;
     [SerializeField] float cooldown = .5f;
     [SerializeField] float lag = .2f;
-    [SerializeField] float hitboxDuration = .1f;
+    [Header("Projectile Option")]
+    [SerializeField] PlayerProjectile projectileToSpawn;
+    [SerializeField] float range = 1;
+    [SerializeField] int projectileNumber = 1;
+    [SerializeField] float spreadAngle = 60;
 
     [Header("Hitbox Settings")]
-    [SerializeField] HitboxShape hitboxShape;
-    [SerializeField] float hitboxCircleRadius = .1f;
-    [SerializeField] Vector2 hitboxBoxSize = Vector2.zero;
-    [SerializeField] float hitboxMinDist = 0;
-    [SerializeField] float hitboxMaxDist = 0;
-    [SerializeField] int targetMax;
     [SerializeField] LayerMask enemyLayer;
+    [SerializeField] HitboxRelativeTransform relativePostition;
+    [SerializeField] Vector2 hitboxPositionOffset = Vector2.zero;    
+    [SerializeField] HitboxBehaviorType behaviorType;
+    [SerializeField] Vector2 targetPosition = Vector2.zero;
+    [SerializeField] float duration = .1f;
+    [SerializeField] int numberOfTarget = 1;
+
+    [Header("Hitbox Shape")]
+    [SerializeField] HitboxShapeType shapeType;
+    [SerializeField] float circleRadius = .1f;
+    [SerializeField] Vector2 boxSize = new(.1f, .1f);
 
     [Header("Debug")]
     [SerializeField] bool showDebug;
     [SerializeField] Mesh debugCube;
-    [SerializeField] Color startColor;
-    [SerializeField] Color endColor;
+    [SerializeField] Color debugColor;
 
+    Animator weaponAnimator;
+    PlayerStats stats;
+
+    List<EnemyLifeSystem> enemiesHit = new();
+
+    float cooldownEndTime = 0;
+    bool isOnCooldown = false;
+    float attackLagEndTime = 0;
+    bool isOnAttackLag = false;
+    float startTime = 0;
+    bool meleeHitboxActive = false;
+    bool isAttacking = false;
 
     private void Awake()
     {
         weaponAnimator = GetComponent<Animator>();
     }
 
-    public void InitRef(PlayerWeaponSlot slot)
+    public void InitRef(PlayerWeaponSlot slotRef, PlayerStats statsRef)
     {
-        weaponSlot = slot;
+        weaponSlot = slotRef;
+        stats = statsRef;
     }
 
-    public void WeaponAttackFX(float playerAttackSpeed)
+    private void Update()
+    {
+        if (isOnAttackLag && Time.time >= attackLagEndTime)
+            isOnAttackLag = false;
+
+        if (meleeHitboxActive)
+        {
+            MeleeHitProcess();
+            if (Time.time >= startTime + stats.GetModifiedSecondaryStat(SecondaryStat.HitboxDuration))
+            {
+                meleeHitboxActive = false;
+                isAttacking = false;
+                enemiesHit.Clear();
+                StartAttackCooldown();
+            }
+        }
+
+        if (isOnCooldown && Time.time >= cooldownEndTime)
+            isOnCooldown = false;
+
+    }
+
+    public void AttackActivation()
+    {
+        isAttacking = true;
+        SetAttackLagTimer();
+        TriggerAttackAnim(stats.GetModifiedMainStat(MainStat.AttackSpeed));
+
+        switch (attackType)
+        {
+            case WeaponAttackType.Melee:
+                StartMeleeHitboxCheck();
+                break;
+
+            case WeaponAttackType.Ranged:
+                FireProjectile();
+                StartAttackCooldown();
+                isAttacking = false;
+                break;
+
+            default:
+                Debug.LogWarning("Weapon Attack Type is not defined");
+                break;
+        }
+    }
+
+    void TriggerAttackAnim(float playerAttackSpeed)
     {
         weaponAnimator.SetTrigger(GameParams.Animation.WEAPON_ATTACK_TRIGGER);
         weaponAnimator.SetFloat(GameParams.Animation.WEAPON_ATTACKSPEED_FLOAT, playerAttackSpeed);
     }
 
-    public bool WeaponHitBoxResult(out RaycastHit2D[] collisionsList)
+    bool WeaponHitboxCast(out RaycastHit2D[] collisionsList)
     {
-        collisionsList = hitboxShape switch
+        Transform relative = GetRelativeTransform(relativePostition);
+        Vector3 offsetPos = relative.position + (relative.right * hitboxPositionOffset.x + relative.up * hitboxPositionOffset.y);
+
+        if (behaviorType == HitboxBehaviorType.Moving)
         {
-            HitboxShape.Circle => Physics2D.CircleCastAll(weaponSlot.SlotTransform.position + weaponSlot.SlotTransform.up * hitboxMinDist, hitboxCircleRadius, weaponSlot.SlotTransform.up, hitboxMaxDist, enemyLayer),
-            HitboxShape.Box => Physics2D.BoxCastAll(weaponSlot.SlotTransform.position + weaponSlot.SlotTransform.up * hitboxMinDist, hitboxBoxSize, Quaternion.Angle(Quaternion.identity, weaponSlot.transform.rotation), weaponSlot.SlotTransform.up, hitboxMaxDist, enemyLayer),
+            Vector2 targetPos = relative.position + (relative.right * targetPosition.x + relative.up * targetPosition.y);
+            float t = Mathf.Clamp01((Time.time - startTime) / stats.GetModifiedSecondaryStat(SecondaryStat.HitboxDuration));
+            offsetPos = Vector2.Lerp(offsetPos, targetPos, t);
+        }
+
+        collisionsList = shapeType switch
+        {
+            HitboxShapeType.Circle => Physics2D.CircleCastAll(offsetPos, circleRadius, Vector2.zero, 0, enemyLayer),
+            HitboxShapeType.Box => Physics2D.BoxCastAll(offsetPos, boxSize, Quaternion.Angle(Quaternion.identity, relative.transform.rotation), Vector2.zero, 0, enemyLayer),
             _ => null,
         };
         return collisionsList.Length > 0;
     }
 
+    void MeleeHitProcess()
+    {
+        if (WeaponHitboxCast(out RaycastHit2D[] collisionsList))
+        {
+            foreach (RaycastHit2D collision in collisionsList)
+            {
+                EnemyLifeSystem enemyLifesystem = collision.transform.GetComponent<EnemyLifeSystem>();
+
+                if (enemyLifesystem && !enemiesHit.Contains(enemyLifesystem) && enemiesHit.Count < numberOfTarget)
+                {
+                    enemyLifesystem.TakeDamage(stats.GetModifiedMainStat(MainStat.Damage));
+
+                    //Call enemy Bump and give direction which is the inverted Normal of the collision
+                    collision.transform.GetComponent<EnemyBump>().BumpedAwayActivation(-collision.normal);
+
+                    enemiesHit.Add(enemyLifesystem);
+                }
+            }
+        }
+    }
+
+    void FireProjectile()
+    {
+        Transform relative = GetRelativeTransform(relativePostition);
+        Vector3 offsetPos = relative.position + relative.rotation * hitboxPositionOffset;
+        if (projectileNumber > 1)
+        {
+            float minAngle = spreadAngle / 2f;
+            float angleIncrValue = spreadAngle / (projectileNumber-1);
+
+            for (int i = 0; i < projectileNumber; i++)
+            {
+                float angle = minAngle - i * angleIncrValue;
+                Quaternion angleResult = Quaternion.AngleAxis(angle, transform.forward);
+                
+                Instantiate(projectileToSpawn, offsetPos, relative.rotation * angleResult).Init(this, stats, relative.position, range);
+            }
+        }
+        else Instantiate(projectileToSpawn, offsetPos, relative.rotation).Init(this, stats, relative.position, range);
+    }
+
+    void StartAttackCooldown()
+    {
+        cooldownEndTime = Time.time + stats.GetModifiedSecondaryStat(SecondaryStat.AttackCooldownDuration);
+        isOnCooldown = true;
+    }
+
+    void StartMeleeHitboxCheck()
+    {
+        startTime = Time.time;
+        meleeHitboxActive = true;
+    }
+
+    void SetAttackLagTimer()
+    {
+        attackLagEndTime = Time.time + stats.GetModifiedSecondaryStat(SecondaryStat.AttackLagDuration);
+        isOnAttackLag = true;
+    }
+
+    public Transform GetRelativeTransform(HitboxRelativeTransform transform)
+    {
+        return transform switch
+        {
+            HitboxRelativeTransform.ToWeapon => base.transform,
+            HitboxRelativeTransform.ToPlayer => weaponSlot.transform,
+            HitboxRelativeTransform.ToWeaponSlot => weaponSlot.SlotTransform,
+            _ => null,
+        };
+    }
+
+
     private void OnDrawGizmos()
     {
         if (showDebug)
         {
-            switch (hitboxShape)
+            Transform relative = GetRelativeTransform(relativePostition);
+            Vector3 offsetPos = relative.position + relative.rotation * hitboxPositionOffset;
+
+            Gizmos.color = debugColor;
+            switch (attackType)
             {
-                case HitboxShape.Circle:
-                    Gizmos.color = startColor;
-                    Gizmos.DrawSphere(weaponSlot.SlotTransform.position + weaponSlot.SlotTransform.up * hitboxMinDist, hitboxCircleRadius);
-                    Gizmos.color = endColor;
-                    Gizmos.DrawSphere(weaponSlot.SlotTransform.position + weaponSlot.SlotTransform.up * hitboxMaxDist, hitboxCircleRadius);
+                case WeaponAttackType.Melee:
+
+                    switch (shapeType)
+                    {
+                        case HitboxShapeType.Circle:
+                            Gizmos.DrawWireSphere(offsetPos, circleRadius);
+                            break;
+
+                        case HitboxShapeType.Box:
+                            Gizmos.DrawWireMesh(debugCube, -1, offsetPos, relative.rotation, boxSize);
+                            break;
+
+                    }
+
+                    if(behaviorType == HitboxBehaviorType.Moving)
+                    {
+                        Vector2 targetPos = relative.position + (relative.right * targetPosition.x + relative.up * targetPosition.y);
+
+                        switch (shapeType)
+                        {
+                            case HitboxShapeType.Circle:
+                                Gizmos.DrawWireSphere(targetPos, circleRadius);
+                                break;
+
+                            case HitboxShapeType.Box:
+                                Gizmos.DrawWireMesh(debugCube, -1, targetPos, relative.rotation, boxSize);
+                                break;
+
+                        }
+                        float t = Mathf.Clamp01((Time.time - startTime) / duration);
+                        offsetPos = Vector2.Lerp(offsetPos, targetPos, t);
+                    }
+
+                    if (meleeHitboxActive)
+                    {
+                        switch (shapeType)
+                        {
+                            case HitboxShapeType.Circle:
+                                Gizmos.DrawSphere(offsetPos, circleRadius);
+                                break;
+
+                            case HitboxShapeType.Box:
+                                Gizmos.DrawMesh(debugCube, -1, offsetPos, relative.rotation, boxSize);
+                                break;
+                        }
+                    }
                     break;
 
-                case HitboxShape.Box:
-                    Gizmos.color = startColor;
-                    Gizmos.DrawMesh(debugCube, -1, weaponSlot.SlotTransform.position + weaponSlot.SlotTransform.up * hitboxMinDist, weaponSlot.SlotTransform.rotation, hitboxBoxSize);
-                    Gizmos.color = endColor;
-                    Gizmos.DrawMesh(debugCube, -1, weaponSlot.SlotTransform.position + weaponSlot.SlotTransform.up * hitboxMaxDist, weaponSlot.SlotTransform.rotation, hitboxBoxSize);
+                case WeaponAttackType.Ranged:
+                    if (projectileNumber > 1)
+                    {
+                        float minAngle = spreadAngle / 2f;
+                        float angleIncrValue = spreadAngle / (projectileNumber - 1);
+
+                        for (int i = 0; i < projectileNumber; i++)
+                        {
+                            float angle = minAngle - i * angleIncrValue;
+                            Quaternion angleResult = Quaternion.AngleAxis(angle, transform.forward);
+
+                            Vector3 multProjDebugPos = offsetPos + (relative.rotation * angleResult * Vector3.up) * range;
+                            Vector3 hitboxOffsetPos = multProjDebugPos + relative.rotation * angleResult * projectileToSpawn.HitboxOffset;
+
+                            switch (projectileToSpawn.HitboxShape)
+                            {
+                                case HitboxShapeType.Circle:
+                                    Gizmos.DrawSphere(hitboxOffsetPos, circleRadius);
+                                    break;
+
+                                case HitboxShapeType.Box:
+                                    Gizmos.DrawMesh(debugCube, -1, hitboxOffsetPos, relative.rotation * angleResult, projectileToSpawn.BoxSize);
+                                    break;
+
+                            }
+                            Gizmos.DrawLine(offsetPos, multProjDebugPos);
+                        }
+                    }
+
+                    else
+                    {
+                        Vector3 simpleProjDebugPos = offsetPos + (relative.rotation * Vector3.up) * range;
+                        Vector3 hitboxOffsetPos = simpleProjDebugPos + relative.rotation * projectileToSpawn.HitboxOffset;
+
+                        switch (projectileToSpawn.HitboxShape)
+                        {
+                            case HitboxShapeType.Circle:
+                                Gizmos.DrawSphere(hitboxOffsetPos, circleRadius);
+                                break;
+
+                            case HitboxShapeType.Box:
+                                Gizmos.DrawMesh(debugCube, -1, hitboxOffsetPos, relative.rotation, projectileToSpawn.BoxSize);
+                                break;
+
+                        }
+                        Gizmos.DrawLine(offsetPos, simpleProjDebugPos);
+
+                    }
                     break;
             }
+            Gizmos.color = Color.white;
 
         }
-    }
 
+    }
 }
 
-enum HitboxShape
+public enum HitboxShapeType
 {
     Box = 1,
     Circle = 2
+}
+
+public enum HitboxRelativeTransform
+{
+    ToWeapon = 0,
+    ToPlayer = 1,
+    ToWeaponSlot = 2,
+}
+
+public enum WeaponAttackType
+{
+    Melee = 0,
+    Ranged = 1,
+}
+
+public enum HitboxBehaviorType
+{
+    Fixed = 0,
+    Moving = 1,
 }

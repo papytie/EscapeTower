@@ -5,23 +5,23 @@ using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
 
 [RequireComponent(typeof(PlayerInputs), typeof(PlayerMovement), typeof(PlayerDash))]
-[RequireComponent(typeof(PlayerWeaponSlot), typeof(PlayerAttack), typeof(Animator))]
+[RequireComponent(typeof(PlayerWeaponSlot), typeof(PlayerPickupCollector), typeof(Animator))]
 [RequireComponent(typeof(PlayerLifeSystem), typeof(PlayerCollision), typeof(PlayerStats))]
-[RequireComponent(typeof(PlayerPickupCollector))]
 
 public class PlayerController : MonoBehaviour
 {
-    public bool CanMove => !dash.IsDashing && !attack.IsAttacking && !lifeSystem.IsDead;
+    public bool CanMove => !dash.IsDashing && !weaponSlot.EquippedWeapon.IsOnAttackLag && !lifeSystem.IsDead;
     public bool CanDash => dash.DashAvailable && !lifeSystem.IsDead;
-    public bool CanAttack => attack.AttackAvailable && !dash.IsDashing && !lifeSystem.IsDead;
+    public bool CanAttack => weaponSlot.EquippedWeapon && weaponSlot.EquippedWeapon.AttackAvailable && !dash.IsDashing && !lifeSystem.IsDead;
     public bool CanTakeDamage => !lifeSystem.IsInvincible && !lifeSystem.IsDead;
+
+    [SerializeField] bool stickAutoAttack;
 
     PlayerInputs inputs;
     PlayerStats stats;
     PlayerMovement movement;
     PlayerDash dash;
-    PlayerAttack attack;
-    PlayerWeaponSlot slot;
+    PlayerWeaponSlot weaponSlot;
     PlayerLifeSystem lifeSystem;
     PlayerCollision collision;
     PlayerPickupCollector collector;
@@ -38,8 +38,7 @@ public class PlayerController : MonoBehaviour
         stats = GetComponent<PlayerStats>();
         movement = GetComponent<PlayerMovement>();
         dash = GetComponent<PlayerDash>();
-        attack = GetComponent<PlayerAttack>();
-        slot = GetComponent<PlayerWeaponSlot>();
+        weaponSlot = GetComponent<PlayerWeaponSlot>();
         lifeSystem = GetComponent<PlayerLifeSystem>();
         collision = GetComponent<PlayerCollision>();
         collector = GetComponent<PlayerPickupCollector>();
@@ -54,11 +53,11 @@ public class PlayerController : MonoBehaviour
     void InitComponentsRef()
     {
         movement.InitRef(inputs, collision, stats);
-        dash.InitRef(collision, lifeSystem);
-        attack.InitRef(slot, stats);
+        dash.InitRef(collision, lifeSystem, stats);
         lifeSystem.InitRef(animator);
-        stats.InitRef(movement, slot, dash, attack);
-        collector.InitRef(stats, slot, lifeSystem);
+        stats.InitRef(movement, weaponSlot, dash);
+        weaponSlot.InitRef(stats);
+        collector.InitRef(stats, weaponSlot, lifeSystem);
     }
 
     void Update()
@@ -90,8 +89,8 @@ public class PlayerController : MonoBehaviour
         //Attack
         if(CanAttack)
         {
-            if(attack.AutoAttackOnStick && attackAxis != Vector3.zero || inputs.AttackButtonInput.IsPressed())
-                attack.AttackActivation();
+            if(stickAutoAttack && attackAxis != Vector3.zero || inputs.AttackButtonInput.IsPressed())
+                weaponSlot.EquippedWeapon.AttackActivation();
 
         }
 

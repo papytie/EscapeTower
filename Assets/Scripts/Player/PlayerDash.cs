@@ -8,13 +8,11 @@ public class PlayerDash : MonoBehaviour
     public bool IsDashing => isDashing;
     public float Cooldown => cooldown;
     public float Duration => duration;
-    public float Speed => speed;
     public float Distance => distance;
 
     [Header("Dash Settings")]
     [SerializeField] AnimationCurve dashCurve;
     [SerializeField] float distance;
-    [SerializeField] float speed;
     [SerializeField] float cooldown;
     [SerializeField] float duration;
 
@@ -25,29 +23,31 @@ public class PlayerDash : MonoBehaviour
     
     bool isOnCooldown;
     bool isDashing;
-    float coolDownTime;
+    float cooldownEndTime;
     float dashCurrentTime;
+    float startTime;
     Vector3 dashTarget = Vector3.zero;
     Vector3 dashStart = Vector3.zero;
 
     PlayerCollision collision;
     PlayerLifeSystem lifeSystem;
+    PlayerStats stats;
 
-    public void InitRef(PlayerCollision collisionRef, PlayerLifeSystem lifeSystemRef)
+    public void InitRef(PlayerCollision collisionRef, PlayerLifeSystem lifeSystemRef, PlayerStats statsRef)
     {
         collision = collisionRef;
         lifeSystem = lifeSystemRef;
+        stats = statsRef;
     }
 
     private void Update()
     {
-        if (isOnCooldown && TimeUtils.CustomTimer(ref coolDownTime, cooldown))
+        if (isOnCooldown && Time.time >= cooldownEndTime)
             isOnCooldown = false;
 
         if (isDashing)
         {
-            dashCurrentTime += Time.deltaTime;
-            float t = Mathf.Clamp01(dashCurrentTime / duration);
+            float t = Mathf.Clamp01((Time.time - startTime) / stats.GetModifiedSecondaryStat(SecondaryStat.DashDuration));
 
             //Use curve to modify lerp transition
             Vector3 dashTargetPos = Vector3.Lerp(dashStart, dashTarget, dashCurve.Evaluate(t));
@@ -64,11 +64,11 @@ public class PlayerDash : MonoBehaviour
                 transform.position = dashTargetPos;
 
 
-            if (hit || TimeUtils.CustomTimer(ref dashCurrentTime, duration))
+            if (hit || Time.time >= startTime + stats.GetModifiedSecondaryStat(SecondaryStat.DashDuration))
             {
                 isDashing = false;
                 lifeSystem.IsInvincible = false;
-                dashCurrentTime = 0;
+                StartDashCooldown(stats.GetModifiedSecondaryStat(SecondaryStat.DashCooldown));
             }
         }
 
@@ -77,11 +77,22 @@ public class PlayerDash : MonoBehaviour
     public void DashActivation(Vector3 dir)
     {
         dashStart = transform.position;
-        dashTarget = transform.position + dir.normalized * distance;
-        isDashing = true;
-        isOnCooldown = true;
+        dashTarget = transform.position + dir.normalized * stats.GetModifiedMainStat(MainStat.DashDistance);
+        StartDash();
         //Player is invincible during Dash
-        lifeSystem.IsInvincible = true;
+        lifeSystem.StartInvincibility(stats.GetModifiedSecondaryStat(SecondaryStat.DashDuration));
+    }
+
+    void StartDashCooldown(float duration)
+    {
+        cooldownEndTime = Time.time + duration;
+        isOnCooldown = true;
+    }
+
+    void StartDash()
+    {
+        startTime = Time.time;
+        isDashing = true;
     }
 
     private void OnDrawGizmos()

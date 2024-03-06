@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,7 +14,7 @@ public class PlayerLifeSystem : MonoBehaviour
     [SerializeField] float maxLifePoints = 20;
     [SerializeField] float InvincibilityDuration = .2f;
 
-    float currentInvincibilityTime = 0;
+    float invincibilityEndTime = 0;
     bool isDead = false;
     bool isInvincible = false;
 
@@ -26,7 +27,7 @@ public class PlayerLifeSystem : MonoBehaviour
 
     void Update()
     {
-        if (isInvincible && TimeUtils.CustomTimer(ref currentInvincibilityTime, InvincibilityDuration))
+        if (isInvincible && Time.time >= invincibilityEndTime)
             isInvincible = false;
     }
 
@@ -34,7 +35,7 @@ public class PlayerLifeSystem : MonoBehaviour
     {
         if (isDead || isInvincible) return;
 
-        isInvincible = true;
+        StartInvincibility(InvincibilityDuration);
         currentLifePoints -= damageValue;
         if (currentLifePoints <= 0) 
         {
@@ -51,6 +52,12 @@ public class PlayerLifeSystem : MonoBehaviour
         if (isDead) return;
 
         currentLifePoints = Mathf.Min(currentLifePoints + healValue, maxLifePoints);
+    }
+
+    public void StartInvincibility(float duration)
+    {
+        invincibilityEndTime = MathF.Max(invincibilityEndTime, Time.time + duration);
+        isInvincible = true;
     }
 
 }
