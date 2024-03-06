@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class PlayerProjectile : MonoBehaviour
 {
+    public HitboxShapeType HitboxShape => hitboxShape;
+    public Color SetDebugColor { set { transform.GetComponentInChildren<SpriteRenderer>().color = value; } }
+    public Vector2 HitboxOffset => hitboxOffset;
+    public Vector2 BoxSize => boxSize;
+
     [Header("Projectile settings")]
     [SerializeField] float speed;
     [SerializeField] HitboxShapeType hitboxShape;

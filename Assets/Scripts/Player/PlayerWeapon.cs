@@ -1,10 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
 
 public enum HitboxShapeType
 {
@@ -192,7 +188,7 @@ public class PlayerWeapon : MonoBehaviour
     void SpawnProjectile()
     {
         Transform relative = GetRelativeTransform(relativePostition);
-        Vector3 offsetPos = relative.position + (relative.right * hitboxPositionOffset.x + relative.up * hitboxPositionOffset.y);
+        Vector3 offsetPos = relative.position + relative.rotation * hitboxPositionOffset;
         if (projectileNumber > 1)
         {
             float minAngle = spreadAngle / 2f;
@@ -241,58 +237,118 @@ public class PlayerWeapon : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (showDebug && attackType == WeaponAttackType.Melee)
+        if (showDebug)
         {
             Transform relative = GetRelativeTransform(relativePostition);
-            Vector3 offsetPos = relative.position + (relative.right * hitboxPositionOffset.x + relative.up * hitboxPositionOffset.y);
+            Vector3 offsetPos = relative.position + relative.rotation * hitboxPositionOffset;
 
             Gizmos.color = debugColor;
-            switch (shapeType)
+            switch (attackType)
             {
-                case HitboxShapeType.Circle:
-                    Gizmos.DrawWireSphere(offsetPos, circleRadius);
+                case WeaponAttackType.Melee:
+
+                    switch (shapeType)
+                    {
+                        case HitboxShapeType.Circle:
+                            Gizmos.DrawWireSphere(offsetPos, circleRadius);
+                            break;
+
+                        case HitboxShapeType.Box:
+                            Gizmos.DrawWireMesh(debugCube, -1, offsetPos, relative.rotation, boxSize);
+                            break;
+
+                    }
+
+                    if(isMoving)
+                    {
+                        Vector2 targetPos = relative.position + (relative.right * targetPosition.x + relative.up * targetPosition.y);
+
+                        switch (shapeType)
+                        {
+                            case HitboxShapeType.Circle:
+                                Gizmos.DrawWireSphere(targetPos, circleRadius);
+                                break;
+
+                            case HitboxShapeType.Box:
+                                Gizmos.DrawWireMesh(debugCube, -1, targetPos, relative.rotation, boxSize);
+                                break;
+
+                        }
+                        float t = Mathf.Clamp01((Time.time - startTime) / duration);
+                        offsetPos = Vector2.Lerp(offsetPos, targetPos, t);
+                    }
+
+                    if (isOnHitboxDetection)
+                    {
+                        switch (shapeType)
+                        {
+                            case HitboxShapeType.Circle:
+                                Gizmos.DrawSphere(offsetPos, circleRadius);
+                                break;
+
+                            case HitboxShapeType.Box:
+                                Gizmos.DrawMesh(debugCube, -1, offsetPos, relative.rotation, boxSize);
+                                break;
+                        }
+                    }
                     break;
 
-                case HitboxShapeType.Box:
-                    Gizmos.DrawWireMesh(debugCube, -1, offsetPos, relative.rotation, boxSize);
+                case WeaponAttackType.Ranged:
+                    if (projectileNumber > 1)
+                    {
+                        float minAngle = spreadAngle / 2f;
+                        float angleIncrValue = spreadAngle / (projectileNumber - 1);
+
+                        for (int i = 0; i < projectileNumber; i++)
+                        {
+                            float angle = minAngle - i * angleIncrValue;
+                            Quaternion angleResult = Quaternion.AngleAxis(angle, transform.forward);
+
+                            Vector3 multProjDebugPos = offsetPos + (relative.rotation * angleResult * Vector3.up) * range;
+                            Vector3 hitboxOffsetPos = multProjDebugPos + relative.rotation * angleResult * projectileToSpawn.HitboxOffset;
+
+                            switch (projectileToSpawn.HitboxShape)
+                            {
+                                case HitboxShapeType.Circle:
+                                    Gizmos.DrawSphere(hitboxOffsetPos, circleRadius);
+                                    break;
+
+                                case HitboxShapeType.Box:
+                                    Gizmos.DrawMesh(debugCube, -1, hitboxOffsetPos, relative.rotation * angleResult, projectileToSpawn.BoxSize);
+                                    break;
+
+                            }
+                            Gizmos.DrawLine(offsetPos, multProjDebugPos);
+                        }
+                    }
+
+                    else
+                    {
+                        Vector3 simpleProjDebugPos = offsetPos + (relative.rotation * Vector3.up) * range;
+                        Vector3 hitboxOffsetPos = simpleProjDebugPos + relative.rotation * projectileToSpawn.HitboxOffset;
+
+                        switch (projectileToSpawn.HitboxShape)
+                        {
+                            case HitboxShapeType.Circle:
+                                Gizmos.DrawSphere(hitboxOffsetPos, circleRadius);
+                                break;
+
+                            case HitboxShapeType.Box:
+                                Gizmos.DrawMesh(debugCube, -1, hitboxOffsetPos, relative.rotation, projectileToSpawn.BoxSize);
+                                break;
+
+                        }
+                        Gizmos.DrawLine(offsetPos, simpleProjDebugPos);
+
+                    }
                     break;
-
-            }
-
-            if(isMoving)
-            {
-                Vector2 targetPos = relative.position + (relative.right * targetPosition.x + relative.up * targetPosition.y);
-
-                switch (shapeType)
-                {
-                    case HitboxShapeType.Circle:
-                        Gizmos.DrawWireSphere(targetPos, circleRadius);
-                        break;
-
-                    case HitboxShapeType.Box:
-                        Gizmos.DrawWireMesh(debugCube, -1, targetPos, relative.rotation, boxSize);
-                        break;
-
-                }
-                float t = Mathf.Clamp01((Time.time - startTime) / duration);
-                offsetPos = Vector2.Lerp(offsetPos, targetPos, t);
-            }
-
-            if (isOnHitboxDetection)
-            {
-                switch (shapeType)
-                {
-                    case HitboxShapeType.Circle:
-                        Gizmos.DrawSphere(offsetPos, circleRadius);
-                        break;
-
-                    case HitboxShapeType.Box:
-                        Gizmos.DrawMesh(debugCube, -1, offsetPos, relative.rotation, boxSize);
-                        break;
-
-                }
             }
             Gizmos.color = Color.white;
+
         }
+        
+        
+
+
     }
 }

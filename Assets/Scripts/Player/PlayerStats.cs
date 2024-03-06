@@ -11,7 +11,6 @@ public class PlayerStats : MonoBehaviour
     PlayerMovement movement;
     PlayerWeaponSlot weaponSlot;
     PlayerDash dash;
-    PlayerAttack attack;
 
     float defaultValue = 0;
     
