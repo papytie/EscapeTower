@@ -53,7 +53,6 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField] bool isMoving;
     [SerializeField] Vector2 targetPosition = Vector2.zero;
     [SerializeField] float duration = .1f;
-    [SerializeField] float delay = .1f;
     [SerializeField] int numberOfTarget = 1;
 
     [Header("Hitbox Shape")]
