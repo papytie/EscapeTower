@@ -53,6 +53,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Shadow
+    uniqueID: 1509390577
+    locked: 0
   - name: Character
     uniqueID: 1673295959
     locked: 0
