@@ -8,16 +8,15 @@ public class PlayerProjectile : MonoBehaviour
     public Color SetDebugColor { set { transform.GetComponentInChildren<SpriteRenderer>().color = value; } }
     public Vector2 HitboxOffset => hitboxOffset;
     public Vector2 BoxSize => boxSize;
+    public float CircleRadius => circleRadius;
 
     [Header("Projectile settings")]
-    [SerializeField] float speed;
     [SerializeField] HitboxShapeType hitboxShape;
     [SerializeField] Vector2 hitboxOffset;
     [SerializeField] LayerMask enemyLayer;
     [SerializeField] LayerMask obstructionLayer;
     [SerializeField] Vector2 boxSize;
     [SerializeField] float circleRadius;
-    [SerializeField] int numberOfTarget;
 
     [Header("Debug")]
     [SerializeField] bool showDebug;
@@ -29,6 +28,7 @@ public class PlayerProjectile : MonoBehaviour
     PlayerWeapon weapon;
     PlayerStats stats;
     float startTime = 0;
+    bool isReturning = false;
 
     List<EnemyLifeSystem> enemiesHit = new();
 
@@ -46,19 +46,52 @@ public class PlayerProjectile : MonoBehaviour
 
     private void Update()
     {
+        if (!isReturning)
+            ProjectileMovement(startPosition, endPosition);
+
+        if (isReturning)
+        {
+            switch (weapon.ProjectileReturnType)
+            {
+                case ProjectileReturnType.ReturnToSpawnPosition:
+                    ProjectileMovement(startPosition, endPosition);
+                    break;
+                case ProjectileReturnType.ReturnToPlayer:
+                    ProjectileMovement(startPosition, weapon.ProjectileSpawnOffset);
+                    break;
+
+            }
+        }
+
+        if (Time.time >= startTime + weapon.Range / weapon.Speed)
+        {
+            if(!isReturning && weapon.ProjectileReturnType != ProjectileReturnType.NoReturn)
+            {
+                if(weapon.ProjectileReturnFlip)
+                    transform.rotation = Quaternion.Euler(0f, 0f, 180f) * transform.rotation;
+
+                endPosition = startPosition;
+                startPosition = transform.position;
+                startTime = Time.time;
+                isReturning = true;
+                return;
+            }
+            Destroy(gameObject);
+            
+        }
+
+    }
+
+    void ProjectileMovement(Vector2 startPos, Vector2 endPos)
+    {
+        float t = Mathf.Clamp01((Time.time - startTime) / (weapon.Range / weapon.Speed));
         //Move gameObject
-        transform.position = Vector3.Lerp(startPosition, endPosition, Mathf.Clamp01((Time.time - startTime) / (weapon.Range/speed)));
+        transform.position = Vector3.Lerp(startPos, endPos, weapon.LaunchCurve.Evaluate(t));
 
         //Define hitbox position with offset and check collisions
         Vector3 offsetPos = transform.position + (transform.right * hitboxOffset.x + transform.up * hitboxOffset.y);
         ProjectileHitProcess(offsetPos);
         CheckObstructionCollision(offsetPos);
-
-        //Destroy if no collision at end of movement
-        if (Time.time >= startTime + weapon.Range/speed)
-        {
-            Destroy(gameObject);
-        }
     }
 
     bool ProjectileHitBoxCast(Vector2 position, out RaycastHit2D[] collisionsList)
@@ -97,7 +130,7 @@ public class PlayerProjectile : MonoBehaviour
             {
                 EnemyLifeSystem enemyLifesystem = collision.transform.GetComponent<EnemyLifeSystem>();
 
-                if (enemyLifesystem && !enemyLifesystem.IsDead && !enemiesHit.Contains(enemyLifesystem) && enemiesHit.Count < numberOfTarget)
+                if (enemyLifesystem && !enemyLifesystem.IsDead && !enemiesHit.Contains(enemyLifesystem) && enemiesHit.Count < weapon.MaxTargets)
                 {
                     enemyLifesystem.TakeDamage(stats.GetModifiedMainStat(MainStat.Damage));
 
@@ -108,7 +141,7 @@ public class PlayerProjectile : MonoBehaviour
                 }
 
                 //Destroy self if numberOfTarget is reached
-                if (enemiesHit.Count >= numberOfTarget)
+                if (enemiesHit.Count >= weapon.MaxTargets)
                     Destroy(gameObject);
             }
         }

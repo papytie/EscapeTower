@@ -16,7 +16,7 @@ public class PlayerWeaponSlot : MonoBehaviour
     {
         stats = statsRef;
     }
-
+   
     private void Start()
     {
         equippedWeapon = GetComponentInChildren<PlayerWeapon>();
@@ -27,6 +27,7 @@ public class PlayerWeaponSlot : MonoBehaviour
         }
 
         equippedWeapon.transform.SetPositionAndRotation(slotTransform.position, Quaternion.Euler(slotTransform.rotation.eulerAngles));
+        Debug.Log("weapon position set to : " +  equippedWeapon.transform.position);
         equippedWeapon.InitRef(this, stats);
     }
 

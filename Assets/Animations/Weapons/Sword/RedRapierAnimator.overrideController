@@ -1,0 +1,13 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: RedRapierAnimator
+  m_Controller: {fileID: 9100000, guid: 44884814f5d3c424aab8890bdae4f5f0, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 11c5b02264ffa3c48bc8c5c2338eae59, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: d0523d19b2d4cb14db71f43f811043f1, type: 2}
