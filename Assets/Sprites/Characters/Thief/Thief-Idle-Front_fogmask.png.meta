@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: fd60bbd712ffcb14298e6d51a8621d91
+guid: 164447358f3664444b0e86c5345d56aa
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,7 +123,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Thief-Idle-Front_0
+      name: Thief-Idle-Front_fogmask_0
       rect:
         serializedVersion: 2
         x: 0
@@ -137,14 +137,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3f319a0457d0536408f80a37b4b5d644
-      internalID: -20936391
+      spriteID: cf5acdc5c74862e48b66525d1fd7140c
+      internalID: -1010708135
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Idle-Front_1
+      name: Thief-Idle-Front_fogmask_1
       rect:
         serializedVersion: 2
         x: 32
@@ -158,14 +158,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: efb1bc2e6f03e15468ed3468fb01101a
-      internalID: 2043505633
+      spriteID: ac3f3556833f3604c802f339bb560442
+      internalID: -1168908515
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Idle-Front_2
+      name: Thief-Idle-Front_fogmask_2
       rect:
         serializedVersion: 2
         x: 64
@@ -179,14 +179,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f374a163581944d4196e4a245fba4ec5
-      internalID: 1481740566
+      spriteID: 2b3e044049bdfbb4aa743717a7e49e73
+      internalID: -315221306
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Idle-Front_3
+      name: Thief-Idle-Front_fogmask_3
       rect:
         serializedVersion: 2
         x: 96
@@ -200,14 +200,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a151f233ec70e7c47b5039606209d9cd
-      internalID: -716937415
+      spriteID: a070bf369bfc97b4289d12bb2a00612a
+      internalID: -1148179973
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Idle-Front_4
+      name: Thief-Idle-Front_fogmask_4
       rect:
         serializedVersion: 2
         x: 128
@@ -221,14 +221,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b17f959164386e24aab41e2f2bdc49a6
-      internalID: -686717935
+      spriteID: 5c64a356567d67b4ea9e263527a8f33b
+      internalID: -1207233664
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Idle-Front_5
+      name: Thief-Idle-Front_fogmask_5
       rect:
         serializedVersion: 2
         x: 160
@@ -242,8 +242,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4506122a4583f3240935219254070b3b
-      internalID: 1789982725
+      spriteID: 35251af91f2768a48a37da0d48a5f32a
+      internalID: 1206959978
       vertices: []
       indices: 
       edges: []
@@ -257,24 +257,14 @@ TextureImporter:
     indices: 
     edges: []
     weights: []
-    secondaryTextures:
-    - texture: {fileID: 2800000, guid: 00386d24e60be3f44ab1782a8516441b, type: 3}
-      name: _NormalMap
-    - texture: {fileID: 2800000, guid: dcafdd052dae5de46b60d7fa98ebf1ea, type: 3}
-      name: _EmissiveMap
-    - texture: {fileID: 2800000, guid: 074f58933335e824dbf2e1660df62cf5, type: 3}
-      name: _VeronMask
-    - texture: {fileID: 2800000, guid: bd91e2dd212bbb044a8ae561a8f0b5ee, type: 3}
-      name: _MaskTex
-    - texture: {fileID: 2800000, guid: d9a84601c3684a14ba5487c35bc454b2, type: 3}
-      name: _ExtraAlpha
+    secondaryTextures: []
     nameFileIdTable:
-      Thief-Idle-Front_0: -20936391
-      Thief-Idle-Front_1: 2043505633
-      Thief-Idle-Front_2: 1481740566
-      Thief-Idle-Front_3: -716937415
-      Thief-Idle-Front_4: -686717935
-      Thief-Idle-Front_5: 1789982725
+      Thief-Idle-Front_fogmask_0: -1010708135
+      Thief-Idle-Front_fogmask_1: -1168908515
+      Thief-Idle-Front_fogmask_2: -315221306
+      Thief-Idle-Front_fogmask_3: -1148179973
+      Thief-Idle-Front_fogmask_4: -1207233664
+      Thief-Idle-Front_fogmask_5: 1206959978
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

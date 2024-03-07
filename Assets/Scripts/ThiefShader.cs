@@ -12,14 +12,15 @@ public class ThiefShader : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-      //mat = GetComponent<SpriteRenderer>().material;
+     
        matPropBlock = new MaterialPropertyBlock();
+        matPropBlock.SetColor("_VeronColor", eyeColor);
+        GetComponent<SpriteRenderer>().SetPropertyBlock(matPropBlock);
     }
 
     // Update is called once per frame
     void Update()
     {
-        matPropBlock.SetColor("_VeronColor", eyeColor);
-        GetComponent<SpriteRenderer>().SetPropertyBlock(matPropBlock);
+        
     }
 }

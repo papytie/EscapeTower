@@ -57,33 +57,39 @@ public sealed class SRSortingLayers {
         }
     }
     
-    public static global::TypeSafe.SortingLayer Character {
+    public static global::TypeSafe.SortingLayer Fog {
         get {
             return @__all[6];
         }
     }
     
-    public static global::TypeSafe.SortingLayer Wall {
+    public static global::TypeSafe.SortingLayer Character {
         get {
             return @__all[7];
         }
     }
     
-    public static global::TypeSafe.SortingLayer Ceiling {
+    public static global::TypeSafe.SortingLayer Wall {
         get {
             return @__all[8];
         }
     }
     
-    public static global::TypeSafe.SortingLayer UI {
+    public static global::TypeSafe.SortingLayer Ceiling {
         get {
             return @__all[9];
         }
     }
     
-    public static global::TypeSafe.SortingLayer Foreground {
+    public static global::TypeSafe.SortingLayer UI {
         get {
             return @__all[10];
+        }
+    }
+    
+    public static global::TypeSafe.SortingLayer Foreground {
+        get {
+            return @__all[11];
         }
     }
     
@@ -94,6 +100,7 @@ public sealed class SRSortingLayers {
                 new global::TypeSafe.SortingLayer("Pickup", -631670339),
                 new global::TypeSafe.SortingLayer("Default", 0),
                 new global::TypeSafe.SortingLayer("Shadow", 1509390577),
+                new global::TypeSafe.SortingLayer("Fog", 1696842133),
                 new global::TypeSafe.SortingLayer("Character", 1673295959),
                 new global::TypeSafe.SortingLayer("Wall", -1882948755),
                 new global::TypeSafe.SortingLayer("Ceiling", -209784683),
