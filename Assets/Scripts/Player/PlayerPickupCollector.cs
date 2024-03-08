@@ -41,6 +41,11 @@ public class PlayerPickupCollector : MonoBehaviour
                 Debug.Log("Item Type : " + item.TemplateType + ", name : " + item.Consumable.name + ", gain " + item.Consumable.Value + " LifePoints, for a total of " + lifeSystem.CurrentLifePoints + " on " + lifeSystem.MaxLifePoints);
                 break;
 
+            case PickableType.Projectile:
+                slot.EquippedWeapon.ChangeProjectile(item.ProjectilePickup.Projectile);
+                Debug.Log("Item Type : " + item.TemplateType + ", change projectile to : " + item.ProjectilePickup.Projectile);
+                break;
+
             default:
                 break;
         }

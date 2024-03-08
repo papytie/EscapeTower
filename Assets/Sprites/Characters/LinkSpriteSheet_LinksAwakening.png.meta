@@ -585,7 +585,7 @@ TextureImporter:
         width: 12
         height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -593,6 +593,27 @@ TextureImporter:
       bones: []
       spriteID: a718a7dcd2f5d4b4190c34ce662d9b59
       internalID: 1044120828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bomb
+      rect:
+        serializedVersion: 2
+        x: 53
+        y: 51
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 382896b7638fefb4580be4b15ad3000f
+      internalID: 1653450845
       vertices: []
       indices: 
       edges: []
@@ -609,6 +630,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Arrow: 1777346565
+      Bomb: 1653450845
       Bow: 1866502993
       Consumable: -1263261112
       GreenSword: -133592459

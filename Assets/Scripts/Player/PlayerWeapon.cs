@@ -232,6 +232,11 @@ public class PlayerWeapon : MonoBehaviour
         else Instantiate(projectileToSpawn, ProjectileSpawnOffset, SpawnRelativeTransform.rotation * Quaternion.AngleAxis(projectileAngleOffset,transform.forward)).Init(this, stats, ProjectileSpawnOffset, projectileRange);
     }
 
+    public void ChangeProjectile(PlayerProjectile newProjectile)
+    {
+        projectileToSpawn = newProjectile;
+    }
+
     void StartAttackCooldown()
     {
         cooldownEndTime = Time.time + stats.GetModifiedSecondaryStat(SecondaryStat.AttackCooldownDuration);
