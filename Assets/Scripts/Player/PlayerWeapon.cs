@@ -154,11 +154,27 @@ public class PlayerWeapon : MonoBehaviour
     bool WeaponHitboxCast(out RaycastHit2D[] collisionsList)
     {
         Vector2 hitboxOffsetPos = HitboxOffset;
-        if (behaviorType == HitboxBehaviorType.Moving)
+
+        if (behaviorType != HitboxBehaviorType.Fixed)
         {
-            Vector2 targetPos = HitboxRelativeTransform.position + (HitboxRelativeTransform.right * targetPosition.x + HitboxRelativeTransform.up * targetPosition.y);
+            Vector3 targetPos = HitboxRelativeTransform.position + HitboxRelativeTransform.rotation * targetPosition;
             float t = Mathf.Clamp01((Time.time - startTime) / stats.GetModifiedSecondaryStat(SecondaryStat.HitboxDuration));
-            hitboxOffsetPos = Vector2.Lerp(hitboxOffsetPos, targetPos, hitboxMovementCurve.Evaluate(t));
+
+            switch (behaviorType)
+            {
+                case HitboxBehaviorType.MovingStraight:
+                    hitboxOffsetPos = Vector2.Lerp(hitboxOffsetPos, targetPos, hitboxMovementCurve.Evaluate(t));
+                    break;
+
+                case HitboxBehaviorType.MovingOrbital:
+                    Vector3 startVector = HitboxOffset - HitboxRelativeTransform.position;
+                    Vector3 endVector = targetPos - HitboxRelativeTransform.position;
+                    float angleValue = Vector2.Angle(startVector, endVector);
+                    Vector3 resultVector = (Quaternion.AngleAxis(Mathf.LerpAngle(0f, angleValue, hitboxMovementCurve.Evaluate(t)), transform.forward) * startVector);
+                    hitboxOffsetPos = HitboxRelativeTransform.position + resultVector.normalized * Mathf.Lerp(startVector.magnitude, endVector.magnitude, hitboxMovementCurve.Evaluate(t));
+                    break;
+            }
+
         }
 
         collisionsList = hitboxShape switch
@@ -253,8 +269,8 @@ public class PlayerWeapon : MonoBehaviour
             Gizmos.color = meleeDebugColor;
             if (useMeleeHitbox)
             {
-                Vector2 targetPos = HitboxRelativeTransform.position + (HitboxRelativeTransform .right * targetPosition.x + HitboxRelativeTransform.up * targetPosition.y);
-                Vector2 hitboxOffsetPos = HitboxOffset;
+                Vector3 targetPos = HitboxRelativeTransform.position + HitboxRelativeTransform.rotation * targetPosition;
+                Vector3 hitboxOffsetPos = HitboxOffset;
 
                 switch (hitboxShape)
                 {
@@ -268,7 +284,7 @@ public class PlayerWeapon : MonoBehaviour
 
                 }
 
-                if (behaviorType == HitboxBehaviorType.Moving)
+                if (behaviorType != HitboxBehaviorType.Fixed)
                 {
                     switch (hitboxShape)
                     {
@@ -281,12 +297,27 @@ public class PlayerWeapon : MonoBehaviour
                             break;
 
                     }
-                    float t = Mathf.Clamp01((Time.time - startTime) / duration);
-                    hitboxOffsetPos = Vector2.Lerp(hitboxOffsetPos, targetPos, t);
+
                 }
 
-                if (meleeHitboxActive)
+                if (meleeHitboxActive && Application.isPlaying)
                 {
+                    float t = Mathf.Clamp01((Time.time - startTime) / stats.GetModifiedSecondaryStat(SecondaryStat.HitboxDuration));
+                    switch (behaviorType)
+                    {
+                        case HitboxBehaviorType.MovingStraight:
+                            hitboxOffsetPos = Vector2.Lerp(hitboxOffsetPos, targetPos, hitboxMovementCurve.Evaluate(t));
+                            break;
+
+                        case HitboxBehaviorType.MovingOrbital:
+                            Vector3 startVector = HitboxOffset - HitboxRelativeTransform.position;
+                            Vector3 endVector = targetPos - HitboxRelativeTransform.position;
+                            float angleValue = Vector2.Angle(startVector, endVector);
+                            Vector3 resultVector = (Quaternion.AngleAxis(Mathf.LerpAngle(0f, angleValue, hitboxMovementCurve.Evaluate(t)), transform.forward) * startVector);
+                            hitboxOffsetPos = HitboxRelativeTransform.position + resultVector.normalized * Mathf.Lerp(startVector.magnitude, endVector.magnitude, hitboxMovementCurve.Evaluate(t));
+                            break;
+                    }
+
                     switch (hitboxShape)
                     {
                         case HitboxShapeType.Circle:
@@ -383,7 +414,8 @@ public enum ProjectileSpawnType
 public enum HitboxBehaviorType
 {
     Fixed = 0,
-    Moving = 1,
+    MovingStraight = 1,
+    MovingOrbital = 2,
 }
 
 public enum ProjectileReturnType
