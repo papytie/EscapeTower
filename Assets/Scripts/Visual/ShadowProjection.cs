@@ -1,3 +1,4 @@
+using Dest.Math;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,6 @@ public class ShadowProjection : MonoBehaviour {
 
     public GameObject playerObject;
     public GameObject lightObject;
-    private float shadowDistance;
     public float raycastOffsetX = 0f;
     public LayerMask WallLayer => wallLayer;
     [SerializeField] LayerMask wallLayer;
@@ -16,47 +16,24 @@ public class ShadowProjection : MonoBehaviour {
 
 
     void Update() {
-        Vector3 shadowDirection = (playerObject.transform.position - lightObject.transform.position).normalized;
-        float lightDistance = Vector3.Distance(playerObject.transform.position, lightObject.transform.position);
+        Vector2 playerCenter = playerObject.transform.position;
+        Vector2 lightPosition = lightObject.transform.position;
+        Line2 lightToWallCenter = Line2.CreateFromTwoPoints(lightPosition, playerCenter);
 
-        RaycastHit2D hitwall = Physics2D.Raycast(playerObject.transform.position + new Vector3(raycastOffsetX, 0, 0), shadowDirection, float.PositiveInfinity, WallLayer);
-        shadowDistance = hitwall.distance;
+        RaycastHit2D hitwall = Physics2D.Raycast(playerCenter + new Vector2(raycastOffsetX, 0), lightToWallCenter.Direction, float.PositiveInfinity, WallLayer);
 
-        transform.position = playerObject.transform.position + shadowDirection * shadowDistance + Vector3.up * positionOffset;
+        if(!hitwall)
+            return;
 
-        // Use thales theorem
-        Vector3 lightPosition = lightObject.transform.position;
-        Vector3 perpendicularDir = Vector2.Perpendicular(shadowDirection);
+        // Use thales theorem to find projected shadow width
+        Vector2 playerBorder = playerCenter + lightToWallCenter.Direction.Perp() * (playerWidth * 0.5f);
+        Line2 wallProjection = Line2.CreatePerpToLineTrhoughPoint(lightToWallCenter, hitwall.point);
+        Line2 lightShadowConeBorder = Line2.CreateFromTwoPoints(lightPosition, playerBorder);
+        Intersection.FindLine2Line2(ref wallProjection, ref lightShadowConeBorder, out Line2Line2Intr projectionBorder);
 
-        Vector3 playerCenter = playerObject.transform.position;
-        Vector3 projectedCenter = playerCenter + shadowDirection * shadowDistance;
+        float projectedShadowWidth = playerWidth * Vector2.Distance(lightPosition, projectionBorder.Point) / Vector2.Distance(lightPosition, playerBorder);
 
-        Vector3 playerBorder = playerCenter + perpendicularDir * playerWidth * 0.5f;
-        LineLineIntersection(out Vector3 projectionBorder, playerBorder, (playerBorder - lightPosition).normalized, projectedCenter, perpendicularDir);
-
-        float projectedSegment = Vector3.Distance(playerCenter, playerBorder) * 2f * Vector3.Distance(lightPosition, projectionBorder) / Vector3.Distance(lightPosition, playerBorder);
-        transform.localScale = Vector3.one * (1 + scaleFactor * Mathf.Max(projectedSegment / playerWidth - 1f, 0f));
-    }
-
-    public static bool LineLineIntersection(out Vector3 intersection, Vector3 linePoint1,
-        Vector3 lineVec1, Vector3 linePoint2, Vector3 lineVec2) {
-
-        Vector3 lineVec3 = linePoint2 - linePoint1;
-        Vector3 crossVec1and2 = Vector3.Cross(lineVec1, lineVec2);
-        Vector3 crossVec3and2 = Vector3.Cross(lineVec3, lineVec2);
-
-        float planarFactor = Vector3.Dot(lineVec3, crossVec1and2);
-
-        //is coplanar, and not parallel
-        if(Mathf.Abs(planarFactor) < 0.0001f
-                && crossVec1and2.sqrMagnitude > 0.0001f) {
-            float s = Vector3.Dot(crossVec3and2, crossVec1and2)
-                    / crossVec1and2.sqrMagnitude;
-            intersection = linePoint1 + (lineVec1 * s);
-            return true;
-        } else {
-            intersection = Vector3.zero;
-            return false;
-        }
+        transform.localScale = Vector3.one * (1 + scaleFactor * Mathf.Max(projectedShadowWidth / playerWidth - 1f, 0f));
+        transform.position = (Vector3) hitwall.point + Vector3.up * positionOffset;
     }
 }
