@@ -10,5 +10,6 @@ namespace EscapeTower.GameSettings {
         public Color bonusColor;
         public Color weaponColor;
         public Color consumableColor;
+        public Color projectileColor;
     }
 }

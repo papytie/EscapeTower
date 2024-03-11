@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         GetComponentsRef();  
+        InitComponentsRef();
     }
 
     void GetComponentsRef()
@@ -43,11 +44,6 @@ public class PlayerController : MonoBehaviour
         collision = GetComponent<PlayerCollision>();
         collector = GetComponent<PlayerPickupCollector>();
         animator = GetComponent<Animator>();
-    }
-
-    void Start()
-    {
-        InitComponentsRef();
     }
 
     void InitComponentsRef()

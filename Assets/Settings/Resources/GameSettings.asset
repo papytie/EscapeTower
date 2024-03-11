@@ -23,3 +23,4 @@ MonoBehaviour:
     bonusColor: {r: 0.54509807, g: 0.8784314, b: 0.35686275, a: 1}
     weaponColor: {r: 0.627451, g: 0.20784314, b: 0.87058824, a: 1}
     consumableColor: {r: 0, g: 0.8156863, b: 0.96862745, a: 1}
+    projectileColor: {r: 1, g: 0.4890508, b: 0, a: 1}

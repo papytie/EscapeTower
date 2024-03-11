@@ -543,7 +543,7 @@ TextureImporter:
         width: 6
         height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -564,7 +564,7 @@ TextureImporter:
         width: 16
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -572,6 +572,48 @@ TextureImporter:
       bones: []
       spriteID: 9a3a33a1b9546ec4ba6afffbc75c2e53
       internalID: 1777346565
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boomerang
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 3
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a718a7dcd2f5d4b4190c34ce662d9b59
+      internalID: 1044120828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bomb
+      rect:
+        serializedVersion: 2
+        x: 53
+        y: 51
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 382896b7638fefb4580be4b15ad3000f
+      internalID: 1653450845
       vertices: []
       indices: 
       edges: []
@@ -588,6 +630,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Arrow: 1777346565
+      Bomb: 1653450845
       Bow: 1866502993
       Consumable: -1263261112
       GreenSword: -133592459
@@ -604,6 +647,7 @@ TextureImporter:
       LinkWalkBack: 1347178644
       RedSword: -1871169563
       SwordPickup: 1230942490
+      boomerang: 1044120828
       explo0: -1376874097
       explo01: 1369694311
       explo02: 1847778026

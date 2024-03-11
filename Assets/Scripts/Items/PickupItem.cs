@@ -9,11 +9,13 @@ public class PickupItem : MonoBehaviour
     public StatModifierTemplate StatModifier => statModifierTemplate;
     public ConsumableTemplate Consumable => consumableTemplate;
     public WeaponPickupTemplate WeaponPickup => weaponPickupTemplate;
+    public ProjectilePickupTemplate ProjectilePickup => projectilePickupTemplate;
 
     [SerializeField] PickableType templateType;
     [SerializeField] StatModifierTemplate statModifierTemplate;
     [SerializeField] ConsumableTemplate consumableTemplate;
     [SerializeField] WeaponPickupTemplate weaponPickupTemplate;
+    [SerializeField] ProjectilePickupTemplate projectilePickupTemplate;
 
     [Header("Visual")]
     [SerializeField] SpriteRenderer borderSprite;
@@ -45,6 +47,9 @@ public class PickupItem : MonoBehaviour
             case PickableType.Consumable:
                 template = consumableTemplate;
                 break;
+            case PickableType.Projectile:
+                template = projectilePickupTemplate;
+                break;
             default:
                 break;
         }
@@ -57,6 +62,7 @@ public class PickupItem : MonoBehaviour
             PickableType.Weapon => Game.GameSettings.Pickup.weaponColor,
             PickableType.Consumable => Game.GameSettings.Pickup.consumableColor,
             PickableType.StatModifier => Game.GameSettings.Pickup.bonusColor,
+            PickableType.Projectile => Game.GameSettings.Pickup.projectileColor,
             _ => Color.white
         };
     }
