@@ -2974,7 +2974,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8438143753717852558, guid: 39727a45330f21648a94e69dd6734f2d, type: 3}
       propertyPath: showDebug
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8438143753717852558, guid: 39727a45330f21648a94e69dd6734f2d, type: 3}
       propertyPath: weaponSlot
@@ -3002,7 +3002,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8438143753717852558, guid: 39727a45330f21648a94e69dd6734f2d, type: 3}
       propertyPath: useMeleeHitbox
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8438143753717852558, guid: 39727a45330f21648a94e69dd6734f2d, type: 3}
       propertyPath: projectileRange

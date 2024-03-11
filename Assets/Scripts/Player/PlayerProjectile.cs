@@ -57,7 +57,7 @@ public class PlayerProjectile : MonoBehaviour
                     ProjectileMovement(startPosition, endPosition);
                     break;
                 case ProjectileReturnType.ReturnToPlayer:
-                    ProjectileMovement(startPosition, weapon.ProjectileSpawnOffset);
+                    ProjectileMovement(startPosition, weapon.ProjectileSpawnPosition);
                     break;
 
             }
