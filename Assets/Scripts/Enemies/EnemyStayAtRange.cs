@@ -2,36 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyStayAtRange : MonoBehaviour
+public class EnemyStayAtRange : MonoBehaviour, IMovement
 {
-    [Header("Movement Settings")]
-    [SerializeField] float moveSpeed = 2;
-    [SerializeField] float minRange = 1;
-    [SerializeField] float maxRange = 5;
+    public StayAtRangeData MovementData { get; set; }
 
-    EnemyCollision collision;
-
-    public void InitRef(EnemyCollision enemyCollision)
+    public void Init(IMovementData data)
     {
-        collision = enemyCollision;
-
+        MovementData = data as StayAtRangeData;
     }
 
-    public void StayAtRangeFromTarget(GameObject target)
+    public void Move(GameObject target, EnemyCollision collision)
     {
         Vector2 targetDirection = (target.transform.position - transform.position).normalized;
         float targetDistance = Vector3.Distance(transform.position, target.transform.position);
 
-        if (targetDistance > maxRange || targetDistance < minRange)
+        if (targetDistance > MovementData.maxRange || targetDistance < MovementData.minRange)
         {
             //Invert direction if too close of target
-            if (targetDistance < minRange) targetDirection = -targetDirection;
+            if (targetDistance < MovementData.minRange) targetDirection = -targetDirection;
 
             //Look away/at rotation
             transform.rotation = Quaternion.LookRotation(Vector3.forward, targetDirection);
 
             //Check for collision
-            collision.MoveCollisionCheck(targetDirection, moveSpeed * Time.deltaTime, collision.CollisionLayer, out Vector3 finalPosition, out RaycastHit2D hit);
+            collision.MoveCollisionCheck(targetDirection, MovementData.speed * Time.deltaTime, collision.CollisionLayer, out Vector3 finalPosition, out RaycastHit2D hit);
             transform.position = finalPosition;
         }
 

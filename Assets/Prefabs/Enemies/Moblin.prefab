@@ -79,7 +79,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentLifePoints: 5
   maxLifePoints: 20
-  despawnTime: 2
+  despawnDuration: 3
 --- !u!114 &8867222317375942947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,18 +93,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseDamage: 1
-  attackActivationRange: 1
+  attackActivationRange: 0.25
   attackDelayDuration: 0.2
-  attackLagDuration: 0.5
-  attackCooldown: 1
+  attackLagDuration: 1
+  attackCooldownDuration: 0.5
   hitboxRadius: 0.08
-  hitboxRange: 0.6
+  hitboxRange: 0.15
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
-  hitboxDuration: 0.2
+  hitboxDetectionDuration: 0.1
   hitboxDelayDuration: 0.2
-  showDebug: 0
+  showDebug: 1
   colliderDebugColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &5414690251869928118
 MonoBehaviour:
@@ -118,8 +118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b2a66150ab8292479a92f49da9b9ecc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementType: 1
-  AutoAttack: 1
+  player: {fileID: 0}
 --- !u!114 &841121018022624058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,14 +237,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9de959b942b67f747a12ec9d824358dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRadius: 1
+  detectionRadius: 0.5
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
   obstructionLayer:
     serializedVersion: 2
     m_Bits: 256
-  showDebug: 1
+  showDebug: 0
   debugColor: {r: 1, g: 0, b: 0.65255785, a: 1}
 --- !u!114 &5778494485833693162
 MonoBehaviour:
@@ -259,8 +258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8087a1acfac6924b8b423d13d7b1ef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1
-  minRange: 0.25
+  type: 0
 --- !u!114 &1066710493659318942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,8 +271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83df9ddcf7541724a9c61109e193887e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
-  maxRange: 0.8
+  type: 0
 --- !u!114 &5447228568549962305
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -287,9 +284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4371a93e6b6a1b844bdb475b0189e3e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1
-  minRange: 0.5
-  maxRange: 1
+  type: 0
 --- !u!114 &7977848939217380678
 MonoBehaviour:
   m_ObjectHideFlags: 0
