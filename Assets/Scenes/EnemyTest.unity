@@ -180,6 +180,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8619544402285568894, guid: aedf39e926b640b4687e56297141b15d, type: 3}
+      propertyPath: projectileSpeed
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -454,26 +458,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 79342931}
-  configs:
+  configList:
   - type: 1
     data:
-      rid: 1037788630159458337
+      rid: 1037788671678873602
   - type: 3
     data:
-      rid: 1037788630159458338
+      rid: 1037788671678873603
+  - type: 2
+    data:
+      rid: 1037788671678873604
   references:
     version: 2
     RefIds:
-    - rid: 1037788630159458337
+    - rid: 1037788671678873602
       type: {class: ChaseData, ns: , asm: Assembly-CSharp}
       data:
         speed: 1
         minRange: 0.1
-    - rid: 1037788630159458338
+    - rid: 1037788671678873603
       type: {class: StayAtRangeData, ns: , asm: Assembly-CSharp}
       data:
         speed: 2
         minRange: 0.5
+        maxRange: 1
+    - rid: 1037788671678873604
+      type: {class: FleeData, ns: , asm: Assembly-CSharp}
+      data:
+        speed: 2
         maxRange: 1
 --- !u!114 &1383997335
 MonoBehaviour:

@@ -27,7 +27,6 @@ public class PlayerWeaponSlot : MonoBehaviour
         }
 
         equippedWeapon.transform.SetPositionAndRotation(slotTransform.position, Quaternion.Euler(slotTransform.rotation.eulerAngles));
-        Debug.Log("weapon position set to : " +  equippedWeapon.transform.position);
         equippedWeapon.InitRef(this, stats);
     }
 

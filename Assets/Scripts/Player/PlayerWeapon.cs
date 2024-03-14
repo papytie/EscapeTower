@@ -339,7 +339,7 @@ public class PlayerWeapon : MonoBehaviour
             Gizmos.color = projectileDebugColor;
             if (useProjectile)
             {
-
+                //DEBUG----------------------------------------------------------
                 if (projectileNumber > 1)
                 {
                     float minAngle = spreadAngle / 2f;
@@ -367,6 +367,30 @@ public class PlayerWeapon : MonoBehaviour
                         Gizmos.DrawLine(ProjectileSpawnPosition, multProjPos);
                     }
                 }
+
+                //SPAWN----------------------------------------------------------------------
+               /* if (projectileNumber > 1)
+                {
+                    float minAngle = spreadAngle / 2f;
+                    float angleIncrValue = spreadAngle / (projectileNumber - 1);
+
+                    for (int i = 0; i < projectileNumber; i++)
+                    {
+                        float angle = minAngle - i * angleIncrValue;
+                        Quaternion angleResult = Quaternion.AngleAxis(angle + projectileAngleOffset, transform.forward);
+
+                        Instantiate(projectileToSpawn, ProjectileSpawnPosition, SpawnRelativeTransform.rotation * angleResult).Init(this, stats, ProjectileSpawnPosition, projectileRange);
+
+                        if (projectileSpawnType == ProjectileSpawnType.Sequence)
+                        {
+                            float t = duration / (projectileNumber - 1);
+                            yield return new WaitForSeconds(t);
+                        }
+                    }
+                }
+                else Instantiate(projectileToSpawn, ProjectileSpawnPosition, SpawnRelativeTransform.rotation * Quaternion.AngleAxis(projectileAngleOffset, transform.forward)).Init(this, stats, ProjectileSpawnPosition, projectileRange);
+*/
+
 
                 else
                 {
