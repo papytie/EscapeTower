@@ -475,21 +475,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 79342931}
   configList:
+  - type: 1
+    data:
+      rid: 6521987764809891842
   - type: 4
     data:
-      rid: 6521987764809891840
+      rid: 6521987764809891843
+  - type: 2
+    data:
+      rid: 6521987764809891844
+  - type: 0
+    data:
+      rid: -2
   currentIndex: 0
   startTime: 0
-  timerDuration: 5
+  timerDuration: 3
   references:
     version: 2
     RefIds:
-    - rid: 6521987764809891840
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 6521987764809891842
+      type: {class: ChaseData, ns: , asm: Assembly-CSharp}
+      data:
+        speed: 0.5
+        minRange: 0.25
+    - rid: 6521987764809891843
       type: {class: TurnAroundData, ns: , asm: Assembly-CSharp}
       data:
+        speed: 0.5
+        direction: 0
+        look: 0
+    - rid: 6521987764809891844
+      type: {class: FleeData, ns: , asm: Assembly-CSharp}
+      data:
         speed: 1
-        direction: 1
-        look: 2
+        maxRange: 1
 --- !u!114 &1383997335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -506,7 +527,7 @@ MonoBehaviour:
   colliderRadius: 0.1
   collisionLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   showDebug: 1
   colliderDebugColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!58 &1383997336
