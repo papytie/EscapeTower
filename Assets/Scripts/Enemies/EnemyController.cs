@@ -36,7 +36,7 @@ public class EnemyController : MonoBehaviour
 
         if(Time.time > startTime + timerDuration)
         {
-            currentIndex = currentIndex >= configList.Count ? 0 : currentIndex + 1;
+            currentIndex = currentIndex >= configList.Count-1 ? 0 : currentIndex + 1;
             startTime = Time.time;
 
             SetMovementConfig();
