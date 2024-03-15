@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ThiefFogMaskAnimator
+  m_Controller: {fileID: 9100000, guid: 68f95a74253641141b4e90bf86fee898, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 0dcfe5f9eb4bed04fbb94b4f9634b77e, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 945a0a3c7bb29524b802429d1ee624ed, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: b750d48976a0d054095414cbdc064fa8, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 1d779e3d097f66e499da729cf039b9fd, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 99d855d30faa6614e8d45314cf917109, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: cd0d69ce9938da048afd130eff968638, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: eab3f5aa3c94d9948aa6338c42166a4c, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 4dc0dec8019730242aa0ad4123aad435, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 2cb4161a0492f9142813c52874dc5870, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: d117b1ddbde7be04db0157259ab5b500, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: b5113847b47ea2241be61fe5a1b9b372, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 829602369fddc974a9ebc6b640b83d60, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: f097d48a5ed861441a0ccc789a0eaa28, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 943e76ce516901b4f9bc08e5ee60c662, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 6b833db37bc84264ab471915eba37532, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: ca735d1cc1ae8ea4786ec41459726583, type: 2}

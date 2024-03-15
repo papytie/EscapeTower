@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ThiefShadowProjectionAnimator
+  m_Controller: {fileID: 9100000, guid: 68f95a74253641141b4e90bf86fee898, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 0dcfe5f9eb4bed04fbb94b4f9634b77e, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 9cb199540ca42c2418b3a37ee550fd85, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: b750d48976a0d054095414cbdc064fa8, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 9b847269551c5414fa15be9faa639a99, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 99d855d30faa6614e8d45314cf917109, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 5539b28b47095e24d90afc1c3f441311, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: eab3f5aa3c94d9948aa6338c42166a4c, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 50388dc7d9891544084b7b66459dea37, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 2cb4161a0492f9142813c52874dc5870, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: d30db033f9fe21849a928f25c92305f4, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: b5113847b47ea2241be61fe5a1b9b372, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 557db44bf25f199498751584d7d3ef57, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: f097d48a5ed861441a0ccc789a0eaa28, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 548f538a9b8698f4c9c7507f878ef7c0, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 6b833db37bc84264ab471915eba37532, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 150500d223254be4ea5f8849167c7337, type: 2}
