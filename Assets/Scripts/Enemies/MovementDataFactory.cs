@@ -10,6 +10,7 @@ public class MovementDataFactory
             MovementType.Chase => new ChaseData(),
             MovementType.Flee => new FleeData(),
             MovementType.StayAtRange => new StayAtRangeData(),
+            MovementType.TurnAround => new TurnAroundData(),
             _ => null,
         };
 

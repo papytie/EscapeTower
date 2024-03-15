@@ -27,6 +27,5 @@ public class EnemyFlee : MonoBehaviour, IMovement
             transform.position = finalPosition;
 
         }
-
     }
 }

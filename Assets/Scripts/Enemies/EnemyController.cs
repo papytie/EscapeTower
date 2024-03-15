@@ -32,6 +32,7 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
+        //TODO: do something about the Wait case scenario
         currentMovement.Move(player, collision);
 
         if(Time.time > startTime + timerDuration)
@@ -80,6 +81,14 @@ public class EnemyController : MonoBehaviour
                     }
                     break;
 
+                case MovementType.TurnAround:
+                    if(!movementBehaviors.ContainsKey(MovementType.StayAtRange))
+                    {
+                        EnemyTurnAround turnAround = gameObject.AddComponent<EnemyTurnAround>();
+                        movementBehaviors.Add(MovementType.TurnAround, turnAround);
+                    }
+                    break;
+
 
             }
             
@@ -97,6 +106,7 @@ public class EnemyController : MonoBehaviour
                 MovementType.Chase => typeof(ChaseData),
                 MovementType.Flee => typeof(FleeData),
                 MovementType.StayAtRange => typeof(StayAtRangeData),
+                MovementType.TurnAround => typeof(TurnAroundData),
                 _ => null,
             };
 
