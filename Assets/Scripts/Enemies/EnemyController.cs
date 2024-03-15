@@ -32,8 +32,8 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
-        //TODO: do something about the Wait case scenario
-        currentMovement.Move(player, collision);
+        if (configList[currentIndex].type != MovementType.Wait)
+            currentMovement.Move(player, collision);
 
         if(Time.time > startTime + timerDuration)
         {
@@ -47,6 +47,8 @@ public class EnemyController : MonoBehaviour
 
     void SetMovementConfig()
     {
+        if (configList[currentIndex].type == MovementType.Wait) return;
+
         currentMovement = movementBehaviors[configList[currentIndex].type];
         currentMovement.Init(configList[currentIndex].data);
     }
@@ -89,6 +91,8 @@ public class EnemyController : MonoBehaviour
                     }
                     break;
 
+                case MovementType.Wait:
+                    break;
 
             }
             
