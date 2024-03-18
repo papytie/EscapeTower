@@ -12,21 +12,15 @@ public class EnemyAttack : MonoBehaviour
     [Header("Attack Settings")]
     [SerializeField] int baseDamage = 1;
     [SerializeField] float attackActivationRange = .5f;
-    [Header("Delay")]
     [SerializeField] float attackDelayDuration = .2f;
-    [Header("Lag")]
     [SerializeField] float attackLagDuration = .2f;
-    [Header("CoolDown")]
     [SerializeField] float attackCooldownDuration = .5f;
 
     [Header("Hitbox Settings")]
     [SerializeField] float hitboxRadius = .5f;
     [SerializeField] float hitboxRange = .5f;
-    [Header("Layer")]
     [SerializeField] LayerMask playerLayer;
-    [Header("Duration")]
     [SerializeField] float hitboxDetectionDuration = .1f;
-    [Header("Delay")]
     [SerializeField] float hitboxDelayDuration = .1f;
 
     [Header("Debug")]
@@ -60,7 +54,6 @@ public class EnemyAttack : MonoBehaviour
 
     private void Update()
     {
-
         if (isAttackDelayed && Time.time >= attackDelayEndTime)
         {
             isAttackDelayed = false;

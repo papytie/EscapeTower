@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(EnemyCollision))]
+[RequireComponent(typeof(EnemyCollision), typeof(Animator), typeof(EnemyEffectSystem))]
+[RequireComponent(typeof(Attack))]
 
 public class EnemyController : MonoBehaviour
 {
@@ -16,18 +17,24 @@ public class EnemyController : MonoBehaviour
     Dictionary<MovementType, IMovement> movementBehaviors = new();
 
     EnemyCollision collision;
+    EnemyEffectSystem effects;
+    Animator animator;
+    Attack attack;
     IMovement currentMovement;
 
     private void Awake()
     {
+        attack = GetComponent<Attack>();
         collision = GetComponent<EnemyCollision>();
+        animator = GetComponent<Animator>();
+        effects = GetComponent<EnemyEffectSystem>();
         InitMovementBehaviors();
-        
     }
 
     private void Start()
     {
         SetMovementConfig();
+        attack.InitRef(effects, animator);
     }
 
     private void Update()
@@ -37,10 +44,14 @@ public class EnemyController : MonoBehaviour
 
         if(Time.time > startTime + timerDuration)
         {
+            //TODO:
+            attack.AttackActivation();
+
             currentIndex = currentIndex >= configList.Count-1 ? 0 : currentIndex + 1;
             startTime = Time.time;
-
+            
             SetMovementConfig();
+
         }
 
     }
