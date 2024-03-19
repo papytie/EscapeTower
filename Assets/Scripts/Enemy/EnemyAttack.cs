@@ -71,7 +71,8 @@ public class EnemyAttack : MonoBehaviour
         StartCoroutine(AttackProcess());
 
         animator.SetTrigger(GameParams.Animation.ENEMY_ATTACK_TRIGGER);
-        effects.AttackFX();
+        //TODO: Fix Enemy Effects
+        //effects.AttackFX();
     }
 
     IEnumerator AttackProcess()

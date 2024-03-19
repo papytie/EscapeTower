@@ -20,7 +20,7 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 128
-  useMeleeHitbox: 1
+  useMeleeHitbox: 0
   hitboxDuration: 0.5
   maxTargets: 1
   hitboxPositionRelativeTo: 0
@@ -199,8 +199,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  projectileReturnType: 1
-  projectileReturnFlip: 1
+  projectileReturnType: 0
+  projectileReturnFlip: 0
   returnCurve:
     serializedVersion: 2
     m_Curve:
@@ -225,7 +225,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  projectileToSpawn: {fileID: 1539454035064346066, guid: 8b9d2728a23289044864ba9364c3b4e9, type: 3}
+  projectileToSpawn: {fileID: 1539454035064346066, guid: 0ea91f70432875648baf72afaa683db6, type: 3}
   projectileSpawnRelativeTo: 0
   projectileSpawnOffset: {x: 0, y: 0}
   projectileAngleOffset: 0
@@ -235,7 +235,7 @@ MonoBehaviour:
   projectileSpeed: 1
   spreadAngle: 60
   projectileRange: 1
-  showDebug: 1
+  showDebug: 0
   debugCube: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   meleeDebugColor: {r: 1, g: 0.03653574, b: 0, a: 0.5882353}
   projectileDebugColor: {r: 1, g: 0, b: 0, a: 0.5882353}

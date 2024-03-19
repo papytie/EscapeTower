@@ -20,7 +20,7 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
-  useMeleeHitbox: 1
+  useMeleeHitbox: 0
   hitboxDuration: 0.5
   maxTargets: 1
   hitboxPositionRelativeTo: 0
@@ -199,8 +199,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  projectileReturnType: 2
-  projectileReturnFlip: 1
+  projectileReturnType: 0
+  projectileReturnFlip: 0
   returnCurve:
     serializedVersion: 2
     m_Curve:
@@ -229,12 +229,12 @@ MonoBehaviour:
   projectileSpawnRelativeTo: 0
   projectileSpawnOffset: {x: 0, y: 0}
   projectileAngleOffset: 0
-  projectileNumber: 3
+  projectileNumber: 1
   projectileSpawnType: 0
   projectileMaxTargets: 1
   projectileSpeed: 2
-  spreadAngle: 45
-  projectileRange: 0.5
+  spreadAngle: 60
+  projectileRange: 1
   showDebug: 0
   debugCube: {fileID: 0}
   meleeDebugColor: {r: 0, g: 0, b: 0, a: 0}
