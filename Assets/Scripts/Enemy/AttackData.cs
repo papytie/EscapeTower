@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "AttackData", menuName = "GameData/Enemy/AttackData", order = 1)]
+[CreateAssetMenu(fileName = "AttackData", menuName = "GameData/AttackData", order = 1)]
 
 [Serializable]
 public class AttackData : ScriptableObject
@@ -14,12 +14,13 @@ public class AttackData : ScriptableObject
     public float lag = .2f;
     public float delay = 0;
     public float duration = .1f;
-    public LayerMask playerLayer;
+    public LayerMask targetLayer;
 
     [Header("Melee Settings")]
     public bool useMeleeHitbox = true;
     public float hitboxDuration = .1f;
     public int maxTargets = 1;
+    public RelativeTransform hitboxPositionRelativeTo;
     public Vector2 hitboxPositionOffset = Vector2.zero;
     public HitboxShapeType hitboxShape;
     public float circleRadius = .1f;
@@ -30,11 +31,12 @@ public class AttackData : ScriptableObject
 
     [Header("Projectile Option")]
     public bool useProjectile = false;
+    public LayerMask obstructionLayer;
     public AnimationCurve launchCurve;
     public ProjectileReturnType projectileReturnType;
     public bool projectileReturnFlip = false;
     public AnimationCurve returnCurve;
-    public PlayerProjectile projectileToSpawn;
+    public ProjectileController projectileToSpawn;
     public RelativeTransform projectileSpawnRelativeTo;
     public Vector2 projectileSpawnOffset = Vector2.zero;
     public float projectileAngleOffset = 0;
@@ -44,4 +46,11 @@ public class AttackData : ScriptableObject
     public float projectileSpeed = 1;
     public float spreadAngle = 60;
     public float projectileRange = 1;
+
+    [Header("Debug")]
+    public bool showDebug;
+    public Mesh debugCube;
+    public Color meleeDebugColor;
+    public Color projectileDebugColor;
+
 }

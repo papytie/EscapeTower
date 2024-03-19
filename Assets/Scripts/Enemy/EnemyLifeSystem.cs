@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using static GameParams;
 
-public class EnemyLifeSystem : MonoBehaviour
+public class EnemyLifeSystem : MonoBehaviour, ILifeSystem
 {
     public bool IsDead => isDead;
+    public float CurrentLifePoints => currentLifePoints;
+    public float MaxLifePoints => maxLifePoints;
 
     [Header("Life Settings")]
     [SerializeField] float currentLifePoints = 10;
@@ -63,4 +65,8 @@ public class EnemyLifeSystem : MonoBehaviour
         isDead = true;
     }
 
+    public void HealUp(float heal)
+    {
+        throw new System.NotImplementedException();
+    }
 }

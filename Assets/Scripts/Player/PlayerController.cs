@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviour
         //Collision Check reaction
         if (CanTakeDamage)
         {
-            if (collision.EnemyCheckCollision(collision.EnemyLayer, out int dmg))
+            if (collision.EnemyCheckCollision(collision.EnemyLayer, out float dmg))
             {
                 lifeSystem.TakeDamage(dmg);
             }

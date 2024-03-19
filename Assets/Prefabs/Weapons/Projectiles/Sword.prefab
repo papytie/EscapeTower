@@ -55,7 +55,7 @@ MonoBehaviour:
     m_Bits: 256
   boxSize: {x: 0.05, y: 0.15}
   circleRadius: 0.03
-  showDebug: 0
+  showDebug: 1
   debugColor: {r: 1, g: 0, b: 0, a: 1}
   boxMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &7798645214011579504

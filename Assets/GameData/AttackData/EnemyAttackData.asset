@@ -10,19 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c465f5750595a17418e152c6d5bf3c9e, type: 3}
-  m_Name: AttackData
+  m_Name: EnemyAttackData
   m_EditorClassIdentifier: 
   damage: 1
   cooldown: 0.5
   lag: 0.2
   delay: 0
   duration: 0.1
-  playerLayer:
+  targetLayer:
     serializedVersion: 2
     m_Bits: 64
   useMeleeHitbox: 1
   hitboxDuration: 0.5
   maxTargets: 1
+  hitboxPositionRelativeTo: 0
   hitboxPositionOffset: {x: -0.1, y: 0.2}
   hitboxShape: 2
   circleRadius: 0.1
@@ -170,28 +171,71 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   targetPosition: {x: 0.1, y: 0.2}
-  useProjectile: 0
+  useProjectile: 1
+  obstructionLayer:
+    serializedVersion: 2
+    m_Bits: 256
   launchCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  projectileReturnType: 0
-  projectileReturnFlip: 0
+  projectileReturnType: 2
+  projectileReturnFlip: 1
   returnCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  projectileToSpawn: {fileID: 0}
+  projectileToSpawn: {fileID: 1539454035064346066, guid: 0ea91f70432875648baf72afaa683db6, type: 3}
   projectileSpawnRelativeTo: 0
   projectileSpawnOffset: {x: 0, y: 0}
   projectileAngleOffset: 0
-  projectileNumber: 1
+  projectileNumber: 3
   projectileSpawnType: 0
   projectileMaxTargets: 1
-  projectileSpeed: 1
-  spreadAngle: 60
-  projectileRange: 1
+  projectileSpeed: 2
+  spreadAngle: 45
+  projectileRange: 0.5
+  showDebug: 0
+  debugCube: {fileID: 0}
+  meleeDebugColor: {r: 0, g: 0, b: 0, a: 0}
+  projectileDebugColor: {r: 0, g: 0, b: 0, a: 0}

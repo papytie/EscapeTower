@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(EnemyCollision), typeof(Animator), typeof(EnemyEffectSystem))]
-[RequireComponent(typeof(Attack))]
+[RequireComponent(typeof(EnemyCollision), typeof(Animator))]
+[RequireComponent(typeof(EnemyAttack), typeof(EnemyLifeSystem), typeof(EnemyBump))]
 
 public class EnemyController : MonoBehaviour
 {
@@ -18,16 +18,21 @@ public class EnemyController : MonoBehaviour
 
     EnemyCollision collision;
     EnemyEffectSystem effects;
+    EnemyLifeSystem lifeSystem;
+    EnemyBump bump;
     Animator animator;
-    Attack attack;
+    EnemyAttack attack;
+
     IMovement currentMovement;
 
     private void Awake()
     {
-        attack = GetComponent<Attack>();
+        attack = GetComponent<EnemyAttack>();
         collision = GetComponent<EnemyCollision>();
         animator = GetComponent<Animator>();
-        effects = GetComponent<EnemyEffectSystem>();
+        lifeSystem = GetComponent<EnemyLifeSystem>();
+        effects = GetComponentInChildren<EnemyEffectSystem>();
+        bump = GetComponent<EnemyBump>();
         InitMovementBehaviors();
     }
 
@@ -35,16 +40,20 @@ public class EnemyController : MonoBehaviour
     {
         SetMovementConfig();
         attack.InitRef(effects, animator);
+        lifeSystem.InitRef(animator);
+        bump.InitRef(collision);
     }
 
     private void Update()
     {
+        if (lifeSystem.IsDead) return;
+
         if (configList[currentIndex].type != MovementType.Wait)
             currentMovement.Move(player, collision);
 
         if(Time.time > startTime + timerDuration)
         {
-            //TODO:
+            //Test Attack
             attack.AttackActivation();
 
             currentIndex = currentIndex >= configList.Count-1 ? 0 : currentIndex + 1;

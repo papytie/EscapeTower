@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerLifeSystem : MonoBehaviour
+public class PlayerLifeSystem : MonoBehaviour, ILifeSystem
 {
     public bool IsDead => isDead;
     public bool IsInvincible { get => isInvincible; set { isInvincible = value; } }

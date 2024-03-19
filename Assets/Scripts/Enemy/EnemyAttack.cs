@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
-public class Attack : MonoBehaviour
+public class EnemyAttack : MonoBehaviour
 {
+    public AttackData AttackData => attackData;
+
     [Header("Debug")]
     [SerializeField] bool showDebug;
     [SerializeField] Mesh debugCube;
@@ -35,7 +38,7 @@ public class Attack : MonoBehaviour
         animator = animatorRef;
     }
 
-    public void InitData(AttackData data, EnemyEffectSystem effectSystem)
+    public void InitData(AttackData data)
     {
         attackData = data;
     }
@@ -65,11 +68,10 @@ public class Attack : MonoBehaviour
     {
         isAttacking = true;
         StartAttackLag();
-
-        //animator.SetTrigger(GameParams.Animation.ENEMY_ATTACK_TRIGGER);
-        //effects.AttackFX();
-
         StartCoroutine(AttackProcess());
+
+        animator.SetTrigger(GameParams.Animation.ENEMY_ATTACK_TRIGGER);
+        effects.AttackFX();
     }
 
     IEnumerator AttackProcess()
@@ -115,8 +117,8 @@ public class Attack : MonoBehaviour
 
         collisionsList = attackData.hitboxShape switch
         {
-            HitboxShapeType.Circle => Physics2D.CircleCastAll(hitboxCurrrentPos, attackData.circleRadius, Vector2.zero, 0, attackData.playerLayer),
-            HitboxShapeType.Box => Physics2D.BoxCastAll(hitboxCurrrentPos, attackData.boxSize, Quaternion.Angle(Quaternion.identity, transform.transform.rotation), Vector2.zero, 0, attackData.playerLayer),
+            HitboxShapeType.Circle => Physics2D.CircleCastAll(hitboxCurrrentPos, attackData.circleRadius, Vector2.zero, 0, attackData.targetLayer),
+            HitboxShapeType.Box => Physics2D.BoxCastAll(hitboxCurrrentPos, attackData.boxSize, Quaternion.Angle(Quaternion.identity, transform.transform.rotation), Vector2.zero, 0, attackData.targetLayer),
             _ => null,
         };
         return collisionsList.Length > 0;
@@ -152,7 +154,8 @@ public class Attack : MonoBehaviour
                 float angle = minAngle - i * angleIncrValue;
                 Quaternion angleResult = Quaternion.AngleAxis(angle + attackData.projectileAngleOffset, base.transform.forward);
 
-                //Instantiate(data.projectileToSpawn, ProjectileSpawnPosition, transform.rotation * angleResult).Init(this, stats, ProjectileSpawnPosition, data.projectileRange);
+                Instantiate(attackData.projectileToSpawn, ProjectileSpawnPosition, transform.rotation * angleResult)
+                    .Init(gameObject, attackData, ProjectileSpawnPosition, attackData.damage /*TODO: Get Modified stats*/);
 
                 if (attackData.projectileSpawnType == ProjectileSpawnType.Sequence)
                 {
@@ -161,10 +164,11 @@ public class Attack : MonoBehaviour
                 }
             }
         }
-        //else Instantiate(data.projectileToSpawn, ProjectileSpawnPosition, transform.rotation * Quaternion.AngleAxis(data.projectileAngleOffset, base.transform.forward)).Init(this, stats, ProjectileSpawnPosition, data.projectileRange);
+        else Instantiate(attackData.projectileToSpawn, ProjectileSpawnPosition, transform.rotation * Quaternion.AngleAxis(attackData.projectileAngleOffset, base.transform.forward))
+                .Init(gameObject, attackData, ProjectileSpawnPosition, attackData.damage /*TODO: Get Modified stats*/);
     }
 
-    public void ChangeProjectile(PlayerProjectile newProjectile)
+    public void ChangeProjectile(ProjectileController newProjectile)
     {
         attackData.projectileToSpawn = newProjectile;
     }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerProjectile : MonoBehaviour
+public class ProjectileController : MonoBehaviour
 {
     public HitboxShapeType HitboxShape => hitboxShape;
     public Color SetDebugColor { set { transform.GetComponentInChildren<SpriteRenderer>().color = value; } }
@@ -13,8 +13,6 @@ public class PlayerProjectile : MonoBehaviour
     [Header("Projectile settings")]
     [SerializeField] HitboxShapeType hitboxShape;
     [SerializeField] Vector2 hitboxOffset;
-    [SerializeField] LayerMask enemyLayer;
-    [SerializeField] LayerMask obstructionLayer;
     [SerializeField] Vector2 boxSize;
     [SerializeField] float circleRadius;
 
@@ -25,22 +23,21 @@ public class PlayerProjectile : MonoBehaviour
 
     Vector2 startPosition = Vector2.zero;
     Vector2 endPosition = Vector2.zero;
-    PlayerWeapon weapon;
-    PlayerStats stats;
     float startTime = 0;
+    float damage = 0;
     bool isReturning = false;
+    GameObject owner;
+    AttackData attackData;
 
-    List<EnemyLifeSystem> enemiesHit = new();
+    List<ILifeSystem> hitList = new();
 
-    public void Init(PlayerWeapon weaponRef, PlayerStats statsRef, Vector3 relativePos, float range)
+    public void Init(GameObject projectileOwner, AttackData data, Vector3 relativePos, float projectileDamage)
     {
-        //Ref
-        weapon = weaponRef;
-        stats = statsRef;
-
-        //Init var
+        owner = projectileOwner;
+        attackData = data;
+        damage = projectileDamage;
+        endPosition = relativePos + transform.up * attackData.projectileRange;
         startPosition = transform.position;
-        endPosition = relativePos + transform.up * range;
         startTime = Time.time;
     }
 
@@ -51,23 +48,23 @@ public class PlayerProjectile : MonoBehaviour
 
         if (isReturning)
         {
-            switch (weapon.ProjectileReturnType)
+            switch (attackData.projectileReturnType)
             {
                 case ProjectileReturnType.ReturnToSpawnPosition:
                     ProjectileMovement(startPosition, endPosition);
                     break;
                 case ProjectileReturnType.ReturnToPlayer:
-                    ProjectileMovement(startPosition, weapon.ProjectileSpawnPosition);
+                    ProjectileMovement(startPosition, owner.transform.position);
                     break;
 
             }
         }
 
-        if (Time.time >= startTime + weapon.Range / weapon.Speed)
+        if (Time.time >= startTime + attackData.projectileRange / attackData.projectileSpeed)
         {
-            if(!isReturning && weapon.ProjectileReturnType != ProjectileReturnType.NoReturn)
+            if(!isReturning && attackData.projectileReturnType != ProjectileReturnType.NoReturn)
             {
-                if(weapon.ProjectileReturnFlip)
+                if(attackData.projectileReturnFlip)
                     transform.rotation = Quaternion.Euler(0f, 0f, 180f) * transform.rotation;
 
                 endPosition = startPosition;
@@ -84,9 +81,9 @@ public class PlayerProjectile : MonoBehaviour
 
     void ProjectileMovement(Vector2 startPos, Vector2 endPos)
     {
-        float t = Mathf.Clamp01((Time.time - startTime) / (weapon.Range / weapon.Speed));
+        float t = Mathf.Clamp01((Time.time - startTime) / (attackData.projectileRange / attackData.projectileSpeed));
         //Move gameObject
-        transform.position = Vector3.Lerp(startPos, endPos, weapon.LaunchCurve.Evaluate(t));
+        transform.position = Vector3.Lerp(startPos, endPos, attackData.launchCurve.Evaluate(t));
 
         //Define hitbox position with offset and check collisions
         Vector3 offsetPos = transform.position + (transform.right * hitboxOffset.x + transform.up * hitboxOffset.y);
@@ -98,8 +95,8 @@ public class PlayerProjectile : MonoBehaviour
     {
         collisionsList = hitboxShape switch
         {
-            HitboxShapeType.Circle => Physics2D.CircleCastAll(position, circleRadius, Vector2.zero, 0, enemyLayer),
-            HitboxShapeType.Box => Physics2D.BoxCastAll(position, boxSize, Quaternion.Angle(Quaternion.identity, transform.rotation), Vector2.zero, 0, enemyLayer),
+            HitboxShapeType.Circle => Physics2D.CircleCastAll(position, circleRadius, Vector2.zero, 0, attackData.targetLayer),
+            HitboxShapeType.Box => Physics2D.BoxCastAll(position, boxSize, Quaternion.Angle(Quaternion.identity, transform.rotation), Vector2.zero, 0, attackData.targetLayer),
             _ => null,
         };
         return collisionsList.Length > 0;
@@ -110,14 +107,15 @@ public class PlayerProjectile : MonoBehaviour
         switch (hitboxShape)
         {
             case HitboxShapeType.Circle:
-                if (Physics2D.CircleCast(position, circleRadius, Vector2.zero, 0, obstructionLayer))
+                if (Physics2D.CircleCast(position, circleRadius, Vector2.zero, 0, attackData.obstructionLayer))
                     Destroy(gameObject);
                 break;
 
             case HitboxShapeType.Box:
-                if (Physics2D.BoxCast(position, boxSize, Quaternion.Angle(Quaternion.identity, transform.rotation), Vector2.zero, 0, obstructionLayer))
+                if (Physics2D.BoxCast(position, boxSize, Quaternion.Angle(Quaternion.identity, transform.rotation), Vector2.zero, 0, attackData.obstructionLayer))
                     Destroy(gameObject);
                 break;
+
         }
 
     }
@@ -128,20 +126,24 @@ public class PlayerProjectile : MonoBehaviour
         {
             foreach (RaycastHit2D collision in collisionsList)
             {
-                EnemyLifeSystem enemyLifesystem = collision.transform.GetComponent<EnemyLifeSystem>();
+                ILifeSystem lifeSystem = collision.transform.GetComponent<ILifeSystem>();
+                if (lifeSystem == null) return;
 
-                if (enemyLifesystem && !enemyLifesystem.IsDead && !enemiesHit.Contains(enemyLifesystem) && enemiesHit.Count < weapon.MaxTargets)
+                if (!lifeSystem.IsDead && !hitList.Contains(lifeSystem) && hitList.Count < attackData.maxTargets)
                 {
-                    enemyLifesystem.TakeDamage(stats.GetModifiedMainStat(MainStat.Damage));
+                    lifeSystem.TakeDamage(damage);
 
-                    //Call enemy Bump and give direction which is the inverted Normal of the collision
-                    collision.transform.GetComponent<EnemyBump>().BumpedAwayActivation(-collision.normal);
+                    if(lifeSystem is EnemyLifeSystem)
+                    {
+                        //Call enemy Bump and give direction which is the inverted Normal of the collision
+                        collision.transform.GetComponent<EnemyBump>().BumpedAwayActivation(-collision.normal);
+                    }
 
-                    enemiesHit.Add(enemyLifesystem);
+                    hitList.Add(lifeSystem);
                 }
 
                 //Destroy self if numberOfTarget is reached
-                if (enemiesHit.Count >= weapon.MaxTargets)
+                if (hitList.Count >= attackData.maxTargets)
                     Destroy(gameObject);
             }
         }
@@ -167,9 +169,9 @@ public class PlayerProjectile : MonoBehaviour
             }
         }
 
-        if(Application.isPlaying && weapon.ShowDebug)
+        if(Application.isPlaying && attackData.showDebug)
         {
-            Gizmos.color = weapon.DebugColor;
+            Gizmos.color = attackData.projectileDebugColor;
             switch (hitboxShape)
             {
                 case HitboxShapeType.Circle:
