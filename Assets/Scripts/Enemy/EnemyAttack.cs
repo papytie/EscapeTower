@@ -272,19 +272,19 @@ public class EnemyAttack : MonoBehaviour
                     for (int i = 0; i < attackData.projectileNumber; i++)
                     {
                         float angle = minAngle - i * angleIncrValue;
-                        Quaternion angleResult = Quaternion.AngleAxis(angle + attackData.projectileAngleOffset, base.transform.forward);
+                        Quaternion angleRotation = Quaternion.AngleAxis(angle + attackData.projectileAngleOffset, transform.forward);
 
-                        Vector3 multProjPos = ProjectileSpawnPosition + transform.rotation * angleResult * Vector3.up * attackData.projectileRange;
-                        Vector3 multProjHitboxCurrentPos = multProjPos + transform.TransformVector(angleResult * attackData.projectileToSpawn.HitboxOffset);
+                        Vector3 multProjPos = ProjectileSpawnPosition + transform.rotation * angleRotation * Vector3.up * attackData.projectileRange;
+                        Vector3 multProjHitboxEndPos = multProjPos + transform.rotation * angleRotation * attackData.projectileToSpawn.HitboxOffset;
 
                         switch (attackData.projectileToSpawn.HitboxShape)
                         {
                             case HitboxShapeType.Circle:
-                                Gizmos.DrawSphere(multProjHitboxCurrentPos, attackData.projectileToSpawn.CircleRadius);
+                                Gizmos.DrawSphere(multProjHitboxEndPos, attackData.projectileToSpawn.CircleRadius);
                                 break;
 
                             case HitboxShapeType.Box:
-                                Gizmos.DrawMesh(debugCube, -1, multProjHitboxCurrentPos, transform.rotation * angleResult, attackData.projectileToSpawn.BoxSize);
+                                Gizmos.DrawMesh(debugCube, -1, multProjHitboxEndPos, transform.rotation * angleRotation, attackData.projectileToSpawn.BoxSize);
                                 break;
 
                         }

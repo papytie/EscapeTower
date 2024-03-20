@@ -229,11 +229,11 @@ MonoBehaviour:
   projectileSpawnRelativeTo: 0
   projectileSpawnOffset: {x: 0, y: 0}
   projectileAngleOffset: 0
-  projectileNumber: 1
+  projectileNumber: 6
   projectileSpawnType: 0
   projectileMaxTargets: 1
   projectileSpeed: 2
-  spreadAngle: 60
+  spreadAngle: 30
   projectileRange: 1
   showDebug: 0
   debugCube: {fileID: 0}

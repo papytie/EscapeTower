@@ -1609,6 +1609,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Projectile
       objectReference: {fileID: 0}
+    - target: {fileID: 4579005637230954835, guid: dc8d81f7e297cab40a317c2c1b7c64df, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8650202913050414324, guid: dc8d81f7e297cab40a317c2c1b7c64df, type: 3}
       propertyPath: templateType
       value: 3
@@ -1809,6 +1813,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8619544402285568894, guid: aedf39e926b640b4687e56297141b15d, type: 3}
+      propertyPath: attackData
+      value: 
+      objectReference: {fileID: 11400000, guid: 5ecf0440bdc81904cb2050f035c8cfe2, type: 2}
     - target: {fileID: 8619544402285568894, guid: aedf39e926b640b4687e56297141b15d, type: 3}
       propertyPath: weaponData
       value: 

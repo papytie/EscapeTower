@@ -64,9 +64,9 @@ public class ProjectileController : MonoBehaviour
         {
             if(!isReturning && attackData.projectileReturnType != ProjectileReturnType.NoReturn)
             {
-                if(attackData.projectileReturnFlip)
+/*                if(attackData.projectileReturnFlip)
                     transform.rotation = Quaternion.Euler(0f, 0f, 180f) * transform.rotation;
-
+*/
                 endPosition = startPosition;
                 startPosition = transform.position;
                 startTime = Time.time;
@@ -84,6 +84,14 @@ public class ProjectileController : MonoBehaviour
         float t = Mathf.Clamp01((Time.time - startTime) / (attackData.projectileRange / attackData.projectileSpeed));
         //Move gameObject
         transform.position = Vector3.Lerp(startPos, endPos, attackData.launchCurve.Evaluate(t));
+
+        if(isReturning && attackData.projectileReturnType == ProjectileReturnType.ReturnToPlayer)
+        {
+            Vector3 toPlayerVector = owner.transform.position - transform.position;
+            if (attackData.projectileReturnFlip)
+                transform.rotation = Quaternion.FromToRotation(Vector3.up, toPlayerVector.normalized);
+            else transform.rotation = Quaternion.FromToRotation(Vector3.up, -toPlayerVector.normalized);
+        }
 
         //Define hitbox position with offset and check collisions
         Vector3 offsetPos = transform.position + (transform.right * hitboxOffset.x + transform.up * hitboxOffset.y);
