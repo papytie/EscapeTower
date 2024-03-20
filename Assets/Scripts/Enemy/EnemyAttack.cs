@@ -71,8 +71,7 @@ public class EnemyAttack : MonoBehaviour
         StartCoroutine(AttackProcess());
 
         animator.SetTrigger(GameParams.Animation.ENEMY_ATTACK_TRIGGER);
-        //TODO: Fix Enemy Effects
-        //effects.AttackFX();
+        effects.AttackFX();
     }
 
     IEnumerator AttackProcess()
@@ -156,7 +155,7 @@ public class EnemyAttack : MonoBehaviour
                 Quaternion angleResult = Quaternion.AngleAxis(angle + attackData.projectileAngleOffset, base.transform.forward);
 
                 Instantiate(attackData.projectileToSpawn, ProjectileSpawnPosition, transform.rotation * angleResult)
-                    .Init(gameObject, attackData, ProjectileSpawnPosition, attackData.damage /*TODO: Get Modified stats*/);
+                    .Init(gameObject, attackData, ProjectileSpawnPosition, attackData.damage);
 
                 if (attackData.projectileSpawnType == ProjectileSpawnType.Sequence)
                 {
@@ -166,7 +165,7 @@ public class EnemyAttack : MonoBehaviour
             }
         }
         else Instantiate(attackData.projectileToSpawn, ProjectileSpawnPosition, transform.rotation * Quaternion.AngleAxis(attackData.projectileAngleOffset, base.transform.forward))
-                .Init(gameObject, attackData, ProjectileSpawnPosition, attackData.damage /*TODO: Get Modified stats*/);
+                .Init(gameObject, attackData, ProjectileSpawnPosition, attackData.damage);
     }
 
     public void ChangeProjectile(ProjectileController newProjectile)
