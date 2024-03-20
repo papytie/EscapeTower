@@ -8,10 +8,10 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    [Header("Settings"), Space]
     [SerializeField] GameObject player;
     [SerializeField] List<MovementConfig> configList = new();
-    [SerializeField] int currentIndex = 0;
-    [SerializeField] float startTime = 0;
+    [SerializeField] List<EnemyAttackData> attackList = new();
     [SerializeField] float timerDuration = 5;
 
     Dictionary<MovementType, IMovement> movementBehaviors = new();
@@ -22,6 +22,9 @@ public class EnemyController : MonoBehaviour
     EnemyBump bump;
     Animator animator;
     EnemyAttack attack;
+    int currentAttackIndex = 0;
+    int currentMovementIndex = 0;
+    float startTime = 0;
 
     IMovement currentMovement;
 
@@ -48,15 +51,16 @@ public class EnemyController : MonoBehaviour
     {
         if (lifeSystem.IsDead) return;
 
-        if (configList[currentIndex].type != MovementType.Wait)
+        if (configList[currentMovementIndex].type != MovementType.Wait)
             currentMovement.Move(player, collision);
 
         if(Time.time > startTime + timerDuration)
         {
-            //Test Attack
+            attack.InitData(attackList[currentAttackIndex]);
             attack.AttackActivation();
 
-            currentIndex = currentIndex >= configList.Count-1 ? 0 : currentIndex + 1;
+            currentMovementIndex = currentMovementIndex >= configList.Count-1 ? 0 : currentMovementIndex + 1;
+            currentAttackIndex = currentAttackIndex >= attackList.Count-1 ? 0 : currentAttackIndex + 1;
             startTime = Time.time;
             
             SetMovementConfig();
@@ -67,10 +71,10 @@ public class EnemyController : MonoBehaviour
 
     void SetMovementConfig()
     {
-        if (configList[currentIndex].type == MovementType.Wait) return;
+        if (configList[currentMovementIndex].type == MovementType.Wait) return;
 
-        currentMovement = movementBehaviors[configList[currentIndex].type];
-        currentMovement.Init(configList[currentIndex].data);
+        currentMovement = movementBehaviors[configList[currentMovementIndex].type];
+        currentMovement.Init(configList[currentMovementIndex].data);
     }
 
     void InitMovementBehaviors()

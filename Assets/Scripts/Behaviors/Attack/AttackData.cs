@@ -1,12 +1,8 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "AttackData", menuName = "GameData/AttackData", order = 1)]
-
 [Serializable]
-public class AttackData : ScriptableObject
+public class AttackData
 {
     [Header("Attack Settings")]
     public float damage = 1;
@@ -46,11 +42,5 @@ public class AttackData : ScriptableObject
     public float projectileSpeed = 1;
     public float spreadAngle = 60;
     public float projectileRange = 1;
-
-    [Header("Debug")]
-    public bool showDebug;
-    public Mesh debugCube;
-    public Color meleeDebugColor;
-    public Color projectileDebugColor;
 
 }

@@ -174,9 +174,9 @@ public class ProjectileController : MonoBehaviour
             }
         }
 
-        if(Application.isPlaying && attackData.showDebug)
+        if(Application.isPlaying && showDebug)
         {
-            Gizmos.color = attackData.projectileDebugColor;
+            Gizmos.color = debugColor;
             switch (hitboxShape)
             {
                 case HitboxShapeType.Circle:

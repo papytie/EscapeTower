@@ -6,15 +6,16 @@ using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour
 {
-    public AttackData AttackData => attackData;
+    public EnemyAttackData EnemyAttackData => currentEnemyAttack;
+    public Vector3 HitboxStartPosition => transform.position + transform.TransformVector(AttackData.hitboxPositionOffset);
+    public Vector3 HitboxTargetPosition => transform.position + transform.TransformVector(AttackData.targetPosition);
+    public Vector3 ProjectileSpawnPosition => transform.position + transform.TransformVector(AttackData.projectileSpawnOffset);
 
-    [Header("Debug")]
+    [Header("Debug"), Space]
     [SerializeField] bool showDebug;
     [SerializeField] Mesh debugCube;
     [SerializeField] Color meleeDebugColor;
     [SerializeField] Color projectileDebugColor;
-
-    List<PlayerLifeSystem> playerHit = new();
 
     float cooldownEndTime = 0;
     bool isOnCooldown = false;
@@ -24,23 +25,24 @@ public class EnemyAttack : MonoBehaviour
     bool meleeHitboxActive = false;
     bool isAttacking = false;
 
-    public Vector3 HitboxStartPosition => transform.position + transform.TransformVector(attackData.hitboxPositionOffset);
-    public Vector3 HitboxTargetPosition => transform.position + transform.TransformVector(attackData.targetPosition);
-    public Vector3 ProjectileSpawnPosition => transform.position + transform.TransformVector(attackData.projectileSpawnOffset);
-
+    AttackData AttackData => currentEnemyAttack.attackData;
+    EnemyAttackData currentEnemyAttack;
+    
+    List<PlayerLifeSystem> playerHit = new();
     Animator animator;
     EnemyEffectSystem effects;
-    [SerializeField] AttackData attackData;
 
     public void InitRef(EnemyEffectSystem effectSystem, Animator animatorRef)
     {
         effects = effectSystem;
         animator = animatorRef;
+
     }
 
-    public void InitData(AttackData data)
+    public void InitData(EnemyAttackData data)
     {
-        attackData = data;
+        currentEnemyAttack = data;
+        Instantiate(data.attackFX as AttackFXController, transform);
     }
 
     private void Update()
@@ -51,17 +53,19 @@ public class EnemyAttack : MonoBehaviour
         if (meleeHitboxActive)
         {
             MeleeHitProcess();
-            if (Time.time >= startTime + attackData.hitboxDuration)
+            if (Time.time >= startTime + AttackData.hitboxDuration)
             {
                 meleeHitboxActive = false;
                 isAttacking = false;
                 playerHit.Clear();
                 StartAttackCooldown();
             }
+
         }
 
         if (isOnCooldown && Time.time >= cooldownEndTime)
             isOnCooldown = false;
+
     }
 
     public void AttackActivation()
@@ -72,16 +76,17 @@ public class EnemyAttack : MonoBehaviour
 
         animator.SetTrigger(GameParams.Animation.ENEMY_ATTACK_TRIGGER);
         effects.AttackFX();
+
     }
 
     IEnumerator AttackProcess()
     {
-        yield return new WaitForSeconds(attackData.delay);
+        yield return new WaitForSeconds(AttackData.delay);
 
-        if (attackData.useMeleeHitbox)
+        if (AttackData.useMeleeHitbox)
             StartMeleeHitboxCheck();
 
-        if (attackData.useProjectile)
+        if (AttackData.useProjectile)
         {
             StartCoroutine(FireProjectile());
             StartAttackCooldown();
@@ -94,34 +99,36 @@ public class EnemyAttack : MonoBehaviour
     {
         Vector2 hitboxCurrrentPos = HitboxStartPosition;
 
-        if (attackData.behaviorType != HitboxBehaviorType.Fixed)
+        if (AttackData.behaviorType != HitboxBehaviorType.Fixed)
         {
-            float t = Mathf.Clamp01((Time.time - startTime) / attackData.hitboxDuration);
+            float t = Mathf.Clamp01((Time.time - startTime) / AttackData.hitboxDuration);
 
-            switch (attackData.behaviorType)
+            switch (AttackData.behaviorType)
             {
                 case HitboxBehaviorType.MovingStraight:
-                    hitboxCurrrentPos = Vector2.Lerp(HitboxStartPosition, HitboxTargetPosition, attackData.hitboxMovementCurve.Evaluate(t));
+                    hitboxCurrrentPos = Vector2.Lerp(HitboxStartPosition, HitboxTargetPosition, AttackData.hitboxMovementCurve.Evaluate(t));
                     break;
 
                 case HitboxBehaviorType.MovingOrbital:
                     Vector3 startVector = HitboxStartPosition - transform.position;
                     Vector3 endVector = HitboxTargetPosition - transform.position;
                     float angleValue = Vector2.Angle(startVector, endVector);
-                    Vector3 currentVector = (Quaternion.AngleAxis(Mathf.LerpAngle(0f, angleValue, attackData.hitboxMovementCurve.Evaluate(t)), base.transform.forward) * startVector);
-                    hitboxCurrrentPos = transform.position + currentVector.normalized * Mathf.Lerp(startVector.magnitude, endVector.magnitude, attackData.hitboxMovementCurve.Evaluate(t));
+                    Vector3 currentVector = (Quaternion.AngleAxis(Mathf.LerpAngle(0f, angleValue, AttackData.hitboxMovementCurve.Evaluate(t)), base.transform.forward) * startVector);
+                    hitboxCurrrentPos = transform.position + currentVector.normalized * Mathf.Lerp(startVector.magnitude, endVector.magnitude, AttackData.hitboxMovementCurve.Evaluate(t));
                     break;
+
             }
 
         }
 
-        collisionsList = attackData.hitboxShape switch
+        collisionsList = AttackData.hitboxShape switch
         {
-            HitboxShapeType.Circle => Physics2D.CircleCastAll(hitboxCurrrentPos, attackData.circleRadius, Vector2.zero, 0, attackData.targetLayer),
-            HitboxShapeType.Box => Physics2D.BoxCastAll(hitboxCurrrentPos, attackData.boxSize, Quaternion.Angle(Quaternion.identity, transform.transform.rotation), Vector2.zero, 0, attackData.targetLayer),
+            HitboxShapeType.Circle => Physics2D.CircleCastAll(hitboxCurrrentPos, AttackData.circleRadius, Vector2.zero, 0, AttackData.targetLayer),
+            HitboxShapeType.Box => Physics2D.BoxCastAll(hitboxCurrrentPos, AttackData.boxSize, Quaternion.Angle(Quaternion.identity, transform.transform.rotation), Vector2.zero, 0, AttackData.targetLayer),
             _ => null,
         };
         return collisionsList.Length > 0;
+
     }
 
     void MeleeHitProcess()
@@ -132,95 +139,104 @@ public class EnemyAttack : MonoBehaviour
             {
                 PlayerLifeSystem playerLifeSystem = collision.transform.GetComponent<PlayerLifeSystem>();
 
-                if (playerLifeSystem && !playerHit.Contains(playerLifeSystem) && playerHit.Count < attackData.maxTargets)
+                if (playerLifeSystem && !playerHit.Contains(playerLifeSystem) && playerHit.Count < AttackData.maxTargets)
                 {
-                    playerLifeSystem.TakeDamage(attackData.damage);
+                    playerLifeSystem.TakeDamage(AttackData.damage);
                     playerHit.Add(playerLifeSystem);
                 }
+
             }
+
         }
+
     }
 
     IEnumerator FireProjectile()
     {
 
-        if (attackData.projectileNumber > 1)
+        if (AttackData.projectileNumber > 1)
         {
-            float minAngle = attackData.spreadAngle / 2f;
-            float angleIncrValue = attackData.spreadAngle / (attackData.projectileNumber - 1);
+            float minAngle = AttackData.spreadAngle / 2f;
+            float angleIncrValue = AttackData.spreadAngle / (AttackData.projectileNumber - 1);
 
-            for (int i = 0; i < attackData.projectileNumber; i++)
+            for (int i = 0; i < AttackData.projectileNumber; i++)
             {
                 float angle = minAngle - i * angleIncrValue;
-                Quaternion angleResult = Quaternion.AngleAxis(angle + attackData.projectileAngleOffset, base.transform.forward);
+                Quaternion angleResult = Quaternion.AngleAxis(angle + AttackData.projectileAngleOffset, base.transform.forward);
 
-                Instantiate(attackData.projectileToSpawn, ProjectileSpawnPosition, transform.rotation * angleResult)
-                    .Init(gameObject, attackData, ProjectileSpawnPosition, attackData.damage);
+                Instantiate(AttackData.projectileToSpawn, ProjectileSpawnPosition, transform.rotation * angleResult)
+                    .Init(gameObject, AttackData, ProjectileSpawnPosition, AttackData.damage);
 
-                if (attackData.projectileSpawnType == ProjectileSpawnType.Sequence)
+                if (AttackData.projectileSpawnType == ProjectileSpawnType.Sequence)
                 {
-                    float t = attackData.hitboxDuration / (attackData.projectileNumber - 1);
+                    float t = AttackData.hitboxDuration / (AttackData.projectileNumber - 1);
                     yield return new WaitForSeconds(t);
                 }
+
             }
+
         }
-        else Instantiate(attackData.projectileToSpawn, ProjectileSpawnPosition, transform.rotation * Quaternion.AngleAxis(attackData.projectileAngleOffset, base.transform.forward))
-                .Init(gameObject, attackData, ProjectileSpawnPosition, attackData.damage);
+        else Instantiate(AttackData.projectileToSpawn, ProjectileSpawnPosition, transform.rotation * Quaternion.AngleAxis(AttackData.projectileAngleOffset, base.transform.forward))
+                .Init(gameObject, AttackData, ProjectileSpawnPosition, AttackData.damage);
     }
 
     public void ChangeProjectile(ProjectileController newProjectile)
     {
-        attackData.projectileToSpawn = newProjectile;
+        AttackData.projectileToSpawn = newProjectile;
+
     }
 
     void StartAttackCooldown()
     {
-        cooldownEndTime = Time.time + attackData.cooldown;
+        cooldownEndTime = Time.time + AttackData.cooldown;
         isOnCooldown = true;
+
     }
 
     void StartMeleeHitboxCheck()
     {
         startTime = Time.time;
         meleeHitboxActive = true;
+
     }
 
     void StartAttackLag()
     {
-        attackLagEndTime = Time.time + attackData.lag;
+        attackLagEndTime = Time.time + AttackData.lag;
         isOnAttackLag = true;
+
     }
 
     private void OnDrawGizmos()
     {
-        if (showDebug)
+        if (showDebug && Application.isPlaying && EnemyAttackData != null)
         {
             Gizmos.color = meleeDebugColor;
-            if (attackData.useMeleeHitbox)
+            if (AttackData.useMeleeHitbox)
             {
 
-                switch (attackData.hitboxShape)
+                switch (AttackData.hitboxShape)
                 {
                     case HitboxShapeType.Circle:
-                        Gizmos.DrawWireSphere(HitboxStartPosition, attackData.circleRadius);
+                        Gizmos.DrawWireSphere(HitboxStartPosition, AttackData.circleRadius);
                         break;
 
                     case HitboxShapeType.Box:
-                        Gizmos.DrawWireMesh(debugCube, -1, HitboxStartPosition, transform.rotation, attackData.boxSize);
+                        Gizmos.DrawWireMesh(debugCube, -1, HitboxStartPosition, transform.rotation, AttackData.boxSize);
                         break;
 
                 }
 
-                if (attackData.behaviorType != HitboxBehaviorType.Fixed)
+                if (AttackData.behaviorType != HitboxBehaviorType.Fixed)
                 {
-                    switch (attackData.hitboxShape)
+                    switch (AttackData.hitboxShape)
                     {
                         case HitboxShapeType.Circle:
-                            Gizmos.DrawWireSphere(HitboxTargetPosition, attackData.circleRadius);
+                            Gizmos.DrawWireSphere(HitboxTargetPosition, AttackData.circleRadius);
                             break;
 
                         case HitboxShapeType.Box:
-                            Gizmos.DrawWireMesh(debugCube, -1, HitboxTargetPosition, transform.rotation, attackData.boxSize);
+                            Gizmos.DrawWireMesh(debugCube, -1, HitboxTargetPosition, transform.rotation, AttackData.boxSize);
                             break;
 
                     }
@@ -230,80 +246,85 @@ public class EnemyAttack : MonoBehaviour
                 if (meleeHitboxActive && Application.isPlaying)
                 {
                     Vector3 hitboxCurrentPos = HitboxStartPosition;
-                    float t = Mathf.Clamp01((Time.time - startTime) / attackData.hitboxDuration);
-                    switch (attackData.behaviorType)
+                    float t = Mathf.Clamp01((Time.time - startTime) / AttackData.hitboxDuration);
+                    switch (AttackData.behaviorType)
                     {
                         case HitboxBehaviorType.MovingStraight:
-                            hitboxCurrentPos = Vector2.Lerp(HitboxStartPosition, HitboxTargetPosition, attackData.hitboxMovementCurve.Evaluate(t));
+                            hitboxCurrentPos = Vector2.Lerp(HitboxStartPosition, HitboxTargetPosition, AttackData.hitboxMovementCurve.Evaluate(t));
                             break;
 
                         case HitboxBehaviorType.MovingOrbital:
                             Vector3 startVector = HitboxStartPosition - transform.position;
                             Vector3 endVector = HitboxTargetPosition - transform.position;
                             float angleValue = Vector2.Angle(startVector, endVector);
-                            Vector3 resultVector = (Quaternion.AngleAxis(Mathf.LerpAngle(0f, angleValue, attackData.hitboxMovementCurve.Evaluate(t)), transform.forward) * startVector);
-                            hitboxCurrentPos = transform.position + resultVector.normalized * Mathf.Lerp(startVector.magnitude, endVector.magnitude, attackData.hitboxMovementCurve.Evaluate(t));
+                            Vector3 resultVector = (Quaternion.AngleAxis(Mathf.LerpAngle(0f, angleValue, AttackData.hitboxMovementCurve.Evaluate(t)), transform.forward) * startVector);
+                            hitboxCurrentPos = transform.position + resultVector.normalized * Mathf.Lerp(startVector.magnitude, endVector.magnitude, AttackData.hitboxMovementCurve.Evaluate(t));
                             break;
+
                     }
 
-                    switch (attackData.hitboxShape)
+                    switch (AttackData.hitboxShape)
                     {
                         case HitboxShapeType.Circle:
-                            Gizmos.DrawSphere(hitboxCurrentPos, attackData.circleRadius);
+                            Gizmos.DrawSphere(hitboxCurrentPos, AttackData.circleRadius);
                             break;
 
                         case HitboxShapeType.Box:
-                            Gizmos.DrawMesh(debugCube, -1, hitboxCurrentPos, transform.rotation, attackData.boxSize);
+                            Gizmos.DrawMesh(debugCube, -1, hitboxCurrentPos, transform.rotation, AttackData.boxSize);
                             break;
+
                     }
+
                 }
+
             }
             Gizmos.color = Color.white;
 
             Gizmos.color = projectileDebugColor;
-            if (attackData.useProjectile)
+            if (AttackData.useProjectile)
             {
-                if (attackData.projectileNumber > 1)
+                if (AttackData.projectileNumber > 1)
                 {
-                    float minAngle = attackData.spreadAngle / 2f;
-                    float angleIncrValue = attackData.spreadAngle / (attackData.projectileNumber - 1);
+                    float minAngle = AttackData.spreadAngle / 2f;
+                    float angleIncrValue = AttackData.spreadAngle / (AttackData.projectileNumber - 1);
 
-                    for (int i = 0; i < attackData.projectileNumber; i++)
+                    for (int i = 0; i < AttackData.projectileNumber; i++)
                     {
                         float angle = minAngle - i * angleIncrValue;
-                        Quaternion angleRotation = Quaternion.AngleAxis(angle + attackData.projectileAngleOffset, transform.forward);
+                        Quaternion angleRotation = Quaternion.AngleAxis(angle + AttackData.projectileAngleOffset, transform.forward);
 
-                        Vector3 multProjPos = ProjectileSpawnPosition + transform.rotation * angleRotation * Vector3.up * attackData.projectileRange;
-                        Vector3 multProjHitboxEndPos = multProjPos + transform.rotation * angleRotation * attackData.projectileToSpawn.HitboxOffset;
+                        Vector3 multProjPos = ProjectileSpawnPosition + transform.rotation * angleRotation * Vector3.up * AttackData.projectileRange;
+                        Vector3 multProjHitboxEndPos = multProjPos + transform.rotation * angleRotation * AttackData.projectileToSpawn.HitboxOffset;
 
-                        switch (attackData.projectileToSpawn.HitboxShape)
+                        switch (AttackData.projectileToSpawn.HitboxShape)
                         {
                             case HitboxShapeType.Circle:
-                                Gizmos.DrawSphere(multProjHitboxEndPos, attackData.projectileToSpawn.CircleRadius);
+                                Gizmos.DrawWireSphere(multProjHitboxEndPos, AttackData.projectileToSpawn.CircleRadius);
                                 break;
 
                             case HitboxShapeType.Box:
-                                Gizmos.DrawMesh(debugCube, -1, multProjHitboxEndPos, transform.rotation * angleRotation, attackData.projectileToSpawn.BoxSize);
+                                Gizmos.DrawWireMesh(debugCube, -1, multProjHitboxEndPos, transform.rotation * angleRotation, AttackData.projectileToSpawn.BoxSize);
                                 break;
 
                         }
                         Gizmos.DrawLine(ProjectileSpawnPosition, multProjPos);
                     }
+
                 }
 
                 else
                 {
-                    Vector3 singleProjPos = ProjectileSpawnPosition + transform.TransformVector(Quaternion.AngleAxis(attackData.projectileAngleOffset, base.transform.forward) * Vector3.up * attackData.projectileRange);
-                    Vector3 singleProjHitboxCurrentPos = singleProjPos + transform.TransformVector(attackData.projectileToSpawn.HitboxOffset);
+                    Vector3 singleProjPos = ProjectileSpawnPosition + transform.TransformVector(Quaternion.AngleAxis(AttackData.projectileAngleOffset, base.transform.forward) * Vector3.up * AttackData.projectileRange);
+                    Vector3 singleProjHitboxCurrentPos = singleProjPos + transform.TransformVector(AttackData.projectileToSpawn.HitboxOffset);
 
-                    switch (attackData.projectileToSpawn.HitboxShape)
+                    switch (AttackData.projectileToSpawn.HitboxShape)
                     {
                         case HitboxShapeType.Circle:
-                            Gizmos.DrawSphere(singleProjHitboxCurrentPos, attackData.projectileToSpawn.CircleRadius);
+                            Gizmos.DrawWireSphere(singleProjHitboxCurrentPos, AttackData.projectileToSpawn.CircleRadius);
                             break;
 
                         case HitboxShapeType.Box:
-                            Gizmos.DrawMesh(debugCube, -1, singleProjHitboxCurrentPos, transform.rotation * Quaternion.AngleAxis(attackData.projectileAngleOffset, base.transform.forward), attackData.projectileToSpawn.BoxSize);
+                            Gizmos.DrawWireMesh(debugCube, -1, singleProjHitboxCurrentPos, transform.rotation * Quaternion.AngleAxis(AttackData.projectileAngleOffset, base.transform.forward), AttackData.projectileToSpawn.BoxSize);
                             break;
 
                     }

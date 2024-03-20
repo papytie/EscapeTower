@@ -221,13 +221,17 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8619544402285568894, guid: aedf39e926b640b4687e56297141b15d, type: 3}
+      propertyPath: debugCube
+      value: 
+      objectReference: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 8619544402285568894, guid: aedf39e926b640b4687e56297141b15d, type: 3}
       propertyPath: showDebug
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8619544402285568894, guid: aedf39e926b640b4687e56297141b15d, type: 3}
       propertyPath: attackData
       value: 
-      objectReference: {fileID: 11400000, guid: 27a371071355dfd47b7057b7e1a187d9, type: 2}
+      objectReference: {fileID: 11400000, guid: 5ecf0440bdc81904cb2050f035c8cfe2, type: 2}
     - target: {fileID: 8619544402285568894, guid: aedf39e926b640b4687e56297141b15d, type: 3}
       propertyPath: weaponData
       value: 
@@ -245,7 +249,23 @@ PrefabInstance:
       value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 8619544402285568894, guid: aedf39e926b640b4687e56297141b15d, type: 3}
+      propertyPath: weaponAttackData
+      value: 
+      objectReference: {fileID: 11400000, guid: 6b38fb26ea685d142bc18eaf84494844, type: 2}
+    - target: {fileID: 8619544402285568894, guid: aedf39e926b640b4687e56297141b15d, type: 3}
       propertyPath: projectileSpawnType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8619544402285568894, guid: aedf39e926b640b4687e56297141b15d, type: 3}
+      propertyPath: projectileDebugColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8619544402285568894, guid: aedf39e926b640b4687e56297141b15d, type: 3}
+      propertyPath: projectileDebugColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8619544402285568894, guid: aedf39e926b640b4687e56297141b15d, type: 3}
+      propertyPath: projectileDebugColor.r
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -400,12 +420,48 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 574259157969802644, guid: 27df08dc4474eb54997f0c16aabe3480, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4499994329938794350, guid: 27df08dc4474eb54997f0c16aabe3480, type: 3}
+      propertyPath: showDebug
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4499994329938794350, guid: 27df08dc4474eb54997f0c16aabe3480, type: 3}
+      propertyPath: EnemyAttackData
+      value: 
+      objectReference: {fileID: 11400000, guid: 2ab8161f57dbdd843b66d0db75865f9e, type: 2}
+    - target: {fileID: 4499994329938794350, guid: 27df08dc4474eb54997f0c16aabe3480, type: 3}
+      propertyPath: enemyAttackData
+      value: 
+      objectReference: {fileID: 11400000, guid: 2ab8161f57dbdd843b66d0db75865f9e, type: 2}
+    - target: {fileID: 4499994329938794350, guid: 27df08dc4474eb54997f0c16aabe3480, type: 3}
+      propertyPath: meleeDebugColor.a
+      value: 0.5882353
+      objectReference: {fileID: 0}
+    - target: {fileID: 4499994329938794350, guid: 27df08dc4474eb54997f0c16aabe3480, type: 3}
+      propertyPath: projectileDebugColor.a
+      value: 0.5882353
       objectReference: {fileID: 0}
     - target: {fileID: 4552548436306978812, guid: 27df08dc4474eb54997f0c16aabe3480, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 79342931}
+    - target: {fileID: 4552548436306978812, guid: 27df08dc4474eb54997f0c16aabe3480, type: 3}
+      propertyPath: attackList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4552548436306978812, guid: 27df08dc4474eb54997f0c16aabe3480, type: 3}
+      propertyPath: configList.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4552548436306978812, guid: 27df08dc4474eb54997f0c16aabe3480, type: 3}
+      propertyPath: attackList.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2ab8161f57dbdd843b66d0db75865f9e, type: 2}
+    - target: {fileID: 4552548436306978812, guid: 27df08dc4474eb54997f0c16aabe3480, type: 3}
+      propertyPath: attackList.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1cdd3375a779c7640ae5100b93248042, type: 2}
     - target: {fileID: 4835365557696121557, guid: 27df08dc4474eb54997f0c16aabe3480, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1
@@ -449,6 +505,18 @@ PrefabInstance:
     - target: {fileID: 5006845964821990323, guid: 27df08dc4474eb54997f0c16aabe3480, type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 6337760739115697830, guid: 27df08dc4474eb54997f0c16aabe3480, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6337760739115697830, guid: 27df08dc4474eb54997f0c16aabe3480, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6337760739115697830, guid: 27df08dc4474eb54997f0c16aabe3480, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
