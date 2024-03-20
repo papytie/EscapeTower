@@ -64,9 +64,6 @@ public class ProjectileController : MonoBehaviour
         {
             if(!isReturning && attackData.projectileReturnType != ProjectileReturnType.NoReturn)
             {
-/*                if(attackData.projectileReturnFlip)
-                    transform.rotation = Quaternion.Euler(0f, 0f, 180f) * transform.rotation;
-*/
                 endPosition = startPosition;
                 startPosition = transform.position;
                 startTime = Time.time;

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c465f5750595a17418e152c6d5bf3c9e, type: 3}
-  m_Name: SwordAttackData
+  m_Name: RapierAttackData
   m_EditorClassIdentifier: 
   damage: 1
   cooldown: 0.5
@@ -21,14 +21,14 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   useMeleeHitbox: 1
-  hitboxDuration: 0.2
+  hitboxDuration: 0.5
   maxTargets: 10
-  hitboxPositionRelativeTo: 1
-  hitboxPositionOffset: {x: 0.12, y: 0.07}
-  hitboxShape: 2
-  circleRadius: 0.05
-  boxSize: {x: 0.05, y: 0.21}
-  behaviorType: 2
+  hitboxPositionRelativeTo: 0
+  hitboxPositionOffset: {x: 0, y: 0.1}
+  hitboxShape: 1
+  circleRadius: 0.1
+  boxSize: {x: 0.05, y: 0.2}
+  behaviorType: 1
   hitboxMovementCurve:
     serializedVersion: 2
     m_Curve:
@@ -170,8 +170,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  targetPosition: {x: -0.11, y: 0.01}
-  useProjectile: 0
+  targetPosition: {x: 0, y: 0.28}
+  useProjectile: 1
   obstructionLayer:
     serializedVersion: 2
     m_Bits: 256

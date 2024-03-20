@@ -12,7 +12,7 @@ public class PlayerWeapon : MonoBehaviour
 
     Animator weaponAnimator;
     PlayerStats stats;
-    PlayerWeaponSlot weaponSlot;
+    [SerializeField] PlayerWeaponSlot weaponSlot;
     [SerializeField] AttackData attackData;
 
     List<EnemyLifeSystem> enemiesHit = new();
@@ -114,9 +114,14 @@ public class PlayerWeapon : MonoBehaviour
                     Vector3 startVector = HitboxStartPosition - HitboxRelativeTransform.position;
                     Vector3 endVector = HitboxTargetPosition - HitboxRelativeTransform.position;
                     float angleValue = Vector2.Angle(startVector, endVector);
-                    //TODO: when angle value is negative the vector didnt rotate in the good direction
+                    
+                    if (attackData.targetPosition.x > attackData.hitboxPositionOffset.x)
+                        angleValue *= -1;
+
                     Vector3 currentVector = Quaternion.AngleAxis(Mathf.LerpAngle(0f, angleValue, attackData.hitboxMovementCurve.Evaluate(t)), transform.forward) * startVector;
+
                     hitboxCurrrentPos = HitboxRelativeTransform.position + currentVector.normalized * Mathf.Lerp(startVector.magnitude, endVector.magnitude, attackData.hitboxMovementCurve.Evaluate(t));
+
                     break;
             }
 
@@ -264,7 +269,12 @@ public class PlayerWeapon : MonoBehaviour
                             Vector3 startVector = HitboxStartPosition - HitboxRelativeTransform.position;
                             Vector3 endVector = HitboxTargetPosition - HitboxRelativeTransform.position;
                             float angleValue = Vector2.Angle(startVector, endVector);
+
+                            if(attackData.targetPosition.x > attackData.hitboxPositionOffset.x)
+                                angleValue *= -1;
+
                             Vector3 resultVector = (Quaternion.AngleAxis(Mathf.LerpAngle(0f, angleValue, attackData.hitboxMovementCurve.Evaluate(t)), transform.forward) * startVector);
+
                             hitboxCurrentPos = HitboxRelativeTransform.position + resultVector.normalized * Mathf.Lerp(startVector.magnitude, endVector.magnitude, attackData.hitboxMovementCurve.Evaluate(t));
                             break;
                     }
