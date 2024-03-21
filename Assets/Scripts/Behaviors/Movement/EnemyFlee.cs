@@ -12,7 +12,7 @@ public class EnemyFlee : MonoBehaviour, IMovement
         MovementData = data as FleeData;
     }
 
-    public void Move(GameObject target, EnemyCollision collision)
+    public void Move(GameObject target, EnemyCollisionComponent collision)
     {
         Vector2 targetDirection = (target.transform.position - transform.position).normalized;
         float targetDistance = Vector3.Distance(transform.position, target.transform.position);

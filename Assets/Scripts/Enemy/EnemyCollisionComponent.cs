@@ -4,7 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(CircleCollider2D))]
 
-public class EnemyCollision : MonoBehaviour
+public class EnemyCollisionComponent : MonoBehaviour
 {
     public LayerMask CollisionLayer => collisionLayer;
 

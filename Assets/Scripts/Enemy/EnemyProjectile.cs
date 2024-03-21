@@ -30,7 +30,7 @@ public class EnemyProjectile : MonoBehaviour
     float startTime = 0;
     bool isReturning = false;
 
-    List<EnemyLifeSystem> enemiesHit = new();
+    List<EnemyLifeSystemComponent> enemiesHit = new();
 
     public void Init(AttackData data, PlayerStats statsRef, Vector3 relativePos, float range)
     {
@@ -129,14 +129,14 @@ public class EnemyProjectile : MonoBehaviour
         {
             foreach (RaycastHit2D collision in collisionsList)
             {
-                EnemyLifeSystem enemyLifesystem = collision.transform.GetComponent<EnemyLifeSystem>();
+                EnemyLifeSystemComponent enemyLifesystem = collision.transform.GetComponent<EnemyLifeSystemComponent>();
 
                 if (enemyLifesystem && !enemyLifesystem.IsDead && !enemiesHit.Contains(enemyLifesystem) && enemiesHit.Count < attackData.maxTargets)
                 {
                     enemyLifesystem.TakeDamage(stats.GetModifiedMainStat(MainStat.Damage));
 
                     //Call enemy Bump and give direction which is the inverted Normal of the collision
-                    collision.transform.GetComponent<EnemyBump>().BumpedAwayActivation(-collision.normal);
+                    collision.transform.GetComponent<EnemyBumpComponent>().BumpedAwayActivation(-collision.normal);
 
                     enemiesHit.Add(enemyLifesystem);
                 }

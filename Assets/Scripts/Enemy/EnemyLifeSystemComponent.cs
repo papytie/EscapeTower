@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static GameParams;
 
-public class EnemyLifeSystem : MonoBehaviour, ILifeSystem
+public class EnemyLifeSystemComponent : MonoBehaviour, ILifeSystem
 {
     public bool IsDead => isDead;
     public float CurrentLifePoints => currentLifePoints;

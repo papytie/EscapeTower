@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class EnemyDetection : MonoBehaviour
+public class EnemyDetectionComponent : MonoBehaviour
 {
     [Header("Detection Settings")]
     [SerializeField] float detectionRadius = 5;

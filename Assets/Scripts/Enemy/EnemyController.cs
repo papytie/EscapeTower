@@ -3,23 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(EnemyCollision), typeof(Animator))]
-[RequireComponent(typeof(EnemyAttack), typeof(EnemyLifeSystem), typeof(EnemyBump))]
+[RequireComponent(typeof(EnemyCollisionComponent), typeof(Animator))]
+[RequireComponent(typeof(EnemyAttack), typeof(EnemyLifeSystemComponent), typeof(EnemyBumpComponent))]
 
 public class EnemyController : MonoBehaviour
 {
     [Header("Settings"), Space]
     [SerializeField] GameObject player;
     [SerializeField] List<MovementConfig> configList = new();
+
+    // TODO : create a new Dictionnary<string, IAttackFX> AttackFXBehaviors
+
     [SerializeField] List<EnemyAttackData> attackList = new();
     [SerializeField] float timerDuration = 5;
 
     Dictionary<MovementType, IMovement> movementBehaviors = new();
 
-    EnemyCollision collision;
-    EnemyEffectSystem effects;
-    EnemyLifeSystem lifeSystem;
-    EnemyBump bump;
+    EnemyCollisionComponent collision;
+    EnemyLifeSystemComponent lifeSystem;
+    EnemyBumpComponent bump;
     Animator animator;
     EnemyAttack attack;
     int currentAttackIndex = 0;
@@ -31,18 +33,17 @@ public class EnemyController : MonoBehaviour
     private void Awake()
     {
         attack = GetComponent<EnemyAttack>();
-        collision = GetComponent<EnemyCollision>();
+        collision = GetComponent<EnemyCollisionComponent>();
         animator = GetComponent<Animator>();
-        lifeSystem = GetComponent<EnemyLifeSystem>();
-        effects = GetComponentInChildren<EnemyEffectSystem>();
-        bump = GetComponent<EnemyBump>();
+        lifeSystem = GetComponent<EnemyLifeSystemComponent>();
+        bump = GetComponent<EnemyBumpComponent>();
         InitMovementBehaviors();
     }
 
     private void Start()
     {
         SetMovementConfig();
-        attack.InitRef(effects, animator);
+        attack.InitRef(animator);
         lifeSystem.InitRef(animator);
         bump.InitRef(collision);
     }
@@ -56,7 +57,8 @@ public class EnemyController : MonoBehaviour
 
         if(Time.time > startTime + timerDuration)
         {
-            attack.InitData(attackList[currentAttackIndex]);
+            //TODO : fix the init
+            //attack.InitAttackData(attackList[currentAttackIndex]);
             attack.AttackActivation();
 
             currentMovementIndex = currentMovementIndex >= configList.Count-1 ? 0 : currentMovementIndex + 1;

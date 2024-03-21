@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour
 {
-    public EnemyAttackData EnemyAttackData => currentEnemyAttack;
+    public EnemyAttackData EnemyAttackData => currentAttackData;
     public Vector3 HitboxStartPosition => transform.position + transform.TransformVector(AttackData.hitboxPositionOffset);
     public Vector3 HitboxTargetPosition => transform.position + transform.TransformVector(AttackData.targetPosition);
     public Vector3 ProjectileSpawnPosition => transform.position + transform.TransformVector(AttackData.projectileSpawnOffset);
@@ -25,24 +25,35 @@ public class EnemyAttack : MonoBehaviour
     bool meleeHitboxActive = false;
     bool isAttacking = false;
 
-    AttackData AttackData => currentEnemyAttack.attackData;
-    EnemyAttackData currentEnemyAttack;
+    AttackData AttackData => currentAttackData.attackData;
+    EnemyAttackData currentAttackData;
     
     List<PlayerLifeSystem> playerHit = new();
     Animator animator;
-    EnemyEffectSystem effects;
+    IAttackFX attackFX;
+    GameObject currentFXPrefab;
 
-    public void InitRef(EnemyEffectSystem effectSystem, Animator animatorRef)
+    public void InitRef(Animator animatorRef)
     {
-        effects = effectSystem;
         animator = animatorRef;
 
     }
 
-    public void InitData(EnemyAttackData data)
+    //TODO : donner EnemyAttackData et le bon IAttackFX pour l'attaque
+    public void InitAttackData(EnemyAttackData data)
     {
-        currentEnemyAttack = data;
-        Instantiate(data.attackFX as AttackFXController, transform);
+        if (currentAttackData == data /*|| currentFXPrefab == data.attackFXPrefab //Try to compare two prefab*/) return;
+
+        currentAttackData = data;
+        Destroy(currentFXPrefab);
+        currentFXPrefab = Instantiate(data.attackFXPrefab, transform);
+        attackFX = currentFXPrefab.GetComponent<IAttackFX>();
+        if (attackFX == null)
+        {
+            Debug.LogWarning("FX Prefab in EnemyAttackData is not a IAttackFX!");
+            return;
+        }  
+
     }
 
     private void Update()
@@ -75,7 +86,7 @@ public class EnemyAttack : MonoBehaviour
         StartCoroutine(AttackProcess());
 
         animator.SetTrigger(GameParams.Animation.ENEMY_ATTACK_TRIGGER);
-        effects.AttackFX();
+        attackFX.StartFX();
 
     }
 
@@ -116,6 +127,7 @@ public class EnemyAttack : MonoBehaviour
                     Vector3 currentVector = (Quaternion.AngleAxis(Mathf.LerpAngle(0f, angleValue, AttackData.hitboxMovementCurve.Evaluate(t)), base.transform.forward) * startVector);
                     hitboxCurrrentPos = transform.position + currentVector.normalized * Mathf.Lerp(startVector.magnitude, endVector.magnitude, AttackData.hitboxMovementCurve.Evaluate(t));
                     break;
+
 
             }
 

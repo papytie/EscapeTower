@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyBump : MonoBehaviour
+public class EnemyBumpComponent : MonoBehaviour
 {
     public bool CanMove => !isBump && !isStun;
 
@@ -19,9 +19,9 @@ public class EnemyBump : MonoBehaviour
     Vector3 bumpTarget = Vector3.zero;
     Vector3 bumpStart = Vector3.zero;
 
-    EnemyCollision collision;
+    EnemyCollisionComponent collision;
 
-    public void InitRef(EnemyCollision enemyCollision)
+    public void InitRef(EnemyCollisionComponent enemyCollision)
     {
         collision = enemyCollision;
 

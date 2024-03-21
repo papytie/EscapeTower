@@ -21,7 +21,7 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField] Color meleeDebugColor;
     [SerializeField] Color projectileDebugColor;
 
-    List<EnemyLifeSystem> enemiesHit = new();
+    List<EnemyLifeSystemComponent> enemiesHit = new();
 
     float cooldownEndTime = 0;
     bool isOnCooldown = false;
@@ -148,14 +148,14 @@ public class PlayerWeapon : MonoBehaviour
         {
             foreach (RaycastHit2D collision in collisionsList)
             {
-                EnemyLifeSystem enemyLifesystem = collision.transform.GetComponent<EnemyLifeSystem>();
+                EnemyLifeSystemComponent enemyLifesystem = collision.transform.GetComponent<EnemyLifeSystemComponent>();
 
                 if (enemyLifesystem && !enemiesHit.Contains(enemyLifesystem) && enemiesHit.Count < AttackData.maxTargets)
                 {
                     enemyLifesystem.TakeDamage(stats.GetModifiedMainStat(MainStat.Damage));
 
                     //Call enemy Bump and give direction which is the inverted Normal of the collision
-                    collision.transform.GetComponent<EnemyBump>().BumpedAwayActivation(-collision.normal);
+                    collision.transform.GetComponent<EnemyBumpComponent>().BumpedAwayActivation(-collision.normal);
 
                     enemiesHit.Add(enemyLifesystem);
                 }

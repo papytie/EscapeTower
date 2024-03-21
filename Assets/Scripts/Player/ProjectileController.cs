@@ -138,10 +138,10 @@ public class ProjectileController : MonoBehaviour
                 {
                     lifeSystem.TakeDamage(damage);
 
-                    if(lifeSystem is EnemyLifeSystem)
+                    if(lifeSystem is EnemyLifeSystemComponent)
                     {
                         //Call enemy Bump and give direction which is the inverted Normal of the collision
-                        collision.transform.GetComponent<EnemyBump>().BumpedAwayActivation(-collision.normal);
+                        collision.transform.GetComponent<EnemyBumpComponent>().BumpedAwayActivation(-collision.normal);
                     }
 
                     hitList.Add(lifeSystem);

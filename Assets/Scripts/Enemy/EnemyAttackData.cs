@@ -11,10 +11,7 @@ public class EnemyAttackData : ScriptableObject
     [Header("Attack Data"), Space]
     public AttackData attackData;
 
-    [Header("Attack Type"), Space]
-    public AttackType attackType;
-
     [Header("Attack FX"), Space]
-    [SerializeReference] public IAttackFX attackFX;
+    public GameObject attackFXPrefab;
 
 }

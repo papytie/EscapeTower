@@ -8,9 +8,9 @@ public class EnemyEffectSystem : MonoBehaviour
 {
     Animator animator;
 
-    private void Awake()
+    public void Init(Animator anim)
     {
-        animator = GetComponent<Animator>();
+        animator = anim;
     }
 
     public void AttackFX()

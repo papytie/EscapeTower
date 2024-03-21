@@ -70,7 +70,7 @@ public class PlayerCollision : MonoBehaviour
     {
         damage = 0;
         RaycastHit2D hit = Physics2D.CircleCast(transform.position, colliderRadius, Vector2.zero, 0, layer);
-        if (hit && !hit.transform.GetComponent<EnemyLifeSystem>().IsDead)
+        if (hit && !hit.transform.GetComponent<EnemyLifeSystemComponent>().IsDead)
         {
             damage = hit.transform.GetComponent<EnemyAttack>().EnemyAttackData.attackData.damage;
             return true;

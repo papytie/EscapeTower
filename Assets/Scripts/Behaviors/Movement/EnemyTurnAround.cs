@@ -13,7 +13,7 @@ public class EnemyTurnAround : MonoBehaviour, IMovement
         MovementData = data as TurnAroundData;
     }
 
-    public void Move(GameObject target, EnemyCollision collision)
+    public void Move(GameObject target, EnemyCollisionComponent collision)
     {
         Vector2 targetDirection = (target.transform.position - transform.position).normalized;       
 
