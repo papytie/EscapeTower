@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e3e938ee3c7ede0449f917b4e0077998
+guid: 3faa34c45df5c1a4496eecef9427fd63
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,1114 +123,1030 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Thief-Sheet_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 224
-        width: 32
-        height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4a91404f19be31742a2f1526c26694cf
-      internalID: 1362125675
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Thief-Sheet_1
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 224
-        width: 32
-        height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f5ea952006be20d48abe7587b9f52f8e
-      internalID: -424469080
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Thief-Sheet_2
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 224
-        width: 32
-        height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: cb750ddfcb347f1448ec7f83b156728e
-      internalID: -1670695297
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Thief-Sheet_3
+      name: Ground-Trap-Sheet_0
       rect:
         serializedVersion: 2
         x: 0
         y: 192
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d49f654aa5ec26248899883761dd4d6b
-      internalID: 703433605
+      spriteID: 5de1e8004470d2d4d8e2a5151146c5cf
+      internalID: -2143328131
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_4
+      name: Ground-Trap-Sheet_1
       rect:
         serializedVersion: 2
         x: 32
         y: 192
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 24619bc74e2a91741b8f7e964f0fb24d
-      internalID: 904195935
+      spriteID: 9a2c45c6089fa4d4199cb39a43e6441d
+      internalID: -2125329996
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_5
+      name: Ground-Trap-Sheet_2
       rect:
         serializedVersion: 2
         x: 64
         y: 192
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0c2a507fff8b3814db6ed8a07800b550
-      internalID: -2009808079
+      spriteID: 87391a4a27426b6459bd754ee2ed4ba0
+      internalID: 359254821
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_6
+      name: Ground-Trap-Sheet_3
       rect:
         serializedVersion: 2
         x: 96
         y: 192
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 51a9ac853809b464a95fcea5d4ebbb3d
-      internalID: 467710973
+      spriteID: b6b5a3b8961be9d4db5e51a26be0187b
+      internalID: -843080223
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_7
+      name: Ground-Trap-Sheet_4
       rect:
         serializedVersion: 2
         x: 128
         y: 192
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fc97a26041a1e2f41b143952a80d087c
-      internalID: -840028456
+      spriteID: 9a2af0816fecb5041938b48a862f07b5
+      internalID: -589067274
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_8
+      name: Ground-Trap-Sheet_5
       rect:
         serializedVersion: 2
         x: 160
         y: 192
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 620dd0314f00fc345b13b353b8879d89
-      internalID: -48890448
+      spriteID: ae64b5efcbf3bd04298c12e474521ab2
+      internalID: 877540099
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_9
+      name: Ground-Trap-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 42891ed4e71f950439140fc59fb7970f
+      internalID: -1881023484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ground-Trap-Sheet_7
       rect:
         serializedVersion: 2
         x: 0
         y: 160
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a8e071132cf6cac4ab54a211d37de3c7
-      internalID: -758580977
+      spriteID: 32553bb4b769fb046bec2cf6a9ad8d94
+      internalID: -1973526808
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_10
+      name: Ground-Trap-Sheet_8
       rect:
         serializedVersion: 2
         x: 32
         y: 160
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ef3c286540ebfca468cd81b967f76c8b
-      internalID: 1134694842
+      spriteID: 939a0048be169cf4681e341f70244b97
+      internalID: -418703369
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_11
+      name: Ground-Trap-Sheet_9
       rect:
         serializedVersion: 2
         x: 64
         y: 160
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0c7778cffc8ff1a4882f2573b19f4aa9
-      internalID: 1598308052
+      spriteID: a42ddeee5a0f3c9408f5e099ac1ca1f9
+      internalID: -1568764235
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_12
+      name: Ground-Trap-Sheet_10
       rect:
         serializedVersion: 2
         x: 96
         y: 160
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 16ced3064f17f114ba1fb5f6fa0e4bb6
-      internalID: 834982585
+      spriteID: 9d9ab286c81adf749b6c8aaca7caafbd
+      internalID: -161825626
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_13
+      name: Ground-Trap-Sheet_11
       rect:
         serializedVersion: 2
         x: 128
         y: 160
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 56563a41b3a67df4eb0d3c63fd5e0a0d
-      internalID: -1738049117
+      spriteID: ad9b43bfd28cc26408d11cbc16b757d4
+      internalID: -1294499978
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_14
+      name: Ground-Trap-Sheet_12
       rect:
         serializedVersion: 2
         x: 160
         y: 160
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6479a3b81d416904db5f19389ed3f9b6
-      internalID: 1366870527
+      spriteID: dc66a789c3ed21a4f875f936302ada05
+      internalID: 1857205829
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_15
+      name: Ground-Trap-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68726cbb6aa456048ab3654696e913b2
+      internalID: 1522643721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ground-Trap-Sheet_14
       rect:
         serializedVersion: 2
         x: 0
         y: 128
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6f6a5a9d6ceb3ca48a846730590d23e2
-      internalID: 270414501
+      spriteID: e25a683694388e4448ab1b15c7668b28
+      internalID: -162894505
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_16
+      name: Ground-Trap-Sheet_15
       rect:
         serializedVersion: 2
         x: 32
         y: 128
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c77e6d15df96fa34080c34c11d621df8
-      internalID: -1370279288
+      spriteID: a6aba44964b6cb44aa8ab38ddd8246f8
+      internalID: -1877986373
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_17
+      name: Ground-Trap-Sheet_16
       rect:
         serializedVersion: 2
         x: 64
         y: 128
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eb12a42ca98495840b5fc4744bd22389
-      internalID: -122161864
+      spriteID: 676c4d1c8508e89468de452b963b61ff
+      internalID: -669340511
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_18
+      name: Ground-Trap-Sheet_17
       rect:
         serializedVersion: 2
         x: 96
         y: 128
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b62a3aa1cd2c24848baa8063e9d1f700
-      internalID: 742364413
+      spriteID: 0e4fb5964a5ed8b42a691a86349a3196
+      internalID: 876009757
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_19
+      name: Ground-Trap-Sheet_18
       rect:
         serializedVersion: 2
         x: 128
         y: 128
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7e18d365ce670ff49905ff6fb03d891e
-      internalID: 171437633
+      spriteID: 478c9641f7eab6844b22032da89ef9eb
+      internalID: -1035420955
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_20
+      name: Ground-Trap-Sheet_19
       rect:
         serializedVersion: 2
         x: 160
         y: 128
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1606afd780ab9b342a3da83422e2981a
-      internalID: -1891394171
+      spriteID: ee2a89cd6763b214daf15e150bab6171
+      internalID: -167715879
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_21
+      name: Ground-Trap-Sheet_20
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 128
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 873b5ea476c4b7e4f945daf8eb8e87ef
+      internalID: 46470338
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ground-Trap-Sheet_21
       rect:
         serializedVersion: 2
         x: 0
         y: 96
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3606497ed0df8b44b8a82cfd83e29de6
-      internalID: -8258995
+      spriteID: 9e7256a2601392748877769226fcd620
+      internalID: 1759903953
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_22
+      name: Ground-Trap-Sheet_22
       rect:
         serializedVersion: 2
         x: 32
         y: 96
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5e23a754cecd41d488b3f46c15113af7
-      internalID: 1487614524
+      spriteID: 1584179f42b72cb4c940362f339cd62f
+      internalID: -1000877418
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_23
+      name: Ground-Trap-Sheet_23
       rect:
         serializedVersion: 2
         x: 64
         y: 96
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: de35e01d02fe94241b38ebf8abf82ce2
-      internalID: 467950062
+      spriteID: 78aa47c9e2e6e324097ae28123afefaa
+      internalID: -674583585
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_24
+      name: Ground-Trap-Sheet_24
       rect:
         serializedVersion: 2
         x: 96
         y: 96
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 72e54a0e5b3fa1f429373ea57a8d10ea
-      internalID: -2087846861
+      spriteID: e04f11d729d7182408b5052455bd8559
+      internalID: -927586031
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_25
+      name: Ground-Trap-Sheet_25
       rect:
         serializedVersion: 2
         x: 128
         y: 96
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 579c33cf8d63b694f98e9e4de6191d0f
-      internalID: 2136996204
+      spriteID: 4e1a278e352599d45afd2be8b0a360fa
+      internalID: 1121003821
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_26
+      name: Ground-Trap-Sheet_26
       rect:
         serializedVersion: 2
         x: 160
         y: 96
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 671186c08f8b4ea4bad30e6bfc7d01b8
-      internalID: -1330777106
+      spriteID: bb51a98b156dbe240a0f122c8a80ad90
+      internalID: -705701034
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_27
+      name: Ground-Trap-Sheet_27
       rect:
         serializedVersion: 2
         x: 192
         y: 96
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 573939621eccb8346af5ef1457dff502
-      internalID: -433840117
+      spriteID: 6aa40b813aecb1d4ea873b52a261f1bf
+      internalID: 1059840561
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_28
-      rect:
-        serializedVersion: 2
-        x: 224
-        y: 96
-        width: 32
-        height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b7f03c047d3959e4abbc7e94e53ea78c
-      internalID: 1201656852
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Thief-Sheet_29
+      name: Ground-Trap-Sheet_28
       rect:
         serializedVersion: 2
         x: 0
         y: 64
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bbbd1f537ab8f9f49aedd1513c0209f0
-      internalID: 977934814
+      spriteID: 099655af0ccff9e4b9167c1d7eb012cf
+      internalID: 196928296
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_30
+      name: Ground-Trap-Sheet_29
       rect:
         serializedVersion: 2
         x: 32
         y: 64
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7e0582538fc7c1743bafa01e0a377aef
-      internalID: 1767930212
+      spriteID: 3338f1493ecad0246b9169fcb3d17a7c
+      internalID: -420263023
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_31
+      name: Ground-Trap-Sheet_30
       rect:
         serializedVersion: 2
         x: 64
         y: 64
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4604ee1a47b371741a6181d0996d85fb
-      internalID: 1022036052
+      spriteID: 285082009905d2941af6f2e585cc5900
+      internalID: 1413112342
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_32
+      name: Ground-Trap-Sheet_31
       rect:
         serializedVersion: 2
         x: 96
         y: 64
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ef06c9606f9efc64b8960cabc52d9a1e
-      internalID: 565221443
+      spriteID: dc0d1644edb997b4995bb99ed272c0a3
+      internalID: -323242873
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_33
+      name: Ground-Trap-Sheet_32
       rect:
         serializedVersion: 2
         x: 128
         y: 64
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c9840a6748dcba246893213ed1f22090
-      internalID: -1395702677
+      spriteID: 19e34ec3cb4df474caaa11400fa8278d
+      internalID: -84703299
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_34
+      name: Ground-Trap-Sheet_33
       rect:
         serializedVersion: 2
         x: 160
         y: 64
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bb01419bbcb896a45ac95d7f9a5a0f46
-      internalID: -1981668828
+      spriteID: 6be6ad188ed402b4abf745cbab97975a
+      internalID: 583746478
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_35
+      name: Ground-Trap-Sheet_34
       rect:
         serializedVersion: 2
         x: 192
         y: 64
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 65b6524303072914ca7c2e715b7cba80
-      internalID: -1917593273
+      spriteID: 1c04403e1fe33a2498566f1edfc16b71
+      internalID: -1251477444
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_36
-      rect:
-        serializedVersion: 2
-        x: 224
-        y: 64
-        width: 32
-        height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 103a59af1d3363549b146e25d856db03
-      internalID: 1777228060
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Thief-Sheet_37
+      name: Ground-Trap-Sheet_35
       rect:
         serializedVersion: 2
         x: 0
         y: 32
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 801f4648463bf9b4b8d7ba6c149854e7
-      internalID: 927793642
+      spriteID: d01ae136ed5bd9e44b42400883e571a0
+      internalID: -1006035701
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_38
+      name: Ground-Trap-Sheet_36
       rect:
         serializedVersion: 2
         x: 32
         y: 32
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fd5e643318cbdcb4aa98b807dc28e266
-      internalID: 1545697357
+      spriteID: 133be3defd58a2f43896ce5a2008690c
+      internalID: 523675239
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_39
+      name: Ground-Trap-Sheet_37
       rect:
         serializedVersion: 2
         x: 64
         y: 32
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 82f6c2c90d6277c48afb0bf7b1dc4398
-      internalID: -1469933813
+      spriteID: eea28a1b77375364e8737a9aab2a46dd
+      internalID: 124063677
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_40
+      name: Ground-Trap-Sheet_38
       rect:
         serializedVersion: 2
         x: 96
         y: 32
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ad4edf9990a312a4285648a11019ceb4
-      internalID: -385969864
+      spriteID: 878eeba9186846a4892f8d19fa684543
+      internalID: -527365354
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_41
+      name: Ground-Trap-Sheet_39
       rect:
         serializedVersion: 2
         x: 128
         y: 32
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a920232bf10f38949933f42826971022
-      internalID: 193405650
+      spriteID: 3ae3514530aa3fe40abb5a58f1358d99
+      internalID: 1143434587
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_42
+      name: Ground-Trap-Sheet_40
       rect:
         serializedVersion: 2
         x: 160
         y: 32
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8fbda78925322444886fe75a403d62b4
-      internalID: -874183866
+      spriteID: 15c7bdbed4a78f34da7c86f2bb089346
+      internalID: -1897241566
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_43
+      name: Ground-Trap-Sheet_41
       rect:
         serializedVersion: 2
         x: 192
         y: 32
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 784e8d613d9b20249b72afd2c5bb84bd
-      internalID: -975914559
+      spriteID: 9eca41a1a476a9d418c41f51530e0a9c
+      internalID: 332927071
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_44
-      rect:
-        serializedVersion: 2
-        x: 224
-        y: 32
-        width: 32
-        height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 06e7730ee10bda44f92e16cd488f63da
-      internalID: 1185818657
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Thief-Sheet_45
+      name: Ground-Trap-Sheet_42
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3ff518db2b02a7248a0f5c68efb587e7
-      internalID: 1967265547
+      spriteID: 2ca895f8411b4814aa432a12c8aa6996
+      internalID: 450472352
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_46
+      name: Ground-Trap-Sheet_43
       rect:
         serializedVersion: 2
         x: 32
         y: 0
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 940ca58be0c17ac4e9b7fb162919a1ca
-      internalID: -1971569025
+      spriteID: e4ea318580c8678459da4835279cc7a1
+      internalID: -634265307
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_47
+      name: Ground-Trap-Sheet_44
       rect:
         serializedVersion: 2
         x: 64
         y: 0
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2eeb5c4b4061c6943b2ae2eb16975716
-      internalID: -1495600080
+      spriteID: 903fce502c332fa4792d3413cf7682b7
+      internalID: 1774016720
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_48
+      name: Ground-Trap-Sheet_45
       rect:
         serializedVersion: 2
         x: 96
         y: 0
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4af9704aa8a83394ba16fc1b18f13830
-      internalID: -1938632184
+      spriteID: c4aa450e044bdac4a947bed02224b169
+      internalID: 2110869724
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_49
+      name: Ground-Trap-Sheet_46
       rect:
         serializedVersion: 2
         x: 128
         y: 0
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a8e72acfb29f75147a09a5c4eea4dd06
-      internalID: 271914852
+      spriteID: 34b4bb6730d304d46a19bbe53efed0ef
+      internalID: 785864041
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_50
+      name: Ground-Trap-Sheet_47
       rect:
         serializedVersion: 2
         x: 160
         y: 0
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 722da1e1d8495e241bc2a885bdaf743f
-      internalID: -1956459816
+      spriteID: 636cc14c4ca4f8742995c8d9e87c8c1d
+      internalID: -97587538
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thief-Sheet_51
+      name: Ground-Trap-Sheet_48
       rect:
         serializedVersion: 2
         x: 192
         y: 0
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c567d64bfb3dc4642beac567208ed558
-      internalID: -2056413309
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Thief-Sheet_52
-      rect:
-        serializedVersion: 2
-        x: 224
-        y: 0
-        width: 32
-        height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 89d76ce7af91ba147a13e1a19a4a1fbc
-      internalID: -1925088528
+      spriteID: 77bc731c7737fb149a66cd313e082252
+      internalID: 952580162
       vertices: []
       indices: 
       edges: []
@@ -1245,66 +1161,58 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures:
-    - texture: {fileID: 2800000, guid: 6b2ab7d07f186f1458c42f598832c6ac, type: 3}
+    - texture: {fileID: 2800000, guid: d2edd4fee19d8a04da5ee2095c686eb3, type: 3}
       name: _NormalMap
-    - texture: {fileID: 2800000, guid: 846327ab75d2e87479cb9fab3826eb5c, type: 3}
-      name: _EmissiveMap
-    - texture: {fileID: 2800000, guid: 985241fd319db274f985cf940d907cd3, type: 3}
-      name: _VeronMask
     nameFileIdTable:
-      Thief-Sheet_0: 1362125675
-      Thief-Sheet_1: -424469080
-      Thief-Sheet_10: 1134694842
-      Thief-Sheet_11: 1598308052
-      Thief-Sheet_12: 834982585
-      Thief-Sheet_13: -1738049117
-      Thief-Sheet_14: 1366870527
-      Thief-Sheet_15: 270414501
-      Thief-Sheet_16: -1370279288
-      Thief-Sheet_17: -122161864
-      Thief-Sheet_18: 742364413
-      Thief-Sheet_19: 171437633
-      Thief-Sheet_2: -1670695297
-      Thief-Sheet_20: -1891394171
-      Thief-Sheet_21: -8258995
-      Thief-Sheet_22: 1487614524
-      Thief-Sheet_23: 467950062
-      Thief-Sheet_24: -2087846861
-      Thief-Sheet_25: 2136996204
-      Thief-Sheet_26: -1330777106
-      Thief-Sheet_27: -433840117
-      Thief-Sheet_28: 1201656852
-      Thief-Sheet_29: 977934814
-      Thief-Sheet_3: 703433605
-      Thief-Sheet_30: 1767930212
-      Thief-Sheet_31: 1022036052
-      Thief-Sheet_32: 565221443
-      Thief-Sheet_33: -1395702677
-      Thief-Sheet_34: -1981668828
-      Thief-Sheet_35: -1917593273
-      Thief-Sheet_36: 1777228060
-      Thief-Sheet_37: 927793642
-      Thief-Sheet_38: 1545697357
-      Thief-Sheet_39: -1469933813
-      Thief-Sheet_4: 904195935
-      Thief-Sheet_40: -385969864
-      Thief-Sheet_41: 193405650
-      Thief-Sheet_42: -874183866
-      Thief-Sheet_43: -975914559
-      Thief-Sheet_44: 1185818657
-      Thief-Sheet_45: 1967265547
-      Thief-Sheet_46: -1971569025
-      Thief-Sheet_47: -1495600080
-      Thief-Sheet_48: -1938632184
-      Thief-Sheet_49: 271914852
-      Thief-Sheet_5: -2009808079
-      Thief-Sheet_50: -1956459816
-      Thief-Sheet_51: -2056413309
-      Thief-Sheet_52: -1925088528
-      Thief-Sheet_6: 467710973
-      Thief-Sheet_7: -840028456
-      Thief-Sheet_8: -48890448
-      Thief-Sheet_9: -758580977
+      Ground-Trap-Sheet_0: -2143328131
+      Ground-Trap-Sheet_1: -2125329996
+      Ground-Trap-Sheet_10: -161825626
+      Ground-Trap-Sheet_11: -1294499978
+      Ground-Trap-Sheet_12: 1857205829
+      Ground-Trap-Sheet_13: 1522643721
+      Ground-Trap-Sheet_14: -162894505
+      Ground-Trap-Sheet_15: -1877986373
+      Ground-Trap-Sheet_16: -669340511
+      Ground-Trap-Sheet_17: 876009757
+      Ground-Trap-Sheet_18: -1035420955
+      Ground-Trap-Sheet_19: -167715879
+      Ground-Trap-Sheet_2: 359254821
+      Ground-Trap-Sheet_20: 46470338
+      Ground-Trap-Sheet_21: 1759903953
+      Ground-Trap-Sheet_22: -1000877418
+      Ground-Trap-Sheet_23: -674583585
+      Ground-Trap-Sheet_24: -927586031
+      Ground-Trap-Sheet_25: 1121003821
+      Ground-Trap-Sheet_26: -705701034
+      Ground-Trap-Sheet_27: 1059840561
+      Ground-Trap-Sheet_28: 196928296
+      Ground-Trap-Sheet_29: -420263023
+      Ground-Trap-Sheet_3: -843080223
+      Ground-Trap-Sheet_30: 1413112342
+      Ground-Trap-Sheet_31: -323242873
+      Ground-Trap-Sheet_32: -84703299
+      Ground-Trap-Sheet_33: 583746478
+      Ground-Trap-Sheet_34: -1251477444
+      Ground-Trap-Sheet_35: -1006035701
+      Ground-Trap-Sheet_36: 523675239
+      Ground-Trap-Sheet_37: 124063677
+      Ground-Trap-Sheet_38: -527365354
+      Ground-Trap-Sheet_39: 1143434587
+      Ground-Trap-Sheet_4: -589067274
+      Ground-Trap-Sheet_40: -1897241566
+      Ground-Trap-Sheet_41: 332927071
+      Ground-Trap-Sheet_42: 450472352
+      Ground-Trap-Sheet_43: -634265307
+      Ground-Trap-Sheet_44: 1774016720
+      Ground-Trap-Sheet_45: 2110869724
+      Ground-Trap-Sheet_46: 785864041
+      Ground-Trap-Sheet_47: -97587538
+      Ground-Trap-Sheet_48: 952580162
+      Ground-Trap-Sheet_5: 877540099
+      Ground-Trap-Sheet_6: -1881023484
+      Ground-Trap-Sheet_7: -1973526808
+      Ground-Trap-Sheet_8: -418703369
+      Ground-Trap-Sheet_9: -1568764235
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
