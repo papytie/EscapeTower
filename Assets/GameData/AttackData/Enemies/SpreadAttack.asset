@@ -328,12 +328,11 @@ MonoBehaviour:
     projectileToSpawn: {fileID: 1539454035064346066, guid: 69a7e849f1734fc41ada7985d8fbdb10, type: 3}
     projectileSpawnRelativeTo: 0
     projectileSpawnOffset: {x: 0, y: 0.05}
-    projectileAngleOffset: 0
+    projectileAngleOffset: 180
     projectileNumber: 5
     projectileSpawnType: 0
     projectileMaxTargets: 1
     projectileSpeed: 1
     spreadAngle: 90
     projectileRange: 0.5
-  attackType: 0
-  attackFXPrefab: {fileID: 3145330726999605681, guid: f8606c741d2d16646b8f6a0ed341f760, type: 3}
+  attackFXPrefab: {fileID: 3145330726999605681, guid: 6a18018bcaa069340ba5bbefafc84932, type: 3}

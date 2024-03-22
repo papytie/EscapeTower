@@ -335,5 +335,4 @@ MonoBehaviour:
     projectileSpeed: 1
     spreadAngle: 90
     projectileRange: 0.5
-  attackType: 0
-  attackFXPrefab: {fileID: 3145330726999605681, guid: f8606c741d2d16646b8f6a0ed341f760, type: 3}
+  attackFXPrefab: {fileID: 3145330726999605681, guid: db60ba4ff46d99041867369a9504d719, type: 3}
