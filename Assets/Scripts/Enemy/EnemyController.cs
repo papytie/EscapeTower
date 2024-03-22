@@ -4,26 +4,24 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(EnemyCollisionComponent), typeof(Animator))]
-[RequireComponent(typeof(EnemyAttack), typeof(EnemyLifeSystemComponent), typeof(EnemyBumpComponent))]
+[RequireComponent(typeof(EnemyAttackComponent), typeof(EnemyLifeSystemComponent), typeof(EnemyBumpComponent))]
 
 public class EnemyController : MonoBehaviour
 {
     [Header("Settings"), Space]
     [SerializeField] GameObject player;
-    [SerializeField] List<MovementConfig> configList = new();
-
-    // TODO : create a new Dictionnary<string, IAttackFX> AttackFXBehaviors
-
-    [SerializeField] List<EnemyAttackData> attackList = new();
+    [SerializeField] List<MovementConfig> movementList = new();
+    [SerializeField] List<EnemyAttackConfig> attackList = new();
     [SerializeField] float timerDuration = 5;
 
     Dictionary<MovementType, IMovement> movementBehaviors = new();
+    Dictionary<string, IAttackFX> attackFXBehaviors = new();
 
     EnemyCollisionComponent collision;
     EnemyLifeSystemComponent lifeSystem;
     EnemyBumpComponent bump;
     Animator animator;
-    EnemyAttack attack;
+    EnemyAttackComponent attack;
     int currentAttackIndex = 0;
     int currentMovementIndex = 0;
     float startTime = 0;
@@ -32,12 +30,13 @@ public class EnemyController : MonoBehaviour
 
     private void Awake()
     {
-        attack = GetComponent<EnemyAttack>();
+        attack = GetComponent<EnemyAttackComponent>();
         collision = GetComponent<EnemyCollisionComponent>();
         animator = GetComponent<Animator>();
         lifeSystem = GetComponent<EnemyLifeSystemComponent>();
         bump = GetComponent<EnemyBumpComponent>();
         InitMovementBehaviors();
+        InitAttackFXBehaviors();
     }
 
     private void Start()
@@ -52,16 +51,16 @@ public class EnemyController : MonoBehaviour
     {
         if (lifeSystem.IsDead) return;
 
-        if (configList[currentMovementIndex].type != MovementType.Wait)
+        if (movementList[currentMovementIndex].type != MovementType.Wait)
             currentMovement.Move(player, collision);
 
         if(Time.time > startTime + timerDuration)
         {
-            //TODO : fix the init
-            //attack.InitAttackData(attackList[currentAttackIndex]);
+            attack.InitAttackData(attackList[currentAttackIndex], attackFXBehaviors[attackList[currentAttackIndex].attackFXPrefab.name]);
+
             attack.AttackActivation();
 
-            currentMovementIndex = currentMovementIndex >= configList.Count-1 ? 0 : currentMovementIndex + 1;
+            currentMovementIndex = currentMovementIndex >= movementList.Count-1 ? 0 : currentMovementIndex + 1;
             currentAttackIndex = currentAttackIndex >= attackList.Count-1 ? 0 : currentAttackIndex + 1;
             startTime = Time.time;
             
@@ -73,15 +72,15 @@ public class EnemyController : MonoBehaviour
 
     void SetMovementConfig()
     {
-        if (configList[currentMovementIndex].type == MovementType.Wait) return;
+        if (movementList[currentMovementIndex].type == MovementType.Wait) return;
 
-        currentMovement = movementBehaviors[configList[currentMovementIndex].type];
-        currentMovement.Init(configList[currentMovementIndex].data);
+        currentMovement = movementBehaviors[movementList[currentMovementIndex].type];
+        currentMovement.Init(movementList[currentMovementIndex].data);
     }
 
     void InitMovementBehaviors()
     {
-        foreach (MovementConfig script in configList) 
+        foreach (MovementConfig script in movementList) 
         {
             switch (script.type)
             {
@@ -126,9 +125,22 @@ public class EnemyController : MonoBehaviour
         
     }
 
+    void InitAttackFXBehaviors()
+    {
+        foreach (EnemyAttackConfig attackConfig in attackList)
+        {
+            if(!attackFXBehaviors.ContainsKey(attackConfig.attackFXPrefab.name))
+            {
+                IAttackFX attackFX = Instantiate(attackConfig.attackFXPrefab, transform).GetComponent<IAttackFX>();
+                attackFXBehaviors.Add(attackConfig.attackFXPrefab.name, attackFX);
+            }
+            
+        }
+    }
+
     private void OnValidate()
     {
-        foreach (var item in configList)
+        foreach (var item in movementList)
         {
             Type dataType = item.type switch
             {

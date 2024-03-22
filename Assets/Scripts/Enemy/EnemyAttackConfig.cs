@@ -6,7 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "EnemyAttackData", menuName = "GameData/EnemyAttackData", order = 1)]
 
 [Serializable]
-public class EnemyAttackData : ScriptableObject
+public class EnemyAttackConfig : ScriptableObject
 {
     [Header("Attack Data"), Space]
     public AttackData attackData;

@@ -4,9 +4,9 @@ using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
-public class EnemyAttack : MonoBehaviour
+public class EnemyAttackComponent : MonoBehaviour
 {
-    public EnemyAttackData EnemyAttackData => currentAttackData;
+    public EnemyAttackConfig EnemyAttackData => currentAttackConfig;
     public Vector3 HitboxStartPosition => transform.position + transform.TransformVector(AttackData.hitboxPositionOffset);
     public Vector3 HitboxTargetPosition => transform.position + transform.TransformVector(AttackData.targetPosition);
     public Vector3 ProjectileSpawnPosition => transform.position + transform.TransformVector(AttackData.projectileSpawnOffset);
@@ -25,13 +25,12 @@ public class EnemyAttack : MonoBehaviour
     bool meleeHitboxActive = false;
     bool isAttacking = false;
 
-    AttackData AttackData => currentAttackData.attackData;
-    EnemyAttackData currentAttackData;
+    AttackData AttackData => currentAttackConfig.attackData;
+    EnemyAttackConfig currentAttackConfig;
+    IAttackFX currentAttackFX;
     
     List<PlayerLifeSystem> playerHit = new();
     Animator animator;
-    IAttackFX attackFX;
-    GameObject currentFXPrefab;
 
     public void InitRef(Animator animatorRef)
     {
@@ -39,18 +38,16 @@ public class EnemyAttack : MonoBehaviour
 
     }
 
-    //TODO : donner EnemyAttackData et le bon IAttackFX pour l'attaque
-    public void InitAttackData(EnemyAttackData data)
+    public void InitAttackData(EnemyAttackConfig attackConfig, IAttackFX attackFX)
     {
-        if (currentAttackData == data /*|| currentFXPrefab == data.attackFXPrefab //Try to compare two prefab*/) return;
+        if (currentAttackConfig == attackConfig) return;
 
-        currentAttackData = data;
-        Destroy(currentFXPrefab);
-        currentFXPrefab = Instantiate(data.attackFXPrefab, transform);
-        attackFX = currentFXPrefab.GetComponent<IAttackFX>();
-        if (attackFX == null)
+        currentAttackConfig = attackConfig;
+        currentAttackFX = attackFX;
+
+        if (currentAttackFX == null)
         {
-            Debug.LogWarning("FX Prefab in EnemyAttackData is not a IAttackFX!");
+            Debug.LogWarning("currentAttackFX is null!");
             return;
         }  
 
@@ -86,7 +83,7 @@ public class EnemyAttack : MonoBehaviour
         StartCoroutine(AttackProcess());
 
         animator.SetTrigger(GameParams.Animation.ENEMY_ATTACK_TRIGGER);
-        attackFX.StartFX();
+        currentAttackFX.StartFX();
 
     }
 
