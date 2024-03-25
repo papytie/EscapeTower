@@ -4,23 +4,29 @@ using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
 
-public class PlayerWeapon : MonoBehaviour
+public class WeaponController : MonoBehaviour
 {
     public bool AttackAvailable => !isAttacking && !isOnCooldown;
     public bool IsOnAttackLag => isOnAttackLag;
     public AttackData AttackData => weaponAttackData.attackData;
+    public Transform HitboxRelativeTransform => GetRelativeTransform(AttackData.hitboxPositionRelativeTo);
+    public Vector3 HitboxStartPosition => HitboxRelativeTransform.position + HitboxRelativeTransform.TransformVector(AttackData.hitboxPositionOffset);
+    public Vector3 HitboxTargetPosition => HitboxRelativeTransform.position + HitboxRelativeTransform.TransformVector(AttackData.targetPosition);
+    public Transform SpawnRelativeTransform => GetRelativeTransform(AttackData.projectileSpawnRelativeTo);
+    public Vector3 ProjectileSpawnPosition => SpawnRelativeTransform.position + SpawnRelativeTransform.TransformVector(AttackData.projectileSpawnOffset);
 
-    Animator weaponAnimator;
-    PlayerStats stats;
+    [Header("Ref"), Space]
     [SerializeField] PlayerWeaponSlot weaponSlot;
-    [SerializeField] WeaponAttackData weaponAttackData;
+    [SerializeField] WeaponAttackConfig weaponAttackData;
 
-    [Header("Debug")]
+    [Header("Debug"), Space]
     [SerializeField] bool showDebug;
     [SerializeField] Mesh debugCube;
     [SerializeField] Color meleeDebugColor;
     [SerializeField] Color projectileDebugColor;
 
+    Animator weaponAnimator;
+    PlayerStats stats;
     List<EnemyLifeSystemComponent> enemiesHit = new();
 
     float cooldownEndTime = 0;
@@ -30,13 +36,6 @@ public class PlayerWeapon : MonoBehaviour
     float startTime = 0;
     bool meleeHitboxActive = false;
     bool isAttacking = false;
-
-    public Transform HitboxRelativeTransform => GetRelativeTransform(AttackData.hitboxPositionRelativeTo);
-    public Vector3 HitboxStartPosition => HitboxRelativeTransform.position + HitboxRelativeTransform.TransformVector(AttackData.hitboxPositionOffset);
-    public Vector3 HitboxTargetPosition => HitboxRelativeTransform.position + HitboxRelativeTransform.TransformVector(AttackData.targetPosition);
-    public Transform SpawnRelativeTransform => GetRelativeTransform(AttackData.projectileSpawnRelativeTo);
-    public Vector3 ProjectileSpawnPosition => SpawnRelativeTransform.position + SpawnRelativeTransform.TransformVector(AttackData.projectileSpawnOffset);
-
 
     private void Awake()
     {

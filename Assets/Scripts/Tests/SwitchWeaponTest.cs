@@ -6,8 +6,8 @@ using UnityEngine.InputSystem;
 public class SwitchWeaponTest : MonoBehaviour
 {
     [SerializeField] PlayerWeaponSlot weaponSlot;
-    [SerializeField] PlayerWeapon weaponOne;
-    [SerializeField] PlayerWeapon weaponTwo;
+    [SerializeField] WeaponController weaponOne;
+    [SerializeField] WeaponController weaponTwo;
     bool weaponSwitch = false;
 
 

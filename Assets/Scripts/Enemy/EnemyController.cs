@@ -56,7 +56,7 @@ public class EnemyController : MonoBehaviour
 
         if(Time.time > startTime + timerDuration)
         {
-            attack.InitAttackData(attackList[currentAttackIndex], attackFXBehaviors[attackList[currentAttackIndex].attackFXPrefab.name]);
+            attack.InitAttack(attackList[currentAttackIndex].attackData, attackFXBehaviors[attackList[currentAttackIndex].attackFXPrefab.name]);
 
             attack.AttackActivation();
 
@@ -109,7 +109,7 @@ public class EnemyController : MonoBehaviour
                     break;
 
                 case MovementType.TurnAround:
-                    if(!movementBehaviors.ContainsKey(MovementType.StayAtRange))
+                    if(!movementBehaviors.ContainsKey(MovementType.TurnAround))
                     {
                         EnemyTurnAround turnAround = gameObject.AddComponent<EnemyTurnAround>();
                         movementBehaviors.Add(MovementType.TurnAround, turnAround);

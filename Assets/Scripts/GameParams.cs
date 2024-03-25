@@ -6,7 +6,9 @@ public class GameParams
         public static string PLAYER_DASH_TRIGGER = "dash";
         public static string PLAYER_TAKEDAMAGE_TRIGGER = "takeDamage";
         public static string PLAYER_DIE_BOOL = "isDead";
-        public static string PLAYER_FORWARDAXIS_FLOAT = "forwardAxis";
+        public static string PLAYER_DASH_BOOL = "isDashing";
+        public static string PLAYER_ATTACK_BOOL = "isAttacking";
+        public static string PLAYER_UPAXIS_FLOAT = "upAxis";
         public static string PLAYER_RIGHTDAXIS_FLOAT = "rightAxis";
         #endregion
 

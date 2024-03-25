@@ -4,12 +4,9 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "WeaponAttackData", menuName = "GameData/WeaponAttackData", order = 1)]
 
-public class WeaponAttackData : ScriptableObject
+public class WeaponAttackConfig : ScriptableObject
 {
     [Header("Attack Data"), Space] 
     public AttackData attackData;
     
-    //[Header(" Data"), Space]
-    //public AttackData attackData;
-
 }

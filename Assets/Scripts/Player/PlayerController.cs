@@ -60,9 +60,12 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 moveAxis = inputs.MoveAxisInput.ReadValue<Vector2>();
         Vector3 attackAxis = inputs.AttackAxisInput.ReadValue<Vector2>();
+        animator.SetFloat(GameParams.Animation.PLAYER_UPAXIS_FLOAT, moveAxis.y);
+        animator.SetFloat(GameParams.Animation.PLAYER_RIGHTDAXIS_FLOAT, moveAxis.x);
 
-        //Rotation
-        if (CanMove) 
+/*        //Rotation
+        
+          if (CanMove) 
         {
             if (moveAxis != Vector3.zero)
                 movement.RotateToMoveDirection(moveAxis);
@@ -76,11 +79,14 @@ public class PlayerController : MonoBehaviour
                 movement.RotateToMoveDirection(mouseDirection);
             }
 
-        }
-        
+      }
+*/
+
         //Movement
-        if(CanMove && moveAxis != Vector3.zero)
+        if (CanMove && moveAxis != Vector3.zero)
+        {
             movement.CheckedMove(moveAxis);
+        }
 
         //Attack
         if(CanAttack)
@@ -94,18 +100,13 @@ public class PlayerController : MonoBehaviour
         if (CanDash && inputs.DashButtonInput.WasPerformedThisFrame())
         {
             if (moveAxis != Vector3.zero)
-            {
                 dash.DashActivation(moveAxis);
-                movement.RotateToMoveDirection(moveAxis);
-            }
-
-            else
-            {
+            else 
                 dash.DashActivation(transform.up);
-                movement.RotateToMoveDirection(transform.up);
-            }
-
         }
+        if (dash.IsDashing)
+            animator.SetBool(GameParams.Animation.PLAYER_DASH_BOOL, true);
+        else animator.SetBool(GameParams.Animation.PLAYER_DASH_BOOL, false);
 
         //Collision Check reaction
         if (CanTakeDamage)

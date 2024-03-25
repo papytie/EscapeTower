@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PlayerWeaponSlot : MonoBehaviour
 {
-    public PlayerWeapon EquippedWeapon => equippedWeapon;
+    public WeaponController EquippedWeapon => equippedWeapon;
     public Transform SlotTransform => slotTransform;
 
-    [SerializeField] PlayerWeapon equippedWeapon = null;
+    [SerializeField] WeaponController equippedWeapon = null;
     [SerializeField] Transform slotTransform;
 
     PlayerStats stats;
@@ -19,7 +19,7 @@ public class PlayerWeaponSlot : MonoBehaviour
    
     private void Start()
     {
-        equippedWeapon = GetComponentInChildren<PlayerWeapon>();
+        equippedWeapon = GetComponentInChildren<WeaponController>();
         if (equippedWeapon == null)
         {
             Debug.LogWarning("Player has no weapon");
@@ -30,7 +30,7 @@ public class PlayerWeaponSlot : MonoBehaviour
         equippedWeapon.InitRef(this, stats);
     }
 
-    public void EquipWeapon(PlayerWeapon weapon)
+    public void EquipWeapon(WeaponController weapon)
     {
         if(equippedWeapon != null)
             Destroy(equippedWeapon.gameObject);
