@@ -6,9 +6,11 @@ public class PlayerWeaponSlot : MonoBehaviour
 {
     public WeaponController EquippedWeapon => equippedWeapon;
     public Transform SlotTransform => slotTransform;
+    public Vector2 SlotOffset => slotOffset;
 
     [SerializeField] WeaponController equippedWeapon = null;
     [SerializeField] Transform slotTransform;
+    [SerializeField] Vector2 slotOffset = Vector3.zero;
 
     PlayerStats stats;
 
@@ -28,6 +30,7 @@ public class PlayerWeaponSlot : MonoBehaviour
 
         equippedWeapon.transform.SetPositionAndRotation(slotTransform.position, Quaternion.Euler(slotTransform.rotation.eulerAngles));
         equippedWeapon.InitRef(this, stats);
+        
     }
 
     public void EquipWeapon(WeaponController weapon)
@@ -39,6 +42,14 @@ public class PlayerWeaponSlot : MonoBehaviour
         equippedWeapon.InitRef(this, stats);
         equippedWeapon.transform.SetPositionAndRotation(slotTransform.position, Quaternion.Euler(slotTransform.rotation.eulerAngles));
 
+    }
+
+    public void RotateSlot(Vector2 direction)
+    {
+        Quaternion currentRotation = Quaternion.LookRotation(Vector3.forward, direction);
+       
+        slotTransform.rotation = currentRotation;
+        slotTransform.position = transform.position + currentRotation * slotOffset;
     }
 
 }

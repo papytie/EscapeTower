@@ -15,14 +15,14 @@ MonoBehaviour:
   attackData:
     damage: 1
     cooldown: 0.5
-    lag: 0.2
+    lag: 0
     delay: 0
     duration: 0.2
     targetLayer:
       serializedVersion: 2
       m_Bits: 128
     useMeleeHitbox: 1
-    hitboxDuration: 0.3
+    hitboxDuration: 0.2
     maxTargets: 1
     hitboxPositionRelativeTo: 0
     hitboxPositionOffset: {x: 0, y: 0.1}
@@ -467,6 +467,6 @@ MonoBehaviour:
     projectileNumber: 2
     projectileSpawnType: 0
     projectileMaxTargets: 1
-    projectileSpeed: 1
+    projectileSpeed: 2
     spreadAngle: 30
     projectileRange: 0.285

@@ -125,7 +125,8 @@ public class WeaponController : MonoBehaviour
 
                     Vector3 currentVector = Quaternion.AngleAxis(Mathf.LerpAngle(0f, angleValue, AttackData.hitboxMovementCurve.Evaluate(t)), transform.forward) * startVector;
 
-                    hitboxCurrrentPos = HitboxRelativeTransform.position + currentVector.normalized * Mathf.Lerp(startVector.magnitude, endVector.magnitude, AttackData.hitboxMovementCurve.Evaluate(t));
+                    hitboxCurrrentPos = HitboxRelativeTransform.position + 
+                        currentVector.normalized * Mathf.Lerp(startVector.magnitude, endVector.magnitude, AttackData.hitboxMovementCurve.Evaluate(t));
 
                     break;
             }
@@ -135,7 +136,8 @@ public class WeaponController : MonoBehaviour
         collisionsList = AttackData.hitboxShape switch
         {
             HitboxShapeType.Circle => Physics2D.CircleCastAll(hitboxCurrrentPos, AttackData.circleRadius, Vector2.zero, 0, AttackData.targetLayer),
-            HitboxShapeType.Box => Physics2D.BoxCastAll(hitboxCurrrentPos, AttackData.boxSize, Quaternion.Angle(Quaternion.identity, HitboxRelativeTransform.transform.rotation), Vector2.zero, 0, AttackData.targetLayer),
+            HitboxShapeType.Box => Physics2D.BoxCastAll(hitboxCurrrentPos, AttackData.boxSize, 
+                Quaternion.Angle(Quaternion.identity, HitboxRelativeTransform.transform.rotation), Vector2.zero, 0, AttackData.targetLayer),
             _ => null,
         };
         return collisionsList.Length > 0;

@@ -27,6 +27,8 @@ public class PlayerController : MonoBehaviour
     PlayerPickupCollector collector;
     Animator animator;
 
+    Vector2 lastInputDirection = Vector2.zero;
+
     private void Awake()
     {
         GetComponentsRef();  
@@ -86,14 +88,20 @@ public class PlayerController : MonoBehaviour
         if (CanMove && moveAxis != Vector3.zero)
         {
             movement.CheckedMove(moveAxis);
+            lastInputDirection = moveAxis;
+
+            if (attackAxis == Vector3.zero)
+                weaponSlot.RotateSlot(lastInputDirection);
         }
 
         //Attack
         if(CanAttack)
         {
+            if (attackAxis != Vector3.zero)
+                weaponSlot.RotateSlot(attackAxis);
+
             if(stickAutoAttack && attackAxis != Vector3.zero || inputs.AttackButtonInput.IsPressed())
                 weaponSlot.EquippedWeapon.AttackActivation();
-
         }
 
         //Dash
@@ -102,7 +110,7 @@ public class PlayerController : MonoBehaviour
             if (moveAxis != Vector3.zero)
                 dash.DashActivation(moveAxis);
             else 
-                dash.DashActivation(transform.up);
+                dash.DashActivation(lastInputDirection);
         }
         if (dash.IsDashing)
             animator.SetBool(GameParams.Animation.PLAYER_DASH_BOOL, true);
