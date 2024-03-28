@@ -46,7 +46,7 @@ public class EnemyLifeSystemComponent : MonoBehaviour, ILifeSystem
             currentLifePoints = 0;
             SetDespawnTimer(despawnDuration);
             enemyCollider.enabled = false;
-            animator.SetBool(GameParams.Animation.ENEMY_DIE_BOOL, true);
+            animator.SetTrigger(GameParams.Animation.ENEMY_DIE_TRIGGER);
             return;
         }
         animator.SetTrigger(GameParams.Animation.ENEMY_TAKEDAMAGE_TRIGGER);

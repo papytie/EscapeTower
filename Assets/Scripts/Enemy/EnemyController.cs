@@ -28,6 +28,9 @@ public class EnemyController : MonoBehaviour
 
     IMovement currentMovement;
 
+    public Vector2 CurrentDirection => currentDirection;
+    Vector2 currentDirection;
+
     private void Awake()
     {
         attack = GetComponent<EnemyAttackComponent>();
@@ -42,7 +45,7 @@ public class EnemyController : MonoBehaviour
     private void Start()
     {
         SetMovementConfig();
-        attack.InitRef(animator);
+        attack.InitRef(animator, this);
         lifeSystem.InitRef(animator);
         bump.InitRef(collision);
     }
@@ -51,13 +54,16 @@ public class EnemyController : MonoBehaviour
     {
         if (lifeSystem.IsDead) return;
 
+        currentDirection = currentMovement.EnemyDirection;
+
         if (movementList[currentMovementIndex].type != MovementType.Wait)
             currentMovement.Move(player, collision);
 
         if(Time.time > startTime + timerDuration)
         {
+            if (attackList.Count == 0) return;
+            
             attack.InitAttack(attackList[currentAttackIndex].attackData, attackFXBehaviors[attackList[currentAttackIndex].attackFXPrefab.name]);
-
             attack.AttackActivation();
 
             currentMovementIndex = currentMovementIndex >= movementList.Count-1 ? 0 : currentMovementIndex + 1;
@@ -75,7 +81,7 @@ public class EnemyController : MonoBehaviour
         if (movementList[currentMovementIndex].type == MovementType.Wait) return;
 
         currentMovement = movementBehaviors[movementList[currentMovementIndex].type];
-        currentMovement.Init(movementList[currentMovementIndex].data);
+        currentMovement.Init(movementList[currentMovementIndex].data, animator);
     }
 
     void InitMovementBehaviors()
@@ -129,6 +135,11 @@ public class EnemyController : MonoBehaviour
     {
         foreach (EnemyAttackConfig attackConfig in attackList)
         {
+            if (attackConfig.attackFXPrefab == null)
+            {
+                Debug.LogWarning(attackConfig.name + " do not contain any FXPrefab");
+            }
+
             if(!attackFXBehaviors.ContainsKey(attackConfig.attackFXPrefab.name))
             {
                 IAttackFX attackFX = Instantiate(attackConfig.attackFXPrefab, transform).GetComponent<IAttackFX>();

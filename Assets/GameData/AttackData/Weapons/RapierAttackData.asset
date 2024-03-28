@@ -25,7 +25,7 @@ MonoBehaviour:
     hitboxDuration: 0.2
     maxTargets: 1
     hitboxPositionRelativeTo: 0
-    hitboxPositionOffset: {x: 0, y: 0.1}
+    hitboxPositionOffset: {x: 0, y: 0.2}
     hitboxShape: 1
     circleRadius: 0.1
     boxSize: {x: 0.05, y: 0.15}
@@ -171,7 +171,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    targetPosition: {x: 0, y: 0.3}
+    targetPosition: {x: 0, y: 0.4}
     useProjectile: 1
     obstructionLayer:
       serializedVersion: 2
@@ -462,11 +462,11 @@ MonoBehaviour:
       m_RotationOrder: 4
     projectileToSpawn: {fileID: 1539454035064346066, guid: 8b9d2728a23289044864ba9364c3b4e9, type: 3}
     projectileSpawnRelativeTo: 0
-    projectileSpawnOffset: {x: 0, y: 0}
+    projectileSpawnOffset: {x: 0, y: 0.14}
     projectileAngleOffset: 0
     projectileNumber: 2
     projectileSpawnType: 0
     projectileMaxTargets: 1
     projectileSpeed: 2
     spreadAngle: 30
-    projectileRange: 0.285
+    projectileRange: 0.2

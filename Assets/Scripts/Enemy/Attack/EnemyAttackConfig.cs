@@ -9,7 +9,7 @@ using UnityEngine;
 public class EnemyAttackConfig : ScriptableObject
 {
     [Header("Attack Data"), Space]
-    public AttackData attackData;
+    public EnemyAttackData attackData;
 
     [Header("Attack FX"), Space]
     public GameObject attackFXPrefab;

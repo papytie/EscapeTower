@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class AttackData
+public class EnemyAttackData
 {
     [Header("Attack Settings")]
     public float damage = 1;
@@ -16,7 +16,6 @@ public class AttackData
     public bool useMeleeHitbox = true;
     public float hitboxDuration = .1f;
     public int maxTargets = 1;
-    public RelativeTransform hitboxPositionRelativeTo;
     public Vector2 hitboxPositionOffset = Vector2.zero;
     public HitboxShapeType hitboxShape;
     public float circleRadius = .1f;
@@ -32,8 +31,7 @@ public class AttackData
     public ProjectileReturnType projectileReturnType;
     public bool projectileReturnFlip = false;
     public AnimationCurve returnCurve;
-    public ProjectileController projectileToSpawn;
-    public RelativeTransform projectileSpawnRelativeTo;
+    public EnemyProjectile projectileToSpawn;
     public Vector2 projectileSpawnOffset = Vector2.zero;
     public float projectileAngleOffset = 0;
     public int projectileNumber = 1;

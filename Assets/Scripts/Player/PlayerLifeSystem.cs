@@ -41,7 +41,7 @@ public class PlayerLifeSystem : MonoBehaviour, ILifeSystem
         {
             currentLifePoints = 0;
             isDead = true;
-            animator.SetBool(GameParams.Animation.PLAYER_DIE_BOOL, true);
+            animator.SetTrigger(GameParams.Animation.PLAYER_DIE_TRIGGER);
             return;
         }
         animator.SetTrigger(GameParams.Animation.PLAYER_TAKEDAMAGE_TRIGGER);

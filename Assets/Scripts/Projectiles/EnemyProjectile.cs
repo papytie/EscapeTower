@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileController : MonoBehaviour
+public class EnemyProjectile : MonoBehaviour
 {
     public HitboxShapeType HitboxShape => hitboxShape;
     public Color SetDebugColor { set { transform.GetComponentInChildren<SpriteRenderer>().color = value; } }
@@ -27,11 +27,11 @@ public class ProjectileController : MonoBehaviour
     float damage = 0;
     bool isReturning = false;
     GameObject owner;
-    AttackData attackData;
+    EnemyAttackData attackData;
 
     List<ILifeSystem> hitList = new();
 
-    public void Init(GameObject projectileOwner, AttackData data, Vector3 relativePos, float projectileDamage)
+    public void Init(GameObject projectileOwner, EnemyAttackData data, Vector3 relativePos, float projectileDamage)
     {
         owner = projectileOwner;
         attackData = data;

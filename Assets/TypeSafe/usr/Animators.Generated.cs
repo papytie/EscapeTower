@@ -35,13 +35,13 @@ public sealed class SRAnimators {
             
             public const int isDashing = 1756643129;
             
-            public const int isDead = 1276664872;
-            
             public const int takeDamage = -1533413595;
             
             public const int rightAxis = 1432685542;
             
             public const int upAxis = 394668998;
+            
+            public const int die = 964231127;
         }
         
         public sealed class Layers {

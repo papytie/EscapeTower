@@ -24,7 +24,6 @@ MonoBehaviour:
     useMeleeHitbox: 0
     hitboxDuration: 0.1
     maxTargets: 1
-    hitboxPositionRelativeTo: 0
     hitboxPositionOffset: {x: 0, y: 0}
     hitboxShape: 2
     circleRadius: 0.08
@@ -326,13 +325,12 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     projectileToSpawn: {fileID: 1539454035064346066, guid: 69a7e849f1734fc41ada7985d8fbdb10, type: 3}
-    projectileSpawnRelativeTo: 0
     projectileSpawnOffset: {x: 0, y: 0.05}
-    projectileAngleOffset: 180
+    projectileAngleOffset: 0
     projectileNumber: 5
     projectileSpawnType: 0
     projectileMaxTargets: 1
     projectileSpeed: 1
     spreadAngle: 90
     projectileRange: 0.5
-  attackFXPrefab: {fileID: 3145330726999605681, guid: 6a18018bcaa069340ba5bbefafc84932, type: 3}
+  attackFXPrefab: {fileID: 3145330726999605681, guid: 492924e261b5f6d4a92ecf6da8fa9c62, type: 3}

@@ -8,7 +8,7 @@ public class WeaponController : MonoBehaviour
 {
     public bool AttackAvailable => !isAttacking && !isOnCooldown;
     public bool IsOnAttackLag => isOnAttackLag;
-    public AttackData AttackData => weaponAttackData.attackData;
+    public WeaponAttackData AttackData => weaponAttackData.attackData;
     public Transform HitboxRelativeTransform => GetRelativeTransform(AttackData.hitboxPositionRelativeTo);
     public Vector3 HitboxStartPosition => HitboxRelativeTransform.position + HitboxRelativeTransform.TransformVector(AttackData.hitboxPositionOffset);
     public Vector3 HitboxTargetPosition => HitboxRelativeTransform.position + HitboxRelativeTransform.TransformVector(AttackData.targetPosition);
@@ -191,7 +191,7 @@ public class WeaponController : MonoBehaviour
                 .Init(gameObject, AttackData, ProjectileSpawnPosition, stats.GetModifiedMainStat(MainStat.Damage));
     }
 
-    public void ChangeProjectile(ProjectileController newProjectile)
+    public void ChangeProjectile(WeaponProjectile newProjectile)
     {
         AttackData.projectileToSpawn = newProjectile;
     }

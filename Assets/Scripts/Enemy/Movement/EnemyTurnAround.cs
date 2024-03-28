@@ -7,22 +7,27 @@ using UnityEngine.EventSystems;
 public class EnemyTurnAround : MonoBehaviour, IMovement
 {
     public TurnAroundData MovementData { get; set; }
+    public Animator EnemyAnimator { get; set; }
+    public Vector2 EnemyDirection { get; set; }
 
-    public void Init(IMovementData data)
+    public void Init(IMovementData data, Animator animator)
     {
         MovementData = data as TurnAroundData;
+        EnemyAnimator = animator;
     }
 
     public void Move(GameObject target, EnemyCollisionComponent collision)
     {
-        Vector2 targetDirection = (target.transform.position - transform.position).normalized;       
+        EnemyDirection = (target.transform.position - transform.position).normalized;  
+        EnemyAnimator.SetFloat(GameParams.Animation.ENEMY_UP_FLOAT, EnemyDirection.y);
+        EnemyAnimator.SetFloat(GameParams.Animation.ENEMY_RIGHT_FLOAT, EnemyDirection.x);
 
         //Move with collision check
-        collision.MoveCollisionCheck(GetMoveDirection(targetDirection), MovementData.speed * Time.deltaTime, collision.CollisionLayer, out Vector3 finalPosition, out RaycastHit2D hit);
+        collision.MoveCollisionCheck(GetMoveDirection(EnemyDirection), MovementData.speed * Time.deltaTime, collision.CollisionLayer, out Vector3 finalPosition, out RaycastHit2D hit);
         transform.position = finalPosition;
         
         //Look rotation
-        transform.rotation = Quaternion.LookRotation(Vector3.forward, GetLookDirection(targetDirection));
+        //transform.rotation = Quaternion.LookRotation(Vector3.forward, GetLookDirection(targetDirection));
 
     }
 

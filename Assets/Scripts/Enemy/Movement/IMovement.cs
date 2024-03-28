@@ -3,6 +3,8 @@ using UnityEngine;
 
 public interface IMovement
 {
-    public void Init(IMovementData data);
+    public Vector2 EnemyDirection { get; set; }
+    public Animator EnemyAnimator { get; set; }
+    public void Init(IMovementData data, Animator animator);
     public void Move(GameObject target, EnemyCollisionComponent collision);
 }

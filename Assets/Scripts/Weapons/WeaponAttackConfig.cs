@@ -7,6 +7,6 @@ using UnityEngine;
 public class WeaponAttackConfig : ScriptableObject
 {
     [Header("Attack Data"), Space] 
-    public AttackData attackData;
+    public WeaponAttackData attackData;
     
 }

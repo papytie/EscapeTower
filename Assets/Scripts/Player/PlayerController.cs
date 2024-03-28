@@ -65,41 +65,31 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat(GameParams.Animation.PLAYER_UPAXIS_FLOAT, moveAxis.y);
         animator.SetFloat(GameParams.Animation.PLAYER_RIGHTDAXIS_FLOAT, moveAxis.x);
 
-/*        //Rotation
-        
-          if (CanMove) 
+        //Movement
+        if (CanMove)
         {
             if (moveAxis != Vector3.zero)
-                movement.RotateToMoveDirection(moveAxis);
+            movement.CheckedMove(moveAxis);
+            lastInputDirection = moveAxis;
 
-            if (attackAxis != Vector3.zero)
-                movement.RotateToMoveDirection(attackAxis);
 
             if (inputs.AttackButtonInput.IsPressed() && inputs.IsInputScheme(inputs.AttackButtonInput, InputSchemeEnum.KeyboardMouse))
             {
                 Vector3 mouseDirection = (Camera.main.ScreenToWorldPoint(inputs.MousePositionAxisInput.ReadValue<Vector2>()) - transform.position).normalized;
-                movement.RotateToMoveDirection(mouseDirection);
+                weaponSlot.RotateSlot(mouseDirection);
             }
 
-      }
-*/
+            if (attackAxis != Vector3.zero)
+                weaponSlot.RotateSlot(attackAxis);
 
-        //Movement
-        if (CanMove && moveAxis != Vector3.zero)
-        {
-            movement.CheckedMove(moveAxis);
-            lastInputDirection = moveAxis;
-
-            if (attackAxis == Vector3.zero)
+            if (attackAxis == Vector3.zero && !inputs.AttackButtonInput.IsPressed())
                 weaponSlot.RotateSlot(lastInputDirection);
         }
+
 
         //Attack
         if(CanAttack)
         {
-            if (attackAxis != Vector3.zero)
-                weaponSlot.RotateSlot(attackAxis);
-
             if(stickAutoAttack && attackAxis != Vector3.zero || inputs.AttackButtonInput.IsPressed())
                 weaponSlot.EquippedWeapon.AttackActivation();
         }

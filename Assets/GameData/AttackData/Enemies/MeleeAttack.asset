@@ -22,14 +22,14 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 64
     useMeleeHitbox: 1
-    hitboxDuration: 0.1
+    hitboxDuration: 0.2
     maxTargets: 1
     hitboxPositionRelativeTo: 0
-    hitboxPositionOffset: {x: 0, y: 0}
+    hitboxPositionOffset: {x: -0.12, y: 0.15}
     hitboxShape: 2
     circleRadius: 0.08
     boxSize: {x: 0.1, y: 0.1}
-    behaviorType: 1
+    behaviorType: 2
     hitboxMovementCurve:
       serializedVersion: 2
       m_Curve:
@@ -171,7 +171,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    targetPosition: {x: 0, y: 0.15}
+    targetPosition: {x: 0.12, y: 0.15}
     useProjectile: 0
     obstructionLayer:
       serializedVersion: 2
@@ -335,5 +335,4 @@ MonoBehaviour:
     projectileSpeed: 1
     spreadAngle: 90
     projectileRange: 0.5
-  attackType: 0
   attackFXPrefab: {fileID: 3145330726999605681, guid: f8606c741d2d16646b8f6a0ed341f760, type: 3}
