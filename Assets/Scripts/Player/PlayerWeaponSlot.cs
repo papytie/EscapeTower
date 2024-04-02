@@ -11,6 +11,7 @@ public class PlayerWeaponSlot : MonoBehaviour
     [SerializeField] Transform slotTransform;
 
     PlayerStats stats;
+    Vector2 slotStartPos;
 
     public void InitRef(PlayerStats statsRef)
     {
@@ -19,6 +20,8 @@ public class PlayerWeaponSlot : MonoBehaviour
    
     private void Start()
     {
+        slotStartPos = slotTransform.position;
+
         equippedWeapon = GetComponentInChildren<WeaponController>();
         if (equippedWeapon == null)
         {
@@ -28,7 +31,7 @@ public class PlayerWeaponSlot : MonoBehaviour
 
         equippedWeapon.transform.SetPositionAndRotation(slotTransform.position, Quaternion.Euler(slotTransform.rotation.eulerAngles));
         equippedWeapon.InitRef(this, stats);
-        
+
     }
 
     public void EquipWeapon(WeaponController weapon)
@@ -36,7 +39,7 @@ public class PlayerWeaponSlot : MonoBehaviour
         if(equippedWeapon != null)
             Destroy(equippedWeapon.gameObject);
 
-        equippedWeapon = Instantiate(weapon, transform);
+        equippedWeapon = Instantiate(weapon, slotTransform);
         equippedWeapon.InitRef(this, stats);
         equippedWeapon.transform.SetPositionAndRotation(slotTransform.position, Quaternion.Euler(slotTransform.rotation.eulerAngles));
 
@@ -45,8 +48,7 @@ public class PlayerWeaponSlot : MonoBehaviour
     public void RotateSlot(Vector2 direction)
     {
         Quaternion currentRotation = Quaternion.LookRotation(Vector3.forward, direction);
-       
-        slotTransform.rotation = currentRotation;
+        slotTransform.SetLocalPositionAndRotation(currentRotation * slotStartPos, currentRotation);
     }
 
 }

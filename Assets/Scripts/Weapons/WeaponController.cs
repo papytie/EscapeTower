@@ -178,7 +178,7 @@ public class WeaponController : MonoBehaviour
                 Quaternion angleResult = Quaternion.AngleAxis(angle + AttackData.projectileAngleOffset, transform.forward);
                 
                 Instantiate(AttackData.projectileToSpawn, ProjectileSpawnPosition, SpawnRelativeTransform.rotation * angleResult)
-                    .Init(gameObject, AttackData, ProjectileSpawnPosition, stats.GetModifiedMainStat(MainStat.Damage));
+                    .Init(weaponSlot.gameObject, AttackData, ProjectileSpawnPosition, stats.GetModifiedMainStat(MainStat.Damage));
 
                 if(AttackData.projectileSpawnType == ProjectileSpawnType.Sequence)
                 {
@@ -188,7 +188,7 @@ public class WeaponController : MonoBehaviour
             }
         }
         else Instantiate(AttackData.projectileToSpawn, ProjectileSpawnPosition, SpawnRelativeTransform.rotation * Quaternion.AngleAxis(AttackData.projectileAngleOffset,transform.forward))
-                .Init(gameObject, AttackData, ProjectileSpawnPosition, stats.GetModifiedMainStat(MainStat.Damage));
+                .Init(weaponSlot.gameObject, AttackData, ProjectileSpawnPosition, stats.GetModifiedMainStat(MainStat.Damage));
     }
 
     public void ChangeProjectile(WeaponProjectile newProjectile)

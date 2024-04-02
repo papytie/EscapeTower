@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Rendering.Universal;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(PlayerInputs), typeof(PlayerMovement), typeof(PlayerDash))]
 [RequireComponent(typeof(PlayerWeaponSlot), typeof(PlayerPickupCollector), typeof(Animator))]
@@ -10,7 +9,8 @@ using UnityEngine.Rendering.Universal;
 
 public class PlayerController : MonoBehaviour
 {
-    public bool CanMove => !dash.IsDashing && !weaponSlot.EquippedWeapon.IsOnAttackLag && !lifeSystem.IsDead;
+    public bool HaveWeapon => weaponSlot.EquippedWeapon;
+    public bool CanMove => !dash.IsDashing /*&& !weaponSlot.EquippedWeapon.IsOnAttackLag*/ && !lifeSystem.IsDead;
     public bool CanDash => dash.DashAvailable && !lifeSystem.IsDead;
     public bool CanAttack => weaponSlot.EquippedWeapon && weaponSlot.EquippedWeapon.AttackAvailable && !dash.IsDashing && !lifeSystem.IsDead;
     public bool CanTakeDamage => !lifeSystem.IsInvincible && !lifeSystem.IsDead;
@@ -27,7 +27,8 @@ public class PlayerController : MonoBehaviour
     PlayerPickupCollector collector;
     Animator animator;
 
-    Vector2 lastInputDirection = Vector2.zero;
+    Vector2 lastMoveInputDirection = Vector2.zero;
+    Vector2 lastAttackInputDirection = Vector2.zero;
 
     private void Awake()
     {
@@ -69,21 +70,27 @@ public class PlayerController : MonoBehaviour
         if (CanMove)
         {
             if (moveAxis != Vector3.zero)
-            movement.CheckedMove(moveAxis);
-            lastInputDirection = moveAxis;
-
+            {
+                if (HaveWeapon && weaponSlot.EquippedWeapon.IsOnAttackLag) return;
+                movement.CheckedMove(moveAxis);
+                lastMoveInputDirection = moveAxis;
+            }
 
             if (inputs.AttackButtonInput.IsPressed() && inputs.IsInputScheme(inputs.AttackButtonInput, InputSchemeEnum.KeyboardMouse))
             {
                 Vector3 mouseDirection = (Camera.main.ScreenToWorldPoint(inputs.MousePositionAxisInput.ReadValue<Vector2>()) - transform.position).normalized;
                 weaponSlot.RotateSlot(mouseDirection);
+                //lastAttackInputDirection = mouseDirection;
             }
 
             if (attackAxis != Vector3.zero)
+            {
                 weaponSlot.RotateSlot(attackAxis);
+                //lastAttackInputDirection = attackAxis;
+            }
 
             if (attackAxis == Vector3.zero && !inputs.AttackButtonInput.IsPressed())
-                weaponSlot.RotateSlot(lastInputDirection);
+                weaponSlot.RotateSlot(lastMoveInputDirection);
         }
 
 
@@ -100,7 +107,7 @@ public class PlayerController : MonoBehaviour
             if (moveAxis != Vector3.zero)
                 dash.DashActivation(moveAxis);
             else 
-                dash.DashActivation(lastInputDirection);
+                dash.DashActivation(lastMoveInputDirection);
         }
         if (dash.IsDashing)
             animator.SetBool(GameParams.Animation.PLAYER_DASH_BOOL, true);

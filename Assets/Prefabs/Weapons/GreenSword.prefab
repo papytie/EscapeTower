@@ -130,7 +130,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e769ea181984ae4e90b90717463d30a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackData: {fileID: 11400000, guid: d1ad22d3969bd974caf123aaaa043f95, type: 2}
+  weaponSlot: {fileID: 0}
+  weaponAttackData: {fileID: 11400000, guid: b18578cfe1646444cae1ce621ec16a71, type: 2}
+  showDebug: 1
+  debugCube: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meleeDebugColor: {r: 1, g: 0, b: 0, a: 0.5882353}
+  projectileDebugColor: {r: 1, g: 0, b: 0, a: 0.5882353}
 --- !u!95 &1502074468152758371
 Animator:
   serializedVersion: 5

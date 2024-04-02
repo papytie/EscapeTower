@@ -128,7 +128,7 @@ Animator:
   m_GameObject: {fileID: 4508160800121832782}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b836fc478be73e148876a53c52591112, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -152,26 +152,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponSlot: {fileID: 0}
-  attackType: 0
-  damage: 1
-  cooldown: 0.5
-  lag: 0.2
-  projectileToSpawn: {fileID: 0}
-  range: 1
-  projectileNumber: 1
-  spreadAngle: 60
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  relativePostition: 0
-  hitboxPositionOffset: {x: 0, y: 0}
-  behaviorType: 0
-  targetPosition: {x: 0, y: 0}
-  duration: 0.1
-  numberOfTarget: 1
-  shapeType: 0
-  circleRadius: 0.1
-  boxSize: {x: 0.1, y: 0.1}
-  showDebug: 0
-  debugCube: {fileID: 0}
-  debugColor: {r: 0, g: 0, b: 0, a: 0}
+  weaponAttackData: {fileID: 11400000, guid: bcf7e83f05970c54786fe621f34c8338, type: 2}
+  showDebug: 1
+  debugCube: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meleeDebugColor: {r: 1, g: 0, b: 0, a: 0.5882353}
+  projectileDebugColor: {r: 1, g: 0, b: 0, a: 0.5882353}
