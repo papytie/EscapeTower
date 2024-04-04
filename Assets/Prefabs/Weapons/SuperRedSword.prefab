@@ -46,30 +46,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e769ea181984ae4e90b90717463d30a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackType: 1
-  damage: 2
-  cooldown: 1
-  lag: 0.5
-  projectileToSpawn: {fileID: 1539454035064346066, guid: 69a7e849f1734fc41ada7985d8fbdb10, type: 3}
-  range: 0.5
-  projectileNumber: 20
-  spreadAngle: 360
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  relativePostition: 0
-  hitboxPositionOffset: {x: 0, y: 0}
-  isMoving: 1
-  targetPosition: {x: 0, y: 0}
-  duration: 1
-  delay: 0.1
-  numberOfTarget: 5
-  shapeType: 2
-  circleRadius: 0.1
-  boxSize: {x: 0.1, y: 0.18}
-  showDebug: 0
+  weaponSlot: {fileID: 0}
+  weaponAttackData: {fileID: 11400000, guid: 2d402fce5bee5974fa2adc09ce5a032a, type: 2}
+  showDebug: 1
   debugCube: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-  debugColor: {r: 1, g: 0, b: 0, a: 0.78431374}
+  meleeDebugColor: {r: 1, g: 0, b: 0, a: 0.5882353}
+  projectileDebugColor: {r: 1, g: 0, b: 0, a: 0.5882353}
 --- !u!95 &1502074468152758371
 Animator:
   serializedVersion: 5

@@ -25,13 +25,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2686523472574300729}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_LocalRotation: {x: 0, y: 0, z: 0.38268343, w: 0.92387956}
+  m_LocalPosition: {x: -0.05, y: -0.05, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 3992517881274965758}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
 --- !u!212 &7704790554259416769
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -218,7 +218,8 @@ MonoBehaviour:
   templateType: 1
   statModifierTemplate: {fileID: 11400000, guid: 922554e4f5e2b674cad0f6029f1244b4, type: 2}
   consumableTemplate: {fileID: 11400000, guid: b03944d154094084dae6c0cb7daa05f4, type: 2}
-  weaponPickupTemplate: {fileID: 11400000, guid: 49101cc999f98d94289e4a5eb33fd1c7, type: 2}
+  weaponPickupTemplate: {fileID: 11400000, guid: 877c9b21d9bc4e049835c2aa7090eba1, type: 2}
+  projectilePickupTemplate: {fileID: 11400000, guid: 4b60a54449c26b148b7d04a00433f8f3, type: 2}
   borderSprite: {fileID: 672824640487529504}
   contentSprite: {fileID: 7704790554259416769}
   scaleAnim: 2.5

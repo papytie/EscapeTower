@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Rendering.Universal;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(PlayerInputs), typeof(PlayerMovement), typeof(PlayerDash))]
 [RequireComponent(typeof(PlayerWeaponSlot), typeof(PlayerPickupCollector), typeof(Animator))]
@@ -10,7 +9,8 @@ using UnityEngine.Rendering.Universal;
 
 public class PlayerController : MonoBehaviour
 {
-    public bool CanMove => !dash.IsDashing && !weaponSlot.EquippedWeapon.IsOnAttackLag && !lifeSystem.IsDead;
+    public bool HaveWeapon => weaponSlot.EquippedWeapon;
+    public bool CanMove => !dash.IsDashing /*&& !weaponSlot.EquippedWeapon.IsOnAttackLag*/ && !lifeSystem.IsDead;
     public bool CanDash => dash.DashAvailable && !lifeSystem.IsDead;
     public bool CanAttack => weaponSlot.EquippedWeapon && weaponSlot.EquippedWeapon.AttackAvailable && !dash.IsDashing && !lifeSystem.IsDead;
     public bool CanTakeDamage => !lifeSystem.IsInvincible && !lifeSystem.IsDead;
@@ -26,6 +26,9 @@ public class PlayerController : MonoBehaviour
     PlayerCollision collision;
     PlayerPickupCollector collector;
     Animator animator;
+
+    Vector2 lastMoveInputDirection = Vector2.zero;
+    Vector2 lastAttackInputDirection = Vector2.zero;
 
     private void Awake()
     {
@@ -60,57 +63,60 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 moveAxis = inputs.MoveAxisInput.ReadValue<Vector2>();
         Vector3 attackAxis = inputs.AttackAxisInput.ReadValue<Vector2>();
+        animator.SetFloat(SRAnimators.PlayerAnimator.Parameters.upAxis, moveAxis.y);
+        animator.SetFloat(SRAnimators.PlayerAnimator.Parameters.rightAxis, moveAxis.x);
 
-        //Rotation
-        if (CanMove) 
+        //Movement
+        if (CanMove)
         {
             if (moveAxis != Vector3.zero)
-                movement.RotateToMoveDirection(moveAxis);
-
-            if (attackAxis != Vector3.zero)
-                movement.RotateToMoveDirection(attackAxis);
+            {
+                if (HaveWeapon && weaponSlot.EquippedWeapon.IsOnAttackLag) return;
+                movement.CheckedMove(moveAxis);
+                lastMoveInputDirection = moveAxis;
+            }
 
             if (inputs.AttackButtonInput.IsPressed() && inputs.IsInputScheme(inputs.AttackButtonInput, InputSchemeEnum.KeyboardMouse))
             {
                 Vector3 mouseDirection = (Camera.main.ScreenToWorldPoint(inputs.MousePositionAxisInput.ReadValue<Vector2>()) - transform.position).normalized;
-                movement.RotateToMoveDirection(mouseDirection);
+                weaponSlot.RotateSlot(mouseDirection);
+                //lastAttackInputDirection = mouseDirection;
             }
 
+            if (attackAxis != Vector3.zero)
+            {
+                weaponSlot.RotateSlot(attackAxis);
+                //lastAttackInputDirection = attackAxis;
+            }
+
+            if (attackAxis == Vector3.zero && !inputs.AttackButtonInput.IsPressed())
+                weaponSlot.RotateSlot(lastMoveInputDirection);
         }
-        
-        //Movement
-        if(CanMove && moveAxis != Vector3.zero)
-            movement.CheckedMove(moveAxis);
+
 
         //Attack
         if(CanAttack)
         {
             if(stickAutoAttack && attackAxis != Vector3.zero || inputs.AttackButtonInput.IsPressed())
                 weaponSlot.EquippedWeapon.AttackActivation();
-
         }
 
         //Dash
         if (CanDash && inputs.DashButtonInput.WasPerformedThisFrame())
         {
             if (moveAxis != Vector3.zero)
-            {
                 dash.DashActivation(moveAxis);
-                movement.RotateToMoveDirection(moveAxis);
-            }
-
-            else
-            {
-                dash.DashActivation(transform.up);
-                movement.RotateToMoveDirection(transform.up);
-            }
-
+            else 
+                dash.DashActivation(lastMoveInputDirection);
         }
+        if (dash.IsDashing)
+            animator.SetBool(SRAnimators.PlayerAnimator.Parameters.isDashing, true);
+        else animator.SetBool(SRAnimators.PlayerAnimator.Parameters.isDashing, false);
 
         //Collision Check reaction
         if (CanTakeDamage)
         {
-            if (collision.EnemyCheckCollision(collision.EnemyLayer, out int dmg))
+            if (collision.EnemyCheckCollision(collision.EnemyLayer, out float dmg))
             {
                 lifeSystem.TakeDamage(dmg);
             }

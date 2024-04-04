@@ -95,7 +95,7 @@ public class PlayerStats : MonoBehaviour
         return targetStat switch
         {
             MainStat.MoveSpeed => movement.MoveSpeed,
-            MainStat.Damage => weaponSlot.EquippedWeapon.Damage,
+            MainStat.Damage => weaponSlot.EquippedWeapon.AttackData.damage,
             MainStat.AttackSpeed => 1,
             MainStat.DashSpeed => 1,
             MainStat.DashDistance => dash.Distance,
@@ -106,9 +106,9 @@ public class PlayerStats : MonoBehaviour
     float GetBaseSecondaryStatValue(SecondaryStat targetStat)
     {
         return targetStat switch
-        {   SecondaryStat.AttackCooldownDuration => weaponSlot.EquippedWeapon.Cooldown,
-            SecondaryStat.AttackLagDuration => weaponSlot.EquippedWeapon.Lag,
-            SecondaryStat.HitboxDuration => weaponSlot.EquippedWeapon.HitboxDuration,
+        {   SecondaryStat.AttackCooldownDuration => weaponSlot.EquippedWeapon.AttackData.cooldown,
+            SecondaryStat.AttackLagDuration => weaponSlot.EquippedWeapon.AttackData.lag,
+            SecondaryStat.HitboxDuration => weaponSlot.EquippedWeapon.AttackData.hitboxDuration,
             SecondaryStat.DashCooldown => dash.Cooldown,
             SecondaryStat.DashDuration => dash.Duration,
             _ => defaultValue,

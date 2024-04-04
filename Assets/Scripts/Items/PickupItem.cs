@@ -1,6 +1,5 @@
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.U2D;
 
 public class PickupItem : MonoBehaviour
 {
@@ -9,13 +8,11 @@ public class PickupItem : MonoBehaviour
     public StatModifierTemplate StatModifier => statModifierTemplate;
     public ConsumableTemplate Consumable => consumableTemplate;
     public WeaponPickupTemplate WeaponPickup => weaponPickupTemplate;
-    public ProjectilePickupTemplate ProjectilePickup => projectilePickupTemplate;
 
     [SerializeField] PickableType templateType;
     [SerializeField] StatModifierTemplate statModifierTemplate;
     [SerializeField] ConsumableTemplate consumableTemplate;
     [SerializeField] WeaponPickupTemplate weaponPickupTemplate;
-    [SerializeField] ProjectilePickupTemplate projectilePickupTemplate;
 
     [Header("Visual")]
     [SerializeField] SpriteRenderer borderSprite;
@@ -46,9 +43,6 @@ public class PickupItem : MonoBehaviour
                 break;
             case PickableType.Consumable:
                 template = consumableTemplate;
-                break;
-            case PickableType.Projectile:
-                template = projectilePickupTemplate;
                 break;
             default:
                 break;

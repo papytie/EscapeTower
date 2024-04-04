@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class PlayerWeaponSlot : MonoBehaviour
 {
-    public PlayerWeapon EquippedWeapon => equippedWeapon;
+    public WeaponController EquippedWeapon => equippedWeapon;
     public Transform SlotTransform => slotTransform;
 
-    [SerializeField] PlayerWeapon equippedWeapon = null;
+    [SerializeField] WeaponController equippedWeapon = null;
     [SerializeField] Transform slotTransform;
 
     PlayerStats stats;
+    Vector2 slotStartPos;
 
     public void InitRef(PlayerStats statsRef)
     {
@@ -19,7 +20,9 @@ public class PlayerWeaponSlot : MonoBehaviour
    
     private void Start()
     {
-        equippedWeapon = GetComponentInChildren<PlayerWeapon>();
+        slotStartPos = slotTransform.position;
+
+        equippedWeapon = GetComponentInChildren<WeaponController>();
         if (equippedWeapon == null)
         {
             Debug.LogWarning("Player has no weapon");
@@ -27,19 +30,25 @@ public class PlayerWeaponSlot : MonoBehaviour
         }
 
         equippedWeapon.transform.SetPositionAndRotation(slotTransform.position, Quaternion.Euler(slotTransform.rotation.eulerAngles));
-        Debug.Log("weapon position set to : " +  equippedWeapon.transform.position);
         equippedWeapon.InitRef(this, stats);
+
     }
 
-    public void EquipWeapon(PlayerWeapon weapon)
+    public void EquipWeapon(WeaponController weapon)
     {
         if(equippedWeapon != null)
             Destroy(equippedWeapon.gameObject);
 
-        equippedWeapon = Instantiate(weapon, transform);
+        equippedWeapon = Instantiate(weapon, slotTransform);
         equippedWeapon.InitRef(this, stats);
         equippedWeapon.transform.SetPositionAndRotation(slotTransform.position, Quaternion.Euler(slotTransform.rotation.eulerAngles));
 
+    }
+
+    public void RotateSlot(Vector2 direction)
+    {
+        Quaternion currentRotation = Quaternion.LookRotation(Vector3.forward, direction);
+        slotTransform.SetLocalPositionAndRotation(currentRotation * slotStartPos, currentRotation);
     }
 
 }

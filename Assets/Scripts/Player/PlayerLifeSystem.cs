@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerLifeSystem : MonoBehaviour
+public class PlayerLifeSystem : MonoBehaviour, ILifeSystem
 {
     public bool IsDead => isDead;
     public bool IsInvincible { get => isInvincible; set { isInvincible = value; } }
@@ -41,7 +41,7 @@ public class PlayerLifeSystem : MonoBehaviour
         {
             currentLifePoints = 0;
             isDead = true;
-            animator.SetBool(GameParams.Animation.PLAYER_DIE_BOOL, true);
+            animator.SetTrigger(GameParams.Animation.PLAYER_DIE_TRIGGER);
             return;
         }
         animator.SetTrigger(GameParams.Animation.PLAYER_TAKEDAMAGE_TRIGGER);

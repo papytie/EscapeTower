@@ -3,13 +3,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Weapon", menuName = "EscapeTower/Items/Create Weapon", order = 1)]
 public class WeaponPickupTemplate : ScriptableObject, IPickup
 {
-    public PlayerWeapon Weapon => weapon;
+    public WeaponController Weapon => weapon;
 
     [Header("Name")]
     [SerializeField] string pickupName;
 
     [Header("Settings")]
-    [SerializeField] PlayerWeapon weapon;
+    [SerializeField] WeaponController weapon;
     [SerializeField] Sprite itemSprite;
 
     public PickableType Type => PickableType.Weapon;
