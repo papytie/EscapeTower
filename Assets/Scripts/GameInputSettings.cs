@@ -178,7 +178,7 @@ public partial class @GameInputSettings: IInputActionCollection2, IDisposable
                     ""id"": ""9ed6c826-e04f-43fb-be4f-3ee90c1e5eff"",
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone"",
                     ""groups"": ""Gamepad"",
                     ""action"": ""AttackOrientation"",
                     ""isComposite"": false,
