@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyProjectile : MonoBehaviour
+public class ProjectileController : MonoBehaviour
 {
     public HitboxShapeType HitboxShape => hitboxShape;
     public Color SetDebugColor { set { transform.GetComponentInChildren<SpriteRenderer>().color = value; } }
@@ -27,16 +27,16 @@ public class EnemyProjectile : MonoBehaviour
     float damage = 0;
     bool isReturning = false;
     GameObject owner;
-    EnemyAttackData attackData;
+    ProjectileData projData;
 
     List<ILifeSystem> hitList = new();
 
-    public void Init(GameObject projectileOwner, EnemyAttackData data, Vector3 relativePos, float projectileDamage)
+    public void Init(GameObject projectileOwner, ProjectileData data, Vector3 relativePos, float projectileDamage)
     {
         owner = projectileOwner;
-        attackData = data;
+        projData = data;
         damage = projectileDamage;
-        endPosition = relativePos + transform.up * attackData.projectileRange;
+        endPosition = relativePos + transform.up * projData.projectileRange;
         startPosition = transform.position;
         startTime = Time.time;
     }
@@ -48,7 +48,7 @@ public class EnemyProjectile : MonoBehaviour
 
         if (isReturning)
         {
-            switch (attackData.projectileReturnType)
+            switch (projData.projectileReturnType)
             {
                 case ProjectileReturnType.ReturnToSpawnPosition:
                     ProjectileMovement(startPosition, endPosition);
@@ -60,9 +60,9 @@ public class EnemyProjectile : MonoBehaviour
             }
         }
 
-        if (Time.time >= startTime + attackData.projectileRange / attackData.projectileSpeed)
+        if (Time.time >= startTime + projData.projectileRange / projData.projectileSpeed)
         {
-            if(!isReturning && attackData.projectileReturnType != ProjectileReturnType.NoReturn)
+            if(!isReturning && projData.projectileReturnType != ProjectileReturnType.NoReturn)
             {
                 endPosition = startPosition;
                 startPosition = transform.position;
@@ -78,14 +78,14 @@ public class EnemyProjectile : MonoBehaviour
 
     void ProjectileMovement(Vector2 startPos, Vector2 endPos)
     {
-        float t = Mathf.Clamp01((Time.time - startTime) / (attackData.projectileRange / attackData.projectileSpeed));
+        float t = Mathf.Clamp01((Time.time - startTime) / (projData.projectileRange / projData.projectileSpeed));
         //Move gameObject
-        transform.position = Vector3.Lerp(startPos, endPos, attackData.launchCurve.Evaluate(t));
+        transform.position = Vector3.Lerp(startPos, endPos, projData.launchCurve.Evaluate(t));
 
-        if(isReturning && attackData.projectileReturnType == ProjectileReturnType.ReturnToPlayer)
+        if(isReturning && projData.projectileReturnType == ProjectileReturnType.ReturnToPlayer)
         {
             Vector3 toPlayerVector = owner.transform.position - transform.position;
-            if (attackData.projectileReturnFlip)
+            if (projData.projectileReturnFlip)
                 transform.rotation = Quaternion.FromToRotation(Vector3.up, toPlayerVector.normalized);
             else transform.rotation = Quaternion.FromToRotation(Vector3.up, -toPlayerVector.normalized);
         }
@@ -100,8 +100,8 @@ public class EnemyProjectile : MonoBehaviour
     {
         collisionsList = hitboxShape switch
         {
-            HitboxShapeType.Circle => Physics2D.CircleCastAll(position, circleRadius, Vector2.zero, 0, attackData.targetLayer),
-            HitboxShapeType.Box => Physics2D.BoxCastAll(position, boxSize, Quaternion.Angle(Quaternion.identity, transform.rotation), Vector2.zero, 0, attackData.targetLayer),
+            HitboxShapeType.Circle => Physics2D.CircleCastAll(position, circleRadius, Vector2.zero, 0, projData.projectileTargetLayer),
+            HitboxShapeType.Box => Physics2D.BoxCastAll(position, boxSize, Quaternion.Angle(Quaternion.identity, transform.rotation), Vector2.zero, 0, projData.projectileTargetLayer),
             _ => null,
         };
         return collisionsList.Length > 0;
@@ -112,12 +112,12 @@ public class EnemyProjectile : MonoBehaviour
         switch (hitboxShape)
         {
             case HitboxShapeType.Circle:
-                if (Physics2D.CircleCast(position, circleRadius, Vector2.zero, 0, attackData.obstructionLayer))
+                if (Physics2D.CircleCast(position, circleRadius, Vector2.zero, 0, projData.obstructionLayer))
                     Destroy(gameObject);
                 break;
 
             case HitboxShapeType.Box:
-                if (Physics2D.BoxCast(position, boxSize, Quaternion.Angle(Quaternion.identity, transform.rotation), Vector2.zero, 0, attackData.obstructionLayer))
+                if (Physics2D.BoxCast(position, boxSize, Quaternion.Angle(Quaternion.identity, transform.rotation), Vector2.zero, 0, projData.obstructionLayer))
                     Destroy(gameObject);
                 break;
 
@@ -134,7 +134,7 @@ public class EnemyProjectile : MonoBehaviour
                 ILifeSystem lifeSystem = collision.transform.GetComponent<ILifeSystem>();
                 if (lifeSystem == null) return;
 
-                if (!lifeSystem.IsDead && !hitList.Contains(lifeSystem) && hitList.Count < attackData.maxTargets)
+                if (!lifeSystem.IsDead && !hitList.Contains(lifeSystem) && hitList.Count < projData.projectileMaxTargets)
                 {
                     lifeSystem.TakeDamage(damage);
 
@@ -148,7 +148,7 @@ public class EnemyProjectile : MonoBehaviour
                 }
 
                 //Destroy self if numberOfTarget is reached
-                if (hitList.Count >= attackData.maxTargets)
+                if (hitList.Count >= projData.projectileMaxTargets)
                     Destroy(gameObject);
             }
         }

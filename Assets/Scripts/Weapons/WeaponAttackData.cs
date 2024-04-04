@@ -25,22 +25,7 @@ public class WeaponAttackData
     public AnimationCurve hitboxMovementCurve;
     public Vector2 targetPosition = Vector2.zero;
 
-    [Header("Projectile Option")]
-    public bool useProjectile = false;
-    public LayerMask obstructionLayer;
-    public AnimationCurve launchCurve;
-    public ProjectileReturnType projectileReturnType = ProjectileReturnType.NoReturn;
-    public bool projectileReturnFlip = false;
-    public AnimationCurve returnCurve;
-    public WeaponProjectile projectileToSpawn;
-    public RelativeTransform projectileSpawnRelativeTo = RelativeTransform.ToPlayer;
-    public Vector2 projectileSpawnOffset = Vector2.zero;
-    public float projectileAngleOffset = 0;
-    public int projectileNumber = 1;
-    public ProjectileSpawnType projectileSpawnType = ProjectileSpawnType.AtOnce;
-    public int projectileMaxTargets = 1;
-    public float projectileSpeed = 1;
-    public float spreadAngle = 60;
-    public float projectileRange = 1;
+    [Header("Projectile Data")]
+    public ProjectileData projectileData;
 
 }

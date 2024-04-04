@@ -63,8 +63,8 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 moveAxis = inputs.MoveAxisInput.ReadValue<Vector2>();
         Vector3 attackAxis = inputs.AttackAxisInput.ReadValue<Vector2>();
-        animator.SetFloat(GameParams.Animation.PLAYER_UPAXIS_FLOAT, moveAxis.y);
-        animator.SetFloat(GameParams.Animation.PLAYER_RIGHTDAXIS_FLOAT, moveAxis.x);
+        animator.SetFloat(SRAnimators.PlayerAnimator.Parameters.upAxis, moveAxis.y);
+        animator.SetFloat(SRAnimators.PlayerAnimator.Parameters.rightAxis, moveAxis.x);
 
         //Movement
         if (CanMove)
@@ -110,8 +110,8 @@ public class PlayerController : MonoBehaviour
                 dash.DashActivation(lastMoveInputDirection);
         }
         if (dash.IsDashing)
-            animator.SetBool(GameParams.Animation.PLAYER_DASH_BOOL, true);
-        else animator.SetBool(GameParams.Animation.PLAYER_DASH_BOOL, false);
+            animator.SetBool(SRAnimators.PlayerAnimator.Parameters.isDashing, true);
+        else animator.SetBool(SRAnimators.PlayerAnimator.Parameters.isDashing, false);
 
         //Collision Check reaction
         if (CanTakeDamage)

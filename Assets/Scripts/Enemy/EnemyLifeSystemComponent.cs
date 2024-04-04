@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static GameParams;
 
 public class EnemyLifeSystemComponent : MonoBehaviour, ILifeSystem
 {
@@ -46,13 +43,13 @@ public class EnemyLifeSystemComponent : MonoBehaviour, ILifeSystem
             currentLifePoints = 0;
             SetDespawnTimer(despawnDuration);
             enemyCollider.enabled = false;
-            animator.SetTrigger(GameParams.Animation.ENEMY_DIE_TRIGGER);
+            animator.SetTrigger(SRAnimators.EnemyBaseAnimator.Parameters.isDead);
             return;
         }
-        animator.SetTrigger(GameParams.Animation.ENEMY_TAKEDAMAGE_TRIGGER);
+        animator.SetTrigger(SRAnimators.EnemyBaseAnimator.Parameters.takeDamage);
     }
 
-    public void HealUp(int healValue)
+    public void HealUp(float healValue)
     {
         if (isDead) return;
 
@@ -65,8 +62,4 @@ public class EnemyLifeSystemComponent : MonoBehaviour, ILifeSystem
         isDead = true;
     }
 
-    public void HealUp(float heal)
-    {
-        throw new System.NotImplementedException();
-    }
 }

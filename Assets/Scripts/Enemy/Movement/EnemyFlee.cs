@@ -6,20 +6,16 @@ using UnityEngine;
 public class EnemyFlee : MonoBehaviour, IMovement
 {
     public FleeData MovementData { get; set; }
-    public Animator EnemyAnimator { get; set; }
     public Vector2 EnemyDirection { get; set; }
 
-    public void Init(IMovementData data, Animator animator)
+    public void Init(IMovementData data)
     {
         MovementData = data as FleeData;
-        EnemyAnimator = animator;
     }
 
     public void Move(GameObject target, EnemyCollisionComponent collision)
     {
         EnemyDirection = (target.transform.position - transform.position).normalized;
-        EnemyAnimator.SetFloat(GameParams.Animation.ENEMY_UP_FLOAT, EnemyDirection.y);
-        EnemyAnimator.SetFloat(GameParams.Animation.ENEMY_RIGHT_FLOAT, EnemyDirection.x);
 
         float targetDistance = Vector3.Distance(transform.position, target.transform.position);
 

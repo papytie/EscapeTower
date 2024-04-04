@@ -55,6 +55,8 @@ public class EnemyController : MonoBehaviour
         if (lifeSystem.IsDead) return;
 
         currentDirection = currentMovement.EnemyDirection;
+        animator.SetFloat(SRAnimators.EnemyBaseAnimator.Parameters.up, currentMovement.EnemyDirection.y);
+        animator.SetFloat(SRAnimators.EnemyBaseAnimator.Parameters.right, currentMovement.EnemyDirection.x);
 
         if (movementList[currentMovementIndex].type != MovementType.Wait)
             currentMovement.Move(player, collision);
@@ -81,7 +83,7 @@ public class EnemyController : MonoBehaviour
         if (movementList[currentMovementIndex].type == MovementType.Wait) return;
 
         currentMovement = movementBehaviors[movementList[currentMovementIndex].type];
-        currentMovement.Init(movementList[currentMovementIndex].data, animator);
+        currentMovement.Init(movementList[currentMovementIndex].data);
     }
 
     void InitMovementBehaviors()
