@@ -461,7 +461,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     projectileToSpawn: {fileID: 1539454035064346066, guid: 8b9d2728a23289044864ba9364c3b4e9, type: 3}
-    projectileSpawnRelativeTo: 0
+    projectileSpawnRelativeTo: 1
     projectileSpawnOffset: {x: 0, y: 0.14}
     projectileAngleOffset: 0
     projectileNumber: 2
