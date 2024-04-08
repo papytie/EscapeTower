@@ -3,25 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(EnemyCollisionComponent), typeof(Animator))]
+[RequireComponent(typeof(EnemyCollisionComponent), typeof(Animator), typeof(EnemyDetectionComponent))]
 [RequireComponent(typeof(EnemyAttackComponent), typeof(EnemyLifeSystemComponent), typeof(EnemyBumpComponent))]
 
 public class EnemyController : MonoBehaviour
 {
     [Header("Settings"), Space]
-    [SerializeField] GameObject player;
     [SerializeField] List<MovementConfig> movementList = new();
+    [SerializeField] MovementConfig defaultMovement = new();
     [SerializeField] List<EnemyAttackConfig> attackList = new();
     [SerializeField] float timerDuration = 5;
 
     Dictionary<MovementType, IMovement> movementBehaviors = new();
     Dictionary<string, IAttackFX> attackFXBehaviors = new();
 
+    GameObject currentTarget;
     EnemyCollisionComponent collision;
     EnemyLifeSystemComponent lifeSystem;
     EnemyBumpComponent bump;
     Animator animator;
     EnemyAttackComponent attack;
+    EnemyDetectionComponent detection;
     int currentAttackIndex = 0;
     int currentMovementIndex = 0;
     float startTime = 0;
@@ -38,6 +40,7 @@ public class EnemyController : MonoBehaviour
         animator = GetComponent<Animator>();
         lifeSystem = GetComponent<EnemyLifeSystemComponent>();
         bump = GetComponent<EnemyBumpComponent>();
+        detection = GetComponent<EnemyDetectionComponent>();
         InitMovementBehaviors();
         InitAttackFXBehaviors();
     }
@@ -54,28 +57,40 @@ public class EnemyController : MonoBehaviour
     {
         if (lifeSystem.IsDead) return;
 
-        currentDirection = currentMovement.EnemyDirection;
-        animator.SetFloat(SRAnimators.EnemyBaseAnimator.Parameters.up, currentMovement.EnemyDirection.y);
-        animator.SetFloat(SRAnimators.EnemyBaseAnimator.Parameters.right, currentMovement.EnemyDirection.x);
-
-        if (movementList[currentMovementIndex].type != MovementType.Wait)
-            currentMovement.Move(player, collision);
-
         if(Time.time > startTime + timerDuration)
         {
-            if (attackList.Count == 0) return;
-            
-            attack.InitAttack(attackList[currentAttackIndex].attackData, attackFXBehaviors[attackList[currentAttackIndex].attackFXPrefab.name]);
-            attack.AttackActivation();
+            if (detection.PlayerDetection(out GameObject player))
+                currentTarget = player;
+            else
+            {
+                currentTarget = null;
+                return;
+            }
 
-            currentMovementIndex = currentMovementIndex >= movementList.Count-1 ? 0 : currentMovementIndex + 1;
-            currentAttackIndex = currentAttackIndex >= attackList.Count-1 ? 0 : currentAttackIndex + 1;
-            startTime = Time.time;
+            if (attackList.Count != 0)
+            {
+                currentAttackIndex = currentAttackIndex >= attackList.Count-1 ? 0 : currentAttackIndex + 1;
+                attack.InitAttack(attackList[currentAttackIndex].attackData, attackFXBehaviors[attackList[currentAttackIndex].attackFXPrefab.name]);
+                attack.AttackActivation();
+            }
             
-            SetMovementConfig();
+            if (movementList.Count != 0) 
+            { 
+                currentMovementIndex = currentMovementIndex >= movementList.Count-1 ? 0 : currentMovementIndex + 1;
+                SetMovementConfig();
+            }
+                
+            startTime = Time.time;
 
         }
 
+        if (movementList[currentMovementIndex].type != MovementType.Wait && currentTarget != null)
+            currentMovement.Move(currentTarget, collision);
+
+        //Animation
+        currentDirection = currentMovement.EnemyDirection;
+        animator.SetFloat(SRAnimators.EnemyBaseAnimator.Parameters.up, currentMovement.EnemyDirection.y);
+        animator.SetFloat(SRAnimators.EnemyBaseAnimator.Parameters.right, currentMovement.EnemyDirection.x);
     }
 
     void SetMovementConfig()

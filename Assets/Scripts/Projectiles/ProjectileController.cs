@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
+
 public class ProjectileController : MonoBehaviour
 {
     public HitboxShapeType HitboxShape => hitboxShape;
@@ -11,14 +13,15 @@ public class ProjectileController : MonoBehaviour
     public float CircleRadius => circleRadius;
 
     [Header("Projectile settings")]
-    [SerializeField] HitboxShapeType hitboxShape;
-    [SerializeField] Vector2 hitboxOffset;
-    [SerializeField] Vector2 boxSize;
-    [SerializeField] float circleRadius;
+    [SerializeField] HitboxShapeType hitboxShape = HitboxShapeType.Circle;
+    [SerializeField] Vector2 hitboxOffset = Vector2.zero;
+    [SerializeField] Vector2 boxSize = new(0.1f, 0.1f);
+    [SerializeField] float circleRadius = .1f;
+    [SerializeField] float destroyDelay = .1f;
 
     [Header("Debug")]
-    [SerializeField] bool showDebug;
-    [SerializeField] Color debugColor;
+    [SerializeField] bool showDebug = true;
+    [SerializeField] Color debugColor = Color.red;
     [SerializeField] Mesh boxMesh;
 
     Vector2 startPosition = Vector2.zero;
@@ -28,6 +31,7 @@ public class ProjectileController : MonoBehaviour
     bool isReturning = false;
     GameObject owner;
     ProjectileData projData;
+    Animator animator;
 
     List<ILifeSystem> hitList = new();
 
@@ -39,6 +43,7 @@ public class ProjectileController : MonoBehaviour
         endPosition = relativePos + transform.up * projData.projectileRange;
         startPosition = transform.position;
         startTime = Time.time;
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -70,7 +75,9 @@ public class ProjectileController : MonoBehaviour
                 isReturning = true;
                 return;
             }
-            Destroy(gameObject);
+
+            animator.SetTrigger(SRAnimators.ProjectileAnimBase.Parameters.falloff);
+            Invoke(nameof(DestroyProjectile), destroyDelay);
             
         }
 
@@ -113,12 +120,18 @@ public class ProjectileController : MonoBehaviour
         {
             case HitboxShapeType.Circle:
                 if (Physics2D.CircleCast(position, circleRadius, Vector2.zero, 0, projData.obstructionLayer))
-                    Destroy(gameObject);
+                {
+                    animator.SetTrigger(SRAnimators.ProjectileAnimBase.Parameters.obstructed);
+                    Invoke(nameof(DestroyProjectile), destroyDelay);
+                }
                 break;
 
             case HitboxShapeType.Box:
                 if (Physics2D.BoxCast(position, boxSize, Quaternion.Angle(Quaternion.identity, transform.rotation), Vector2.zero, 0, projData.obstructionLayer))
-                    Destroy(gameObject);
+                {
+                    animator.SetTrigger(SRAnimators.ProjectileAnimBase.Parameters.obstructed);
+                    Invoke(nameof(DestroyProjectile), destroyDelay);
+                }
                 break;
 
         }
@@ -136,6 +149,9 @@ public class ProjectileController : MonoBehaviour
 
                 if (!lifeSystem.IsDead && !hitList.Contains(lifeSystem) && hitList.Count < projData.projectileMaxTargets)
                 {
+                    //Animation
+                    animator.SetTrigger(SRAnimators.ProjectileAnimBase.Parameters.hit);
+                    
                     lifeSystem.TakeDamage(damage);
 
                     if(lifeSystem is EnemyLifeSystemComponent)
@@ -149,9 +165,16 @@ public class ProjectileController : MonoBehaviour
 
                 //Destroy self if numberOfTarget is reached
                 if (hitList.Count >= projData.projectileMaxTargets)
-                    Destroy(gameObject);
+                {
+                    Invoke(nameof(DestroyProjectile), destroyDelay);
+                }
             }
         }
+    }
+
+    void DestroyProjectile()
+    {
+        Destroy(gameObject);
     }
 
     private void OnDrawGizmos()

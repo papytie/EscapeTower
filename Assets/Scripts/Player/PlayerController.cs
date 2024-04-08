@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(PlayerInputs), typeof(PlayerMovement), typeof(PlayerDash))]
 [RequireComponent(typeof(PlayerWeaponSlot), typeof(PlayerPickupCollector), typeof(Animator))]
@@ -28,7 +25,6 @@ public class PlayerController : MonoBehaviour
     Animator animator;
 
     Vector2 lastMoveInputDirection = Vector2.zero;
-    Vector2 lastAttackInputDirection = Vector2.zero;
 
     private void Awake()
     {
@@ -80,12 +76,14 @@ public class PlayerController : MonoBehaviour
             {
                 Vector3 mouseDirection = (Camera.main.ScreenToWorldPoint(inputs.MousePositionAxisInput.ReadValue<Vector2>()) - transform.position).normalized;
                 weaponSlot.RotateSlot(mouseDirection);
+                lastMoveInputDirection = mouseDirection;
                 //lastAttackInputDirection = mouseDirection;
             }
 
             if (attackAxis != Vector3.zero)
             {
                 weaponSlot.RotateSlot(attackAxis);
+                lastMoveInputDirection = attackAxis;
                 //lastAttackInputDirection = attackAxis;
             }
 

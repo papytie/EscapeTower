@@ -27,7 +27,7 @@ MonoBehaviour:
     hitboxPositionRelativeTo: 0
     hitboxPositionOffset: {x: 0, y: 0}
     hitboxShape: 2
-    circleRadius: 0.2
+    circleRadius: 0.3
     boxSize: {x: 0.1, y: 0.1}
     behaviorType: 0
     hitboxMovementCurve:
@@ -37,31 +37,34 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     targetPosition: {x: 0, y: 0}
-    useProjectile: 0
-    obstructionLayer:
-      serializedVersion: 2
-      m_Bits: 0
-    launchCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    projectileReturnType: 0
-    projectileReturnFlip: 0
-    returnCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    projectileToSpawn: {fileID: 0}
-    projectileSpawnRelativeTo: 0
-    projectileSpawnOffset: {x: 0, y: 0}
-    projectileAngleOffset: 0
-    projectileNumber: 1
-    projectileSpawnType: 0
-    projectileMaxTargets: 1
-    projectileSpeed: 1
-    spreadAngle: 60
-    projectileRange: 1
+    projectileData:
+      useProjectile: 0
+      obstructionLayer:
+        serializedVersion: 2
+        m_Bits: 0
+      projectileTargetLayer:
+        serializedVersion: 2
+        m_Bits: 0
+      launchCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      projectileReturnType: 0
+      projectileReturnFlip: 0
+      returnCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      projectileToSpawn: {fileID: 0}
+      projectileSpawnOffset: {x: 0, y: 0}
+      projectileAngleOffset: 0
+      projectileNumber: 1
+      projectileSpawnType: 0
+      projectileMaxTargets: 1
+      projectileSpeed: 1
+      spreadAngle: 60
+      projectileRange: 1

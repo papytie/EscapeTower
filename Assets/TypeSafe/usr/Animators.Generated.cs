@@ -48,6 +48,8 @@ public sealed class SRAnimators {
             }
             
             public const int Base_Layer = 0;
+            
+            public const int Effect_Layer = 1;
         }
     }
     
@@ -98,6 +100,32 @@ public sealed class SRAnimators {
             public const int attack = 1203776827;
             
             public const int attackSpeed = 1691967492;
+        }
+        
+        public sealed class Layers {
+            
+            private Layers() {
+            }
+            
+            public const int Base_Layer = 0;
+        }
+    }
+    
+    public sealed class ProjectileAnimBase {
+        
+        private ProjectileAnimBase() {
+        }
+        
+        public sealed class Parameters {
+            
+            private Parameters() {
+            }
+            
+            public const int hit = 1523721793;
+            
+            public const int falloff = 1332555000;
+            
+            public const int obstructed = -722625195;
         }
         
         public sealed class Layers {

@@ -1,12 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyDetectionComponent : MonoBehaviour
 {
     [Header("Detection Settings")]
-    [SerializeField] float detectionRadius = 5;
+    [SerializeField] float detectionRadius = 1;
     [SerializeField] LayerMask playerLayer;
     [SerializeField] LayerMask obstructionLayer;
 
@@ -44,13 +41,13 @@ public class EnemyDetectionComponent : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if(showDebug && Application.isPlaying)
+        if(showDebug)
         {
             Gizmos.color = debugColor;
             Gizmos.DrawWireSphere(transform.position, detectionRadius);
             
-            if(targetPosDebug != Vector2.zero)
-                Gizmos.DrawLine(transform.position, targetPosDebug);
+            //if(targetPosDebug != Vector2.zero)
+                //Gizmos.DrawLine(transform.position, targetPosDebug);
 
             Gizmos.color = Color.white;
 
