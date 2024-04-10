@@ -20,7 +20,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: add843888c2e56749a3fa9e2a6cc53e4, type: 3}
     - {fileID: 8300000, guid: 1b4ff31ebb2796e488fb8fd72a4b01d2, type: 3}
   Pickup:
-    bonusColor: {r: 0.54509807, g: 0.8784314, b: 0.35686275, a: 1}
+    bonusColor: {r: 0.5472058, g: 1, b: 0.18396229, a: 0.5882353}
     weaponColor: {r: 0.627451, g: 0.20784314, b: 0.87058824, a: 1}
     consumableColor: {r: 0, g: 0.8156863, b: 0.96862745, a: 1}
     projectileColor: {r: 1, g: 0.4890508, b: 0, a: 1}

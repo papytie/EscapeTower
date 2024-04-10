@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8689998675329023617}
   - component: {fileID: 1079019269355995901}
+  - component: {fileID: 8849784881752653522}
   m_Layer: 0
   m_Name: Flame
   m_TagString: Untagged
@@ -49,9 +50,31 @@ MonoBehaviour:
   hitboxOffset: {x: 0, y: 0}
   boxSize: {x: 0, y: 0}
   circleRadius: 0.1
+  destroyDelay: 0.1
   showDebug: 1
   debugColor: {r: 1, g: 0, b: 0, a: 0.5882353}
   boxMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!95 &8849784881752653522
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4136603098498460611}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 22100000, guid: 7e0f81f54c0f6224ca30332cee1fca94, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7798645214011579504
 GameObject:
   m_ObjectHideFlags: 0

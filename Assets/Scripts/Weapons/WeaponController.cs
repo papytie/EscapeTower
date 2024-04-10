@@ -96,8 +96,8 @@ public class WeaponController : MonoBehaviour
 
     void TriggerAttackAnim(float playerAttackSpeed)
     {
-        weaponAnimator.SetTrigger(SRAnimators.WeaponBaseAnim.Parameters.attack);
         weaponAnimator.SetFloat(SRAnimators.WeaponBaseAnim.Parameters.attackSpeed, playerAttackSpeed);
+        weaponAnimator.SetTrigger(SRAnimators.WeaponBaseAnim.Parameters.attack);
     }
 
     bool WeaponHitboxCast(out RaycastHit2D[] collisionsList)
@@ -155,7 +155,7 @@ public class WeaponController : MonoBehaviour
                     enemyLifesystem.TakeDamage(stats.GetModifiedMainStat(MainStat.Damage));
 
                     //Call enemy Bump and give direction which is the inverted Normal of the collision
-                    collision.transform.GetComponent<EnemyBumpComponent>().BumpedAwayActivation(-collision.normal);
+                    collision.transform.GetComponent<EnemyBumpComponent>().BumpedAwayActivation(-collision.normal, stats.GetModifiedMainStat(MainStat.Damage));
 
                     enemiesHit.Add(enemyLifesystem);
                 }

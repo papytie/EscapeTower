@@ -35,11 +35,19 @@ public sealed class SRAnimators {
             
             public const int takeDamage = -1533413595;
             
-            public const int rightAxis = 1432685542;
+            public const int moveRight = 642127551;
             
-            public const int upAxis = 394668998;
+            public const int moveUp = -1991544035;
             
             public const int die = 964231127;
+            
+            public const int attack = 1203776827;
+            
+            public const int attackRight = -550114330;
+            
+            public const int attackUp = -1350746529;
+            
+            public const int attackSpeed = 1691967492;
         }
         
         public sealed class Layers {
@@ -47,9 +55,11 @@ public sealed class SRAnimators {
             private Layers() {
             }
             
-            public const int Base_Layer = 0;
+            public const int Movement_Layer = 0;
             
-            public const int Effect_Layer = 1;
+            public const int Attack_Layer = 1;
+            
+            public const int Effect_Layer = 2;
         }
     }
     
@@ -62,8 +72,6 @@ public sealed class SRAnimators {
             
             private Parameters() {
             }
-            
-            public const int isDead = 1276664872;
             
             public const int takeDamage = -1533413595;
             

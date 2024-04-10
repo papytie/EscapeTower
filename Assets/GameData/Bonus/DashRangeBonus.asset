@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3efc1018674cc0489991110a0051ea0, type: 3}
   m_Name: DashRangeBonus
   m_EditorClassIdentifier: 
-  type: 0
   pickupName: DashRange
   mainStat: 4
   modifValue: 100
   valueType: 1
   calculType: 0
-  itemSprite: {fileID: 1021610318, guid: 1e09720c0c206324595c2f79b7a569bf, type: 3}
+  itemSprite: {fileID: 21300000, guid: 66ef5bafeffef1e44834f5add1218940, type: 3}

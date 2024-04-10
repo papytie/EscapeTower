@@ -8,7 +8,7 @@ public class EnemyBumpComponent : MonoBehaviour
 
     [Header("Bump Settings")]
     [SerializeField] AnimationCurve bumpCurve;
-    [SerializeField] float bumpDistance = 1;
+    [SerializeField] float bumpDistanceRatio = .1f;
     [SerializeField] float bumpDuration = .1f;
     [SerializeField] float stunDuration = .5f;
 
@@ -62,10 +62,10 @@ public class EnemyBumpComponent : MonoBehaviour
             isStun = false;
     }
 
-    public void BumpedAwayActivation(Vector3 dir)
+    public void BumpedAwayActivation(Vector3 dir, float dmg)
     {
         bumpStart = transform.position;
-        bumpTarget = transform.position + dir.normalized * bumpDistance;
+        bumpTarget = transform.position + dir.normalized * bumpDistanceRatio * dmg;
         isBump = true;
     }
 
