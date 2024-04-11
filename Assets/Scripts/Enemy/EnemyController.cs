@@ -5,6 +5,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(EnemyCollisionComponent), typeof(Animator), typeof(EnemyDetectionComponent))]
 [RequireComponent(typeof(EnemyAttackComponent), typeof(EnemyLifeSystemComponent), typeof(EnemyBumpComponent))]
+[RequireComponent(typeof(EnemyLootSystem))]
 
 public class EnemyController : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class EnemyController : MonoBehaviour
     Animator animator;
     EnemyAttackComponent attack;
     EnemyDetectionComponent detection;
+    EnemyLootSystem lootSystem;
     int currentAttackIndex = 0;
     int currentMovementIndex = 0;
     float startTime = 0;
@@ -41,6 +43,7 @@ public class EnemyController : MonoBehaviour
         lifeSystem = GetComponent<EnemyLifeSystemComponent>();
         bump = GetComponent<EnemyBumpComponent>();
         detection = GetComponent<EnemyDetectionComponent>();
+        lootSystem = GetComponent<EnemyLootSystem>();
         InitMovementBehaviors();
         InitAttackFXBehaviors();
     }
@@ -49,8 +52,9 @@ public class EnemyController : MonoBehaviour
     {
         SetMovementConfig();
         attack.InitRef(animator, this);
-        lifeSystem.InitRef(animator);
+        lifeSystem.InitRef(animator, lootSystem);
         bump.InitRef(collision);
+        lootSystem.InitLootTable();
     }
 
     private void Update()

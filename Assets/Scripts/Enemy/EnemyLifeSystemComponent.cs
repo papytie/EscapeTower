@@ -15,11 +15,13 @@ public class EnemyLifeSystemComponent : MonoBehaviour, ILifeSystem
     float despawnEndTime;
 
     Animator animator;
+    EnemyLootSystem enemyLoot;
     Collider2D enemyCollider;
 
-    public void InitRef(Animator animatorRef)
+    public void InitRef(Animator animatorRef, EnemyLootSystem lootSystem)
     {
         animator = animatorRef;
+        enemyLoot = lootSystem;
     }
 
     private void Start()
@@ -30,7 +32,10 @@ public class EnemyLifeSystemComponent : MonoBehaviour, ILifeSystem
     private void Update()
     {
         if (isDead && Time.time >= despawnEndTime)
+        {
+            enemyLoot.RollLoot();
             Destroy(gameObject);
+        }
     }
 
     public void TakeDamage(float damageValue)
