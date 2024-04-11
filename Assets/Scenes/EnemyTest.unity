@@ -928,7 +928,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: e61879571c8214944ac9d9e5577686d0, type: 2}
     - target: {fileID: 6779837766061313797, guid: 27df08dc4474eb54997f0c16aabe3480, type: 3}
       propertyPath: lootChance
-      value: 50
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4982465695171226214, guid: 27df08dc4474eb54997f0c16aabe3480, type: 3}
@@ -1584,7 +1584,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: e61879571c8214944ac9d9e5577686d0, type: 2}
     - target: {fileID: 6779837766061313797, guid: 27df08dc4474eb54997f0c16aabe3480, type: 3}
       propertyPath: lootChance
-      value: 50
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4982465695171226214, guid: 27df08dc4474eb54997f0c16aabe3480, type: 3}
@@ -2476,7 +2476,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: e61879571c8214944ac9d9e5577686d0, type: 2}
     - target: {fileID: 6779837766061313797, guid: 27df08dc4474eb54997f0c16aabe3480, type: 3}
       propertyPath: lootChance
-      value: 50
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4982465695171226214, guid: 27df08dc4474eb54997f0c16aabe3480, type: 3}
@@ -3132,7 +3132,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: e61879571c8214944ac9d9e5577686d0, type: 2}
     - target: {fileID: 6779837766061313797, guid: 27df08dc4474eb54997f0c16aabe3480, type: 3}
       propertyPath: lootChance
-      value: 50
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4982465695171226214, guid: 27df08dc4474eb54997f0c16aabe3480, type: 3}
@@ -3788,7 +3788,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: e61879571c8214944ac9d9e5577686d0, type: 2}
     - target: {fileID: 6779837766061313797, guid: 27df08dc4474eb54997f0c16aabe3480, type: 3}
       propertyPath: lootChance
-      value: 50
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4982465695171226214, guid: 27df08dc4474eb54997f0c16aabe3480, type: 3}
@@ -4444,7 +4444,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: e61879571c8214944ac9d9e5577686d0, type: 2}
     - target: {fileID: 6779837766061313797, guid: 27df08dc4474eb54997f0c16aabe3480, type: 3}
       propertyPath: lootChance
-      value: 50
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4982465695171226214, guid: 27df08dc4474eb54997f0c16aabe3480, type: 3}
@@ -5133,7 +5133,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: e61879571c8214944ac9d9e5577686d0, type: 2}
     - target: {fileID: 6779837766061313797, guid: 27df08dc4474eb54997f0c16aabe3480, type: 3}
       propertyPath: lootChance
-      value: 50
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4982465695171226214, guid: 27df08dc4474eb54997f0c16aabe3480, type: 3}
@@ -5789,7 +5789,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: e61879571c8214944ac9d9e5577686d0, type: 2}
     - target: {fileID: 6779837766061313797, guid: 27df08dc4474eb54997f0c16aabe3480, type: 3}
       propertyPath: lootChance
-      value: 50
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4982465695171226214, guid: 27df08dc4474eb54997f0c16aabe3480, type: 3}

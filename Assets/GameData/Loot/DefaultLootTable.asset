@@ -13,8 +13,13 @@ MonoBehaviour:
   m_Name: DefaultLootTable
   m_EditorClassIdentifier: 
   LootList:
-  - {fileID: 190498012990087797, guid: 97084fa1174a8db47b69cd7a76416e89, type: 3}
-  - {fileID: 887259069676578675, guid: 7677b9e60dfe4534e9db7c21b201f4a6, type: 3}
-  - {fileID: 6700759901898209073, guid: a75d694818fb7284c867847b13aba01e, type: 3}
-  - {fileID: 14933432542738476, guid: d3d7aeb755cd0234387df1b2bc6ef5d5, type: 3}
-  - {fileID: 2973962181582217991, guid: e750471e5ea5c274896761e0772ac5dc, type: 3}
+  - pickup: {fileID: 190498012990087797, guid: 97084fa1174a8db47b69cd7a76416e89, type: 3}
+    lootWeight: 1
+  - pickup: {fileID: 887259069676578675, guid: 7677b9e60dfe4534e9db7c21b201f4a6, type: 3}
+    lootWeight: 3
+  - pickup: {fileID: 6700759901898209073, guid: a75d694818fb7284c867847b13aba01e, type: 3}
+    lootWeight: 5
+  - pickup: {fileID: 14933432542738476, guid: d3d7aeb755cd0234387df1b2bc6ef5d5, type: 3}
+    lootWeight: 8
+  - pickup: {fileID: 2973962181582217991, guid: e750471e5ea5c274896761e0772ac5dc, type: 3}
+    lootWeight: 13
