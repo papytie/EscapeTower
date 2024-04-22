@@ -28,7 +28,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: -0, y: 0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 6156468986311990215}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
@@ -133,7 +133,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponSlot: {fileID: 0}
   weaponAttackData: {fileID: 11400000, guid: b18578cfe1646444cae1ce621ec16a71, type: 2}
-  showDebug: 1
+  showDebug: 0
   debugCube: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   meleeDebugColor: {r: 1, g: 0, b: 0, a: 0.5882353}
   projectileDebugColor: {r: 1, g: 0, b: 0, a: 0.5882353}

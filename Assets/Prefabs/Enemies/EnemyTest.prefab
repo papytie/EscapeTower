@@ -15,8 +15,10 @@ GameObject:
   - component: {fileID: 4552548436306978812}
   - component: {fileID: 4499994329938794350}
   - component: {fileID: 5880720738307401928}
-  - component: {fileID: 7899976430079277843}
-  - component: {fileID: 4982465695171226214}
+  - component: {fileID: 3208204988436832126}
+  - component: {fileID: 5126504723254504580}
+  - component: {fileID: 1682040832270524231}
+  - component: {fileID: 6779837766061313797}
   m_Layer: 7
   m_Name: EnemyTest
   m_TagString: Untagged
@@ -160,44 +162,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b2a66150ab8292479a92f49da9b9ecc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  configList:
-  - type: 1
-    data:
-      rid: 6521987764809891842
-  - type: 4
-    data:
-      rid: 6521987764809891843
-  - type: 2
-    data:
-      rid: 6521987764809891844
-  - type: 0
+  movementList: []
+  defaultMovement:
+    type: 0
     data:
       rid: -2
-  currentIndex: 0
-  startTime: 0
+  attackList: []
   timerDuration: 2
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 6521987764809891842
-      type: {class: ChaseData, ns: , asm: Assembly-CSharp}
-      data:
-        speed: 0.5
-        minRange: 0.25
-    - rid: 6521987764809891843
-      type: {class: TurnAroundData, ns: , asm: Assembly-CSharp}
-      data:
-        speed: 0.5
-        direction: 0
-        look: 1
-    - rid: 6521987764809891844
-      type: {class: FleeData, ns: , asm: Assembly-CSharp}
-      data:
-        speed: 1
-        maxRange: 1
 --- !u!114 &4499994329938794350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,7 +190,8 @@ MonoBehaviour:
   debugCube: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   meleeDebugColor: {r: 1, g: 0, b: 0, a: 1}
   projectileDebugColor: {r: 1, g: 0, b: 0, a: 1}
-  attackData: {fileID: 11400000, guid: 2ab8161f57dbdd843b66d0db75865f9e, type: 2}
+  attackToDebug: {fileID: 11400000, guid: 1cdd3375a779c7640ae5100b93248042, type: 2}
+  enemyController: {fileID: 4552548436306978812}
 --- !u!114 &5880720738307401928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,7 +211,7 @@ MonoBehaviour:
     m_Bits: 256
   showDebug: 1
   colliderDebugColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
---- !u!114 &7899976430079277843
+--- !u!114 &3208204988436832126
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -243,13 +220,34 @@ MonoBehaviour:
   m_GameObject: {fileID: 5006845964821990323}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e50247cd13960b4882a8c7756c564fc, type: 3}
+  m_Script: {fileID: 11500000, guid: 9de959b942b67f747a12ec9d824358dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectionRadius: 0.8
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  obstructionLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  showDebug: 1
+  debugColor: {r: 1, g: 0.7202715, b: 0, a: 1}
+--- !u!114 &5126504723254504580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5006845964821990323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59134b6e189b5fa468a7c17857bf0192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   currentLifePoints: 5
   maxLifePoints: 10
-  despawnDuration: 2
---- !u!114 &4982465695171226214
+  despawnDuration: 1
+--- !u!114 &1682040832270524231
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -258,7 +256,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5006845964821990323}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0fa46b7d04c21f4b9d90c18a15a7945, type: 3}
+  m_Script: {fileID: 11500000, guid: f7e13268c7b0f1f4096a31155a437403, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   bumpCurve:
@@ -267,125 +265,125 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 1.9285715
-      outSlope: 1.9285715
+      inSlope: 1.5675026
+      outSlope: 1.5675026
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 0.071428575
-      value: 0.13775511
-      inSlope: 1.8571429
-      outSlope: 1.8571429
+      value: 0.11196448
+      inSlope: 1.5576465
+      outSlope: 1.5576465
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 0.14285715
-      value: 0.26530614
-      inSlope: 1.7142856
-      outSlope: 1.7142856
+      value: 0.22252095
+      inSlope: 1.528202
+      outSlope: 1.528202
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 0.21428572
-      value: 0.38265306
-      inSlope: 1.5714283
-      outSlope: 1.5714283
+      value: 0.33027905
+      inSlope: 1.4795396
+      outSlope: 1.4795396
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 0.2857143
-      value: 0.48979592
-      inSlope: 1.4285715
-      outSlope: 1.4285715
+      value: 0.43388376
+      inSlope: 1.412271
+      outSlope: 1.412271
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 0.35714287
-      value: 0.5867347
-      inSlope: 1.2857141
-      outSlope: 1.2857141
+      value: 0.5320321
+      inSlope: 1.3272424
+      outSlope: 1.3272424
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 0.42857143
-      value: 0.67346936
-      inSlope: 1.1428571
-      outSlope: 1.1428571
+      value: 0.6234898
+      inSlope: 1.225523
+      outSlope: 1.225523
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 0.5
-      value: 0.75
-      inSlope: 1.0000002
-      outSlope: 1.0000002
+      value: 0.70710677
+      inSlope: 1.1083918
+      outSlope: 1.1083918
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 0.5714286
-      value: 0.81632656
-      inSlope: 0.85714287
-      outSlope: 0.85714287
+      value: 0.7818315
+      inSlope: 0.9773221
+      outSlope: 0.9773221
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 0.64285713
-      value: 0.872449
-      inSlope: 0.71428585
-      outSlope: 0.71428585
+      value: 0.8467242
+      inSlope: 0.8339619
+      outSlope: 0.8339619
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 0.71428573
-      value: 0.9183674
-      inSlope: 0.5714287
-      outSlope: 0.5714287
+      value: 0.9009689
+      inSlope: 0.6801136
+      outSlope: 0.6801136
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 0.78571427
-      value: 0.95408165
-      inSlope: 0.42857128
-      outSlope: 0.42857128
+      value: 0.9438833
+      inSlope: 0.517713
+      outSlope: 0.517713
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 0.85714287
-      value: 0.97959185
-      inSlope: 0.28571415
-      outSlope: 0.28571415
+      value: 0.9749279
+      inSlope: 0.3488022
+      outSlope: 0.3488022
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 0.9285714
-      value: 0.99489796
-      inSlope: 0.14285712
-      outSlope: 0.14285712
+      value: 0.9937122
+      inSlope: 0.17550473
+      outSlope: 0.17550473
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
@@ -393,8 +391,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0.071428515
-      outSlope: 0.071428515
+      inSlope: 0.088029355
+      outSlope: 0.088029355
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
@@ -402,9 +400,23 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  bumpDistance: 0.2
+  bumpDistanceRatio: 0.1
   bumpDuration: 0.1
-  stunDuration: 0.2
+  stunDuration: 0.5
+--- !u!114 &6779837766061313797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5006845964821990323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 242e004eeec4d0645b95fe12d219eff9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loot: {fileID: 11400000, guid: e61879571c8214944ac9d9e5577686d0, type: 2}
+  lootChance: 20
 --- !u!1001 &3197089580958405669
 PrefabInstance:
   m_ObjectHideFlags: 0

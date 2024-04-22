@@ -99,6 +99,8 @@ public class PlayerStats : MonoBehaviour
             MainStat.AttackSpeed => 1,
             MainStat.DashSpeed => 1,
             MainStat.DashDistance => dash.Distance,
+            MainStat.ProjectileNumber => weaponSlot.EquippedWeapon.AttackData.projectileData.projectileNumber,
+            MainStat.ProjectileRange => weaponSlot.EquippedWeapon.AttackData.projectileData.projectileRange,
             _ => defaultValue,
         };
     }
@@ -124,6 +126,8 @@ public enum MainStat
     AttackSpeed = 2,
     DashSpeed = 3,
     DashDistance = 4,
+    ProjectileNumber = 5,
+    ProjectileRange = 6,
 }
 
 public enum SecondaryStat

@@ -174,7 +174,7 @@ public class EnemyAttackComponent : MonoBehaviour
                 Quaternion angleResult = Quaternion.AngleAxis(angle + currentAttackData.projectileData.projectileAngleOffset, base.transform.forward);
 
                 Instantiate(currentAttackData.projectileData.projectileToSpawn, projectileSpawnPos, currentRotation * angleResult)
-                    .Init(enemyController.gameObject, currentAttackData.projectileData, projectileSpawnPos, currentAttackData.damage);
+                    .Init(enemyController.gameObject, currentAttackData.projectileData, projectileSpawnPos, currentAttackData.damage, currentAttackData.projectileData.projectileRange);
 
                 if (currentAttackData.projectileData.projectileSpawnType == ProjectileSpawnType.Sequence)
                 {
@@ -184,7 +184,7 @@ public class EnemyAttackComponent : MonoBehaviour
             }
         }
         else Instantiate(currentAttackData.projectileData.projectileToSpawn, projectileSpawnPos, currentRotation * Quaternion.AngleAxis(currentAttackData.projectileData.projectileAngleOffset, base.transform.forward))
-                .Init(enemyController.gameObject, currentAttackData.projectileData, projectileSpawnPos, currentAttackData.damage);
+                .Init(enemyController.gameObject, currentAttackData.projectileData, projectileSpawnPos, currentAttackData.damage, currentAttackData.projectileData.projectileRange);
     }
 
     void StartAttackCooldown()
