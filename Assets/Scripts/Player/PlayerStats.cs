@@ -28,8 +28,8 @@ public class PlayerStats : MonoBehaviour
     {
         if (playerBonusList.ContainsKey(targetStat))
         {
-            Debug.Log(targetStat.name + " total stacks = " + playerBonusList[targetStat]);
             playerBonusList[targetStat] += 1;
+            Debug.Log(targetStat.name + " total stacks = " + playerBonusList[targetStat]);
         }
         else
         {

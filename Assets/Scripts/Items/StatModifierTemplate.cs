@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Bonus", menuName = "EscapeTower/Items/Create Bonus", order = 1)]

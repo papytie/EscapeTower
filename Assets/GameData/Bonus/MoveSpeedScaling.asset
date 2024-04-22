@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d3efc1018674cc0489991110a0051ea0, type: 3}
-  m_Name: DashSpeedBonus
+  m_Name: MoveSpeedScaling
   m_EditorClassIdentifier: 
-  pickupName: DashSpeed
-  mainStat: 3
-  modifValue: 100
+  pickupName: SpeedBonus
+  mainStat: 0
+  modifValue: 20
   valueType: 1
   calculType: 0
-  itemSprite: {fileID: 21300000, guid: 66ef5bafeffef1e44834f5add1218940, type: 3}
+  itemSprite: {fileID: 21300000, guid: 0225d8c1ebd8fe34581c57386f7ed5da, type: 3}
