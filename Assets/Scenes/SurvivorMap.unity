@@ -181,9 +181,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1397920277}
-  zoneSize: {x: 9.76, y: 5.44}
-  deadZoneRadius: 2
-  startSpawnPoints: 20
+  zoneSize: {x: 6.8, y: 3.7}
+  deadZoneRadius: 1.5
+  startSpawnPoints: 10
   wavesNumber: 10
   unlimitedWaves: 1
   waveGrowth: 1
@@ -213,7 +213,7 @@ MonoBehaviour:
     tier: 2
     enemyCost: 5
     enemyPrefab: {fileID: 8726310320248384872, guid: 5a63b1b26aa0d1e49a7e75b1da6c3fee, type: 3}
-  showDebug: 0
+  showDebug: 1
   zoneColor: {r: 0, g: 1, b: 0, a: 0.48235294}
   deadzoneColor: {r: 1, g: 0, b: 0, a: 0.5529412}
   randomPointColor: {r: 0, g: 0, b: 1, a: 1}
@@ -246,7 +246,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 687785395414758801, guid: 03448a86f09149b48b8ff80cace1b9a2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.15
+      value: 3.57
       objectReference: {fileID: 0}
     - target: {fileID: 687785395414758801, guid: 03448a86f09149b48b8ff80cace1b9a2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -315,7 +315,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 687785395414758801, guid: 03448a86f09149b48b8ff80cace1b9a2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.76
+      value: 4.82
       objectReference: {fileID: 0}
     - target: {fileID: 687785395414758801, guid: 03448a86f09149b48b8ff80cace1b9a2, type: 3}
       propertyPath: m_LocalPosition.z
@@ -520,7 +520,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 2.84
+  orthographic size: 2
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -744,7 +744,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 687785395414758801, guid: 03448a86f09149b48b8ff80cace1b9a2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.11
+      value: 0.81
       objectReference: {fileID: 0}
     - target: {fileID: 687785395414758801, guid: 03448a86f09149b48b8ff80cace1b9a2, type: 3}
       propertyPath: m_LocalPosition.z
@@ -810,7 +810,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 687785395414758801, guid: 03448a86f09149b48b8ff80cace1b9a2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.15
+      value: -3.56
       objectReference: {fileID: 0}
     - target: {fileID: 687785395414758801, guid: 03448a86f09149b48b8ff80cace1b9a2, type: 3}
       propertyPath: m_LocalPosition.y

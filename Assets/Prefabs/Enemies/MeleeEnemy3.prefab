@@ -83,7 +83,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 1467303241, guid: 1e09720c0c206324595c2f79b7a569bf, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.641531, g: 0, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -180,7 +180,7 @@ MonoBehaviour:
     - rid: 6521987924752334848
       type: {class: ChaseData, ns: , asm: Assembly-CSharp}
       data:
-        speed: 0.7
+        speed: 0.4
         minRange: 0.4
 --- !u!114 &5936839649998819918
 MonoBehaviour:

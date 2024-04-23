@@ -15,9 +15,9 @@ MonoBehaviour:
   attackData:
     damage: 1
     cooldown: 1
-    lag: 0.3
+    lag: 0.4
     delay: 0
-    duration: 0.3
+    duration: 0.4
     targetLayer:
       serializedVersion: 2
       m_Bits: 128

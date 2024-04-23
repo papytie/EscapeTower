@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackData:
     damage: 1
-    cooldown: 0.5
-    lag: 0
+    cooldown: 0.8
+    lag: 0.1
     delay: 0
     duration: 0.1
     targetLayer:
@@ -81,8 +81,8 @@ MonoBehaviour:
       projectileSpawnOffset: {x: 0, y: 0}
       projectileAngleOffset: 0
       projectileNumber: 1
-      projectileSpawnType: 0
+      projectileSpawnType: 1
       projectileMaxTargets: 1
-      projectileSpeed: 2
+      projectileSpeed: 3
       spreadAngle: 30
       projectileRange: 1

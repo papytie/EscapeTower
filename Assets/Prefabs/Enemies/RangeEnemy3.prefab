@@ -83,7 +83,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 1467303241, guid: 1e09720c0c206324595c2f79b7a569bf, type: 3}
-  m_Color: {r: 0.845768, g: 1, b: 0, a: 1}
+  m_Color: {r: 0.119199276, g: 1, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -180,7 +180,7 @@ MonoBehaviour:
     - rid: 4531194582943662082
       type: {class: StayAtRangeData, ns: , asm: Assembly-CSharp}
       data:
-        speed: 0.7
+        speed: 0.4
         minRange: 1
         maxRange: 2
 --- !u!114 &7260519393571035779

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LongRangeMultAttack
   m_EditorClassIdentifier: 
   attackData:
-    damage: 1.5
+    damage: 2
     cooldown: 0.5
     lag: 0.2
     delay: 0
@@ -211,13 +211,13 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      projectileToSpawn: {fileID: 1539454035064346066, guid: 0ea91f70432875648baf72afaa683db6, type: 3}
+      projectileToSpawn: {fileID: 1539454035064346066, guid: 98a513f87709a8f4db9b9c2ef91a1e1f, type: 3}
       projectileSpawnOffset: {x: 0, y: 0}
       projectileAngleOffset: 0
       projectileNumber: 3
       projectileSpawnType: 1
       projectileMaxTargets: 1
-      projectileSpeed: 2
+      projectileSpeed: 1.25
       spreadAngle: 14
       projectileRange: 1.8
   attackFXPrefab: {fileID: 3145330726999605681, guid: 492924e261b5f6d4a92ecf6da8fa9c62, type: 3}

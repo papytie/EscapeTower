@@ -180,7 +180,7 @@ MonoBehaviour:
     - rid: 6521987924752334848
       type: {class: ChaseData, ns: , asm: Assembly-CSharp}
       data:
-        speed: 0.5
+        speed: 0.8
         minRange: 0.2
 --- !u!114 &772684427479497378
 MonoBehaviour:
@@ -424,4 +424,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loot: {fileID: 11400000, guid: e61879571c8214944ac9d9e5577686d0, type: 2}
-  lootChance: 20
+  lootChance: 25

@@ -334,7 +334,7 @@ MonoBehaviour:
       projectileNumber: 1
       projectileSpawnType: 0
       projectileMaxTargets: 1
-      projectileSpeed: 2
+      projectileSpeed: 2.5
       spreadAngle: 60
       projectileRange: 0.3
   attackFXPrefab: {fileID: 3145330726999605681, guid: 492924e261b5f6d4a92ecf6da8fa9c62, type: 3}

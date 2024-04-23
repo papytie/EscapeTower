@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: SlashSword3AttackData
   m_EditorClassIdentifier: 
   attackData:
-    damage: 3
-    cooldown: 0.5
+    damage: 6
+    cooldown: 0.3
     lag: 0.01
     delay: 0
     duration: 0.1

@@ -180,7 +180,7 @@ MonoBehaviour:
     - rid: 4531194582943662080
       type: {class: StayAtRangeData, ns: , asm: Assembly-CSharp}
       data:
-        speed: 0.5
+        speed: 0.6
         minRange: 0.5
         maxRange: 1
 --- !u!114 &3804481980783261507
@@ -425,4 +425,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loot: {fileID: 11400000, guid: e61879571c8214944ac9d9e5577686d0, type: 2}
-  lootChance: 20
+  lootChance: 25

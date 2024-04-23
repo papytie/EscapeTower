@@ -85,7 +85,7 @@ public class SurvivorSpawner : MonoBehaviour
     Vector2 RandomPoint()
     {
         Vector2 randomPos = new(UnityEngine.Random.Range(-zoneSize.x / 2, zoneSize.x / 2), UnityEngine.Random.Range(-zoneSize.y / 2, zoneSize.y / 2));
-        if (randomPos.magnitude < deadZoneRadius) return RandomPoint();
+        if (Vector2.Distance(randomPos, player.transform.position) < deadZoneRadius) return RandomPoint();
         return randomPos;
     }
 

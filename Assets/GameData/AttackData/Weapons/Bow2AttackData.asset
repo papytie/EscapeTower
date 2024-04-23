@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Bow2AttackData
   m_EditorClassIdentifier: 
   attackData:
-    damage: 2
-    cooldown: 0.5
-    lag: 0
+    damage: 1.5
+    cooldown: 0.8
+    lag: 0.1
     delay: 0
     duration: 0.1
     targetLayer:
@@ -77,12 +77,12 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      projectileToSpawn: {fileID: 1539454035064346066, guid: 0ea91f70432875648baf72afaa683db6, type: 3}
+      projectileToSpawn: {fileID: 1539454035064346066, guid: 98a513f87709a8f4db9b9c2ef91a1e1f, type: 3}
       projectileSpawnOffset: {x: 0, y: 0}
       projectileAngleOffset: 0
       projectileNumber: 1
-      projectileSpawnType: 0
+      projectileSpawnType: 1
       projectileMaxTargets: 1
-      projectileSpeed: 2
+      projectileSpeed: 3
       spreadAngle: 30
       projectileRange: 1

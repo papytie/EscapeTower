@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ShortRangedMultAttack
   m_EditorClassIdentifier: 
   attackData:
-    damage: 1.5
+    damage: 2
     cooldown: 0.5
     lag: 0.2
     delay: 0
@@ -328,7 +328,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      projectileToSpawn: {fileID: 1079019269355995901, guid: 69a7e849f1734fc41ada7985d8fbdb10, type: 3}
+      projectileToSpawn: {fileID: 1079019269355995901, guid: 4329d37c283faa449966f041029a9b78, type: 3}
       projectileSpawnOffset: {x: 0, y: 0}
       projectileAngleOffset: 0
       projectileNumber: 3
