@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Eye2AnimatorOverride
+  m_Controller: {fileID: 9100000, guid: 2085b18b42fa1f94fae7774aeed7765c, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: f221ad6070da2f947b663cc84cbb9325, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 85a475952a277c946b9b718f50270cfa, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 562fb525fb0ba704d90877a82d106b4e, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 55a8f328c0940a54d97aee00ac555c8e, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 66d17eb550db6c94aa20cb63b05b1562, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 2eaad62643e858c429086887df4a804b, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: a1387301062f1e94ead2fbd3abc105f8, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 4af17104354b70a468ce18770bbd640d, type: 2}
