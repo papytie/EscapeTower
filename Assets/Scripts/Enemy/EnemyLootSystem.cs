@@ -11,7 +11,7 @@ public class EnemyLootSystem : MonoBehaviour
 
     public void RollLoot()
     {
-        float rollValue = UnityEngine.Random.value;
+        float rollValue = Random.value;
         if (rollValue > 0f && rollValue <= lootChance / 100)
         {
             //Debug.Log("loot roll : " + rollValue + "You got some juicy loot !");

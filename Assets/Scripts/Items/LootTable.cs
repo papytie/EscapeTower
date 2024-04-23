@@ -2,9 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Recorder.OutputPath;
-
-[CreateAssetMenu(fileName = "LootTable", menuName = "GameData/NewLootTable", order = 1)]
 
 [Serializable]
 public class LootItem
@@ -12,6 +9,8 @@ public class LootItem
     public GameObject pickup;
     public int lootWeight;
 }
+
+[CreateAssetMenu(fileName = "LootTable", menuName = "GameData/NewLootTable", order = 1)]
 
 [Serializable]
 public class LootTable : ScriptableObject
@@ -37,18 +36,17 @@ public class LootTable : ScriptableObject
         {
             for (int i = 0; i < item.lootWeight; i++)
             {
-                if(!lootWeightDict.ContainsKey(i))
-                {
-                    lootWeightDict.Add(weightPoolCount, item.pickup);
-                    weightPoolCount += 1;
-                }
+                lootWeightDict.Add(weightPoolCount, item.pickup);
+                weightPoolCount += 1;
             }
         }
+        //Debug.Log("Weight Dictionnary :" + lootWeightDict.Count);
     }
 
     public GameObject PickRandomLoot()
     {
         int randomValue = UnityEngine.Random.Range(0, lootWeightDict.Count);
+        //Debug.Log("Loot Table roll :" + randomValue);
         return lootWeightDict[randomValue];
 
     }

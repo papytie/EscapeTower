@@ -28,11 +28,11 @@ MonoBehaviour:
   - pickup: {fileID: 579102372782189206, guid: f3d7c3c5107aef645adff4d17871d099, type: 3}
     lootWeight: 10
   - pickup: {fileID: 7769760980219478197, guid: 4f45f75758718724d88ffb1dd4a46ec9, type: 3}
-    lootWeight: 3
+    lootWeight: 4
   - pickup: {fileID: 2911813284486774387, guid: ba34cd48556ca9a46bbdcb0ed5cab7dd, type: 3}
-    lootWeight: 3
+    lootWeight: 4
   - pickup: {fileID: 6612855457686032757, guid: 92f1213f1c3202e40a5fcf76ed72a993, type: 3}
-    lootWeight: 3
+    lootWeight: 4
   - pickup: {fileID: 7769760980219478197, guid: 8148641410ad84849bafa54ab2187a30, type: 3}
     lootWeight: 2
   - pickup: {fileID: 2911813284486774387, guid: f599f6387b91b2f4fa27fa536bcef145, type: 3}
