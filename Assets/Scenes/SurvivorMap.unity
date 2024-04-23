@@ -183,11 +183,11 @@ MonoBehaviour:
   player: {fileID: 1397920277}
   zoneSize: {x: 6.8, y: 3.7}
   deadZoneRadius: 1.5
-  startSpawnPoints: 10
+  startSpawnPoints: 5
   wavesNumber: 10
   unlimitedWaves: 1
   waveGrowth: 1
-  growthFactor: 0.2
+  growthFactor: 0.25
   enemyToSpawnList:
   - type: 0
     tier: 0
@@ -213,7 +213,7 @@ MonoBehaviour:
     tier: 2
     enemyCost: 5
     enemyPrefab: {fileID: 8726310320248384872, guid: 5a63b1b26aa0d1e49a7e75b1da6c3fee, type: 3}
-  showDebug: 1
+  showDebug: 0
   zoneColor: {r: 0, g: 1, b: 0, a: 0.48235294}
   deadzoneColor: {r: 1, g: 0, b: 0, a: 0.5529412}
   randomPointColor: {r: 0, g: 0, b: 1, a: 1}
