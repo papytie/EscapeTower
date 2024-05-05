@@ -1,25 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class KnightShader : MonoBehaviour
 {
     // private Material mat;
-    private MaterialPropertyBlock matPropBlock;
-    public Color knightColor;
+    [SerializeField] SpriteRenderer spriteRenderer;
+    [SerializeField] Color knightColor;
 
-    // Start is called before the first frame update
-    void Start()
+    MaterialPropertyBlock matPropBlock;
+
+    private void Awake()
     {
-
-        matPropBlock = new MaterialPropertyBlock();
-        matPropBlock.SetColor("_KnightColor", knightColor);
-        GetComponent<SpriteRenderer>().SetPropertyBlock(matPropBlock);
+        InitShader();
+        
     }
 
-    // Update is called once per frame
-    void Update()
+    void InitShader()
     {
+        matPropBlock = new MaterialPropertyBlock();
+        matPropBlock.SetColor("_KnightColor", knightColor);
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.SetPropertyBlock(matPropBlock);
+    }
 
+    private void OnValidate()
+    {
+        InitShader();
     }
 }

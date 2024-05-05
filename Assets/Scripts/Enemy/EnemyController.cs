@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(EnemyCollisionComponent), typeof(Animator), typeof(EnemyDetectionComponent))]
+[RequireComponent(typeof(EnemyCollisionComponent), typeof(EnemyDetectionComponent))]
 [RequireComponent(typeof(EnemyAttackComponent), typeof(EnemyLifeSystemComponent), typeof(EnemyBumpComponent))]
 [RequireComponent(typeof(EnemyLootSystem))]
 
@@ -39,7 +39,11 @@ public class EnemyController : MonoBehaviour
     {
         attack = GetComponent<EnemyAttackComponent>();
         collision = GetComponent<EnemyCollisionComponent>();
+
         animator = GetComponent<Animator>();
+        if(animator == null)
+            animator = GetComponentInChildren<Animator>();
+
         lifeSystem = GetComponent<EnemyLifeSystemComponent>();
         bump = GetComponent<EnemyBumpComponent>();
         detection = GetComponent<EnemyDetectionComponent>();
