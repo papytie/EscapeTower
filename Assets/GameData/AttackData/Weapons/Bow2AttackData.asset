@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03d1ef2c20bc69b468dd93ef7d715e3e, type: 3}
+  m_Name: Bow2AttackData
+  m_EditorClassIdentifier: 
+  attackData:
+    damage: 1.5
+    cooldown: 0.8
+    lag: 0.1
+    delay: 0
+    duration: 0.1
+    targetLayer:
+      serializedVersion: 2
+      m_Bits: 128
+    useMeleeHitbox: 0
+    hitboxDuration: 0.1
+    maxTargets: 1
+    hitboxPositionRelativeTo: 0
+    hitboxPositionOffset: {x: 0, y: 0}
+    hitboxShape: 2
+    circleRadius: 0.1
+    boxSize: {x: 0.1, y: 0.1}
+    behaviorType: 0
+    hitboxMovementCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    targetPosition: {x: 0, y: 0}
+    projectileData:
+      useProjectile: 1
+      obstructionLayer:
+        serializedVersion: 2
+        m_Bits: 256
+      projectileTargetLayer:
+        serializedVersion: 2
+        m_Bits: 128
+      launchCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 1
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      projectileReturnType: 0
+      projectileReturnFlip: 0
+      returnCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      projectileToSpawn: {fileID: 1539454035064346066, guid: 98a513f87709a8f4db9b9c2ef91a1e1f, type: 3}
+      projectileSpawnOffset: {x: 0, y: 0}
+      projectileAngleOffset: 0
+      projectileNumber: 1
+      projectileSpawnType: 1
+      projectileMaxTargets: 1
+      projectileSpeed: 3
+      spreadAngle: 30
+      projectileRange: 1

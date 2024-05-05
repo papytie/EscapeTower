@@ -54,7 +54,6 @@ public class EnemyController : MonoBehaviour
         attack.InitRef(animator, this);
         lifeSystem.InitRef(animator, lootSystem);
         bump.InitRef(collision);
-        lootSystem.InitLootTable();
     }
 
     private void Update()

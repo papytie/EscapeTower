@@ -35,12 +35,12 @@ public class ProjectileController : MonoBehaviour
 
     List<ILifeSystem> hitList = new();
 
-    public void Init(GameObject projectileOwner, ProjectileData data, Vector3 relativePos, float projectileDamage)
+    public void Init(GameObject projectileOwner, ProjectileData data, Vector3 relativePos, float projectileDamage, float projectileRange)
     {
         owner = projectileOwner;
         projData = data;
         damage = projectileDamage;
-        endPosition = relativePos + transform.up * projData.projectileRange;
+        endPosition = relativePos + transform.up * projectileRange;
         startPosition = transform.position;
         startTime = Time.time;
         animator = GetComponent<Animator>();
