@@ -211,7 +211,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      projectileToSpawn: {fileID: 1539454035064346066, guid: 0ea91f70432875648baf72afaa683db6, type: 3}
+      projectileToSpawn: {fileID: 4671632400025770650, guid: 8d6ff4155ea88e14aabef710eed23ded, type: 3}
       projectileSpawnOffset: {x: 0, y: 0}
       projectileAngleOffset: 0
       projectileNumber: 1

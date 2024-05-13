@@ -17,7 +17,9 @@ public class ProjectileController : MonoBehaviour
     [SerializeField] Vector2 hitboxOffset = Vector2.zero;
     [SerializeField] Vector2 boxSize = new(0.1f, 0.1f);
     [SerializeField] float circleRadius = .1f;
-    [SerializeField] float destroyDelay = .1f;
+    [SerializeField] float falloffDelay = .1f;
+    [SerializeField] float obstructionDelay = .1f;
+    [SerializeField] float hitDelay = .1f;
 
     [Header("Debug")]
     [SerializeField] bool showDebug = true;
@@ -29,6 +31,7 @@ public class ProjectileController : MonoBehaviour
     float startTime = 0;
     float damage = 0;
     bool isReturning = false;
+    bool hasHit = false;
     GameObject owner;
     ProjectileData projData;
     Animator animator;
@@ -48,7 +51,7 @@ public class ProjectileController : MonoBehaviour
 
     private void Update()
     {
-        if (!isReturning)
+        if (!isReturning && !hasHit)
             ProjectileMovement(startPosition, endPosition);
 
         if (isReturning)
@@ -75,9 +78,8 @@ public class ProjectileController : MonoBehaviour
                 isReturning = true;
                 return;
             }
-
             animator.SetTrigger(SRAnimators.ProjectileAnimBase.Parameters.falloff);
-            Invoke(nameof(DestroyProjectile), destroyDelay);
+            Invoke(nameof(DestroyProjectile), falloffDelay);
             
         }
 
@@ -121,16 +123,18 @@ public class ProjectileController : MonoBehaviour
             case HitboxShapeType.Circle:
                 if (Physics2D.CircleCast(position, circleRadius, Vector2.zero, 0, projData.obstructionLayer))
                 {
+                    hasHit = true;
                     animator.SetTrigger(SRAnimators.ProjectileAnimBase.Parameters.obstructed);
-                    Invoke(nameof(DestroyProjectile), destroyDelay);
+                    Invoke(nameof(DestroyProjectile), obstructionDelay);
                 }
                 break;
 
             case HitboxShapeType.Box:
                 if (Physics2D.BoxCast(position, boxSize, Quaternion.Angle(Quaternion.identity, transform.rotation), Vector2.zero, 0, projData.obstructionLayer))
                 {
+                    hasHit = true;
                     animator.SetTrigger(SRAnimators.ProjectileAnimBase.Parameters.obstructed);
-                    Invoke(nameof(DestroyProjectile), destroyDelay);
+                    Invoke(nameof(DestroyProjectile), obstructionDelay);
                 }
                 break;
 
@@ -166,7 +170,8 @@ public class ProjectileController : MonoBehaviour
                 //Destroy self if numberOfTarget is reached
                 if (hitList.Count >= projData.projectileMaxTargets)
                 {
-                    Invoke(nameof(DestroyProjectile), destroyDelay);
+                    hasHit = true;
+                    Invoke(nameof(DestroyProjectile), hitDelay);
                 }
             }
         }

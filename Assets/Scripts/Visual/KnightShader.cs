@@ -2,10 +2,9 @@ using UnityEngine;
 
 public class KnightShader : MonoBehaviour
 {
-    // private Material mat;
-    [SerializeField] SpriteRenderer spriteRenderer;
     [SerializeField] Color knightColor;
 
+    SpriteRenderer spriteRenderer;
     MaterialPropertyBlock matPropBlock;
 
     private void Awake()

@@ -65,6 +65,9 @@ TagManager:
   - name: Wall
     uniqueID: 2412018541
     locked: 0
+  - name: Projectiles
+    uniqueID: 1893471421
+    locked: 0
   - name: Ceiling
     uniqueID: 4085182613
     locked: 0
