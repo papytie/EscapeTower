@@ -11,9 +11,9 @@ public class BonusUI : MonoBehaviour {
     [SerializeField] private Image bonusImage;
     [SerializeField] private TextMeshProUGUI stackText;
 
-
     public void CreateBonus(Sprite bonusSprite, int numStack) {
         bonusImage.sprite = bonusSprite;
+        //bonusImage.color = bonusColor;
         UpdateStack(numStack);
     }
 

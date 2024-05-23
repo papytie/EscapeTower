@@ -12,10 +12,10 @@ public class PlayerMovement : MonoBehaviour
     float currentSpeed = 0;
 
     PlayerInputs inputs;
-    PlayerCollision collision;
+    CollisionCheckerComponent collision;
     PlayerStats stats;
 
-    public void InitRef(PlayerInputs inputRef, PlayerCollision collisionRef, PlayerStats statsRef)
+    public void InitRef(PlayerInputs inputRef, CollisionCheckerComponent collisionRef, PlayerStats statsRef)
     {
         inputs = inputRef;
         collision = collisionRef;
@@ -33,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
     public void CheckedMove(Vector3 moveAxis)
     {
 
-        collision.MoveCollisionCheck(moveAxis, currentSpeed * Time.deltaTime, collision.WallLayer, out Vector3 finalPosition, out RaycastHit2D hit);
+        collision.MoveToCollisionCheck(moveAxis, currentSpeed * Time.deltaTime, collision.BlockingObjectsLayer, out Vector3 finalPosition, out List<RaycastHit2D> hitList);
         transform.position = finalPosition;
 
     }

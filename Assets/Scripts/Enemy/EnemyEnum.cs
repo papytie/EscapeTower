@@ -22,3 +22,13 @@ public enum LookDirection
     TargetInvert = 2,
     MovementInvert = 3,
 }
+
+public enum Prerequisite
+{
+    None = 0,
+    HealthAboveHalf = 1,
+    HealthBelowHalf = 2,
+    FullHealth = 3,
+    InsideRange = 4,
+    OutsideRange = 5,
+}

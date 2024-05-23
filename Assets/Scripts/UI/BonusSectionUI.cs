@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +8,6 @@ public class BonusSectionUI : MonoBehaviour {
 
     private Dictionary<StatModifierTemplate, BonusUI> bonuses = new();
     private List<StatModifierTemplate> toDelete = new();
-
 
     private void Update() {
         foreach(var item in playerStats.CurrentBonuses) {

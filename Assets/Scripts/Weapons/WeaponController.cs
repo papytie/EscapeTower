@@ -152,11 +152,7 @@ public class WeaponController : MonoBehaviour
 
                 if (enemyLifesystem && !enemiesHit.Contains(enemyLifesystem) && enemiesHit.Count < AttackData.maxTargets)
                 {
-                    enemyLifesystem.TakeDamage(stats.GetModifiedMainStat(MainStat.Damage));
-
-                    //Call enemy Bump and give direction which is the inverted Normal of the collision
-                    collision.transform.GetComponent<EnemyBumpComponent>().BumpedAwayActivation(-collision.normal, stats.GetModifiedMainStat(MainStat.Damage));
-
+                    enemyLifesystem.TakeDamage(stats.GetModifiedMainStat(MainStat.Damage), collision.normal);
                     enemiesHit.Add(enemyLifesystem);
                 }
             }

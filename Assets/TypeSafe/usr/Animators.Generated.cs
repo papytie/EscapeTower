@@ -31,17 +31,19 @@ public sealed class SRAnimators {
             private Parameters() {
             }
             
-            public const int isDashing = 1756643129;
-            
             public const int takeDamage = -1533413595;
-            
-            public const int moveRight = 642127551;
-            
-            public const int moveUp = -1991544035;
             
             public const int die = 964231127;
             
             public const int attack = 1203776827;
+            
+            public const int isDashing = 1756643129;
+            
+            public const int isInvincible = 1047541365;
+            
+            public const int moveUp = -1991544035;
+            
+            public const int moveRight = 642127551;
             
             public const int attackRight = -550114330;
             

@@ -2,14 +2,15 @@ using UnityEngine;
 
 [RequireComponent(typeof(PlayerInputs), typeof(PlayerMovement), typeof(PlayerDash))]
 [RequireComponent(typeof(PlayerWeaponSlot), typeof(PlayerPickupCollector), typeof(Animator))]
-[RequireComponent(typeof(PlayerLifeSystem), typeof(PlayerCollision), typeof(PlayerStats))]
+[RequireComponent(typeof(PlayerLifeSystem), typeof(CollisionCheckerComponent), typeof(PlayerStats))]
+[RequireComponent(typeof(BumpComponent))]
 
 public class PlayerController : MonoBehaviour
 {
     public bool HaveWeapon => weaponSlot.EquippedWeapon;
-    public bool CanMove => !dash.IsDashing /*&& !weaponSlot.EquippedWeapon.IsOnAttackLag*/ && !lifeSystem.IsDead;
-    public bool CanDash => dash.DashAvailable && !lifeSystem.IsDead;
-    public bool CanAttack => weaponSlot.EquippedWeapon && weaponSlot.EquippedWeapon.AttackAvailable && !dash.IsDashing && !lifeSystem.IsDead;
+    public bool CanMove => bump.CanMove && !dash.IsDashing /*&& !weaponSlot.EquippedWeapon.IsOnAttackLag*/ && !lifeSystem.IsDead;
+    public bool CanDash => bump.CanMove && dash.DashAvailable && !lifeSystem.IsDead;
+    public bool CanAttack => bump.CanMove && weaponSlot.EquippedWeapon && weaponSlot.EquippedWeapon.AttackAvailable && !dash.IsDashing && !lifeSystem.IsDead;
     public bool CanTakeDamage => !lifeSystem.IsInvincible && !lifeSystem.IsDead;
 
     [SerializeField] bool stickAutoAttack;
@@ -20,9 +21,10 @@ public class PlayerController : MonoBehaviour
     PlayerDash dash;
     PlayerWeaponSlot weaponSlot;
     PlayerLifeSystem lifeSystem;
-    PlayerCollision collision;
+    CollisionCheckerComponent collision;
     PlayerPickupCollector collector;
     Animator animator;
+    BumpComponent bump;
 
     Vector2 lastInputDirection = Vector2.zero;
 
@@ -40,19 +42,22 @@ public class PlayerController : MonoBehaviour
         dash = GetComponent<PlayerDash>();
         weaponSlot = GetComponent<PlayerWeaponSlot>();
         lifeSystem = GetComponent<PlayerLifeSystem>();
-        collision = GetComponent<PlayerCollision>();
+        collision = GetComponent<CollisionCheckerComponent>();
         collector = GetComponent<PlayerPickupCollector>();
         animator = GetComponent<Animator>();
+        bump = GetComponent<BumpComponent>();
     }
 
     void InitComponentsRef()
     {
         movement.InitRef(inputs, collision, stats);
         dash.InitRef(collision, lifeSystem, stats);
-        lifeSystem.InitRef(animator);
+        lifeSystem.InitRef(animator, bump);
         stats.InitRef(movement, weaponSlot, dash);
         weaponSlot.InitRef(stats);
         collector.InitRef(stats, weaponSlot, lifeSystem);
+        bump.InitRef(collision);
+        collision.InitCollisionChecker();
     }
 
     void Update()
@@ -117,19 +122,18 @@ public class PlayerController : MonoBehaviour
             animator.SetBool(SRAnimators.PlayerAnimator.Parameters.isDashing, true);
         else animator.SetBool(SRAnimators.PlayerAnimator.Parameters.isDashing, false);
 
-        //Collision Check reaction
-        if (CanTakeDamage)
+        //Collision Checks & Reactions
+        if (collision.ObjectTriggerCheck(collision.IntractionObjectsLayer, out RaycastHit2D anyHit))
         {
-            if (collision.EnemyCheckCollision(collision.EnemyLayer, out float dmg))
+            if (CanTakeDamage && anyHit.transform.TryGetComponent(out EnemyLifeSystemComponent enemyLifeSystem))
             {
-                lifeSystem.TakeDamage(dmg);
+                lifeSystem.TakeDamage(enemyLifeSystem.CollisionDamage, -anyHit.normal);
             }
 
-            if (collision.PickupCheckCollision(collision.PickupLayer, out PickupItem item))
+            else if (anyHit.transform.TryGetComponent(out PickupItem item)) 
             {
                 if (item.IsDespawning) return;
-
-                collector.PickUpSorting(item);
+                else collector.PickUpSorting(item);
             }
         }
     }

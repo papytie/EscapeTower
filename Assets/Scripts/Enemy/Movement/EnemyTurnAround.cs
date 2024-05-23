@@ -1,8 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class EnemyTurnAround : MonoBehaviour, IMovement
 {
@@ -14,12 +11,13 @@ public class EnemyTurnAround : MonoBehaviour, IMovement
         MovementData = data as TurnAroundData;
     }
 
-    public void Move(GameObject target, EnemyCollisionComponent collision)
+    public void Move(GameObject target, CollisionCheckerComponent collision, CircleCollider2D collider)
     {
-        EnemyDirection = (target.transform.position - transform.position).normalized;  
+        Vector3 offsetPosition = transform.position.ToVector2() + collider.offset;
+        EnemyDirection = (target.transform.position - offsetPosition).normalized;
 
         //Move with collision check
-        collision.MoveCollisionCheck(GetMoveDirection(EnemyDirection), MovementData.speed * Time.deltaTime, collision.CollisionLayer, out Vector3 finalPosition, out RaycastHit2D hit);
+        collision.MoveToCollisionCheck(GetMoveDirection(EnemyDirection), MovementData.speed * Time.deltaTime, collision.BlockingObjectsLayer, out Vector3 finalPosition, out List<RaycastHit2D> hitList);
         transform.position = finalPosition;
     }
 

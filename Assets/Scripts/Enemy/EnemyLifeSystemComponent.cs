@@ -5,11 +5,13 @@ public class EnemyLifeSystemComponent : MonoBehaviour, ILifeSystem
     public bool IsDead => isDead;
     public float CurrentLifePoints => currentLifePoints;
     public float MaxLifePoints => maxLifePoints;
+    public float CollisionDamage => collisionDamage;
 
     [Header("Life Settings")]
     [SerializeField] float currentLifePoints = 10;
     [SerializeField] float maxLifePoints = 20;
     [SerializeField] float despawnDuration = 3f;
+    [SerializeField] float collisionDamage = 1f;
 
     bool isDead = false;
     float despawnEndTime;
@@ -17,11 +19,13 @@ public class EnemyLifeSystemComponent : MonoBehaviour, ILifeSystem
     Animator animator;
     EnemyLootSystem enemyLoot;
     Collider2D enemyCollider;
+    BumpComponent bump;
 
-    public void InitRef(Animator animatorRef, EnemyLootSystem lootSystem)
+    public void InitRef(Animator animatorRef, EnemyLootSystem lootSystem, BumpComponent bumpRef)
     {
         animator = animatorRef;
         enemyLoot = lootSystem;
+        bump = bumpRef;
     }
 
     private void Start()
@@ -38,7 +42,7 @@ public class EnemyLifeSystemComponent : MonoBehaviour, ILifeSystem
         }
     }
 
-    public void TakeDamage(float damageValue)
+    public void TakeDamage(float damageValue, Vector2 normal)
     {
         if (isDead) return;
 
@@ -51,6 +55,7 @@ public class EnemyLifeSystemComponent : MonoBehaviour, ILifeSystem
             animator.SetTrigger(SRAnimators.EnemyBaseAnimator.Parameters.die);
             return;
         }
+        bump.BumpedAwayActivation(-normal, damageValue);
         animator.SetTrigger(SRAnimators.EnemyBaseAnimator.Parameters.takeDamage);
     }
 

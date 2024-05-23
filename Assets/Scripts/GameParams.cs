@@ -6,6 +6,7 @@ public class GameParams
         public static string PLAYER_DASH_TRIGGER = "dash";
         public static string PLAYER_TAKEDAMAGE_TRIGGER = "takeDamage";
         public static string PLAYER_DIE_TRIGGER = "die";
+        public static string PLAYER_INVINCIBILITY_BOOL = "isInvincible";
         public static string PLAYER_DASH_BOOL = "isDashing";
         public static string PLAYER_ATTACK_BOOL = "isAttacking";
         public static string PLAYER_UPAXIS_FLOAT = "upAxis";

@@ -29,11 +29,11 @@ public class PlayerDash : MonoBehaviour
     Vector3 dashTarget = Vector3.zero;
     Vector3 dashStart = Vector3.zero;
 
-    PlayerCollision collision;
+    CollisionCheckerComponent collision;
     PlayerLifeSystem lifeSystem;
     PlayerStats stats;
 
-    public void InitRef(PlayerCollision collisionRef, PlayerLifeSystem lifeSystemRef, PlayerStats statsRef)
+    public void InitRef(CollisionCheckerComponent collisionRef, PlayerLifeSystem lifeSystemRef, PlayerStats statsRef)
     {
         collision = collisionRef;
         lifeSystem = lifeSystemRef;
@@ -56,15 +56,15 @@ public class PlayerDash : MonoBehaviour
             float dashStepValue = (dashTargetPos - transform.position).magnitude;
 
             //Check at next dash step position if collision occurs
-            collision.MoveCollisionCheck(dashTarget.normalized, dashStepValue, collision.WallLayer, out Vector3 fixedPosition, out RaycastHit2D hit);
+            collision.MoveToCollisionCheck(dashTarget.normalized, dashStepValue, collision.BlockingObjectsLayer, out Vector3 fixedPosition, out List<RaycastHit2D> hitList);
 
-            if (hit)
+            if (hitList.Count > 0)
                 transform.position = fixedPosition;
             else
                 transform.position = dashTargetPos;
 
 
-            if (hit || Time.time >= startTime + stats.GetModifiedSecondaryStat(SecondaryStat.DashDuration))
+            if (hitList.Count > 0 || Time.time >= startTime + stats.GetModifiedSecondaryStat(SecondaryStat.DashDuration))
             {
                 isDashing = false;
                 lifeSystem.IsInvincible = false;

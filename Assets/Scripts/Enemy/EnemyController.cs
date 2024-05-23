@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(EnemyCollisionComponent), typeof(EnemyDetectionComponent))]
-[RequireComponent(typeof(EnemyAttackComponent), typeof(EnemyLifeSystemComponent), typeof(EnemyBumpComponent))]
+[RequireComponent(typeof(CollisionCheckerComponent), typeof(EnemyDetectionComponent), typeof(CircleCollider2D))]
+[RequireComponent(typeof(EnemyAttackComponent), typeof(EnemyLifeSystemComponent), typeof(BumpComponent))]
 [RequireComponent(typeof(EnemyLootSystem))]
 
 public class EnemyController : MonoBehaviour
@@ -19,13 +19,14 @@ public class EnemyController : MonoBehaviour
     Dictionary<string, IAttackFX> attackFXBehaviors = new();
 
     GameObject currentTarget;
-    EnemyCollisionComponent collision;
+    CollisionCheckerComponent collision;
     EnemyLifeSystemComponent lifeSystem;
-    EnemyBumpComponent bump;
+    BumpComponent bump;
     Animator animator;
     EnemyAttackComponent attack;
     EnemyDetectionComponent detection;
     EnemyLootSystem lootSystem;
+    CircleCollider2D circleCollider;
     int currentAttackIndex = 0;
     int currentMovementIndex = 0;
     float startTime = 0;
@@ -38,16 +39,17 @@ public class EnemyController : MonoBehaviour
     private void Awake()
     {
         attack = GetComponent<EnemyAttackComponent>();
-        collision = GetComponent<EnemyCollisionComponent>();
+        collision = GetComponent<CollisionCheckerComponent>();
 
         animator = GetComponent<Animator>();
         if(animator == null)
             animator = GetComponentInChildren<Animator>();
 
         lifeSystem = GetComponent<EnemyLifeSystemComponent>();
-        bump = GetComponent<EnemyBumpComponent>();
+        bump = GetComponent<BumpComponent>();
         detection = GetComponent<EnemyDetectionComponent>();
         lootSystem = GetComponent<EnemyLootSystem>();
+        circleCollider = GetComponent<CircleCollider2D>();
         InitMovementBehaviors();
         InitAttackFXBehaviors();
     }
@@ -55,9 +57,10 @@ public class EnemyController : MonoBehaviour
     private void Start()
     {
         SetMovementConfig();
-        attack.InitRef(animator, this);
-        lifeSystem.InitRef(animator, lootSystem);
+        attack.InitRef(animator, this, circleCollider, detection);
+        lifeSystem.InitRef(animator, lootSystem, bump);
         bump.InitRef(collision);
+        collision.InitCollisionChecker();
     }
 
     private void Update()
@@ -92,7 +95,7 @@ public class EnemyController : MonoBehaviour
         }
 
         if (movementList[currentMovementIndex].type != MovementType.Wait && currentTarget != null)
-            currentMovement.Move(currentTarget, collision);
+            currentMovement.Move(currentTarget, collision, circleCollider);
 
         //Animation
         currentDirection = currentMovement.EnemyDirection;

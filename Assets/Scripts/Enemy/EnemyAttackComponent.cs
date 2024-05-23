@@ -11,6 +11,7 @@ public class EnemyAttackComponent : MonoBehaviour
     [Header("Debug"), Space]
     [SerializeField] bool showDebug;
     [SerializeField] Mesh debugCube;
+    [SerializeField] CircleCollider2D circlecollider;
     [SerializeField] Color meleeDebugColor;
     [SerializeField] Color projectileDebugColor;
     [SerializeField] EnemyAttackConfig attackToDebug;
@@ -18,6 +19,7 @@ public class EnemyAttackComponent : MonoBehaviour
 
     IAttackFX currentAttackFX;
     EnemyAttackData currentAttackData;
+    EnemyDetectionComponent detectionComponent;
     Animator animator;
     List<PlayerLifeSystem> playerHit = new();
 
@@ -28,11 +30,14 @@ public class EnemyAttackComponent : MonoBehaviour
     float startTime = 0;
     bool meleeHitboxActive = false;
     bool isAttacking = false;
+    Quaternion currentRotation = Quaternion.identity;
 
-    public void InitRef(Animator animatorRef, EnemyController controller)
+    public void InitRef(Animator animatorRef, EnemyController controller, CircleCollider2D circleCollider2D, EnemyDetectionComponent detection)
     {
         animator = animatorRef;
         enemyController = controller;
+        circlecollider = circleCollider2D;
+        detectionComponent = detection;
     }
 
     public void InitAttack(EnemyAttackData attackData, IAttackFX attackFX)
@@ -81,6 +86,8 @@ public class EnemyAttackComponent : MonoBehaviour
         animator.SetTrigger(SRAnimators.EnemyBaseAnimator.Parameters.attack);
         currentAttackFX.StartFX(enemyController.CurrentDirection);
 
+        //For Debug infos
+        currentRotation = Quaternion.LookRotation(Vector3.forward, enemyController.CurrentDirection);
     }
 
     IEnumerator AttackProcess()
@@ -101,9 +108,10 @@ public class EnemyAttackComponent : MonoBehaviour
 
     bool MeleeHitboxCast(out RaycastHit2D[] collisionsList)
     {
+        Vector3 center = transform.position.ToVector2() + circlecollider.offset;
         Vector2 hitboxCurrentPos = currentAttackData.hitboxPositionOffset;
-        Quaternion currentRotation = Quaternion.LookRotation(Vector3.forward, enemyController.CurrentDirection);
-        Vector2 hitboxStartPos = transform.position + currentRotation * currentAttackData.hitboxPositionOffset;
+        //Quaternion currentRotation = Quaternion.LookRotation(Vector3.forward, enemyController.CurrentDirection);
+        Vector2 hitboxStartPos = center + currentRotation * currentAttackData.hitboxPositionOffset;
         Vector2 hitboxEndPos = transform.position + currentRotation * currentAttackData.targetPosition;
 
         if (currentAttackData.behaviorType != HitboxBehaviorType.Fixed)
@@ -117,15 +125,15 @@ public class EnemyAttackComponent : MonoBehaviour
                     break;
 
                 case HitboxBehaviorType.MovingOrbital:
-                    Vector3 startVector = hitboxStartPos - transform.position.ToVector2();
-                    Vector3 endVector = hitboxEndPos - transform.position.ToVector2();
+                    Vector3 startVector = hitboxStartPos - center.ToVector2();
+                    Vector3 endVector = hitboxEndPos - center.ToVector2();
                     float angleValue = Vector2.Angle(startVector, endVector);
 
                     if (currentAttackData.targetPosition.x > currentAttackData.hitboxPositionOffset.x)
                         angleValue *= -1;
 
                     Vector3 currentVector = (Quaternion.AngleAxis(Mathf.LerpAngle(0f, angleValue, currentAttackData.hitboxMovementCurve.Evaluate(t)), base.transform.forward) * startVector);
-                    hitboxCurrentPos = transform.position + currentVector.normalized * Mathf.Lerp(startVector.magnitude, endVector.magnitude, currentAttackData.hitboxMovementCurve.Evaluate(t));
+                    hitboxCurrentPos = center + currentVector.normalized * Mathf.Lerp(startVector.magnitude, endVector.magnitude, currentAttackData.hitboxMovementCurve.Evaluate(t));
                     break;
             }
 
@@ -151,7 +159,7 @@ public class EnemyAttackComponent : MonoBehaviour
 
                 if (playerLifeSystem && !playerHit.Contains(playerLifeSystem) && playerHit.Count < currentAttackData.maxTargets)
                 {
-                    playerLifeSystem.TakeDamage(currentAttackData.damage);
+                    playerLifeSystem.TakeDamage(currentAttackData.damage, collision.normal);
                     playerHit.Add(playerLifeSystem);
                 }
             }
@@ -161,7 +169,8 @@ public class EnemyAttackComponent : MonoBehaviour
     IEnumerator FireProjectile()
     {
         Quaternion currentRotation = Quaternion.LookRotation(Vector3.forward, enemyController.CurrentDirection);
-        Vector3 projectileSpawnPos = transform.position + currentRotation * currentAttackData.projectileData.projectileSpawnOffset;
+        Vector3 center = transform.position.ToVector2() + circlecollider.offset;
+        Vector3 projectileSpawnPos = center + currentRotation * currentAttackData.projectileData.projectileSpawnOffset;
 
         if (currentAttackData.projectileData.projectileNumber > 1)
         {
@@ -213,9 +222,13 @@ public class EnemyAttackComponent : MonoBehaviour
         if (showDebug && attackToDebug.attackData != null)
         {
             Quaternion currentRotation = Quaternion.LookRotation(Vector3.forward, enemyController.CurrentDirection);
-            Vector2 hitboxStartPos = transform.position + currentRotation * attackToDebug.attackData.hitboxPositionOffset;
-            Vector2 hitboxEndPos = transform.position + currentRotation * attackToDebug.attackData.targetPosition;
-            Vector3 projectileSpawnPos = transform.position + currentRotation * attackToDebug.attackData.projectileData.projectileSpawnOffset;
+            Vector3 center = transform.position.ToVector2() + circlecollider.offset;
+            Vector2 hitboxStartPos = center + currentRotation * attackToDebug.attackData.hitboxPositionOffset;
+            Vector2 hitboxEndPos = center + currentRotation * attackToDebug.attackData.targetPosition;
+            Vector3 projectileSpawnPos = center + currentRotation * attackToDebug.attackData.projectileData.projectileSpawnOffset;
+
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(center, 0.02f);
 
             Gizmos.color = meleeDebugColor;
             if (attackToDebug.attackData.useMeleeHitbox)
@@ -227,7 +240,7 @@ public class EnemyAttackComponent : MonoBehaviour
                         break;
 
                     case HitboxShapeType.Box:
-                        Gizmos.DrawWireMesh(debugCube, -1, hitboxStartPos, transform.rotation, attackToDebug.attackData.boxSize);
+                        Gizmos.DrawWireMesh(debugCube, -1, hitboxStartPos, gameObject.transform.rotation, attackToDebug.attackData.boxSize);
                         break;
 
                 }
@@ -260,15 +273,15 @@ public class EnemyAttackComponent : MonoBehaviour
                             break;
 
                         case HitboxBehaviorType.MovingOrbital:
-                            Vector3 startVector = hitboxStartPos - transform.position.ToVector2();
-                            Vector3 endVector = hitboxEndPos - transform.position.ToVector2();
+                            Vector3 startVector = hitboxStartPos - center.ToVector2();
+                            Vector3 endVector = hitboxEndPos - center.ToVector2();
                             float angleValue = Vector2.Angle(startVector, endVector);
 
                             if (attackToDebug.attackData.targetPosition.x > attackToDebug.attackData.hitboxPositionOffset.x)
                                 angleValue *= -1;
 
-                            Vector3 resultVector = (Quaternion.AngleAxis(Mathf.LerpAngle(0f, angleValue, attackToDebug.attackData.hitboxMovementCurve.Evaluate(t)), transform.forward) * startVector);
-                            hitboxCurrentPos = transform.position + resultVector.normalized * Mathf.Lerp(startVector.magnitude, endVector.magnitude, attackToDebug.attackData.hitboxMovementCurve.Evaluate(t));
+                            Vector3 resultVector = (Quaternion.AngleAxis(Mathf.LerpAngle(0f, angleValue, attackToDebug.attackData.hitboxMovementCurve.Evaluate(t)), gameObject.transform.forward) * startVector);
+                            hitboxCurrentPos = center + resultVector.normalized * Mathf.Lerp(startVector.magnitude, endVector.magnitude, attackToDebug.attackData.hitboxMovementCurve.Evaluate(t));
                             break;
 
                     }
@@ -280,7 +293,7 @@ public class EnemyAttackComponent : MonoBehaviour
                             break;
 
                         case HitboxShapeType.Box:
-                            Gizmos.DrawMesh(debugCube, -1, hitboxCurrentPos, transform.rotation, attackToDebug.attackData.boxSize);
+                            Gizmos.DrawMesh(debugCube, -1, hitboxCurrentPos, gameObject.transform.rotation, attackToDebug.attackData.boxSize);
                             break;
 
                     }
@@ -291,6 +304,7 @@ public class EnemyAttackComponent : MonoBehaviour
             Gizmos.color = Color.white;
 
             Gizmos.color = projectileDebugColor;
+            Gizmos.DrawWireSphere(projectileSpawnPos, .02f);
             if (attackToDebug.attackData.projectileData.useProjectile)
             {
                 if (attackToDebug.attackData.projectileData.projectileNumber > 1)
@@ -301,7 +315,7 @@ public class EnemyAttackComponent : MonoBehaviour
                     for (int i = 0; i < attackToDebug.attackData.projectileData.projectileNumber; i++)
                     {
                         float angle = minAngle - i * angleIncrValue;
-                        Quaternion angleRotation = Quaternion.AngleAxis(angle + attackToDebug.attackData.projectileData.projectileAngleOffset, transform.forward);
+                        Quaternion angleRotation = Quaternion.AngleAxis(angle + attackToDebug.attackData.projectileData.projectileAngleOffset, gameObject.transform.forward);
 
                         Vector3 multProjPos = projectileSpawnPos + currentRotation * angleRotation * Vector3.up * attackToDebug.attackData.projectileData.projectileRange;
                         Vector3 multProjHitboxEndPos = multProjPos + currentRotation * angleRotation * attackToDebug.attackData.projectileData.projectileToSpawn.HitboxOffset;
@@ -324,21 +338,20 @@ public class EnemyAttackComponent : MonoBehaviour
 
                 else
                 {
-                    Vector3 singleProjPos = projectileSpawnPos + transform.TransformVector(Quaternion.AngleAxis(attackToDebug.attackData.projectileData.projectileAngleOffset, base.transform.forward) * Vector3.up * attackToDebug.attackData.projectileData.projectileRange);
-                    Vector3 singleProjHitboxCurrentPos = singleProjPos + transform.TransformVector(attackToDebug.attackData.projectileData.projectileToSpawn.HitboxOffset);
+                    Vector3 singleProjEndPos = projectileSpawnPos + currentRotation * Vector3.up * attackToDebug.attackData.projectileData.projectileRange;
 
                     switch (attackToDebug.attackData.projectileData.projectileToSpawn.HitboxShape)
                     {
                         case HitboxShapeType.Circle:
-                            Gizmos.DrawWireSphere(singleProjHitboxCurrentPos, attackToDebug.attackData.projectileData.projectileToSpawn.CircleRadius);
+                            Gizmos.DrawWireSphere(singleProjEndPos, attackToDebug.attackData.projectileData.projectileToSpawn.CircleRadius);
                             break;
 
                         case HitboxShapeType.Box:
-                            Gizmos.DrawWireMesh(debugCube, -1, singleProjHitboxCurrentPos, transform.rotation * Quaternion.AngleAxis(attackToDebug.attackData.projectileData.projectileAngleOffset, base.transform.forward), attackToDebug.attackData.projectileData.projectileToSpawn.BoxSize);
+                            Gizmos.DrawWireMesh(debugCube, -1, singleProjEndPos, gameObject.transform.rotation * Quaternion.AngleAxis(attackToDebug.attackData.projectileData.projectileAngleOffset, transform.forward), attackToDebug.attackData.projectileData.projectileToSpawn.BoxSize);
                             break;
 
                     }
-                    Gizmos.DrawLine(projectileSpawnPos, singleProjPos);
+                    Gizmos.DrawLine(projectileSpawnPos, singleProjEndPos);
 
                 }
 

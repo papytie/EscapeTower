@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,9 +11,10 @@ public class EnemyStayAtRange : MonoBehaviour, IMovement
         MovementData = data as StayAtRangeData;
     }
 
-    public void Move(GameObject target, EnemyCollisionComponent collision)
+    public void Move(GameObject target, CollisionCheckerComponent collision, CircleCollider2D collider)
     {
-        EnemyDirection = (target.transform.position - transform.position).normalized;
+        Vector3 offsetPosition = transform.position.ToVector2() + collider.offset;
+        EnemyDirection = (target.transform.position - offsetPosition).normalized;
 
         float targetDistance = Vector3.Distance(transform.position, target.transform.position);
 
@@ -25,9 +24,10 @@ public class EnemyStayAtRange : MonoBehaviour, IMovement
             if (targetDistance < MovementData.minRange) EnemyDirection = -EnemyDirection;
 
             //Check for collision
-            collision.MoveCollisionCheck(EnemyDirection, MovementData.speed * Time.deltaTime, collision.CollisionLayer, out Vector3 finalPosition, out RaycastHit2D hit);
+            collision.MoveToCollisionCheck(EnemyDirection, MovementData.speed * Time.deltaTime, collision.BlockingObjectsLayer, out Vector3 finalPosition, out List<RaycastHit2D> hitList);
             transform.position = finalPosition;
         }
 
     }
+
 }

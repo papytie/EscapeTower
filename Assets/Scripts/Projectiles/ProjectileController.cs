@@ -121,18 +121,22 @@ public class ProjectileController : MonoBehaviour
         switch (hitboxShape)
         {
             case HitboxShapeType.Circle:
-                if (Physics2D.CircleCast(position, circleRadius, Vector2.zero, 0, projData.obstructionLayer))
+                RaycastHit2D circleCollision = Physics2D.CircleCast(position, circleRadius, Vector2.zero, 0, projData.obstructionLayer);
+                if (circleCollision)
                 {
                     hasHit = true;
+                    RotateInCollisionNormalDirection(circleCollision);
                     animator.SetTrigger(SRAnimators.ProjectileAnimBase.Parameters.obstructed);
                     Invoke(nameof(DestroyProjectile), obstructionDelay);
                 }
                 break;
 
             case HitboxShapeType.Box:
-                if (Physics2D.BoxCast(position, boxSize, Quaternion.Angle(Quaternion.identity, transform.rotation), Vector2.zero, 0, projData.obstructionLayer))
+                RaycastHit2D boxCollision = Physics2D.BoxCast(position, boxSize, Quaternion.Angle(Quaternion.identity, transform.rotation), Vector2.zero, 0, projData.obstructionLayer);
+                if (boxCollision)
                 {
                     hasHit = true;
+                    RotateInCollisionNormalDirection(boxCollision);
                     animator.SetTrigger(SRAnimators.ProjectileAnimBase.Parameters.obstructed);
                     Invoke(nameof(DestroyProjectile), obstructionDelay);
                 }
@@ -148,22 +152,13 @@ public class ProjectileController : MonoBehaviour
         {
             foreach (RaycastHit2D collision in collisionsList)
             {
-                ILifeSystem lifeSystem = collision.transform.GetComponent<ILifeSystem>();
-                if (lifeSystem == null) return;
+                if (!collision.transform.TryGetComponent<ILifeSystem>(out var lifeSystem)) return;
 
                 if (!lifeSystem.IsDead && !hitList.Contains(lifeSystem) && hitList.Count < projData.projectileMaxTargets)
                 {
                     //Animation
-                    animator.SetTrigger(SRAnimators.ProjectileAnimBase.Parameters.hit);
-                    
-                    lifeSystem.TakeDamage(damage);
-
-                    if(lifeSystem is EnemyLifeSystemComponent)
-                    {
-                        //Call enemy Bump and give direction which is the inverted Normal of the collision
-                        collision.transform.GetComponent<EnemyBumpComponent>().BumpedAwayActivation(-collision.normal, damage);
-                    }
-
+                    animator.SetTrigger(SRAnimators.ProjectileAnimBase.Parameters.hit);       
+                    lifeSystem.TakeDamage(damage, Vector2.zero);
                     hitList.Add(lifeSystem);
                 }
 
@@ -180,6 +175,14 @@ public class ProjectileController : MonoBehaviour
     void DestroyProjectile()
     {
         Destroy(gameObject);
+    }
+
+    void RotateInCollisionNormalDirection(RaycastHit2D hit)
+    {
+        Quaternion collisionRotation = new();
+        collisionRotation.SetFromToRotation(transform.up, -hit.normal);
+        transform.rotation *= collisionRotation;
+
     }
 
     private void OnDrawGizmos()
