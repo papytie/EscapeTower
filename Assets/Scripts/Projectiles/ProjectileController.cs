@@ -56,7 +56,7 @@ public class ProjectileController : MonoBehaviour
 
         if (isReturning)
         {
-            switch (projData.projectileReturnType)
+            switch (projData.returnType)
             {
                 case ProjectileReturnType.ReturnToSpawnPosition:
                     ProjectileMovement(startPosition, endPosition);
@@ -68,9 +68,9 @@ public class ProjectileController : MonoBehaviour
             }
         }
 
-        if (Time.time >= startTime + projData.projectileRange / projData.projectileSpeed)
+        if (Time.time >= startTime + projData.range / projData.speed)
         {
-            if(!isReturning && projData.projectileReturnType != ProjectileReturnType.NoReturn)
+            if(!isReturning && projData.returnType != ProjectileReturnType.NoReturn)
             {
                 endPosition = startPosition;
                 startPosition = transform.position;
@@ -87,14 +87,14 @@ public class ProjectileController : MonoBehaviour
 
     void ProjectileMovement(Vector2 startPos, Vector2 endPos)
     {
-        float t = Mathf.Clamp01((Time.time - startTime) / (projData.projectileRange / projData.projectileSpeed));
+        float t = Mathf.Clamp01((Time.time - startTime) / (projData.range / projData.speed));
         //Move gameObject
         transform.position = Vector3.Lerp(startPos, endPos, projData.launchCurve.Evaluate(t));
 
-        if(isReturning && projData.projectileReturnType == ProjectileReturnType.ReturnToPlayer)
+        if(isReturning && projData.returnType == ProjectileReturnType.ReturnToPlayer)
         {
             Vector3 toPlayerVector = owner.transform.position - transform.position;
-            if (projData.projectileReturnFlip)
+            if (projData.returnFlip)
                 transform.rotation = Quaternion.FromToRotation(Vector3.up, toPlayerVector.normalized);
             else transform.rotation = Quaternion.FromToRotation(Vector3.up, -toPlayerVector.normalized);
         }
@@ -109,8 +109,8 @@ public class ProjectileController : MonoBehaviour
     {
         collisionsList = hitboxShape switch
         {
-            HitboxShapeType.Circle => Physics2D.CircleCastAll(position, circleRadius, Vector2.zero, 0, projData.projectileTargetLayer),
-            HitboxShapeType.Box => Physics2D.BoxCastAll(position, boxSize, Quaternion.Angle(Quaternion.identity, transform.rotation), Vector2.zero, 0, projData.projectileTargetLayer),
+            HitboxShapeType.Circle => Physics2D.CircleCastAll(position, circleRadius, Vector2.zero, 0, projData.targetLayer),
+            HitboxShapeType.Box => Physics2D.BoxCastAll(position, boxSize, Quaternion.Angle(Quaternion.identity, transform.rotation), Vector2.zero, 0, projData.targetLayer),
             _ => null,
         };
         return collisionsList.Length > 0;
@@ -154,7 +154,7 @@ public class ProjectileController : MonoBehaviour
             {
                 if (!collision.transform.TryGetComponent<ILifeSystem>(out var lifeSystem)) return;
 
-                if (!lifeSystem.IsDead && !hitList.Contains(lifeSystem) && hitList.Count < projData.projectileMaxTargets)
+                if (!lifeSystem.IsDead && !hitList.Contains(lifeSystem) && hitList.Count < projData.maxTargets)
                 {
                     //Animation
                     animator.SetTrigger(SRAnimators.ProjectileAnimBase.Parameters.hit);       
@@ -163,7 +163,7 @@ public class ProjectileController : MonoBehaviour
                 }
 
                 //Destroy self if numberOfTarget is reached
-                if (hitList.Count >= projData.projectileMaxTargets)
+                if (hitList.Count >= projData.maxTargets)
                 {
                     hasHit = true;
                     Invoke(nameof(DestroyProjectile), hitDelay);

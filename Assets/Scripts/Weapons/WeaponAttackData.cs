@@ -26,6 +26,7 @@ public class WeaponAttackData
     public Vector2 targetPosition = Vector2.zero;
 
     [Header("Projectile Data")]
+    public bool useProjectile;
     public ProjectileData projectileData;
 
 }

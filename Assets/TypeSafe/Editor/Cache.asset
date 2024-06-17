@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Cache
   m_EditorClassIdentifier: 
   Contents:
+  - Path: Assets/Settings/Resources/GameSettings.asset
+    Type: GameSettings, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   - Path: Assets/Settings/Resources/DOTweenSettings.asset
     Type: DG.Tweening.Core.DOTweenSettings, DOTween, Version=1.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  - Path: Assets/Settings/Resources/GameSettings.asset
-    Type: GameSettings, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null

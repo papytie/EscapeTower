@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class MovementDataFactory
 {
     public static IMovementData CreateData(MovementType type)

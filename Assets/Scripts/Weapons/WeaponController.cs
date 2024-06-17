@@ -12,7 +12,7 @@ public class WeaponController : MonoBehaviour
     public Transform HitboxRelativeTransform => GetRelativeTransform(AttackData.hitboxPositionRelativeTo);
     public Vector3 HitboxStartPosition => HitboxRelativeTransform.position + HitboxRelativeTransform.TransformVector(AttackData.hitboxPositionOffset);
     public Vector3 HitboxTargetPosition => HitboxRelativeTransform.position + HitboxRelativeTransform.TransformVector(AttackData.targetPosition);
-    public Vector3 ProjectileSpawnPosition => transform.position + transform.TransformVector(AttackData.projectileData.projectileSpawnOffset);
+    public Vector3 ProjectileSpawnPosition => transform.position + transform.TransformVector(AttackData.projectileData.spawnOffset);
 
     [Header("Ref"), Space]
     [SerializeField] PlayerWeaponSlot weaponSlot;
@@ -85,7 +85,7 @@ public class WeaponController : MonoBehaviour
         if (AttackData.useMeleeHitbox)
             StartMeleeHitboxCheck();
 
-        if (AttackData.projectileData.useProjectile)
+        if (AttackData.useProjectile)
         {
             StartCoroutine(FireProjectile());
             StartAttackCooldown();
@@ -169,19 +169,19 @@ public class WeaponController : MonoBehaviour
             for (int i = 0; i < stats.GetModifiedMainStat(MainStat.ProjectileNumber); i++)
             {
                 float angle = minAngle - i * angleIncrValue;
-                Quaternion angleResult = Quaternion.AngleAxis(angle + AttackData.projectileData.projectileAngleOffset, transform.forward);
+                Quaternion angleResult = Quaternion.AngleAxis(angle + AttackData.projectileData.angleOffset, transform.forward);
                 
                 Instantiate(AttackData.projectileData.projectileToSpawn, ProjectileSpawnPosition, transform.rotation * angleResult)
                     .Init(weaponSlot.gameObject, AttackData.projectileData, ProjectileSpawnPosition, stats.GetModifiedMainStat(MainStat.Damage), stats.GetModifiedMainStat(MainStat.ProjectileRange));
 
-                if(AttackData.projectileData.projectileSpawnType == ProjectileSpawnType.Sequence)
+                if(AttackData.projectileData.spawnType == ProjectileSpawnType.Sequence)
                 {
                     float t = AttackData.duration / (stats.GetModifiedMainStat(MainStat.ProjectileNumber) - 1);
                     yield return new WaitForSeconds(t);
                 }
             }
         }
-        else Instantiate(AttackData.projectileData.projectileToSpawn, ProjectileSpawnPosition, transform.rotation * Quaternion.AngleAxis(AttackData.projectileData.projectileAngleOffset,transform.forward))
+        else Instantiate(AttackData.projectileData.projectileToSpawn, ProjectileSpawnPosition, transform.rotation * Quaternion.AngleAxis(AttackData.projectileData.angleOffset,transform.forward))
                 .Init(weaponSlot.gameObject, AttackData.projectileData, ProjectileSpawnPosition, stats.GetModifiedMainStat(MainStat.Damage), stats.GetModifiedMainStat(MainStat.ProjectileRange));
     }
 
@@ -213,7 +213,6 @@ public class WeaponController : MonoBehaviour
             _ => null,
         };
     }
-
 
     private void OnDrawGizmos()
     {
@@ -290,7 +289,7 @@ public class WeaponController : MonoBehaviour
             Gizmos.color = Color.white;
 
             Gizmos.color = projectileDebugColor;
-            if (AttackData.projectileData.useProjectile)
+            if (AttackData.useProjectile)
             {
                 if (stats.GetModifiedMainStat(MainStat.ProjectileNumber) > 1)
                 {
@@ -300,7 +299,7 @@ public class WeaponController : MonoBehaviour
                     for (int i = 0; i < stats.GetModifiedMainStat(MainStat.ProjectileNumber); i++)
                     {
                         float angle = minAngle - i * angleIncrValue;
-                        Quaternion angleRotation = Quaternion.AngleAxis(angle + AttackData.projectileData.projectileAngleOffset, transform.forward);
+                        Quaternion angleRotation = Quaternion.AngleAxis(angle + AttackData.projectileData.angleOffset, transform.forward);
 
                         Vector3 multProjPos = ProjectileSpawnPosition + transform.rotation * angleRotation * Vector3.up * stats.GetModifiedMainStat(MainStat.ProjectileRange);
                         Vector3 multProjHitboxEndPos = multProjPos + transform.rotation * angleRotation * AttackData.projectileData.projectileToSpawn.HitboxOffset;
@@ -322,7 +321,7 @@ public class WeaponController : MonoBehaviour
 
                 else
                 {
-                    Vector3 singleProjPos = ProjectileSpawnPosition + transform.TransformVector(Quaternion.AngleAxis(AttackData.projectileData.projectileAngleOffset, transform.forward) * Vector3.up * stats.GetModifiedMainStat(MainStat.ProjectileRange));
+                    Vector3 singleProjPos = ProjectileSpawnPosition + transform.TransformVector(Quaternion.AngleAxis(AttackData.projectileData.angleOffset, transform.forward) * Vector3.up * stats.GetModifiedMainStat(MainStat.ProjectileRange));
                     Vector3 singleProjHitboxCurrentPos = singleProjPos + transform.TransformVector(AttackData.projectileData.projectileToSpawn.HitboxOffset);
 
                     switch (AttackData.projectileData.projectileToSpawn.HitboxShape)
@@ -332,7 +331,7 @@ public class WeaponController : MonoBehaviour
                             break;
 
                         case HitboxShapeType.Box:
-                            Gizmos.DrawWireMesh(debugCube, -1, singleProjHitboxCurrentPos, transform.rotation * Quaternion.AngleAxis(AttackData.projectileData.projectileAngleOffset, transform.forward), AttackData.projectileData.projectileToSpawn.BoxSize);
+                            Gizmos.DrawWireMesh(debugCube, -1, singleProjHitboxCurrentPos, transform.rotation * Quaternion.AngleAxis(AttackData.projectileData.angleOffset, transform.forward), AttackData.projectileData.projectileToSpawn.BoxSize);
                             break;
 
                     }

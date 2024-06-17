@@ -4,21 +4,27 @@ using UnityEngine;
 [Serializable]
 public class ProjectileData
 {
-    [Header("Projectile Option")]
-    public bool useProjectile = false;
-    public LayerMask obstructionLayer;
-    public LayerMask projectileTargetLayer;
-    public AnimationCurve launchCurve;
-    public ProjectileReturnType projectileReturnType = ProjectileReturnType.NoReturn;
-    public bool projectileReturnFlip = false;
-    public AnimationCurve returnCurve;
+    [Header("Projectile Settings")]
     public ProjectileController projectileToSpawn;
-    public Vector2 projectileSpawnOffset = Vector2.zero;
-    public float projectileAngleOffset = 0;
-    public int projectileNumber = 1;
-    public ProjectileSpawnType projectileSpawnType = ProjectileSpawnType.AtOnce;
-    public int projectileMaxTargets = 1;
-    public float projectileSpeed = 1;
+    public Vector2 spawnOffset = Vector2.zero;
+    public AnimationCurve launchCurve;
+    public ProjectileSpawnType spawnType = ProjectileSpawnType.AtOnce;
+    public float speed = 1;
+    public float range = 1;
+    public float angleOffset = 0;
+    public int maxTargets = 1;
+    public int spawnNumber = 1;
     public float spreadAngle = 60;
-    public float projectileRange = 1;
+    public LayerMask obstructionLayer;
+    public LayerMask targetLayer;
+
+    [Header("Return Settings")]
+    public ProjectileReturnType returnType = ProjectileReturnType.NoReturn;
+    public bool returnFlip = false;
+    public AnimationCurve returnCurve;
+
+    [Header("Debug")]
+    public bool showDebug;
+    public Mesh debugCube;
+    public Color projectileDebugColor;
 }

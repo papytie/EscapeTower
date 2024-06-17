@@ -4,26 +4,26 @@ public class EnemyLifeSystemComponent : MonoBehaviour, ILifeSystem
 {
     public bool IsDead => isDead;
     public float CurrentLifePoints => currentLifePoints;
-    public float MaxLifePoints => maxLifePoints;
-    public float CollisionDamage => collisionDamage;
+    public float MaxLifePoints => stats.MaxLifePoints;
 
     [Header("Life Settings")]
-    [SerializeField] float currentLifePoints = 10;
-    [SerializeField] float maxLifePoints = 20;
     [SerializeField] float despawnDuration = 3f;
-    [SerializeField] float collisionDamage = 1f;
 
     bool isDead = false;
-    float despawnEndTime;
+    float despawnEndTime = 0;
+    float currentLifePoints = 1;
 
     Animator animator;
+    EnemyStatsComponent stats;
     EnemyLootSystem enemyLoot;
     Collider2D enemyCollider;
     BumpComponent bump;
 
-    public void InitRef(Animator animatorRef, EnemyLootSystem lootSystem, BumpComponent bumpRef)
+    public void InitRef(Animator animatorRef, EnemyLootSystem lootSystem, BumpComponent bumpRef, EnemyStatsComponent enemyStats)
     {
         animator = animatorRef;
+        stats = enemyStats;
+        currentLifePoints = stats.MaxLifePoints;
         enemyLoot = lootSystem;
         bump = bumpRef;
     }
@@ -63,7 +63,7 @@ public class EnemyLifeSystemComponent : MonoBehaviour, ILifeSystem
     {
         if (isDead) return;
 
-        currentLifePoints = Mathf.Min(currentLifePoints + healValue, maxLifePoints);
+        currentLifePoints = Mathf.Min(currentLifePoints + healValue, stats.MaxLifePoints);
     }
 
     void SetDespawnTimer(float duration)

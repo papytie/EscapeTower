@@ -183,11 +183,14 @@ MonoBehaviour:
   player: {fileID: 1397920277}
   zoneSize: {x: 9, y: 9}
   deadZoneRadius: 2
-  startSpawnPoints: 200
+  startSpawnPoints: 20
   wavesNumber: 10
   unlimitedWaves: 1
   waveGrowth: 1
   growthFactor: 0.5
+  checkTime: 3
+  timeForScaling: 60
+  statScalingRatio: 0.1
   enemyToSpawnList:
   - type: 0
     tier: 0

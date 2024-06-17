@@ -83,6 +83,8 @@ public sealed class SRAnimators {
             
             public const int right = -1261800172;
             
+            public const int speed = 254213878;
+            
             public const int die = 964231127;
         }
         

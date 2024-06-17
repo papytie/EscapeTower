@@ -11,7 +11,7 @@ public class EnemyFlee : MonoBehaviour, IMovement
         MovementData = data as FleeData;
     }
 
-    public void Move(GameObject target, CollisionCheckerComponent collision, CircleCollider2D collider)
+    public void Move(GameObject target, CollisionCheckerComponent collision, CircleCollider2D collider, float moveSpeed)
     {
         Vector3 offsetPosition = transform.position.ToVector2() + collider.offset;
         EnemyDirection = (target.transform.position - offsetPosition).normalized;
@@ -24,7 +24,7 @@ public class EnemyFlee : MonoBehaviour, IMovement
             //transform.rotation = Quaternion.LookRotation(Vector3.forward, -targetDirection);
 
             //Check for collision
-            collision.MoveToCollisionCheck(-EnemyDirection, MovementData.speed * Time.deltaTime, collision.BlockingObjectsLayer, out Vector3 finalPosition, out List<RaycastHit2D> hitList);
+            collision.MoveToCollisionCheck(-EnemyDirection, moveSpeed * MovementData.speedMult * Time.deltaTime, collision.BlockingObjectsLayer, out Vector3 finalPosition, out List<RaycastHit2D> hitList);
             transform.position = finalPosition;
 
         }

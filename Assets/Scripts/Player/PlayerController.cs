@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
         weaponSlot.InitRef(stats);
         collector.InitRef(stats, weaponSlot, lifeSystem);
         bump.InitRef(collision);
-        collision.InitCollisionChecker();
+        collision.Init();
     }
 
     void Update()
@@ -125,9 +125,9 @@ public class PlayerController : MonoBehaviour
         //Collision Checks & Reactions
         if (collision.ObjectTriggerCheck(collision.IntractionObjectsLayer, out RaycastHit2D anyHit))
         {
-            if (CanTakeDamage && anyHit.transform.TryGetComponent(out EnemyLifeSystemComponent enemyLifeSystem))
+            if (CanTakeDamage && anyHit.transform.TryGetComponent(out EnemyStatsComponent enemyStats))
             {
-                lifeSystem.TakeDamage(enemyLifeSystem.CollisionDamage, -anyHit.normal);
+                lifeSystem.TakeDamage(enemyStats.CollisionDamage, -anyHit.normal);
             }
 
             else if (anyHit.transform.TryGetComponent(out PickupItem item)) 

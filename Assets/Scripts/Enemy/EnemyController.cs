@@ -4,41 +4,55 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(CollisionCheckerComponent), typeof(EnemyDetectionComponent), typeof(CircleCollider2D))]
-[RequireComponent(typeof(EnemyAttackComponent), typeof(EnemyLifeSystemComponent), typeof(BumpComponent))]
+[RequireComponent(typeof(EnemyStatsComponent), typeof(EnemyLifeSystemComponent), typeof(BumpComponent))]
 [RequireComponent(typeof(EnemyLootSystem))]
 
 public class EnemyController : MonoBehaviour
 {
     [Header("Settings"), Space]
     [SerializeField] List<MovementConfig> movementList = new();
-    [SerializeField] MovementConfig defaultMovement = new();
-    [SerializeField] List<EnemyAttackConfig> attackList = new();
-    [SerializeField] float timerDuration = 5;
+    [SerializeField] List<AttackConfig> attackList = new();
+    [SerializeField] float refreshBehaviorTime = 5;
 
     Dictionary<MovementType, IMovement> movementBehaviors = new();
+    Dictionary<AttackType, IAttack> attackBehaviors = new();
     Dictionary<string, IAttackFX> attackFXBehaviors = new();
 
-    GameObject currentTarget;
-    CollisionCheckerComponent collision;
+    EnemyChase chaseMovement;
+    EnemyFlee fleeMovement;
+    EnemyStayAtRange stayAtRangeMovement;
+    EnemyTurnAround turnAroundMovement;
+
+    EnemyStatsComponent stats;
     EnemyLifeSystemComponent lifeSystem;
-    BumpComponent bump;
-    Animator animator;
-    EnemyAttackComponent attack;
     EnemyDetectionComponent detection;
     EnemyLootSystem lootSystem;
+    CollisionCheckerComponent collision;
+    BumpComponent bump;
+    Animator animator;
     CircleCollider2D circleCollider;
-    int currentAttackIndex = 0;
-    int currentMovementIndex = 0;
+    GameObject currentTarget;
+
+    //int currentAttackIndex = 0;
+    //int currentMovementIndex = 0;
+
     float startTime = 0;
 
+    StateType currentState;
+    bool InCurrentAttackRange => currentAttack != null && currentTarget != null && currentAttack.AttackRange <= Vector2.Distance(transform.position, currentTarget.transform.position); //Define a method to check attack Range in Ranged and Melee attack (IAttack)
+    bool CanMove => !currentAttack.IsOnAttackLag;
+    bool CanAttack => !currentAttack.IsAttacking && !currentAttack.IsOnCooldown;
+    bool PlayerDetected => currentTarget != null;
+
     IMovement currentMovement;
+    IAttack currentAttack;
 
     public Vector2 CurrentDirection => currentDirection;
     Vector2 currentDirection;
 
     private void Awake()
     {
-        attack = GetComponent<EnemyAttackComponent>();
+        stats = GetComponent<EnemyStatsComponent>(); 
         collision = GetComponent<CollisionCheckerComponent>();
 
         animator = GetComponent<Animator>();
@@ -51,71 +65,121 @@ public class EnemyController : MonoBehaviour
         lootSystem = GetComponent<EnemyLootSystem>();
         circleCollider = GetComponent<CircleCollider2D>();
         InitMovementBehaviors();
-        InitAttackFXBehaviors();
+        InitAttackBehaviors();
     }
 
     private void Start()
     {
-        SetMovementConfig();
-        attack.InitRef(animator, this, circleCollider, detection);
-        lifeSystem.InitRef(animator, lootSystem, bump);
+        lifeSystem.InitRef(animator, lootSystem, bump, stats);
         bump.InitRef(collision);
-        collision.InitCollisionChecker();
+        collision.Init();
+        detection.InitRef(stats);
     }
 
     private void Update()
     {
         if (lifeSystem.IsDead) return;
 
-        if(Time.time > startTime + timerDuration)
+        if(Time.time > startTime + refreshBehaviorTime)
         {
-            if (detection.PlayerDetection(out GameObject player))
-                currentTarget = player;
-            else
-            {
-                currentTarget = null;
-                return;
-            }
+            //Assign currentTarget value is detection is valid
+            currentTarget = detection.PlayerDetection(out GameObject player) ? player : null;
 
-            if (attackList.Count != 0)
-            {
-                currentAttackIndex = currentAttackIndex >= attackList.Count-1 ? 0 : currentAttackIndex + 1;
-                attack.InitAttack(attackList[currentAttackIndex].attackData, attackFXBehaviors[attackList[currentAttackIndex].attackFXPrefab.name]);
-                attack.AttackActivation();
-            }
-            
-            if (movementList.Count != 0) 
-            { 
-                currentMovementIndex = currentMovementIndex >= movementList.Count-1 ? 0 : currentMovementIndex + 1;
-                SetMovementConfig();
-            }
-                
+            //Current attack selection in attackList 
+            currentAttack = AttackSelection();
+
+            //Refresh current state depending on detection status
+
+            currentState = StateSelection();
+
+            //currentMovement = 
+
+            //Refresh timer
             startTime = Time.time;
 
+            //Debug
+            Debug.Log("Current state is : " + currentState);
         }
 
-        if (movementList[currentMovementIndex].type != MovementType.Wait && currentTarget != null)
-            currentMovement.Move(currentTarget, collision, circleCollider);
+        //Main switch for enemy behavior
+        switch (currentState)
+        {
+            case StateType.Wait:
+                break;
+            case StateType.SearchMove: 
+                break;
+            case StateType.ChaseMove:
+                break;
+            case StateType.StayAtRangeMove:
+                break;
+            case StateType.MeleeAttack:
+                break;
+            case StateType.FleeMove:
+                break;
+        }
 
-        //Animation
-        currentDirection = currentMovement.EnemyDirection;
-        animator.SetFloat(SRAnimators.EnemyBaseAnimator.Parameters.up, currentMovement.EnemyDirection.y);
-        animator.SetFloat(SRAnimators.EnemyBaseAnimator.Parameters.right, currentMovement.EnemyDirection.x);
+        //Movement Process
+        if (currentMovement != null)
+        {
+            currentMovement.Move(currentTarget, collision, circleCollider, stats.MoveSpeed);
+            //Move Animation        
+            currentDirection = currentMovement.EnemyDirection;
+            animator.SetFloat(SRAnimators.EnemyBaseAnimator.Parameters.speed, 1 + MathF.Round(stats.MoveSpeed / 2, 1));
+            animator.SetFloat(SRAnimators.EnemyBaseAnimator.Parameters.up, currentMovement.EnemyDirection.y);
+            animator.SetFloat(SRAnimators.EnemyBaseAnimator.Parameters.right, currentMovement.EnemyDirection.x);
+        }
     }
 
-    void SetMovementConfig()
+    IAttack AttackSelection()
     {
-        if (movementList[currentMovementIndex].type == MovementType.Wait) return;
+        if (currentTarget == null) return null;
+        float targetDistance = Vector2.Distance(transform.position, currentTarget.transform.position);
 
-        currentMovement = movementBehaviors[movementList[currentMovementIndex].type];
-        currentMovement.Init(movementList[currentMovementIndex].data);
+        foreach (var attack in attackBehaviors)
+        {
+            if (attack.Value.AttackRange < targetDistance && !attack.Value.IsOnCooldown)
+            {
+                if (attack.Key == AttackType.Melee) 
+                    return attack.Value;                  
+                else return attack.Value;
+            }
+        }
+        Debug.Log("No Valid Attack in attackBehaviors list !");
+        return null;
+    }
+
+    StateType StateSelection()
+    {
+        if (currentTarget != null)
+        {
+            if (currentAttack != null && CanAttack)
+                return StateType.MeleeAttack;
+
+            else if (CanMove)
+            {
+                if (InCurrentAttackRange) 
+                    return StateType.StayAtRangeMove;
+
+                else return StateType.ChaseMove;
+            }
+            else return StateType.Wait;
+        }
+        else if (CanMove)
+            return StateType.SearchMove;
+
+        else return StateType.Wait;
+    }
+
+    public void SetStatsScalingFactor(float value)
+    {
+        stats.SetScalingFactorTo(value);
     }
 
     void InitMovementBehaviors()
     {
-        foreach (MovementConfig script in movementList) 
+        foreach (MovementConfig moveConfig in movementList) 
         {
-            switch (script.type)
+            switch (moveConfig.type)
             {
                 case MovementType.Flee:
                     if(!movementBehaviors.ContainsKey(MovementType.Flee))
@@ -151,26 +215,44 @@ public class EnemyController : MonoBehaviour
 
                 case MovementType.Wait:
                     break;
-
             }
-            
         }
-        
     }
 
-    void InitAttackFXBehaviors()
+    void InitAttackBehaviors()
     {
-        foreach (EnemyAttackConfig attackConfig in attackList)
+        foreach (AttackConfig attackConfig in attackList)
         {
-            if (attackConfig.attackFXPrefab == null)
+            switch (attackConfig.type)
             {
-                Debug.LogWarning(attackConfig.name + " do not contain any FXPrefab");
+                case AttackType.Melee:
+                    if(!attackBehaviors.ContainsKey(AttackType.Melee))
+                    {
+                        EnemyMeleeAttack meleeAttack = gameObject.AddComponent<EnemyMeleeAttack>();
+                        attackBehaviors.Add(AttackType.Melee, meleeAttack);
+                    }
+                    break;
+
+                case AttackType.Ranged:
+                    if (!attackBehaviors.ContainsKey(AttackType.Ranged))
+                    {
+                        EnemyRangedAttack rangedAttack = gameObject.AddComponent<EnemyRangedAttack>();
+                        attackBehaviors.Add(AttackType.Ranged, rangedAttack);
+                    }
+                    break;
             }
 
-            if(!attackFXBehaviors.ContainsKey(attackConfig.attackFXPrefab.name))
+            if (attackConfig.attackFXPrefab == null)
+            {
+                Debug.LogWarning(attackConfig + " do not contain any FXPrefab");
+                return;
+            }
+
+            if (!attackFXBehaviors.ContainsKey(attackConfig.attackFXPrefab.name))
             {
                 IAttackFX attackFX = Instantiate(attackConfig.attackFXPrefab, transform).GetComponent<IAttackFX>();
                 attackFXBehaviors.Add(attackConfig.attackFXPrefab.name, attackFX);
+                Debug.Log(attackConfig.attackFXPrefab + " have been successfully instantied !");
             }
             
         }
@@ -178,9 +260,9 @@ public class EnemyController : MonoBehaviour
 
     private void OnValidate()
     {
-        foreach (var item in movementList)
+        foreach (MovementConfig movementConfig in movementList)
         {
-            Type dataType = item.type switch
+            Type movementType = movementConfig.type switch
             {
                 MovementType.Wait => null,
                 MovementType.Chase => typeof(ChaseData),
@@ -190,13 +272,25 @@ public class EnemyController : MonoBehaviour
                 _ => null,
             };
 
-            if ((item.data == null && dataType != null) || (item.data != null && item.data.GetType() != dataType))
+            if ((movementConfig.data == null && movementType != null) || (movementConfig.data != null && movementConfig.data.GetType() != movementType))
             {
-                item.data = MovementDataFactory.CreateData(item.type);
+                movementConfig.data = MovementDataFactory.CreateData(movementConfig.type);
             }
-
         }
 
-    }
+        foreach (AttackConfig attackConfig in attackList)
+        {
+            Type attackType = attackConfig.type switch
+            {
+                AttackType.Melee => typeof(MeleeAttackData),
+                AttackType.Ranged => typeof(RangedAttackData),
+                _ => null,
+            };
 
+            if ((attackConfig.attackData == null && attackType != null) || (attackConfig.attackData != null && attackConfig.attackData.GetType() != attackType))
+            {
+                attackConfig.attackData = AttackDataFactory.CreateData(attackConfig.type);
+            }
+        }
+    }
 }

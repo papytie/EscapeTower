@@ -11,13 +11,13 @@ public class EnemyTurnAround : MonoBehaviour, IMovement
         MovementData = data as TurnAroundData;
     }
 
-    public void Move(GameObject target, CollisionCheckerComponent collision, CircleCollider2D collider)
+    public void Move(GameObject target, CollisionCheckerComponent collision, CircleCollider2D collider, float moveSpeed)
     {
         Vector3 offsetPosition = transform.position.ToVector2() + collider.offset;
         EnemyDirection = (target.transform.position - offsetPosition).normalized;
 
         //Move with collision check
-        collision.MoveToCollisionCheck(GetMoveDirection(EnemyDirection), MovementData.speed * Time.deltaTime, collision.BlockingObjectsLayer, out Vector3 finalPosition, out List<RaycastHit2D> hitList);
+        collision.MoveToCollisionCheck(GetMoveDirection(EnemyDirection), moveSpeed * MovementData.speedMult * Time.deltaTime, collision.BlockingObjectsLayer, out Vector3 finalPosition, out List<RaycastHit2D> hitList);
         transform.position = finalPosition;
     }
 

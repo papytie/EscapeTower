@@ -99,8 +99,8 @@ public class PlayerStats : MonoBehaviour
             MainStat.AttackSpeed => 1,
             MainStat.DashSpeed => 1,
             MainStat.DashDistance => dash.Distance,
-            MainStat.ProjectileNumber => weaponSlot.EquippedWeapon.AttackData.projectileData.projectileNumber,
-            MainStat.ProjectileRange => weaponSlot.EquippedWeapon.AttackData.projectileData.projectileRange,
+            MainStat.ProjectileNumber => weaponSlot.EquippedWeapon.AttackData.projectileData.spawnNumber,
+            MainStat.ProjectileRange => weaponSlot.EquippedWeapon.AttackData.projectileData.range,
             _ => defaultValue,
         };
     }

@@ -17,6 +17,9 @@ public class SurvivorSpawner : MonoBehaviour
     [SerializeField] bool unlimitedWaves = false;
     [SerializeField] bool waveGrowth = true;
     [SerializeField] float growthFactor = 1.2f;
+    [SerializeField] float checkTime = 3f;
+    [SerializeField] float timeForScaling = 60;
+    [SerializeField] float statScalingRatio = .1f;
 
     [Header("Enemy List"), Space]
     [SerializeField] List<EnemyToSpawn> enemyToSpawnList = new();
@@ -36,6 +39,7 @@ public class SurvivorSpawner : MonoBehaviour
     int waveCount = 0;
     Vector2 currentSpawnPos = Vector2.zero;
     float endTime = 0;
+    float currentStatScalingFactor = 1;
 
     void Start()
     {
@@ -47,11 +51,11 @@ public class SurvivorSpawner : MonoBehaviour
     {
         if(Time.time >= endTime) 
         {
-            endTime = Time.time + 5;
-            Debug.Log("End Time is :" + endTime);
+            endTime = Time.time + checkTime;
+            //Debug.Log("End Time is : " + endTime);
             if(waveCount > wavesNumber && !unlimitedWaves)
             {
-                Debug.Log("Enemies are defeated!");
+                Debug.Log("All enemie's waves are defeated!");
                 return;
             }            
             CheckEnemyList();
@@ -68,9 +72,11 @@ public class SurvivorSpawner : MonoBehaviour
         }
         if (currentEnemyList.Count == 0)
         {
-            Debug.LogWarning("EnemyList is empty");
+            //Debug.LogWarning("EnemyList is empty");
             currentEnemyList.Clear();
             ResetSpawnPoints();
+            currentStatScalingFactor = 1 + MathF.Round(Time.time / timeForScaling) * statScalingRatio;
+            Debug.Log("Stat scaling factor for this wave is : " + currentStatScalingFactor);
             SpawnWave();
         }
     }
@@ -112,6 +118,7 @@ public class SurvivorSpawner : MonoBehaviour
         for (int i = 0; i < instances; i++)
         {
             EnemyController enemy = Instantiate(PickRandomEnemyInList(list), RandomPoint(), Quaternion.identity);
+            enemy.SetStatsScalingFactor(currentStatScalingFactor);
             currentEnemyList.Add(enemy);
         }
     }

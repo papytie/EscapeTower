@@ -29,7 +29,7 @@ public class CollisionCheckerComponent : MonoBehaviour
     float checkDistance = 0;
     Vector3 debugPosition = Vector3.zero;
 
-    public void InitCollisionChecker()
+    public void Init()
     {
         checkDistance = collisionMinDist * 2;
         debugPosition = transform.position.ToVector2();

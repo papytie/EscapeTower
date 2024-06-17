@@ -5,10 +5,12 @@ using UnityEngine;
 [Serializable]
 public class MovementConfig
 {
+    //Constructor for config list initialisation
+    public MovementConfig(MovementType moveType)
+    {
+        type = moveType;
+    }
+
     public MovementType type = MovementType.Wait;
     [SerializeReference] public IMovementData data;
-    public List<Prerequisite> prerequisite = new();
-    public int priority;
-    public float behaviourRange;
-    public EnemyAttackConfig attackConfig;
 }

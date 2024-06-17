@@ -9,6 +9,12 @@ public enum MovementType
     TurnAround = 4,
 }
 
+public enum AttackType
+{
+    Melee = 0,
+    Ranged = 1,
+}
+
 public enum TurnDirection
 {
     Clockwise = 0,
@@ -23,12 +29,23 @@ public enum LookDirection
     MovementInvert = 3,
 }
 
-public enum Prerequisite
+public enum Condition
 {
-    None = 0,
-    HealthAboveHalf = 1,
-    HealthBelowHalf = 2,
-    FullHealth = 3,
-    InsideRange = 4,
-    OutsideRange = 5,
+    HaveTarget = 0,
+    CurrentHealthAboveHalf = 1,
+    CurrentHealthBelowHalf = 2,
+    CurrentHealthFull = 3,
+    InAttackRange = 4,
+    OutOfAttackRange = 5,
+}
+
+public enum StateType
+{
+    Wait = 0,
+    SearchMove = 1,
+    ChaseMove = 2,
+    FleeMove = 3,
+    StayAtRangeMove = 4,
+    MeleeAttack = 5,
+    RangedAttack = 6,
 }
