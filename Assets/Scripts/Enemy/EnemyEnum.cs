@@ -42,10 +42,14 @@ public enum Condition
 public enum StateType
 {
     Wait = 0,
-    SearchMove = 1,
-    ChaseMove = 2,
-    FleeMove = 3,
-    StayAtRangeMove = 4,
-    MeleeAttack = 5,
-    RangedAttack = 6,
+    Roam = 1,
+    Detection = 2,
+    Chase = 3,
+    Attack = 4,
+}
+
+public enum BehaviourType
+{
+    Knight = 0,
+    Eye = 1,
 }
