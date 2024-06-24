@@ -3,29 +3,39 @@ using UnityEngine;
 
 public class EnemyStayAtRange : MonoBehaviour, IMovement
 {
-    public StayAtRangeData MovementData { get; set; }
     public Vector2 EnemyDirection { get; set; }
+    public bool MoveCompleted { get; set; }
+    public StayAtRangeData Data { get; }
 
-    public void Init(IMovementData data)
+    private StayAtRangeData data;
+    private EnemyController controller;
+
+    public void InitMove()
     {
-        MovementData = data as StayAtRangeData;
     }
 
-    public void Move(GameObject target, CollisionCheckerComponent collision, CircleCollider2D collider, float moveSpeed)
+    public void InitRef(IMovementData dataRef, EnemyController controllerRef)
     {
-        Vector3 offsetPosition = transform.position.ToVector2() + collider.offset;
-        EnemyDirection = (target.transform.position - offsetPosition).normalized;
+        data = dataRef as StayAtRangeData;
+        controller = controllerRef;
+    }
 
-        float targetDistance = Vector3.Distance(transform.position, target.transform.position);
+    public void Move()
+    {
+        Vector3 offsetPosition = transform.position.ToVector2() + controller.CircleCollider.offset;
+        EnemyDirection = (controller.CurrentTarget.transform.position - offsetPosition).normalized;
 
-        if (targetDistance > MovementData.maxRange || targetDistance < MovementData.minRange)
+        float targetDistance = Vector3.Distance(transform.position, controller.CurrentTarget.transform.position);
+
+        if (targetDistance > data.maxRange || targetDistance < data.minRange)
         {
             //Invert direction if too close of target
-            if (targetDistance < MovementData.minRange) EnemyDirection = -EnemyDirection;
+            if (targetDistance < data.minRange) EnemyDirection = -EnemyDirection;
 
             //Check for collision
-            collision.MoveToCollisionCheck(EnemyDirection, moveSpeed * MovementData.speedMult * Time.deltaTime, collision.BlockingObjectsLayer, out Vector3 finalPosition, out List<RaycastHit2D> hitList);
+            controller.Collision.MoveToCollisionCheck(EnemyDirection, controller.Stats.MoveSpeed * data.speedMult * Time.deltaTime, controller.Collision.BlockingObjectsLayer, out Vector3 finalPosition, out List<RaycastHit2D> hitList);
             transform.position = finalPosition;
+
         }
 
     }

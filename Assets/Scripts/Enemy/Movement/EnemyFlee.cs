@@ -3,29 +3,37 @@ using UnityEngine;
 
 public class EnemyFlee : MonoBehaviour, IMovement
 {
-    public FleeData MovementData { get; set; }
     public Vector2 EnemyDirection { get; set; }
+    public bool MoveCompleted { get; set; }
+    public FleeData Data { get; }
 
-    public void Init(IMovementData data)
+    private FleeData data;
+    private EnemyController controller;
+
+    public void InitMove()
     {
-        MovementData = data as FleeData;
     }
 
-    public void Move(GameObject target, CollisionCheckerComponent collision, CircleCollider2D collider, float moveSpeed)
+    public void InitRef(IMovementData dataRef, EnemyController controllerRef)
     {
-        Vector3 offsetPosition = transform.position.ToVector2() + collider.offset;
-        EnemyDirection = (target.transform.position - offsetPosition).normalized;
+        data = dataRef as FleeData;
+        controller = controllerRef;
+    }
 
-        float targetDistance = Vector3.Distance(transform.position, target.transform.position);
+    public void Move()
+    {
+        Vector3 offsetPosition = transform.position.ToVector2() + controller.CircleCollider.offset;
+        EnemyDirection = (controller.CurrentTarget.transform.position - offsetPosition).normalized;
 
-        if (targetDistance < MovementData.maxRange)
+        float targetDistance = Vector3.Distance(transform.position, controller.CurrentTarget.transform.position);
+
+        if (targetDistance < data.maxRange)
         {
-            //Look away rotation
-            //transform.rotation = Quaternion.LookRotation(Vector3.forward, -targetDirection);
 
             //Check for collision
-            collision.MoveToCollisionCheck(-EnemyDirection, moveSpeed * MovementData.speedMult * Time.deltaTime, collision.BlockingObjectsLayer, out Vector3 finalPosition, out List<RaycastHit2D> hitList);
+            controller.Collision.MoveToCollisionCheck(-EnemyDirection, controller.Stats.MoveSpeed * data.speedMult * Time.deltaTime, controller.Collision.BlockingObjectsLayer, out Vector3 finalPosition, out List<RaycastHit2D> hitList);
             transform.position = finalPosition;
+
 
         }
     }

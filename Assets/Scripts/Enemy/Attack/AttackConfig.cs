@@ -1,11 +1,19 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
 public class AttackConfig
 {
-    public AttackType type = AttackType.Melee;
-    [SerializeReference] public IAttackData attackData;
+    public AttackType AttackType => type;
+
+    public AttackConfig(AttackType attackType)
+    {
+        type = attackType;
+        name = attackType.ToString();
+    }
+
+    public string name;
+    protected AttackType type = AttackType.Melee;
+    [SerializeReference] public IAttackData data;
     public GameObject attackFXPrefab;
 }

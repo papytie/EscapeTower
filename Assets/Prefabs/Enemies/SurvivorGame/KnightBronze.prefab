@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3040185500618050342}
   - component: {fileID: 5251056148027991132}
   - component: {fileID: 3532796743912187283}
-  - component: {fileID: 6202137524589522323}
   - component: {fileID: 7554280451946308863}
   - component: {fileID: 3535197888073128317}
   - component: {fileID: 117514284295926}
@@ -96,25 +95,6 @@ MonoBehaviour:
     m_Bits: 256
   showDebug: 1
   debugColor: {r: 1, g: 0, b: 0.8135681, a: 1}
---- !u!114 &6202137524589522323
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7735372287190253028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 903494ed504afc44bb87e3287c169886, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  showDebug: 0
-  debugCube: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-  circlecollider: {fileID: 5251056148027991132}
-  meleeDebugColor: {r: 1, g: 0, b: 0, a: 0.5882353}
-  projectileDebugColor: {r: 1, g: 0, b: 0, a: 0.5882353}
-  attackToDebug: {fileID: 0}
-  enemyController: {fileID: 117514284295926}
 --- !u!114 &7554280451946308863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,34 +134,66 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b2a66150ab8292479a92f49da9b9ecc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementList:
-  - type: 1
-    data:
-      rid: 3354533136373907460
-    prerequisite: 
-    priority: 0
-    behaviourRange: 0
-    attackConfig: {fileID: 0}
-  defaultMovement:
-    type: 0
-    data:
-      rid: -2
-    prerequisite: 
-    priority: 0
-    behaviourRange: 0
-    attackConfig: {fileID: 0}
-  attackList: []
-  timerDuration: 3
+  behaviourConfig:
+    behaviourType: 0
+    behaviourData:
+      rid: 6564331260687155278
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 3354533136373907460
+    - rid: 6564331260687155278
+      type: {class: KnightBehaviourData, ns: , asm: Assembly-CSharp}
+      data:
+        roam:
+          data:
+            rid: 6564331260687155279
+        chase:
+          data:
+            rid: 6564331260687155280
+        charge:
+          data:
+            rid: 6564331260687155281
+          attackFXPrefab: {fileID: 0}
+    - rid: 6564331260687155279
+      type: {class: RoamData, ns: , asm: Assembly-CSharp}
+      data:
+        speedMult: 0.5
+        minTime: 1
+        maxTime: 3
+    - rid: 6564331260687155280
       type: {class: ChaseData, ns: , asm: Assembly-CSharp}
       data:
         speedMult: 1
         minRange: 0.1
+    - rid: 6564331260687155281
+      type: {class: ChargeAttackData, ns: , asm: Assembly-CSharp}
+      data:
+        priority: 0
+        cooldown: 0.5
+        lag: 0.2
+        delay: 0
+        duration: 0.1
+        hitboxSettings:
+          hitboxShape: 2
+          boxSize: {x: 0.1, y: 0.1}
+          circleRadius: 0.1
+          activeLayer:
+            serializedVersion: 2
+            m_Bits: 0
+          hitboxDuration: 0.1
+          maxTargets: 1
+          hitboxStartPosOffset: {x: 0, y: 0}
+          behaviorType: 0
+          hitboxEndPos: {x: 0, y: 0}
+          hitboxMovementCurve:
+            serializedVersion: 2
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+          showDebug: 1
+          debugCube: {fileID: 0}
+          meleeDebugColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &6945462768860497074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -381,6 +393,7 @@ MonoBehaviour:
   projectileDamage: 1
   detectionRadius: 3
   maxLifePoints: 5
+  scalingFactor: 1
 --- !u!1001 &8451118016769449935
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -411,12 +424,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5135701746650721333, guid: bafaf5a0e809a644293f6ac077819023, type: 3}
       propertyPath: m_InstanceId
-      value: -7312
+      value: -12374
       objectReference: {fileID: 0}
     - target: {fileID: 5470997073612097758, guid: bafaf5a0e809a644293f6ac077819023, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: -876546973899608171, guid: 478871fc6c38d1142882d82adb4b0775, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 7276362151802205366, guid: bafaf5a0e809a644293f6ac077819023, type: 3}
       propertyPath: m_Layer
       value: 7

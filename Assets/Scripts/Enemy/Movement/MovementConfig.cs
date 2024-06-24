@@ -1,16 +1,18 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
 public class MovementConfig
 {
-    //Constructor for config list initialisation
+    public MovementType MoveType => type;
+
     public MovementConfig(MovementType moveType)
     {
         type = moveType;
+        name = moveType.ToString();
     }
 
-    public MovementType type = MovementType.Wait;
+    public string name;
+    protected MovementType type;
     [SerializeReference] public IMovementData data;
 }

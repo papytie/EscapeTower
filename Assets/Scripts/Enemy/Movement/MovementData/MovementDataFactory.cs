@@ -9,9 +9,8 @@ public class MovementDataFactory
             MovementType.Flee => new FleeData(),
             MovementType.StayAtRange => new StayAtRangeData(),
             MovementType.TurnAround => new TurnAroundData(),
+            MovementType.Roam => new RoamData(),
             _ => null,
         };
-
     }
-
 }

@@ -6,6 +6,7 @@ public class AttackDataFactory
         {
             AttackType.Melee => new MeleeAttackData(),
             AttackType.Ranged => new RangedAttackData(),
+            AttackType.Charge => new ChargeAttackData(),
             _ => null,
         };
     }

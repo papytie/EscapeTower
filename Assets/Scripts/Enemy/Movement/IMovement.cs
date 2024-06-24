@@ -2,7 +2,9 @@ using UnityEngine;
 
 public interface IMovement
 {
+    public bool MoveCompleted { get; set; }
     public Vector2 EnemyDirection { get; set; }
-    public void Init(IMovementData data);
-    public void Move(GameObject target, CollisionCheckerComponent collision, CircleCollider2D collider, float moveSpeed);
+    public void InitRef(IMovementData dataRef, EnemyController controllerRef);
+    public void InitMove();
+    public void Move();
 }

@@ -5,7 +5,7 @@ public class BehaviourDataFactory
         return type switch
         {
             BehaviourType.Knight => new KnightBehaviourData(),
-            BehaviourType.Eye => new KnightBehaviourData(),
+            BehaviourType.Eye => new EyeBehaviourData(),
             _ => null,
         };
     }

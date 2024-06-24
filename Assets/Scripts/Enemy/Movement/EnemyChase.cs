@@ -1,31 +1,41 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 public class EnemyChase : MonoBehaviour, IMovement
 {
-    private ChaseData movementData;
     public Vector2 EnemyDirection { get; set; }
+    public bool MoveCompleted { get; set; }
+    public ChaseData Data { get; }
 
-    public void Init(IMovementData data)
+    private ChaseData data;
+    private EnemyController controller;
+
+    public void InitMove()
     {
-        movementData = data as ChaseData;
+
     }
 
-    public void Move(GameObject target, CollisionCheckerComponent collision, CircleCollider2D collider, float moveSpeed)
+    public void InitRef(IMovementData dataRef, EnemyController controllerRef)
     {
-        Vector3 offsetPosition = transform.position.ToVector2() + collider.offset;
-        EnemyDirection = (target.transform.position - offsetPosition).normalized;
+        data = dataRef as ChaseData;
+        controller = controllerRef;
+    }
 
-        float targetDistance = Vector3.Distance(transform.position, target.transform.position);
+    public void Move()
+    {
+        Vector3 offsetPosition = transform.position.ToVector2() + controller.CircleCollider.offset;
+        EnemyDirection = (controller.CurrentTarget.transform.position - offsetPosition).normalized;
 
-        if (targetDistance > movementData.minRange)
+        float targetDistance = Vector3.Distance(transform.position, controller.CurrentTarget.transform.position);
+
+        if (targetDistance > data.minRange)
         {
-            //Look At Rotation
-            //transform.rotation = Quaternion.LookRotation(Vector3.forward, targetDirection);
-
             //Check for collision
-            collision.MoveToCollisionCheck(EnemyDirection, moveSpeed * movementData.speedMult * Time.deltaTime, collision.BlockingObjectsLayer, out Vector3 finalPosition, out List<RaycastHit2D> hitList);
+            controller.Collision.MoveToCollisionCheck(EnemyDirection, controller.Stats.MoveSpeed * data.speedMult * Time.deltaTime, controller.Collision.BlockingObjectsLayer, out Vector3 finalPosition, out List<RaycastHit2D> hitList);
             transform.position = finalPosition;
+
         }
 
     }

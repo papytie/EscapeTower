@@ -1,29 +1,41 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 public class EnemyTurnAround : MonoBehaviour, IMovement
 {
-    public TurnAroundData MovementData { get; set; }
     public Vector2 EnemyDirection { get; set; }
+    public bool MoveCompleted { get; set; }
+    public TurnAroundData Data { get; }
 
-    public void Init(IMovementData data)
+    private TurnAroundData data;
+    private EnemyController controller;
+
+    public void InitMove()
     {
-        MovementData = data as TurnAroundData;
+        throw new System.NotImplementedException();
     }
 
-    public void Move(GameObject target, CollisionCheckerComponent collision, CircleCollider2D collider, float moveSpeed)
+    public void InitRef(IMovementData dataRef, EnemyController controllerRef)
     {
-        Vector3 offsetPosition = transform.position.ToVector2() + collider.offset;
-        EnemyDirection = (target.transform.position - offsetPosition).normalized;
+        data = dataRef as TurnAroundData;
+        controller = controllerRef;
+    }
+
+    public void Move()
+    {
+        Vector3 offsetPosition = transform.position.ToVector2() + controller.CircleCollider.offset;
+        EnemyDirection = (controller.CurrentTarget.transform.position - offsetPosition).normalized;
 
         //Move with collision check
-        collision.MoveToCollisionCheck(GetMoveDirection(EnemyDirection), moveSpeed * MovementData.speedMult * Time.deltaTime, collision.BlockingObjectsLayer, out Vector3 finalPosition, out List<RaycastHit2D> hitList);
+        controller.Collision.MoveToCollisionCheck(GetMoveDirection(EnemyDirection), controller.Stats.MoveSpeed * data.speedMult * Time.deltaTime, controller.Collision.BlockingObjectsLayer, out Vector3 finalPosition, out List<RaycastHit2D> hitList);
         transform.position = finalPosition;
+
     }
 
     Vector2 GetMoveDirection(Vector2 targetDirection)
     {
-        return MovementData.direction switch
+        return data.direction switch
         {
             TurnDirection.Clockwise => Quaternion.Euler(0, 0, 90) * targetDirection,
             TurnDirection.Anticlockwise => Quaternion.Euler(0, 0, -90) * targetDirection,

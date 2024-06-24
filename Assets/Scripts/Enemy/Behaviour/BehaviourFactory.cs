@@ -1,6 +1,6 @@
-/*public class BehaviourFactory
+public class BehaviourFactory
 {
-    public static IBehaviour CreateBehaviour(BehaviourType type)
+    /*public static IBehaviour CreateBehaviour(BehaviourType type)
     {
         return type switch
         {
@@ -8,5 +8,5 @@
             BehaviourType.Eye => new EnemyBehaviour(),
             _ => null,
         };
-    }
-}*/
+    }*/
+}

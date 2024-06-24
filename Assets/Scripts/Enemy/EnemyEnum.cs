@@ -7,12 +7,14 @@ public enum MovementType
     Flee = 2,
     StayAtRange = 3,
     TurnAround = 4,
+    Roam = 5,
 }
 
 public enum AttackType
 {
     Melee = 0,
     Ranged = 1,
+    Charge = 2,
 }
 
 public enum TurnDirection
@@ -43,9 +45,8 @@ public enum StateType
 {
     Wait = 0,
     Roam = 1,
-    Detection = 2,
-    Chase = 3,
-    Attack = 4,
+    Chase = 2,
+    Charge = 3,
 }
 
 public enum BehaviourType

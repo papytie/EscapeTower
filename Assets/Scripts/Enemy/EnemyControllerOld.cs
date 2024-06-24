@@ -1,4 +1,4 @@
-/*using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -90,7 +90,7 @@ public class EnemyControllerOld : MonoBehaviour
 
             //Refresh current state depending on detection status
 
-            currentState = StateSelection();
+            //currentState = StateSelection();
 
             //currentMovement = 
 
@@ -102,7 +102,7 @@ public class EnemyControllerOld : MonoBehaviour
         }
 
         //Main switch for enemy behavior
-        switch (currentState)
+/*        switch (currentState)
         {
             case StateType.Wait:
                 break;
@@ -117,11 +117,11 @@ public class EnemyControllerOld : MonoBehaviour
             case StateType.FleeMove:
                 break;
         }
-
+*/
         //Movement Process
         if (currentMovement != null)
         {
-            currentMovement.Move(currentTarget, collision, circleCollider, stats.MoveSpeed);
+            //currentMovement.Move(currentTarget, collision, circleCollider, stats.MoveSpeed);
             //Move Animation        
             currentDirection = currentMovement.EnemyDirection;
             animator.SetFloat(SRAnimators.EnemyBaseAnimator.Parameters.speed, 1 + MathF.Round(stats.MoveSpeed / 2, 1));
@@ -148,7 +148,7 @@ public class EnemyControllerOld : MonoBehaviour
         return null;
     }
 
-    StateType StateSelection()
+/*    StateType StateSelection()
     {
         if (currentTarget != null)
         {
@@ -169,7 +169,7 @@ public class EnemyControllerOld : MonoBehaviour
 
         else return StateType.Wait;
     }
-
+*/
     public void SetStatsScalingFactor(float value)
     {
         stats.SetScalingFactorTo(value);
@@ -179,7 +179,7 @@ public class EnemyControllerOld : MonoBehaviour
     {
         foreach (MovementConfig moveConfig in movementList) 
         {
-            switch (moveConfig.type)
+            switch (moveConfig.MoveType)
             {
                 case MovementType.Flee:
                     if(!movementBehaviors.ContainsKey(MovementType.Flee))
@@ -223,7 +223,7 @@ public class EnemyControllerOld : MonoBehaviour
     {
         foreach (AttackConfig attackConfig in attackList)
         {
-            switch (attackConfig.type)
+            switch (attackConfig.AttackType)
             {
                 case AttackType.Melee:
                     if(!attackBehaviors.ContainsKey(AttackType.Melee))
@@ -262,7 +262,7 @@ public class EnemyControllerOld : MonoBehaviour
     {
         foreach (MovementConfig movementConfig in movementList)
         {
-            Type movementType = movementConfig.type switch
+            Type movementType = movementConfig.MoveType switch
             {
                 MovementType.Wait => null,
                 MovementType.Chase => typeof(ChaseData),
@@ -274,23 +274,23 @@ public class EnemyControllerOld : MonoBehaviour
 
             if ((movementConfig.data == null && movementType != null) || (movementConfig.data != null && movementConfig.data.GetType() != movementType))
             {
-                movementConfig.data = MovementDataFactory.CreateData(movementConfig.type);
+                movementConfig.data = MovementDataFactory.CreateData(movementConfig.MoveType);
             }
         }
 
         foreach (AttackConfig attackConfig in attackList)
         {
-            Type attackType = attackConfig.type switch
+            Type attackType = attackConfig.AttackType switch
             {
                 AttackType.Melee => typeof(MeleeAttackData),
                 AttackType.Ranged => typeof(RangedAttackData),
                 _ => null,
             };
 
-            if ((attackConfig.attackData == null && attackType != null) || (attackConfig.attackData != null && attackConfig.attackData.GetType() != attackType))
+            if ((attackConfig.data == null && attackType != null) || (attackConfig.data != null && attackConfig.data.GetType() != attackType))
             {
-                attackConfig.attackData = AttackDataFactory.CreateData(attackConfig.type);
+                attackConfig.data = AttackDataFactory.CreateData(attackConfig.AttackType);
             }
         }
     }
-}*/
+}
