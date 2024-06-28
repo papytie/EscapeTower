@@ -5,114 +5,99 @@ using UnityEngine;
 
 [RequireComponent(typeof(CollisionCheckerComponent), typeof(EnemyDetectionComponent), typeof(CircleCollider2D))]
 [RequireComponent(typeof(EnemyStatsComponent), typeof(EnemyLifeSystemComponent), typeof(BumpComponent))]
-[RequireComponent(typeof(EnemyLootSystem))]
+[RequireComponent(typeof(EnemyLootSystem), typeof(EnemyAnimationComponent))]
 
 public class EnemyController : MonoBehaviour
 {
-    public CollisionCheckerComponent Collision => collision;
-    public CircleCollider2D CircleCollider => circleCollider;
+    //Accessors for each components
     public EnemyStatsComponent Stats => stats;
+    public EnemyLifeSystemComponent LifeSystem => lifeSystem;
+    public EnemyDetectionComponent Detection => detection;
+    public EnemyLootSystem LootSystem => lootSystem;
+    public EnemyAnimationComponent AnimationParam => animationParam;
+
+    public CollisionCheckerComponent Collision => collision;
+    public BumpComponent Bump => bump;
     public Animator Animator => animator;
-    public GameObject CurrentTarget => currentTarget;
+    public CircleCollider2D CircleCollider => circleCollider;
     
     EnemyStatsComponent stats;
     EnemyLifeSystemComponent lifeSystem;
     EnemyDetectionComponent detection;
     EnemyLootSystem lootSystem;
+    EnemyAnimationComponent animationParam;
+
     CollisionCheckerComponent collision;
     BumpComponent bump;
+
     Animator animator;
     CircleCollider2D circleCollider;
+
+    //Target stored and accessible
+    public GameObject CurrentTarget => currentTarget;
     GameObject currentTarget;
-
-    float startTime = 0;
-
-    StateType currentState;
 
     //TODO : Create accessors for each conditions of state change
     public bool InAttackRange => false; //Define a method to check attack Range in Ranged and Melee attack (IAttack)
-    bool CanMove => !currentAttack.IsOnAttackLag;
-    public bool CanAttack => !currentAttack.IsAttacking && !currentAttack.IsOnCooldown;
-    public bool AttackOnCD => currentAttack.IsOnCooldown;
     public bool TargetAcquired => currentTarget != null;
 
-    public IMovement CurrentMovement { get => currentMovement; set { currentMovement = value; } }
-    public IAttack CurrentAttack { get => currentAttack; set { currentAttack = value; } }
     public Vector2 CurrentDirection => currentDirection;
-    public Dictionary<MovementType, IMovement> EnemyMoves => enemyMoves;
-    public Dictionary<AttackType, IAttack> EnemyAttacks => enemyAttacks;
 
-    IMovement currentMovement;
-    IAttack currentAttack;
+    IAction currentAction;
     Vector2 currentDirection;
 
-    //-----------------------------------------------\
-    //--------------------BEHAVIOUR------------------|
-    //-----------------------------------------------/
+    [SerializeField] BehaviourConfig behaviourConfig;
 
-    Dictionary<MovementType, IMovement> enemyMoves = new();
-    Dictionary<AttackType, IAttack> enemyAttacks = new();
+    public Dictionary<ActionStateType, IAction> EnemyActions => enemyActions;
+    
+    Dictionary<ActionStateType, IAction> enemyActions = new();
 
-    [SerializeField] BehaviourConfig behaviourConfig = new();
-    IBehaviour currentBehaviour;
+    IBehaviour enemyBehaviour;
 
     private void Awake()
     {
-        stats = GetComponent<EnemyStatsComponent>(); 
-        collision = GetComponent<CollisionCheckerComponent>();
-
         animator = GetComponent<Animator>();
-        if(animator == null)
+        if (animator == null)
             animator = GetComponentInChildren<Animator>();
 
+        circleCollider = GetComponent<CircleCollider2D>();
+        stats = GetComponent<EnemyStatsComponent>();
         lifeSystem = GetComponent<EnemyLifeSystemComponent>();
-        bump = GetComponent<BumpComponent>();
         detection = GetComponent<EnemyDetectionComponent>();
         lootSystem = GetComponent<EnemyLootSystem>();
-        circleCollider = GetComponent<CircleCollider2D>();
+        animationParam = GetComponent<EnemyAnimationComponent>();
+
+        collision = GetComponent<CollisionCheckerComponent>();
+        bump = GetComponent<BumpComponent>();
+
+        InstantiateBehaviourComponents();
     }
 
     private void Start()
     {
-        lifeSystem.InitRef(animator, lootSystem, bump, stats);
-        bump.InitRef(collision);
+        lifeSystem.InitRef(this);
+        detection.InitRef(this);
+        animationParam.InitRef(this);
         collision.Init();
-        detection.InitRef(stats);
-        InstantiateBehaviourComponents();
-        currentBehaviour.InitBehaviour(behaviourConfig.behaviourData, this);
+        bump.InitRef(collision);
+
+        if (behaviourConfig != null)
+        {
+            enemyBehaviour.InitBehaviour(this);
+            //enemyBehaviour.InitFSM(this);
+        }
+        else Debug.LogWarning("BehaviourConfig is missing on : " + gameObject.name);
     }
 
     private void Update()
     {
-        if (lifeSystem.IsDead) return;
+        if (lifeSystem.IsDead || enemyBehaviour == null) return;
 
-        //currentBehaviour.FSM.CurrentState.Update();
-
-        /*switch (behaviourConfig.behaviour.CurrentState)
-        {
-            case StateType.Wait:
-                break;
-            case StateType.Roam:
-                break;
-            case StateType.Chase:
-                break;
-            case StateType.Charge:
-                break;
-        }*/
-
+        currentTarget = detection.PlayerDetection(out GameObject player) ? player : null;
+        
+        enemyBehaviour.FSM.CurrentState.Update();
+        //Debug.Log(enemyBehaviour.ToString() + (" ") + enemyBehaviour.FSM.ToString() + (" ") + enemyBehaviour.FSM.CurrentState.ToString());
     }
-
-    public void UpdateMoveAnimDirection(Vector2 direction)
-    {
-        animator.SetFloat(SRAnimators.EnemyBaseAnimator.Parameters.up, direction.y);
-        animator.SetFloat(SRAnimators.EnemyBaseAnimator.Parameters.right, direction.x);
-    }
-
-    public void UpdateMoveAnimSpeed(float speed)
-    {
-        animator.SetFloat(SRAnimators.EnemyBaseAnimator.Parameters.speed, 1 + MathF.Round(speed / 2, 2));
-    }
-    
 
     public void SetStatsScalingFactor(float value)
     {
@@ -121,160 +106,126 @@ public class EnemyController : MonoBehaviour
 
     void InstantiateBehaviourComponents()
     {
-        switch (behaviourConfig.behaviourType)
+        if (behaviourConfig == null) return;
+
+        enemyBehaviour = behaviourConfig.behaviourType switch
         {
-            case BehaviourType.Knight:
-                currentBehaviour = gameObject.AddComponent<KnightBehaviour>();
-                break;
-            case BehaviourType.Eye:
-                currentBehaviour = gameObject.AddComponent<EyeBehaviour>();
-                break;
-        }
-
-        if (behaviourConfig.behaviourData.MovesList.Count > 0) 
-        { 
-            foreach (MovementConfig moveConfig in behaviourConfig.behaviourData.MovesList)
-            {
-                switch (moveConfig.MoveType)
-                {
-                    case MovementType.Roam:
-                        if (!enemyMoves.ContainsKey(MovementType.Roam))
-                        {
-                            EnemyRoam roam = gameObject.AddComponent<EnemyRoam>();
-                            enemyMoves.Add(MovementType.Roam, roam);
-                            roam.InitRef(moveConfig.data, this);
-                        }
-                        break;
-
-                    case MovementType.Chase:
-                        if (!enemyMoves.ContainsKey(MovementType.Chase))
-                        {
-                            EnemyChase chase = gameObject.AddComponent<EnemyChase>();
-                            enemyMoves.Add(MovementType.Chase, chase);
-                            chase.InitRef(moveConfig.data, this);
-                        }
-                        break;
-
-                    case MovementType.Flee:
-                        if (!enemyMoves.ContainsKey(MovementType.Flee))
-                        {
-                            EnemyFlee flee = gameObject.AddComponent<EnemyFlee>();
-                            enemyMoves.Add(MovementType.Flee, flee);
-                            flee.InitRef(moveConfig.data, this);
-                        }
-                        break;
-
-                    case MovementType.StayAtRange:
-                        if (!enemyMoves.ContainsKey(MovementType.StayAtRange))
-                        {
-                            EnemyStayAtRange stayAtRange = gameObject.AddComponent<EnemyStayAtRange>();
-                            enemyMoves.Add(MovementType.StayAtRange, stayAtRange);
-                            stayAtRange.InitRef(moveConfig.data, this);
-                        }
-                        break;
-
-                    case MovementType.TurnAround:
-                        if (!enemyMoves.ContainsKey(MovementType.TurnAround))
-                        {
-                            EnemyTurnAround turnAround = gameObject.AddComponent<EnemyTurnAround>();
-                            enemyMoves.Add(MovementType.TurnAround, turnAround);
-                            turnAround.InitRef(moveConfig.data, this);
-                        }
-                        break;
-
-                    case MovementType.Wait:
-                        break;
-                }
-            }
-        }
-
-        if (behaviourConfig.behaviourData.AttacksList.Count > 0)
-        {
-            foreach (AttackConfig attackConfig in behaviourConfig.behaviourData.AttacksList)
-            {
-                switch (attackConfig.AttackType)
-                {
-                    case AttackType.Melee:
-                        if (!enemyAttacks.ContainsKey(AttackType.Melee))
-                        {
-                            EnemyMeleeAttack meleeAttack = gameObject.AddComponent<EnemyMeleeAttack>();
-                            enemyAttacks.Add(AttackType.Melee, meleeAttack);
-                        }
-                        break;
-
-                    case AttackType.Ranged:
-                        if (!enemyAttacks.ContainsKey(AttackType.Ranged))
-                        {
-                            EnemyRangedAttack rangedAttack = gameObject.AddComponent<EnemyRangedAttack>();
-                            enemyAttacks.Add(AttackType.Ranged, rangedAttack);
-                        }
-                        break;
-                    case AttackType.Charge:
-                        if (!enemyAttacks.ContainsKey(AttackType.Charge))
-                        {
-                            EnemyChargeAttack rangedAttack = gameObject.AddComponent<EnemyChargeAttack>();
-                            enemyAttacks.Add(AttackType.Charge, rangedAttack);
-                        }
-                        break;
-
-
-                }
-
-                //FX----------------------------------------
-
-                /*if (attackConfig.attackFXPrefab == null)
-                {
-                    Debug.LogWarning(attackConfig + " do not contain any FXPrefab");
-                    return;
-                }
-
-                if (!attackFXBehaviors.ContainsKey(attackConfig.attackFXPrefab.name))
-                {
-                    IAttackFX attackFX = Instantiate(attackConfig.attackFXPrefab, transform).GetComponent<IAttackFX>();
-                    attackFXBehaviors.Add(attackConfig.attackFXPrefab.name, attackFX);
-                    Debug.Log(attackConfig.attackFXPrefab + " have been successfully instantied !");
-                }*/
-            }
-        }
-    }
-
-    public Type GetType(KeyValuePair<MovementType, IMovement> moveKeyValue)
-    {
-        return moveKeyValue.Key switch
-        {
-            MovementType.Wait => null,
-            MovementType.Chase => typeof(EnemyChase),
-            MovementType.Flee => typeof(EnemyFlee),
-            MovementType.StayAtRange => typeof(EnemyStayAtRange),
-            MovementType.TurnAround => typeof(EnemyTurnAround),
-            MovementType.Roam => typeof(EnemyRoam),
+            BehaviourType.Stalker => gameObject.AddComponent<Stalker>(),
+            BehaviourType.Harasser => gameObject.AddComponent<Harasser>(),
+            BehaviourType.Harmless => gameObject.AddComponent<Harmless>(),
             _ => null,
         };
+
+        if (behaviourConfig.Data.Actions.Count > 0) 
+        { 
+            foreach (ActionConfig actionConfig in behaviourConfig.Data.Actions)
+            {
+                switch (actionConfig.StateType)
+                {
+                    case ActionStateType.RoamMove:
+                        if (!enemyActions.ContainsKey(ActionStateType.RoamMove))
+                        {
+                            RoamMove roam = gameObject.AddComponent<RoamMove>();
+                            enemyActions.Add(ActionStateType.RoamMove, roam);
+                            roam.InitRef(actionConfig.data, this);
+                        }
+                        break;
+
+                    case ActionStateType.ChaseMove:
+                        if (!enemyActions.ContainsKey(ActionStateType.ChaseMove))
+                        {
+                            ChaseMove chase = gameObject.AddComponent<ChaseMove>();
+                            enemyActions.Add(ActionStateType.ChaseMove, chase);
+                            chase.InitRef(actionConfig.data, this);
+                        }
+                        break;
+
+                    case ActionStateType.FleeMove:
+                        if (!enemyActions.ContainsKey(ActionStateType.FleeMove))
+                        {
+                            FleeMove flee = gameObject.AddComponent<FleeMove>();
+                            enemyActions.Add(ActionStateType.FleeMove, flee);
+                            flee.InitRef(actionConfig.data, this);
+                        }
+                        break;
+
+                    case ActionStateType.StayAtRangeMove:
+                        if (!enemyActions.ContainsKey(ActionStateType.StayAtRangeMove))
+                        {
+                            StayAtRangeMove stayAtRange = gameObject.AddComponent<StayAtRangeMove>();
+                            enemyActions.Add(ActionStateType.StayAtRangeMove, stayAtRange);
+                            stayAtRange.InitRef(actionConfig.data, this);
+                        }
+                        break;
+
+                    case ActionStateType.TurnAroundMove:
+                        if (!enemyActions.ContainsKey(ActionStateType.TurnAroundMove))
+                        {
+                            TurnAroundMove turnAround = gameObject.AddComponent<TurnAroundMove>();
+                            enemyActions.Add(ActionStateType.TurnAroundMove, turnAround);
+                            turnAround.InitRef(actionConfig.data, this);
+                        }
+                        break;
+
+                    case ActionStateType.WaitMove:
+                        if (!enemyActions.ContainsKey(ActionStateType.WaitMove))
+                        {
+                            WaitAction wait = gameObject.AddComponent<WaitAction>();
+                            enemyActions.Add(ActionStateType.WaitMove, wait);
+                            wait.InitRef(actionConfig.data, this);
+                        }
+                        break;
+
+                    case ActionStateType.MeleeAttack:
+                        if (!enemyActions.ContainsKey(ActionStateType.MeleeAttack))
+                        {
+                            MeleeAttack melee = gameObject.AddComponent<MeleeAttack>();
+                            enemyActions.Add(ActionStateType.MeleeAttack, melee);
+                            melee.InitRef(actionConfig.data, this);
+                        }
+                        break;
+
+                    case ActionStateType.RangedAttack:
+                        if (!enemyActions.ContainsKey(ActionStateType.RangedAttack))
+                        {
+                            RangedAttack ranged = gameObject.AddComponent<RangedAttack>();
+                            enemyActions.Add(ActionStateType.RangedAttack, ranged);
+                            ranged.InitRef(actionConfig.data, this);
+                        }
+                        break;
+
+                    case ActionStateType.ChargeAttack:
+                        if (!enemyActions.ContainsKey(ActionStateType.ChargeAttack))
+                        {
+                            ChargeAttack charge = gameObject.AddComponent<ChargeAttack>();
+                            enemyActions.Add(ActionStateType.ChargeAttack, charge);
+                            charge.InitRef(actionConfig.data, this);
+                        }
+                        break;
+                }
+            }
+        }
     }
 
     private void OnValidate()
     {
-        Type behaviourType = behaviourConfig.behaviourType switch
-        {
-            BehaviourType.Knight => typeof(KnightBehaviourData),
-            BehaviourType.Eye => typeof(EyeBehaviourData),
-            _ => null,
-        };
+        //Get Base Components and set essentials references for Debug and accesiblity in editor mode
 
-        if ((behaviourConfig.behaviourData == null && behaviourType != null) || (behaviourConfig.behaviourData != null && behaviourConfig.behaviourData.GetType() != behaviourType))
-        {
-            behaviourConfig.behaviourData = BehaviourDataFactory.CreateBehaviourData(behaviourConfig.behaviourType);
-            behaviourConfig.behaviourData.InitConfigList();
+        animator = GetComponent<Animator>();
+        if (animator == null)
+            animator = GetComponentInChildren<Animator>();
 
-            foreach (MovementConfig move in behaviourConfig.behaviourData.MovesList)
-            {
-                move.data = MovementDataFactory.CreateData(move.MoveType);
-            }
+        circleCollider = GetComponent<CircleCollider2D>();
+        stats = GetComponent<EnemyStatsComponent>();
+        lifeSystem = GetComponent<EnemyLifeSystemComponent>();
+        detection = GetComponent<EnemyDetectionComponent>();
+        lootSystem = GetComponent<EnemyLootSystem>();
+        collision = GetComponent<CollisionCheckerComponent>();
+        bump = GetComponent<BumpComponent>();
 
-            foreach (AttackConfig attack in behaviourConfig.behaviourData.AttacksList)
-            {
-                attack.data = AttackDataFactory.CreateData(attack.AttackType);
-            }
-        }
+        lifeSystem.InitRef(this);
+        detection.InitRef(this);
+        collision.Init();
+        bump.InitRef(collision);
     }
 }

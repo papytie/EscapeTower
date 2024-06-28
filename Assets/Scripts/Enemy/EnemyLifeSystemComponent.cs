@@ -4,7 +4,7 @@ public class EnemyLifeSystemComponent : MonoBehaviour, ILifeSystem
 {
     public bool IsDead => isDead;
     public float CurrentLifePoints => currentLifePoints;
-    public float MaxLifePoints => stats.MaxLifePoints;
+    public float MaxLifePoints => controller.Stats.MaxLifePoints;
 
     [Header("Life Settings")]
     [SerializeField] float despawnDuration = 3f;
@@ -13,22 +13,15 @@ public class EnemyLifeSystemComponent : MonoBehaviour, ILifeSystem
     float despawnEndTime = 0;
     float currentLifePoints = 1;
 
-    Animator animator;
-    EnemyStatsComponent stats;
-    EnemyLootSystem enemyLoot;
+    EnemyController controller;
     Collider2D enemyCollider;
-    BumpComponent bump;
 
-    public void InitRef(Animator animatorRef, EnemyLootSystem lootSystem, BumpComponent bumpRef, EnemyStatsComponent enemyStats)
+    public void InitRef(EnemyController ctrlRef)
     {
-        animator = animatorRef;
-        stats = enemyStats;
-        currentLifePoints = stats.MaxLifePoints;
-        enemyLoot = lootSystem;
-        bump = bumpRef;
+        controller = ctrlRef;
     }
 
-    private void Start()
+    private void Awake()
     {
         enemyCollider = GetComponent<Collider2D>();
     }
@@ -37,7 +30,7 @@ public class EnemyLifeSystemComponent : MonoBehaviour, ILifeSystem
     {
         if (isDead && Time.time >= despawnEndTime)
         {
-            enemyLoot.RollLoot();
+            controller.LootSystem.RollLoot();
             Destroy(gameObject);
         }
     }
@@ -52,18 +45,18 @@ public class EnemyLifeSystemComponent : MonoBehaviour, ILifeSystem
             currentLifePoints = 0;
             SetDespawnTimer(despawnDuration);
             enemyCollider.enabled = false;
-            animator.SetTrigger(SRAnimators.EnemyBaseAnimator.Parameters.die);
+            controller.AnimationParam.ActivateDieTrigger();
             return;
         }
-        bump.BumpedAwayActivation(-normal, damageValue);
-        animator.SetTrigger(SRAnimators.EnemyBaseAnimator.Parameters.takeDamage);
+        controller.Bump.BumpedAwayActivation(-normal, damageValue);
+        controller.AnimationParam.ActivateTakeDamageTrigger();
     }
 
     public void HealUp(float healValue)
     {
         if (isDead) return;
 
-        currentLifePoints = Mathf.Min(currentLifePoints + healValue, stats.MaxLifePoints);
+        currentLifePoints = Mathf.Min(currentLifePoints + healValue, controller.Stats.MaxLifePoints);
     }
 
     void SetDespawnTimer(float duration)

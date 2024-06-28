@@ -132,13 +132,13 @@ GameObject:
   - component: {fileID: 7826958320561606104}
   - component: {fileID: 7121630298180537469}
   - component: {fileID: 3150502674027016159}
-  - component: {fileID: 2826978937973998819}
   - component: {fileID: 6092734285711741524}
   - component: {fileID: 2802411895935858278}
   - component: {fileID: 4237133312545314035}
   - component: {fileID: 8001041884036437106}
   - component: {fileID: 1408748640076903586}
   - component: {fileID: 3746041132828878022}
+  - component: {fileID: 4171371601547000229}
   m_Layer: 7
   m_Name: EyeSize4
   m_TagString: Untagged
@@ -217,18 +217,6 @@ MonoBehaviour:
     m_Bits: 256
   showDebug: 1
   debugColor: {r: 1, g: 0, b: 0.8795767, a: 1}
---- !u!114 &2826978937973998819
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5526443729210609502}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 903494ed504afc44bb87e3287c169886, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6092734285711741524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,22 +256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b2a66150ab8292479a92f49da9b9ecc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementList:
-  - type: 3
-    data:
-      rid: 3354533314089975811
-    prerequisite: 
-  attackList: []
-  timerDuration: 2
-  references:
-    version: 2
-    RefIds:
-    - rid: 3354533314089975811
-      type: {class: StayAtRangeData, ns: , asm: Assembly-CSharp}
-      data:
-        speedMult: 2
-        minRange: 0.5
-        maxRange: 1
+  behaviourConfig: {fileID: 11400000, guid: 8c797caedde2a79458056b46511d3022, type: 2}
 --- !u!114 &8001041884036437106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -476,14 +449,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd56c217e62865a46a7750fe272f3bd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.8
+  moveSpeed: 1
   attackSpeed: 1
   collisionDamage: 1
   meleeDamage: 1
   projectileDamage: 1
-  detectionRadius: 3
+  detectionRadius: 1.2
   maxLifePoints: 1
   scalingFactor: 1
+--- !u!114 &4171371601547000229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5526443729210609502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 122ebb81fdfc8dc4ba8f9d55800470e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8905199541767366279
 GameObject:
   m_ObjectHideFlags: 0

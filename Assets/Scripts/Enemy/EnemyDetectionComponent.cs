@@ -10,16 +10,16 @@ public class EnemyDetectionComponent : MonoBehaviour
     [SerializeField] bool showDebug;
     [SerializeField] Color debugColor;
     
-    EnemyStatsComponent stats;
+    EnemyController controller;
 
-    public void InitRef(EnemyStatsComponent statsRef)
+    public void InitRef(EnemyController ctrlRef)
     {
-        stats = statsRef;
+        controller = ctrlRef;
     }
 
     public bool PlayerDetection(out GameObject player)
     {
-        RaycastHit2D[] detectionList = Physics2D.CircleCastAll(transform.position, stats.DetectionRadius, Vector2.zero, 0, playerLayer);
+        RaycastHit2D[] detectionList = Physics2D.CircleCastAll(transform.position, controller.Stats.DetectionRadius, Vector2.zero, 0, playerLayer);
         foreach (RaycastHit2D detection in detectionList)
         {
             if (detection)
@@ -37,19 +37,13 @@ public class EnemyDetectionComponent : MonoBehaviour
         return false;
     }
 
-    private void OnValidate()
-    {
-        stats = gameObject.GetComponent<EnemyStatsComponent>();
-    }
-
     private void OnDrawGizmos()
     {
         if(showDebug)
         {
             Gizmos.color = debugColor;
-            Gizmos.DrawWireSphere(transform.position, stats.DetectionRadius);
+            Gizmos.DrawWireSphere(transform.position, controller.Stats.DetectionRadius);
             Gizmos.color = Color.white;
-
         }
     }
 }

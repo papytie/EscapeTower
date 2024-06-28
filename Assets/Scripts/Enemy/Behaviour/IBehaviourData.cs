@@ -2,7 +2,6 @@ using System.Collections.Generic;
 
 public interface IBehaviourData
 {
-    public List<AttackConfig> AttacksList { get; }
-    public List<MovementConfig> MovesList { get; }
+    public List<ActionConfig> Actions { get; }
     void InitConfigList() { }
 }

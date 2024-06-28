@@ -24,7 +24,6 @@ public class BumpComponent : MonoBehaviour
     public void InitRef(CollisionCheckerComponent collisionComponent)
     {
         collision = collisionComponent;
-
     }
 
     private void Update()

@@ -10,12 +10,13 @@ public class CollisionCheckerComponent : MonoBehaviour
     public bool ShowDebug => showDebug;
 
     [Header("Collider Settings"), Space]
+
     [Header("Shape")]
     [SerializeField] ColliderShape colliderShape = ColliderShape.Circle;
     [SerializeField] float circleColliderRadius = 1;
     [SerializeField] Vector2 boxColliderSize = new(.1f,.1f);
+
     [Header("Settings")]
-    //[SerializeField] Vector2 colliderOffset = Vector2.zero;
     [SerializeField] float collisionMinDist = .01f;
 
     [Header("Layers"), Space]

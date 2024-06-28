@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 6945462768860497074}
   - component: {fileID: 3831950059567507934}
   - component: {fileID: 9069146430024304810}
+  - component: {fileID: 8482865961153284175}
   m_Layer: 7
   m_Name: KnightBronze
   m_TagString: Untagged
@@ -134,66 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b2a66150ab8292479a92f49da9b9ecc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  behaviourConfig:
-    behaviourType: 0
-    behaviourData:
-      rid: 6564331260687155278
-  references:
-    version: 2
-    RefIds:
-    - rid: 6564331260687155278
-      type: {class: KnightBehaviourData, ns: , asm: Assembly-CSharp}
-      data:
-        roam:
-          data:
-            rid: 6564331260687155279
-        chase:
-          data:
-            rid: 6564331260687155280
-        charge:
-          data:
-            rid: 6564331260687155281
-          attackFXPrefab: {fileID: 0}
-    - rid: 6564331260687155279
-      type: {class: RoamData, ns: , asm: Assembly-CSharp}
-      data:
-        speedMult: 0.5
-        minTime: 1
-        maxTime: 3
-    - rid: 6564331260687155280
-      type: {class: ChaseData, ns: , asm: Assembly-CSharp}
-      data:
-        speedMult: 1
-        minRange: 0.1
-    - rid: 6564331260687155281
-      type: {class: ChargeAttackData, ns: , asm: Assembly-CSharp}
-      data:
-        priority: 0
-        cooldown: 0.5
-        lag: 0.2
-        delay: 0
-        duration: 0.1
-        hitboxSettings:
-          hitboxShape: 2
-          boxSize: {x: 0.1, y: 0.1}
-          circleRadius: 0.1
-          activeLayer:
-            serializedVersion: 2
-            m_Bits: 0
-          hitboxDuration: 0.1
-          maxTargets: 1
-          hitboxStartPosOffset: {x: 0, y: 0}
-          behaviorType: 0
-          hitboxEndPos: {x: 0, y: 0}
-          hitboxMovementCurve:
-            serializedVersion: 2
-            m_Curve: []
-            m_PreInfinity: 2
-            m_PostInfinity: 2
-            m_RotationOrder: 4
-          showDebug: 1
-          debugCube: {fileID: 0}
-          meleeDebugColor: {r: 0, g: 0, b: 0, a: 0}
+  behaviourConfig: {fileID: 11400000, guid: 00455d8e8c1bb0f4581239233c5b8fa3, type: 2}
 --- !u!114 &6945462768860497074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -394,6 +336,18 @@ MonoBehaviour:
   detectionRadius: 3
   maxLifePoints: 5
   scalingFactor: 1
+--- !u!114 &8482865961153284175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7735372287190253028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 122ebb81fdfc8dc4ba8f9d55800470e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8451118016769449935
 PrefabInstance:
   m_ObjectHideFlags: 0

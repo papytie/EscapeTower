@@ -3,13 +3,11 @@ using System.Collections.Generic;
 
 public interface IState
 {
-    StateType State { get; set; }
     NPCFSM FSM {get; set;}
 
-    void InitState(NPCFSM fsm, StateType type) 
+    void InitState(NPCFSM fsm) 
     {
         FSM = fsm;
-        State = type;
     }
 
     void StateEnter() { }
@@ -20,31 +18,39 @@ public interface IState
 public class NPCState : IState
 {
     public NPCFSM FSM { get; set; }
-    public StateType State { get; set; }
+    public ActionStateType State { get; set; }
+    public IAction StateAction { get; set; }
 
-    public NPCState(NPCFSM fsm, StateType type)
+    public NPCState(NPCFSM fsm, ActionStateType type, IAction action)
     {
         FSM = fsm;
         State = type;
+        StateAction = action;
     }
 
-    public event Action OnEnter = null;
-    public event Action OnExit = null;
-    public event Action OnUpdate = null;
+    public event Action OnStateEnter = null;
+    public event Action OnStateExit = null;
+    public event Action OnStateUpdate = null;
 
     public void StateEnter()
     {
-        OnEnter?.Invoke();
+        //Debug.Log("Enter " + State.ToString());
+        OnStateEnter?.Invoke();
+        StateAction?.StartProcess();
     }
 
     public void StateExit()
     {
-        OnExit?.Invoke();
+        //Debug.Log("Exit " + State.ToString());
+        StateAction?.EndProcess();
+        OnStateExit?.Invoke();
     }
 
     public void Update()
     {
-        OnUpdate?.Invoke();
+        //Debug.Log("Update " + State.ToString());
+        StateAction?.UpdateProcess();
+        OnStateUpdate?.Invoke();
     }
 }
 
@@ -64,14 +70,14 @@ public class NPCFSM
         StateList.Add(state);
     }
 
-    public void SetState(StateType type) 
+    public void SetState(ActionStateType type) 
     {
         CurrentState?.StateExit();
         CurrentState = GetState(type);
         CurrentState?.StateEnter();
     }
 
-    public NPCState GetState(StateType type) 
+    public NPCState GetState(ActionStateType type) 
     {
         foreach (var item in StateList)
         {

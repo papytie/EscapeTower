@@ -4,8 +4,9 @@ public class BehaviourDataFactory
     {
         return type switch
         {
-            BehaviourType.Knight => new KnightBehaviourData(),
-            BehaviourType.Eye => new EyeBehaviourData(),
+            BehaviourType.Harmless => new HarmlessData(),
+            BehaviourType.Stalker => new StalkerData(),
+            BehaviourType.Harasser => new HarasserData(),
             _ => null,
         };
     }
