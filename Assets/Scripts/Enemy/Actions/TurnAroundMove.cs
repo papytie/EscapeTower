@@ -1,20 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
 
 public class TurnAroundMove : MonoBehaviour, IAction
 {
-    public Vector2 MoveDirection { get; set; }
     public bool IsCompleted { get; set; }
     public bool IsAvailable => throw new System.NotImplementedException();
+    public Vector3 Direction => direction;
+    Vector2 direction;
 
     private TurnAroundData data;
     private EnemyController controller;
-
-    public void StartProcess()
-    {
-        throw new System.NotImplementedException();
-    }
 
     public void InitRef(IActionData dataRef, EnemyController controllerRef)
     {
@@ -22,13 +17,17 @@ public class TurnAroundMove : MonoBehaviour, IAction
         controller = controllerRef;
     }
 
+    public void StartProcess()
+    {
+    }
+
     public void UpdateProcess()
     {
         Vector3 offsetPosition = transform.position.ToVector2() + controller.CircleCollider.offset;
-        MoveDirection = (controller.CurrentTarget.transform.position - offsetPosition).normalized;
+        direction = (controller.CurrentTarget.transform.position - offsetPosition).normalized;
 
         //Move with collision check
-        controller.Collision.MoveToCollisionCheck(GetMoveDirection(MoveDirection), controller.Stats.MoveSpeed * data.speedMult * Time.deltaTime, controller.Collision.BlockingObjectsLayer, out Vector3 finalPosition, out List<RaycastHit2D> hitList);
+        controller.Collision.MoveToCollisionCheck(GetMoveDirection(direction), controller.Stats.MoveSpeed * data.speedMult * Time.deltaTime, controller.Collision.BlockingObjectsLayer, out Vector3 finalPosition, out List<RaycastHit2D> hitList);
         transform.position = finalPosition;
 
     }
@@ -45,6 +44,5 @@ public class TurnAroundMove : MonoBehaviour, IAction
 
     public void EndProcess()
     {
-        throw new System.NotImplementedException();
     }
 }

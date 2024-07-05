@@ -5,6 +5,8 @@ public class StayAtRangeMove : MonoBehaviour, IAction
 {
     public bool IsCompleted { get; set; }
     public bool IsAvailable => true;
+    public Vector3 Direction => direction;
+    Vector2 direction;
 
     private StayAtRangeData data;
     private EnemyController controller;
@@ -17,7 +19,6 @@ public class StayAtRangeMove : MonoBehaviour, IAction
 
     public void StartProcess()
     {
-        IsCompleted = false;
     }
 
     public void UpdateProcess()
@@ -25,7 +26,7 @@ public class StayAtRangeMove : MonoBehaviour, IAction
         if (controller.CurrentTarget == null) return;
 
         Vector3 offsetPosition = transform.position.ToVector2() + controller.CircleCollider.offset;
-        Vector2 direction = (controller.CurrentTarget.transform.position - offsetPosition).normalized;
+        direction = (controller.CurrentTarget.transform.position - offsetPosition).normalized;
 
         float targetDistance = Vector3.Distance(transform.position, controller.CurrentTarget.transform.position);
 
@@ -45,5 +46,7 @@ public class StayAtRangeMove : MonoBehaviour, IAction
 
     public void EndProcess()
     {
+        IsCompleted = false;
+        controller.CurrentDirection = direction;
     }
 }

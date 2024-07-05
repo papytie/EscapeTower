@@ -17,39 +17,39 @@ public interface IState
 
 public class NPCState : IState
 {
+    public string ID { get; set; }
     public NPCFSM FSM { get; set; }
-    public ActionStateType State { get; set; }
-    public IAction StateAction { get; set; }
-
-    public NPCState(NPCFSM fsm, ActionStateType type, IAction action)
-    {
-        FSM = fsm;
-        State = type;
-        StateAction = action;
-    }
+    public IAction Action { get; set; }
 
     public event Action OnStateEnter = null;
     public event Action OnStateExit = null;
     public event Action OnStateUpdate = null;
 
+    public NPCState(NPCFSM fsm, string stateID, IAction action)
+    {
+        FSM = fsm;
+        ID = stateID;
+        Action = action;
+    }
+
     public void StateEnter()
     {
-        //Debug.Log("Enter " + State.ToString());
+        //Debug.Log("Enter " + StateAction.ToString());
         OnStateEnter?.Invoke();
-        StateAction?.StartProcess();
+        Action?.StartProcess();
     }
 
     public void StateExit()
     {
-        //Debug.Log("Exit " + State.ToString());
-        StateAction?.EndProcess();
+        //Debug.Log("Exit " + StateAction.ToString());
+        Action?.EndProcess();
         OnStateExit?.Invoke();
     }
 
     public void Update()
     {
-        //Debug.Log("Update " + State.ToString());
-        StateAction?.UpdateProcess();
+        //Debug.Log("Update " + StateAction.ToString());
+        Action?.UpdateProcess();
         OnStateUpdate?.Invoke();
     }
 }
@@ -57,7 +57,7 @@ public class NPCState : IState
 public class NPCFSM
 {
     public List<NPCState> StateList { get; set; }
-    public IState CurrentState { get; set; }
+    public NPCState CurrentState { get; set; }
 
     public NPCFSM()
     {
@@ -70,18 +70,18 @@ public class NPCFSM
         StateList.Add(state);
     }
 
-    public void SetState(ActionStateType type) 
+    public void SetState(string stateID) 
     {
         CurrentState?.StateExit();
-        CurrentState = GetState(type);
+        CurrentState = GetState(stateID);
         CurrentState?.StateEnter();
     }
 
-    public NPCState GetState(ActionStateType type) 
+    public NPCState GetState(string stateID) 
     {
-        foreach (var item in StateList)
+        foreach (NPCState state in StateList)
         {
-            if (item.State == type) return item;
+            if (state.ID == stateID) return state;
         };
         return null;
     }

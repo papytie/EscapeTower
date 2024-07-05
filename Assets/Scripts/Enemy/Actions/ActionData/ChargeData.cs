@@ -1,12 +1,14 @@
 using System;
+using UnityEngine;
 
 [Serializable]
 public class ChargeData : IActionData
 {
-    public int priority = 0;
-    public float cooldown = .5f;
-    public float lag = .2f;
-    public float delay = 0;
-    public float duration = .1f;
-    public HitboxSettingsData hitboxSettings;
+    public AnimationCurve moveCurve;
+    public LayerMask obstructionLayer;
+    [Header("Debug")]
+    public bool showDebug = false;
+    public Color rangeColor = Color.yellow;
+    public Color startColor = Color.green;
+    public Color targetColor = Color.red;
 }

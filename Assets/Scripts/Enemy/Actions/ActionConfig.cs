@@ -4,15 +4,15 @@ using UnityEngine;
 [Serializable]
 public class ActionConfig
 {
-    public ActionStateType StateType => type;
+    public ActionType ActionType => actionType;
 
-    public ActionConfig(ActionStateType moveType)
+    public ActionConfig(ActionType type, string ID)
     {
-        type = moveType;
-        name = moveType.ToString();
+        actionType = type;
+        ActionID = ID;
     }
 
-    public string name;
-    protected ActionStateType type;
+    public string ActionID;
+    protected ActionType actionType;
     [SerializeReference] public IActionData data;
 }

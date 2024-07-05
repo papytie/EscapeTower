@@ -16,9 +16,9 @@ public class MaterialTextureSetter : MonoBehaviour
 
     private Sprite currentSprite;
 
-    [SerializeField] string fogMaskName = null;
-    [SerializeField] string spritePivotName = null;
-    [SerializeField] Material[] materials = null;
+    //[SerializeField] string fogMaskName = null;
+    //[SerializeField] string spritePivotName = null;
+    //[SerializeField] Material[] materials = null;
 
     [SerializeField] Texture2D fogTex;
 

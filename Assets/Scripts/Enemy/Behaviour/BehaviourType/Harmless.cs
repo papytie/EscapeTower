@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Harmless : MonoBehaviour, IBehaviour
 {
-    public NPCFSM FSM => fsm;
+    public NPCFSM FSM { get => fsm; set { fsm = value; } }
     public EnemyController Controller => controller;
 
     NPCFSM fsm;
@@ -13,76 +13,84 @@ public class Harmless : MonoBehaviour, IBehaviour
         //Get EnemyController ref
         controller = enemyController;
 
-        //Instantiate FSM
-        fsm = new NPCFSM();
-
-        //Instantiate each state in NPCFSM from Controller 
-        foreach (var item in controller.EnemyActions)
-        {
-            fsm.AddState(new NPCState(fsm, item.Key, item.Value));
-        }
+        //Init Reaction state
+        Init_TakeDamageReaction();
+        Init_DieReaction();
 
         //Customize each Init state
         Init_WaitState();
         Init_RoamState();
-        Init_ChaseState();
 
         //Set this Behaviour starting default state
-        fsm.SetState(ActionStateType.WaitMove);
+        fsm.SetState(HarmlessActionID.WAIT);
     }
 
     void Init_WaitState()
     {
-        NPCState state = fsm.GetState(ActionStateType.WaitMove);
+        NPCState state = fsm.GetState(HarmlessActionID.WAIT);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
         state.OnStateExit += () => { /* Last Method called when exit State */ };
 
         state.OnStateUpdate += () =>
         {
-            if (state.StateAction.IsCompleted)
+            if (state.Action.IsCompleted)
             {
-                if (!controller.TargetAcquired)
-                    fsm.SetState(ActionStateType.RoamMove);
-
-                if (controller.TargetAcquired && !controller.InAttackRange)
-                    fsm.SetState(ActionStateType.ChaseMove);
-
+                fsm.SetState(HarmlessActionID.ROAM);
             }
         };
     }
 
     void Init_RoamState()
     {
-        NPCState state = fsm.GetState(ActionStateType.RoamMove);
+        NPCState state = fsm.GetState(HarmlessActionID.ROAM);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
         state.OnStateExit += () => { /* Last Method called when exit State */ };
 
         state.OnStateUpdate += () =>
         {
-            if (controller.TargetAcquired)
-                fsm.SetState(ActionStateType.ChaseMove);
-
-            if (!controller.TargetAcquired && controller.EnemyActions[ActionStateType.RoamMove].IsCompleted)
-                fsm.SetState(ActionStateType.WaitMove);
-
+            if (state.Action.IsCompleted)
+            {
+                fsm.SetState(HarmlessActionID.WAIT);
+            }
         };
 
     }
 
-    void Init_ChaseState()
+    //-------------------------------\---/-------------------------------|
+    //----------------------------|REACTIONS|----------------------------|
+    //-------------------------------/---\-------------------------------|
+
+    void Init_TakeDamageReaction()
     {
-        NPCState state = fsm.GetState(ActionStateType.ChaseMove);
+        NPCState state = fsm.GetState(ReactionID.TAKEDMG);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
         state.OnStateExit += () => { /* Last Method called when exit State */ };
 
         state.OnStateUpdate += () =>
         {
-            if (!controller.TargetAcquired)
-                fsm.SetState(ActionStateType.WaitMove);
-
+            if (state.Action.IsCompleted)
+                fsm.SetState(HarmlessActionID.WAIT);
         };
     }
+
+    void Init_DieReaction()
+    {
+        NPCState state = fsm.GetState(ReactionID.DIE);
+
+        state.OnStateEnter += () => { /* First Method called when enter State */ };
+        state.OnStateExit += () => { /* Last Method called when exit State */ };
+
+        state.OnStateUpdate += () =>
+        {
+            if (state.Action.IsCompleted)
+            {
+                controller.LootSystem.RollLoot();
+                Destroy(gameObject);
+            }
+        };
+    }
+
 }

@@ -3,8 +3,9 @@ using UnityEngine;
 
 public class ChaseMove : MonoBehaviour, IAction
 {
-    public bool IsAvailable => true;
+    public bool IsAvailable => Vector2.Distance(controller.CurrentTarget.transform.position.ToVector2(), transform.position) > data.minRange;
     public bool IsCompleted { get; set; }
+    public Vector3 Direction => direction;
 
     private ChaseData data;
     private EnemyController controller;
@@ -34,15 +35,23 @@ public class ChaseMove : MonoBehaviour, IAction
         {
             //Check for collision
             controller.Collision.MoveToCollisionCheck(direction, controller.Stats.MoveSpeed * data.speedMult * Time.deltaTime, controller.Collision.BlockingObjectsLayer, out Vector3 finalPosition, out List<RaycastHit2D> hitList);
+            
+            //The right movement direction vector modified by the collision Check
+            Vector2 moveVector = (finalPosition - transform.position).normalized;
+            
+            //Actual movement
             transform.position = finalPosition;
-
-            //Update Animation
-            controller.AnimationParam.UpdateMoveAnimDirection(direction);
+            
+            //Update Animation with the right direction vector
+            controller.AnimationParam.UpdateMoveAnimDirection(moveVector);
         }
+        else IsCompleted = true;
 
     }
 
     public void EndProcess()
     {
+        IsCompleted = false;
+        controller.CurrentDirection = direction;
     }
 }

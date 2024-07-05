@@ -6,12 +6,13 @@ public class RoamMove : MonoBehaviour, IAction
 {
     public bool IsAvailable => true;
     public bool IsCompleted { get; set; }
+    public Vector3 Direction => direction;
+    Vector2 direction;
 
     RoamData data;
     EnemyController controller;
 
     float processEndTime;
-    Vector2 direction;
 
     public void InitRef(IActionData dataRef, EnemyController controllerRef)
     {
@@ -21,9 +22,6 @@ public class RoamMove : MonoBehaviour, IAction
 
     public void StartProcess()
     {
-        //Initialise IsCompleted switch to OFF
-        IsCompleted = false;
-
         //Set Random direction
         direction = UnityEngine.Random.insideUnitCircle.normalized;
 
@@ -32,6 +30,7 @@ public class RoamMove : MonoBehaviour, IAction
 
         //Update Animator Param
         controller.AnimationParam.UpdateMoveAnimSpeed(controller.Stats.MoveSpeed * data.speedMult);
+        controller.AnimationParam.UpdateMoveAnimDirection(direction);
     }
 
     public void UpdateProcess()
@@ -54,5 +53,7 @@ public class RoamMove : MonoBehaviour, IAction
 
     public void EndProcess()
     {
+        IsCompleted = false;
+        controller.CurrentDirection = direction;
     }
 }

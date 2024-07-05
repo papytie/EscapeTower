@@ -4,23 +4,17 @@ using UnityEngine;
 [Serializable]
 public class HitboxSettingsData
 {
-    [Header("Hitbox shape")]
-    public HitboxShapeType hitboxShape = HitboxShapeType.Circle;
+    [Header("Hitbox settings")]
+    public HitboxShapeType shape = HitboxShapeType.Circle;
     public Vector2 boxSize = new(.1f, .1f);
     public float circleRadius = .1f;
-
-    [Header("Hitbox settings")]
-    public LayerMask activeLayer;
-    public float hitboxDuration = .1f;
+    public float duration = .5f;
+    public float delay = .5f;
     public int maxTargets = 1;
-    public Vector2 hitboxStartPosOffset = Vector2.zero;
+    public LayerMask detectionLayer;
+    public Vector2 startPosOffset = Vector2.zero;
     public HitboxBehaviorType behaviorType = HitboxBehaviorType.Fixed;
-    public Vector2 hitboxEndPos = Vector2.zero;
-    public AnimationCurve hitboxMovementCurve;
-
-    [Header("Debug")]
-    public bool showDebug = true;
-    public Mesh debugCube;
-    public Color meleeDebugColor;
+    public Vector2 endPos = Vector2.zero;
+    public AnimationCurve moveCurve;
 
 }

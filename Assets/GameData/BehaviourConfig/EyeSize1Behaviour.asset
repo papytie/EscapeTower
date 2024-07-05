@@ -10,55 +10,58 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a23bdf922aa5cf14babdf4eaac7fb1c1, type: 3}
-  m_Name: SmallEye
+  m_Name: EyeSize1Behaviour
   m_EditorClassIdentifier: 
   behaviourType: 2
-  Data:
-    rid: 6564331355401093200
+  data:
+    rid: 856610943895863499
   references:
     version: 2
     RefIds:
-    - rid: 6564331355401093200
+    - rid: 856610943895863499
       type: {class: HarasserData, ns: , asm: Assembly-CSharp}
       data:
         actions:
-        - name: WaitMove
+        - ActionID: HarasserWait
           data:
-            rid: 6564331355401093201
-        - name: RoamMove
+            rid: 856610943895863500
+        - ActionID: HarasserRoam
           data:
-            rid: 6564331355401093202
-        - name: StayAtRangeMove
+            rid: 856610943895863501
+        - ActionID: HarasserStayAtRange
           data:
-            rid: 6564331355401093203
-        - name: RangedAttack
+            rid: 856610943895863502
+        - ActionID: HarasserRanged
           data:
-            rid: 6564331355401093204
-    - rid: 6564331355401093201
+            rid: 856610943895863503
+        - ActionID: TakeDamage
+          data:
+            rid: 856610943895863504
+        - ActionID: Die
+          data:
+            rid: 856610943895863505
+    - rid: 856610943895863500
       type: {class: WaitData, ns: , asm: Assembly-CSharp}
       data:
-        minTime: 0.5
+        minTime: 1
         maxTime: 3
-    - rid: 6564331355401093202
+    - rid: 856610943895863501
       type: {class: RoamData, ns: , asm: Assembly-CSharp}
       data:
         speedMult: 0.5
         minTime: 1
         maxTime: 5
-    - rid: 6564331355401093203
+    - rid: 856610943895863502
       type: {class: StayAtRangeData, ns: , asm: Assembly-CSharp}
       data:
-        speedMult: 0.75
-        minRange: 0.5
-        maxRange: 1
-    - rid: 6564331355401093204
+        speedMult: 1
+        minRange: 1
+        maxRange: 2
+    - rid: 856610943895863503
       type: {class: RangedData, ns: , asm: Assembly-CSharp}
       data:
-        cooldown: 3
-        attackDuration: 0.5
-        delay: 0.1
         projectileData:
-          projectileToSpawn: {fileID: 5625531202012880232, guid: 4fc81973305104843b4b8929512f70f2, type: 3}
+          projectileToSpawn: {fileID: 6458539777921488213, guid: a60f170728f92b3428b38fd9fa3a5d67, type: 3}
           spawnOffset: {x: 0, y: 0}
           launchCurve:
             serializedVersion: 2
@@ -86,17 +89,17 @@ MonoBehaviour:
             m_RotationOrder: 4
           spawnType: 0
           speed: 1
-          range: 1.5
+          range: 3
           angleOffset: 0
           maxTargets: 1
           spawnNumber: 1
           spreadAngle: 60
           obstructionLayer:
             serializedVersion: 2
-            m_Bits: 256
+            m_Bits: 0
           targetLayer:
             serializedVersion: 2
-            m_Bits: 64
+            m_Bits: 0
           returnType: 0
           returnFlip: 0
           returnCurve:
@@ -105,6 +108,21 @@ MonoBehaviour:
             m_PreInfinity: 2
             m_PostInfinity: 2
             m_RotationOrder: 4
-          showDebug: 0
-          debugCube: {fileID: 0}
-          projectileDebugColor: {r: 0, g: 0, b: 0, a: 0}
+        duration: 0.5
+        showDebug: 1
+        debugCube: {fileID: 0}
+        debugColor: {r: 1, g: 0, b: 0, a: 0.5}
+    - rid: 856610943895863504
+      type: {class: TakeDamageData, ns: , asm: Assembly-CSharp}
+      data:
+        activation: 0
+        moveCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+    - rid: 856610943895863505
+      type: {class: DieData, ns: , asm: Assembly-CSharp}
+      data:
+        despawnTime: 0

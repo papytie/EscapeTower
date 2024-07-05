@@ -3,7 +3,7 @@ using System;
 [Serializable]
 public class StayAtRangeData : IActionData
 {
-    public float speedMult = 2f;
-    public float minRange = .5f;
-    public float maxRange = 1f;
+    public float speedMult = 1f;
+    public float minRange = 1f;
+    public float maxRange = 2f;
 }

@@ -7,8 +7,8 @@ public class EnemyDetectionComponent : MonoBehaviour
     [SerializeField] LayerMask obstructionLayer;
 
     [Header("Debug")]
-    [SerializeField] bool showDebug;
-    [SerializeField] Color debugColor;
+    public bool showDebug;
+    public Color debugColor;
     
     EnemyController controller;
 
@@ -43,7 +43,6 @@ public class EnemyDetectionComponent : MonoBehaviour
         {
             Gizmos.color = debugColor;
             Gizmos.DrawWireSphere(transform.position, controller.Stats.DetectionRadius);
-            Gizmos.color = Color.white;
         }
     }
 }

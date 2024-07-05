@@ -6,21 +6,8 @@ using UnityEngine;
 public class BehaviourConfig : ScriptableObject
 {
     public BehaviourType behaviourType;
-    [SerializeReference] public IBehaviourData Data;
+    [SerializeReference] public IBehaviourData data;
     public IBehaviour behaviour;
-
-    private void Awake()
-    {
-        InitData();
-    }
-
-    void InitData()
-    {
-        Data = BehaviourDataFactory.CreateBehaviourData(behaviourType);
-
-        foreach (ActionConfig action in Data.Actions)
-            action.data = ActionDataFactory.CreateData(action.StateType);
-    }
 
     private void OnValidate()
     {
@@ -29,10 +16,16 @@ public class BehaviourConfig : ScriptableObject
             BehaviourType.Harmless => typeof(HarmlessData),
             BehaviourType.Stalker => typeof(StalkerData),
             BehaviourType.Harasser => typeof(HarasserData),
+            BehaviourType.Fighter => typeof(FighterData),
             _ => null,
         };
 
-        if ((Data == null && type != null) || (Data != null && Data.GetType() != type))
-            InitData();
+        if ((data == null && type != null) || (data != null && data.GetType() != type))
+        {
+            data = BehaviourDataFactory.Create(behaviourType);
+
+            foreach (ActionConfig actionConfig in data.Actions)
+                actionConfig.data = ActionDataFactory.CreateData(actionConfig.ActionType);
+        }
     }
 }

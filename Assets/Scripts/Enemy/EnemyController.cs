@@ -1,10 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(CollisionCheckerComponent), typeof(EnemyDetectionComponent), typeof(CircleCollider2D))]
-[RequireComponent(typeof(EnemyStatsComponent), typeof(EnemyLifeSystemComponent), typeof(BumpComponent))]
+[RequireComponent(typeof(EnemyStatsComponent), typeof(EnemyLifeSystemComponent))] 
 [RequireComponent(typeof(EnemyLootSystem), typeof(EnemyAnimationComponent))]
 
 public class EnemyController : MonoBehaviour
@@ -15,44 +14,31 @@ public class EnemyController : MonoBehaviour
     public EnemyDetectionComponent Detection => detection;
     public EnemyLootSystem LootSystem => lootSystem;
     public EnemyAnimationComponent AnimationParam => animationParam;
-
     public CollisionCheckerComponent Collision => collision;
-    public BumpComponent Bump => bump;
     public Animator Animator => animator;
     public CircleCollider2D CircleCollider => circleCollider;
+
+    public IBehaviour Behaviour => behaviour;
+    IBehaviour behaviour;
+
+    public GameObject CurrentTarget => currentTarget;
+    GameObject currentTarget;
+
+    public Vector2 CurrentDirection { get; set; }
+
+    public bool InAttackRange => false; //Define a method to check attack Range in Ranged and Melee attack (IAttack)
+    public bool TargetAcquired => currentTarget != null;
     
+    [SerializeField] BehaviourConfig behaviourConfig;
+
     EnemyStatsComponent stats;
     EnemyLifeSystemComponent lifeSystem;
     EnemyDetectionComponent detection;
     EnemyLootSystem lootSystem;
     EnemyAnimationComponent animationParam;
-
     CollisionCheckerComponent collision;
-    BumpComponent bump;
-
     Animator animator;
     CircleCollider2D circleCollider;
-
-    //Target stored and accessible
-    public GameObject CurrentTarget => currentTarget;
-    GameObject currentTarget;
-
-    //TODO : Create accessors for each conditions of state change
-    public bool InAttackRange => false; //Define a method to check attack Range in Ranged and Melee attack (IAttack)
-    public bool TargetAcquired => currentTarget != null;
-
-    public Vector2 CurrentDirection => currentDirection;
-
-    IAction currentAction;
-    Vector2 currentDirection;
-
-    [SerializeField] BehaviourConfig behaviourConfig;
-
-    public Dictionary<ActionStateType, IAction> EnemyActions => enemyActions;
-    
-    Dictionary<ActionStateType, IAction> enemyActions = new();
-
-    IBehaviour enemyBehaviour;
 
     private void Awake()
     {
@@ -66,9 +52,7 @@ public class EnemyController : MonoBehaviour
         detection = GetComponent<EnemyDetectionComponent>();
         lootSystem = GetComponent<EnemyLootSystem>();
         animationParam = GetComponent<EnemyAnimationComponent>();
-
         collision = GetComponent<CollisionCheckerComponent>();
-        bump = GetComponent<BumpComponent>();
 
         InstantiateBehaviourComponents();
     }
@@ -76,27 +60,25 @@ public class EnemyController : MonoBehaviour
     private void Start()
     {
         lifeSystem.InitRef(this);
+        stats.Init();
         detection.InitRef(this);
         animationParam.InitRef(this);
         collision.Init();
-        bump.InitRef(collision);
 
         if (behaviourConfig != null)
         {
-            enemyBehaviour.InitBehaviour(this);
-            //enemyBehaviour.InitFSM(this);
+            behaviour.InitBehaviour(this);
         }
         else Debug.LogWarning("BehaviourConfig is missing on : " + gameObject.name);
     }
 
     private void Update()
     {
-        if (lifeSystem.IsDead || enemyBehaviour == null) return;
+        if (behaviour == null) return;
 
         currentTarget = detection.PlayerDetection(out GameObject player) ? player : null;
-        
-        enemyBehaviour.FSM.CurrentState.Update();
-        //Debug.Log(enemyBehaviour.ToString() + (" ") + enemyBehaviour.FSM.ToString() + (" ") + enemyBehaviour.FSM.CurrentState.ToString());
+
+        behaviour.FSM.CurrentState.Update();
     }
 
     public void SetStatsScalingFactor(float value)
@@ -108,109 +90,24 @@ public class EnemyController : MonoBehaviour
     {
         if (behaviourConfig == null) return;
 
-        enemyBehaviour = behaviourConfig.behaviourType switch
+        behaviour = BehaviourFactory.Create(gameObject, behaviourConfig.behaviourType);
+
+        if (behaviour == null) return;
+
+        behaviour.FSM = new NPCFSM();
+
+        foreach (ActionConfig actionConfig in behaviourConfig.data.Actions)
         {
-            BehaviourType.Stalker => gameObject.AddComponent<Stalker>(),
-            BehaviourType.Harasser => gameObject.AddComponent<Harasser>(),
-            BehaviourType.Harmless => gameObject.AddComponent<Harmless>(),
-            _ => null,
-        };
-
-        if (behaviourConfig.Data.Actions.Count > 0) 
-        { 
-            foreach (ActionConfig actionConfig in behaviourConfig.Data.Actions)
-            {
-                switch (actionConfig.StateType)
-                {
-                    case ActionStateType.RoamMove:
-                        if (!enemyActions.ContainsKey(ActionStateType.RoamMove))
-                        {
-                            RoamMove roam = gameObject.AddComponent<RoamMove>();
-                            enemyActions.Add(ActionStateType.RoamMove, roam);
-                            roam.InitRef(actionConfig.data, this);
-                        }
-                        break;
-
-                    case ActionStateType.ChaseMove:
-                        if (!enemyActions.ContainsKey(ActionStateType.ChaseMove))
-                        {
-                            ChaseMove chase = gameObject.AddComponent<ChaseMove>();
-                            enemyActions.Add(ActionStateType.ChaseMove, chase);
-                            chase.InitRef(actionConfig.data, this);
-                        }
-                        break;
-
-                    case ActionStateType.FleeMove:
-                        if (!enemyActions.ContainsKey(ActionStateType.FleeMove))
-                        {
-                            FleeMove flee = gameObject.AddComponent<FleeMove>();
-                            enemyActions.Add(ActionStateType.FleeMove, flee);
-                            flee.InitRef(actionConfig.data, this);
-                        }
-                        break;
-
-                    case ActionStateType.StayAtRangeMove:
-                        if (!enemyActions.ContainsKey(ActionStateType.StayAtRangeMove))
-                        {
-                            StayAtRangeMove stayAtRange = gameObject.AddComponent<StayAtRangeMove>();
-                            enemyActions.Add(ActionStateType.StayAtRangeMove, stayAtRange);
-                            stayAtRange.InitRef(actionConfig.data, this);
-                        }
-                        break;
-
-                    case ActionStateType.TurnAroundMove:
-                        if (!enemyActions.ContainsKey(ActionStateType.TurnAroundMove))
-                        {
-                            TurnAroundMove turnAround = gameObject.AddComponent<TurnAroundMove>();
-                            enemyActions.Add(ActionStateType.TurnAroundMove, turnAround);
-                            turnAround.InitRef(actionConfig.data, this);
-                        }
-                        break;
-
-                    case ActionStateType.WaitMove:
-                        if (!enemyActions.ContainsKey(ActionStateType.WaitMove))
-                        {
-                            WaitAction wait = gameObject.AddComponent<WaitAction>();
-                            enemyActions.Add(ActionStateType.WaitMove, wait);
-                            wait.InitRef(actionConfig.data, this);
-                        }
-                        break;
-
-                    case ActionStateType.MeleeAttack:
-                        if (!enemyActions.ContainsKey(ActionStateType.MeleeAttack))
-                        {
-                            MeleeAttack melee = gameObject.AddComponent<MeleeAttack>();
-                            enemyActions.Add(ActionStateType.MeleeAttack, melee);
-                            melee.InitRef(actionConfig.data, this);
-                        }
-                        break;
-
-                    case ActionStateType.RangedAttack:
-                        if (!enemyActions.ContainsKey(ActionStateType.RangedAttack))
-                        {
-                            RangedAttack ranged = gameObject.AddComponent<RangedAttack>();
-                            enemyActions.Add(ActionStateType.RangedAttack, ranged);
-                            ranged.InitRef(actionConfig.data, this);
-                        }
-                        break;
-
-                    case ActionStateType.ChargeAttack:
-                        if (!enemyActions.ContainsKey(ActionStateType.ChargeAttack))
-                        {
-                            ChargeAttack charge = gameObject.AddComponent<ChargeAttack>();
-                            enemyActions.Add(ActionStateType.ChargeAttack, charge);
-                            charge.InitRef(actionConfig.data, this);
-                        }
-                        break;
-                }
-            }
+            IAction action = ActionFactory.Create(gameObject, actionConfig.ActionType);
+            action.InitRef(actionConfig.data, this);
+            behaviour.FSM.AddState(new NPCState(behaviour.FSM, actionConfig.ActionID, action));            
         }
+        behaviour.InitBehaviour(this);
     }
 
     private void OnValidate()
     {
         //Get Base Components and set essentials references for Debug and accesiblity in editor mode
-
         animator = GetComponent<Animator>();
         if (animator == null)
             animator = GetComponentInChildren<Animator>();
@@ -221,11 +118,148 @@ public class EnemyController : MonoBehaviour
         detection = GetComponent<EnemyDetectionComponent>();
         lootSystem = GetComponent<EnemyLootSystem>();
         collision = GetComponent<CollisionCheckerComponent>();
-        bump = GetComponent<BumpComponent>();
+        animationParam = GetComponent<EnemyAnimationComponent>();
 
         lifeSystem.InitRef(this);
         detection.InitRef(this);
         collision.Init();
-        bump.InitRef(collision);
+        stats.Init();
+        animationParam.InitRef(this);
+    }
+
+    private void OnDrawGizmos()
+    {
+        foreach (ActionConfig actionConfig in behaviourConfig.data.Actions)
+        {
+            switch (actionConfig.ActionType)
+            {
+                case ActionType.MeleeAttack:
+                    MeleeData meleeData = (MeleeData)actionConfig.data;
+
+                    if (meleeData.showDebug && meleeData != null)
+                    {
+                        Quaternion currentRotation = Quaternion.LookRotation(Vector3.forward, new(0f,-1f));
+                        if (Application.isPlaying)
+                            currentRotation = Quaternion.LookRotation(Vector3.forward, behaviour.FSM.CurrentState.Action.Direction);
+
+                        Vector3 center = transform.position.ToVector2() + circleCollider.offset;
+                        Vector2 hitboxStartPos = center + currentRotation * meleeData.hitbox.startPosOffset;
+                        Vector2 hitboxEndPos = center + currentRotation * meleeData.hitbox.endPos;
+
+                        Gizmos.color = Color.green;
+                        Gizmos.DrawSphere(center, 0.02f);
+
+                        Gizmos.color = meleeData.debugColor;
+                        Gizmos.DrawWireSphere(center, stats.MeleeRange);
+
+                        switch (meleeData.hitbox.shape)
+                        {
+                            case HitboxShapeType.Circle:
+                                Gizmos.DrawWireSphere(hitboxStartPos, meleeData.hitbox.circleRadius);
+                                break;
+
+                            case HitboxShapeType.Box:
+                                Gizmos.DrawWireMesh(meleeData.debugCube, -1, hitboxStartPos, gameObject.transform.rotation, meleeData.hitbox.boxSize);
+                                break;
+                        }
+
+                        if (meleeData.hitbox.behaviorType != HitboxBehaviorType.Fixed)
+                        {
+                            switch (meleeData.hitbox.shape)
+                            {
+                                case HitboxShapeType.Circle:
+                                    Gizmos.DrawWireSphere(hitboxEndPos, meleeData.hitbox.circleRadius);
+                                    break;
+
+                                case HitboxShapeType.Box:
+                                    Gizmos.DrawWireMesh(meleeData.debugCube, -1, hitboxEndPos, currentRotation, meleeData.hitbox.boxSize);
+                                    break;
+                            }
+                        }
+                    }
+                    break;
+
+                case ActionType.RangedAttack:
+                    RangedData rangedData = (RangedData)actionConfig.data;
+
+                    if (rangedData.showDebug && rangedData != null && rangedData.projectileData != null)
+                    {
+                        Quaternion currentRotation = Quaternion.LookRotation(Vector3.forward, new(0f, -1f));
+                        if (Application.isPlaying)
+                            currentRotation = Quaternion.LookRotation(Vector3.forward, behaviour.FSM.CurrentState.Action.Direction);
+
+                        Vector3 center = transform.position.ToVector2() + circleCollider.offset;
+                        Vector3 projectileSpawnPos = center + currentRotation * rangedData.projectileData.spawnOffset;
+
+                        Gizmos.color = rangedData.debugColor;
+                        Gizmos.DrawWireSphere(projectileSpawnPos, .02f);
+                        if (rangedData.projectileData.spawnNumber > 1)
+                        {
+                            float minAngle = rangedData.projectileData.spreadAngle / 2f;
+                            float angleIncrValue = rangedData.projectileData.spreadAngle / (rangedData.projectileData.spawnNumber - 1);
+
+                            for (int i = 0; i < rangedData.projectileData.spawnNumber; i++)
+                            {
+                                float angle = minAngle - i * angleIncrValue;
+                                Quaternion angleRotation = Quaternion.AngleAxis(angle + rangedData.projectileData.angleOffset, gameObject.transform.forward);
+
+                                Vector3 multProjPos = projectileSpawnPos + currentRotation * angleRotation * Vector3.up * rangedData.projectileData.range;
+                                Vector3 multProjHitboxEndPos = multProjPos + currentRotation * angleRotation * rangedData.projectileData.projectileToSpawn.HitboxOffset;
+
+                                switch (rangedData.projectileData.projectileToSpawn.HitboxShape)
+                                {
+                                    case HitboxShapeType.Circle:
+                                        Gizmos.DrawWireSphere(multProjHitboxEndPos, rangedData.projectileData.projectileToSpawn.CircleRadius);
+                                        break;
+
+                                    case HitboxShapeType.Box:
+                                        Gizmos.DrawWireMesh(rangedData.debugCube, -1, multProjHitboxEndPos, currentRotation * angleRotation, rangedData.projectileData.projectileToSpawn.BoxSize);
+                                        break;
+                                }
+                                Gizmos.DrawLine(projectileSpawnPos, multProjPos);
+                            }
+                        }
+                        else
+                        {
+                            Vector3 singleProjEndPos = projectileSpawnPos + currentRotation * Vector3.up * rangedData.projectileData.range;
+
+                            switch (rangedData.projectileData.projectileToSpawn.HitboxShape)
+                            {
+                                case HitboxShapeType.Circle:
+                                    Gizmos.DrawWireSphere(singleProjEndPos, rangedData.projectileData.projectileToSpawn.CircleRadius);
+                                    break;
+
+                                case HitboxShapeType.Box:
+                                    Gizmos.DrawWireMesh(rangedData.debugCube, -1, singleProjEndPos, gameObject.transform.rotation * Quaternion.AngleAxis(rangedData.projectileData.angleOffset, transform.forward), rangedData.projectileData.projectileToSpawn.BoxSize);
+                                    break;
+                            }
+                            Gizmos.DrawLine(projectileSpawnPos, singleProjEndPos);
+                        }
+                    }
+                    break;
+
+                case ActionType.ChargeAttack:
+                    ChargeData chargeData = (ChargeData)actionConfig.data;
+
+                    if (chargeData.showDebug && chargeData != null)
+                    {
+                        if(!Application.isPlaying || Application.isPlaying && behaviour.FSM.CurrentState.Action.GetType() != typeof(ChargeAttack) && currentTarget)
+                        {
+                            Vector3 startPos = transform.position;
+                            Vector3 targetPos = startPos + ((new Vector3(0, -1)) * stats.MeleeRange*2);
+                            if(currentTarget)
+                                targetPos = startPos + (currentTarget.transform.position - startPos).normalized * stats.MeleeRange * 2;
+                            Gizmos.color = chargeData.rangeColor;
+                            Gizmos.DrawWireSphere(transform.position, stats.MeleeRange);
+                            Gizmos.color = chargeData.startColor;
+                            Gizmos.DrawWireSphere(startPos, circleCollider.radius);
+                            Gizmos.color = chargeData.targetColor;
+                            Gizmos.DrawWireSphere(targetPos, circleCollider.radius);
+                            Gizmos.DrawLine(startPos, targetPos);
+                        }
+                    }
+                    break;
+            }
+        }
     }
 }

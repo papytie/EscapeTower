@@ -24,7 +24,7 @@ public enum Condition
     OutOfAttackRange = 5,
 }
 
-public enum ActionStateType
+public enum ActionType
 {
     WaitMove = 0,
     RoamMove = 1,
@@ -35,6 +35,8 @@ public enum ActionStateType
     MeleeAttack = 6,
     RangedAttack = 7,
     ChargeAttack = 8,
+    TakeDamageReaction = 9,
+    DieReaction = 10,
 }
 
 public enum BehaviourType
@@ -42,4 +44,5 @@ public enum BehaviourType
     Harmless = 0,
     Stalker = 1,
     Harasser = 2,
+    Fighter = 3,
 }

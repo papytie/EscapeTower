@@ -1,18 +1,20 @@
 public class ActionDataFactory
 {
-    public static IActionData CreateData(ActionStateType type)
+    public static IActionData CreateData(ActionType type)
     {
         return type switch
         {
-            ActionStateType.WaitMove => new WaitData(),
-            ActionStateType.ChaseMove => new ChaseData(),
-            ActionStateType.FleeMove => new FleeData(),
-            ActionStateType.StayAtRangeMove => new StayAtRangeData(),
-            ActionStateType.TurnAroundMove => new TurnAroundData(),
-            ActionStateType.RoamMove => new RoamData(),
-            ActionStateType.MeleeAttack => new MeleeData(),
-            ActionStateType.RangedAttack => new RangedData(),
-            ActionStateType.ChargeAttack => new ChargeData(),
+            ActionType.WaitMove => new WaitData(),
+            ActionType.ChaseMove => new ChaseData(),
+            ActionType.FleeMove => new FleeData(),
+            ActionType.StayAtRangeMove => new StayAtRangeData(),
+            ActionType.TurnAroundMove => new TurnAroundData(),
+            ActionType.RoamMove => new RoamData(),
+            ActionType.MeleeAttack => new MeleeData(),
+            ActionType.RangedAttack => new RangedData(),
+            ActionType.ChargeAttack => new ChargeData(),
+            ActionType.TakeDamageReaction => new TakeDamageData(),
+            ActionType.DieReaction => new DieData(),
             _ => null,
         };
     }

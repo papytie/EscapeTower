@@ -2,67 +2,36 @@ using UnityEngine;
 
 public class EnemyLifeSystemComponent : MonoBehaviour, ILifeSystem
 {
-    public bool IsDead => isDead;
-    public float CurrentLifePoints => currentLifePoints;
-    public float MaxLifePoints => controller.Stats.MaxLifePoints;
-
-    [Header("Life Settings")]
-    [SerializeField] float despawnDuration = 3f;
-
-    bool isDead = false;
-    float despawnEndTime = 0;
-    float currentLifePoints = 1;
+    public bool IsDead => controller.Stats.IsDead;
 
     EnemyController controller;
-    Collider2D enemyCollider;
 
     public void InitRef(EnemyController ctrlRef)
     {
         controller = ctrlRef;
     }
 
-    private void Awake()
+    public void TakeDamage(float damageValue, Vector2 atkVector)
     {
-        enemyCollider = GetComponent<Collider2D>();
-    }
+        if (controller.Stats.IsDead) return;
 
-    private void Update()
-    {
-        if (isDead && Time.time >= despawnEndTime)
+        controller.Stats.CurrentHealth -= damageValue;
+        controller.Stats.LastDMGReceived = damageValue;
+        controller.Stats.LastATKNormalReceived = atkVector;
+
+        if (controller.Stats.CurrentHealth <= 0)
         {
-            controller.LootSystem.RollLoot();
-            Destroy(gameObject);
-        }
-    }
-
-    public void TakeDamage(float damageValue, Vector2 normal)
-    {
-        if (isDead) return;
-
-        currentLifePoints -= damageValue;
-        if (currentLifePoints <= 0)
-        {
-            currentLifePoints = 0;
-            SetDespawnTimer(despawnDuration);
-            enemyCollider.enabled = false;
-            controller.AnimationParam.ActivateDieTrigger();
+            controller.Stats.CurrentHealth = 0;
+            controller.CircleCollider.enabled = false;
+            controller.Behaviour.FSM.SetState(ReactionID.DIE);
             return;
         }
-        controller.Bump.BumpedAwayActivation(-normal, damageValue);
-        controller.AnimationParam.ActivateTakeDamageTrigger();
+        else controller.Behaviour.FSM.SetState(ReactionID.TAKEDMG);
     }
 
     public void HealUp(float healValue)
     {
-        if (isDead) return;
-
-        currentLifePoints = Mathf.Min(currentLifePoints + healValue, controller.Stats.MaxLifePoints);
+        if (controller.Stats.IsDead) return;
+        controller.Stats.CurrentHealth = Mathf.Min(controller.Stats.CurrentHealth + healValue, controller.Stats.MaxHealth);
     }
-
-    void SetDespawnTimer(float duration)
-    {
-        despawnEndTime = Time.time + duration;
-        isDead = true;
-    }
-
 }

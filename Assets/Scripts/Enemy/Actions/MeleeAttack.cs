@@ -4,27 +4,20 @@ using UnityEngine;
 
 public class MeleeAttack : MonoBehaviour, IAction
 {
-    public bool IsAvailable => Time.time >= /*endCDTime*/ 0;
+    public bool IsAvailable => Time.time >= cooldownEndTime && Vector3.Distance(transform.position, controller.CurrentTarget.transform.position) <= controller.Stats.MeleeRange;
+    public bool IsCompleted {get;set;}
+    public Vector3 Direction => direction;
+    Vector2 direction;
 
-    public bool IsCompleted => throw new System.NotImplementedException();
-
-    IAttackFX attackFX;
-    EnemyStatsComponent stats;
-    Animator animator;
     List<PlayerLifeSystem> playerHit = new();
-    EnemyController controller; //Set controller ref to debug view in editor
+    EnemyController controller;
     CircleCollider2D circleCollider;
+    MeleeData data;
 
+    float detectionEndTime = 0;
+    float detectionStartTime = 0;
     float cooldownEndTime = 0;
-    bool isOnCooldown = false;
-    float attackLagEndTime = 0;
-    bool isOnAttackLag = false;
-    float startTime = 0;
-    bool meleeHitboxActive = false;
-    bool isAttacking = false;
     Quaternion currentRotation = Quaternion.identity;
-
-    private MeleeData data;
 
     public void InitRef(IActionData dataRef, EnemyController controllerRef)
     {
@@ -32,88 +25,87 @@ public class MeleeAttack : MonoBehaviour, IAction
         controller = controllerRef;
     }
 
-    private void Update()
-    {    
-        if (isOnAttackLag && Time.time >= attackLagEndTime)
-            isOnAttackLag = false;
+    public void StartProcess()
+    {
+        if (!controller.TargetAcquired) return;
 
-        if (meleeHitboxActive)
-        {
-            MeleeHitProcess();
-            if (Time.time >= startTime + data.hitboxSettings.hitboxDuration)
-            {
-                meleeHitboxActive = false;
-                isAttacking = false;
-                playerHit.Clear();
-                StartAttackCooldown();
-            }
-        }
+        StartCoroutine(StartAttackAnim());  
+        detectionStartTime = Time.time + controller.Stats.ReactionTime + data.hitbox.delay;
+        detectionEndTime = detectionStartTime + data.hitbox.duration;
 
-        if (isOnCooldown && Time.time >= cooldownEndTime)
-            isOnCooldown = false;
+        //attackFX.StartFX(controller.CurrentDirection);
+
+        direction = (controller.CurrentTarget.transform.position.ToVector2() - (circleCollider.transform.position.ToVector2() + circleCollider.offset)).normalized;
+
+        controller.AnimationParam.UpdateMoveAnimDirection(direction * .1f);
+        currentRotation = Quaternion.LookRotation(Vector3.forward, direction);
     }
 
-    public void AttackActivation()
+    public void UpdateProcess()
     {
-        isAttacking = true;
-        StartAttackLag();
-        StartCoroutine(AttackProcess());
+        if (Time.time >= detectionEndTime + controller.Stats.RecupTime)
+            IsCompleted = true;
 
-        animator.SetTrigger(SRAnimators.EnemyBaseAnimator.Parameters.attack);
-        //attackFX.StartFX(enemyController.CurrentDirection);
-
-        //For Debug infos
-        currentRotation = Quaternion.LookRotation(Vector3.forward, controller.CurrentDirection);
+        if (Time.time >= detectionStartTime && Time.time <= detectionEndTime)
+            MeleeHitDetection();     
     }
 
-    IEnumerator AttackProcess()
+    public void EndProcess()
     {
-        yield return new WaitForSeconds(data.delay);
-        StartMeleeHitboxCheck();
+        cooldownEndTime = Time.time + controller.Stats.MeleeCooldown;
+        IsCompleted = false;
+        playerHit.Clear();
+    }
+
+    IEnumerator StartAttackAnim()
+    {
+        yield return new WaitForSeconds(controller.Stats.ReactionTime);
+        controller.Animator.SetTrigger(SRAnimators.EnemyBaseAnimator.Parameters.attack);
     }
 
     bool MeleeHitboxCast(out RaycastHit2D[] collisionsList)
     {
         Vector3 center = transform.position.ToVector2() + circleCollider.offset;
-        Vector2 hitboxCurrentPos = data.hitboxSettings.hitboxStartPosOffset;
-        Vector2 hitboxStartPos = center + currentRotation * data.hitboxSettings.hitboxStartPosOffset;
-        Vector2 hitboxEndPos = transform.position + currentRotation * data.hitboxSettings.hitboxEndPos;
+        Vector2 hitboxStartPos = center + currentRotation * data.hitbox.startPosOffset;
+        Vector2 hitboxEndPos = center + currentRotation * data.hitbox.endPos;
 
-        if (data.hitboxSettings.behaviorType != HitboxBehaviorType.Fixed)
+        Vector2 hitboxCurrentPos = center;
+
+        if (data.hitbox.behaviorType != HitboxBehaviorType.Fixed)
         {
-            float t = Mathf.Clamp01((Time.time - startTime) / data.hitboxSettings.hitboxDuration);
+            float t = Mathf.Clamp01((Time.time - detectionStartTime) / data.hitbox.duration);
 
-            switch (data.hitboxSettings.behaviorType)
+            switch (data.hitbox.behaviorType)
             {
                 case HitboxBehaviorType.MovingStraight:
-                    hitboxCurrentPos = Vector2.Lerp(hitboxStartPos, hitboxEndPos, data.hitboxSettings.hitboxMovementCurve.Evaluate(t));
+                    hitboxCurrentPos = Vector2.Lerp(hitboxStartPos, hitboxEndPos, data.hitbox.moveCurve.Evaluate(t));
                     break;
 
                 case HitboxBehaviorType.MovingOrbital:
-                    Vector3 startVector = hitboxStartPos - center.ToVector2();
-                    Vector3 endVector = hitboxEndPos - center.ToVector2();
+                    Vector2 startVector = hitboxStartPos - center.ToVector2();
+                    Vector2 endVector = hitboxEndPos - center.ToVector2();
                     float angleValue = Vector2.Angle(startVector, endVector);
 
-                    if (data.hitboxSettings.hitboxEndPos.x > data.hitboxSettings.hitboxStartPosOffset.x)
+                    if (data.hitbox.endPos.x > data.hitbox.startPosOffset.x)
                         angleValue *= -1;
 
-                    Vector3 currentVector = (Quaternion.AngleAxis(Mathf.LerpAngle(0f, angleValue, data.hitboxSettings.hitboxMovementCurve.Evaluate(t)), transform.forward) * startVector);
-                    hitboxCurrentPos = center + currentVector.normalized * Mathf.Lerp(startVector.magnitude, endVector.magnitude, data.hitboxSettings.hitboxMovementCurve.Evaluate(t));
+                    Vector3 currentVector = Quaternion.AngleAxis(Mathf.LerpAngle(0f, angleValue, data.hitbox.moveCurve.Evaluate(t)), transform.forward) * startVector;
+                    hitboxCurrentPos = center + currentVector.normalized * Mathf.Lerp(startVector.magnitude, endVector.magnitude, data.hitbox.moveCurve.Evaluate(t));
                     break;
             }
         }
 
-        collisionsList = data.hitboxSettings.hitboxShape switch
+        collisionsList = data.hitbox.shape switch
         {
-            HitboxShapeType.Circle => Physics2D.CircleCastAll(hitboxCurrentPos, data.hitboxSettings.circleRadius, Vector2.zero, 0, data.hitboxSettings.activeLayer),
-            HitboxShapeType.Box => Physics2D.BoxCastAll(hitboxCurrentPos, data.hitboxSettings.boxSize, Quaternion.Angle(Quaternion.identity, currentRotation), Vector2.zero, 0, data.hitboxSettings.activeLayer),
+            HitboxShapeType.Circle => Physics2D.CircleCastAll(hitboxCurrentPos, data.hitbox.circleRadius, Vector2.zero, 0, data.hitbox.detectionLayer),
+            HitboxShapeType.Box => Physics2D.BoxCastAll(hitboxCurrentPos, data.hitbox.boxSize, Quaternion.Angle(Quaternion.identity, currentRotation), Vector2.zero, 0, data.hitbox.detectionLayer),
             _ => null,
         };
         return collisionsList.Length > 0;
 
     }
 
-    void MeleeHitProcess()
+    void MeleeHitDetection()
     {
         if (MeleeHitboxCast(out RaycastHit2D[] collisionsList))
         {
@@ -121,33 +113,13 @@ public class MeleeAttack : MonoBehaviour, IAction
             {
                 PlayerLifeSystem playerLifeSystem = collision.transform.GetComponent<PlayerLifeSystem>();
 
-                if (playerLifeSystem && !playerHit.Contains(playerLifeSystem) && playerHit.Count < data.hitboxSettings.maxTargets)
+                if (playerLifeSystem && !playerHit.Contains(playerLifeSystem) && playerHit.Count < data.hitbox.maxTargets)
                 {
-                    playerLifeSystem.TakeDamage(stats.MeleeDamage, collision.normal);
+                    playerLifeSystem.TakeDamage(controller.Stats.MeleeDamage, collision.normal);
                     playerHit.Add(playerLifeSystem);
                 }
             }
         }
-    }
-
-
-    void StartAttackCooldown()
-    {
-        cooldownEndTime = Time.time + data.cooldown;
-        isOnCooldown = true;
-
-    }
-
-    void StartMeleeHitboxCheck()
-    {
-        startTime = Time.time;
-        meleeHitboxActive = true;
-    }
-
-    void StartAttackLag()
-    {
-        attackLagEndTime = Time.time + data.lag;
-        isOnAttackLag = true;
     }
 
     private void OnValidate()
@@ -156,120 +128,51 @@ public class MeleeAttack : MonoBehaviour, IAction
         circleCollider = gameObject.GetComponent<CircleCollider2D>();
     }
 
-
-    public void StartProcess()
+    private void OnDrawGizmos()
     {
-        isAttacking = true;
-        StartAttackLag();
-        StartCoroutine(AttackProcess());
+        if (!Application.isPlaying || controller.Behaviour.FSM.CurrentState.Action.GetType() != typeof(MeleeAttack)) return;
 
-        animator.SetTrigger(SRAnimators.EnemyBaseAnimator.Parameters.attack);
-        //attackFX.StartFX(enemyController.CurrentDirection);
-
-        //For Debug infos
-        currentRotation = Quaternion.LookRotation(Vector3.forward, controller.CurrentDirection);
-
-    }
-
-    public void UpdateProcess()
-    {
-        if (isOnCooldown && Time.time >= cooldownEndTime)
-            isOnCooldown = false;
-
-        MeleeHitProcess();
-        if (Time.time >= startTime + data.hitboxSettings.hitboxDuration)
+        if (data.showDebug && Time.time >= detectionStartTime && Time.time <= detectionEndTime)
         {
-            meleeHitboxActive = false;
-            isAttacking = false;
-            playerHit.Clear();
-            StartAttackCooldown();
-        }
+            Gizmos.color = data.debugColor;
 
-    }
+            Vector3 center = transform.position.ToVector2() + circleCollider.offset;
+            Vector2 hitboxCurrentPos = center;
+            Vector2 hitboxStartPos = center + currentRotation * data.hitbox.startPosOffset;
+            Vector2 hitboxEndPos = transform.position + currentRotation * data.hitbox.endPos;
 
-    public void EndProcess()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    /*    private void OnDrawGizmos()
-        {
-            if (meleeAttackData.hitboxSettings.showDebug && meleeAttackData != null)
+            float t = Mathf.Clamp01((Time.time - detectionStartTime) / data.hitbox.duration);
+            switch (data.hitbox.behaviorType)
             {
-                Quaternion currentRotation = Quaternion.LookRotation(Vector3.forward, enemyController.CurrentDirection);
-                Vector3 center = transform.position.ToVector2() + circleCollider.offset;
-                Vector2 hitboxStartPos = center + currentRotation * meleeAttackData.hitboxSettings.hitboxStartPosOffset;
-                Vector2 hitboxEndPos = center + currentRotation * meleeAttackData.hitboxSettings.hitboxEndPos;
+                case HitboxBehaviorType.MovingStraight:
+                    hitboxCurrentPos = Vector2.Lerp(hitboxStartPos, hitboxEndPos, data.hitbox.moveCurve.Evaluate(t));
+                    break;
 
-                Gizmos.color = Color.green;
-                Gizmos.DrawWireSphere(center, 0.02f);
+                case HitboxBehaviorType.MovingOrbital:
+                    Vector3 startVector = hitboxStartPos - center.ToVector2();
+                    Vector3 endVector = hitboxEndPos - center.ToVector2();
+                    float angleValue = Vector2.Angle(startVector, endVector);
 
-                Gizmos.color = meleeAttackData.hitboxSettings.meleeDebugColor;
-                switch (meleeAttackData.hitboxSettings.hitboxShape)
-                {
-                    case HitboxShapeType.Circle:
-                        Gizmos.DrawWireSphere(hitboxStartPos, meleeAttackData.hitboxSettings.circleRadius);
-                        break;
+                    if (data.hitbox.endPos.x > data.hitbox.startPosOffset.x)
+                        angleValue *= -1;
 
-                    case HitboxShapeType.Box:
-                        Gizmos.DrawWireMesh(meleeAttackData.hitboxSettings.debugCube, -1, hitboxStartPos, gameObject.transform.rotation, meleeAttackData.hitboxSettings.boxSize);
-                        break;
-
-                }
-
-                if (meleeAttackData.hitboxSettings.behaviorType != HitboxBehaviorType.Fixed)
-                {
-                    switch (meleeAttackData.hitboxSettings.hitboxShape)
-                    {
-                        case HitboxShapeType.Circle:
-                            Gizmos.DrawWireSphere(hitboxEndPos, meleeAttackData.hitboxSettings.circleRadius);
-                            break;
-
-                        case HitboxShapeType.Box:
-                            Gizmos.DrawWireMesh(meleeAttackData.hitboxSettings.debugCube, -1, hitboxEndPos, currentRotation, meleeAttackData.hitboxSettings.boxSize);
-                            break;
-
-                    }
-
-                }
-
-                if (meleeHitboxActive && Application.isPlaying)
-                {
-                    Vector2 hitboxCurrentPos = meleeAttackData.hitboxSettings.hitboxStartPosOffset;
-
-                    float t = Mathf.Clamp01((Time.time - startTime) / meleeAttackData.hitboxSettings.hitboxDuration);
-                    switch (meleeAttackData.hitboxSettings.behaviorType)
-                    {
-                        case HitboxBehaviorType.MovingStraight:
-                            hitboxCurrentPos = Vector2.Lerp(hitboxStartPos, hitboxEndPos, meleeAttackData.hitboxSettings.hitboxMovementCurve.Evaluate(t));
-                            break;
-
-                        case HitboxBehaviorType.MovingOrbital:
-                            Vector3 startVector = hitboxStartPos - center.ToVector2();
-                            Vector3 endVector = hitboxEndPos - center.ToVector2();
-                            float angleValue = Vector2.Angle(startVector, endVector);
-
-                            if (meleeAttackData.hitboxSettings.hitboxEndPos.x > meleeAttackData.hitboxSettings.hitboxStartPosOffset.x)
-                                angleValue *= -1;
-
-                            Vector3 resultVector = (Quaternion.AngleAxis(Mathf.LerpAngle(0f, angleValue, meleeAttackData.hitboxSettings.hitboxMovementCurve.Evaluate(t)), gameObject.transform.forward) * startVector);
-                            hitboxCurrentPos = center + resultVector.normalized * Mathf.Lerp(startVector.magnitude, endVector.magnitude, meleeAttackData.hitboxSettings.hitboxMovementCurve.Evaluate(t));
-                            break;
-
-                    }
-
-                    switch (meleeAttackData.hitboxSettings.hitboxShape)
-                    {
-                        case HitboxShapeType.Circle:
-                            Gizmos.DrawSphere(hitboxCurrentPos, meleeAttackData.hitboxSettings.circleRadius);
-                            break;
-
-                        case HitboxShapeType.Box:
-                            Gizmos.DrawMesh(meleeAttackData.hitboxSettings.debugCube, -1, hitboxCurrentPos, gameObject.transform.rotation, meleeAttackData.hitboxSettings.boxSize);
-                            break;
-                    }
-                }
+                    Vector3 resultVector = (Quaternion.AngleAxis(Mathf.LerpAngle(0f, angleValue, data.hitbox.moveCurve.Evaluate(t)), gameObject.transform.forward) * startVector);
+                    hitboxCurrentPos = center + resultVector.normalized * Mathf.Lerp(startVector.magnitude, endVector.magnitude, data.hitbox.moveCurve.Evaluate(t));
+                    break;
             }
+
+            switch (data.hitbox.shape)
+            {
+                case HitboxShapeType.Circle:
+                    Gizmos.DrawSphere(hitboxCurrentPos, data.hitbox.circleRadius);
+                    break;
+
+                case HitboxShapeType.Box:
+                    Gizmos.DrawMesh(data.debugCube, -1, hitboxCurrentPos, gameObject.transform.rotation, data.hitbox.boxSize);
+                    break;
+            }
+
+            Gizmos.color = Color.white;
         }
-    */
+    }
 }

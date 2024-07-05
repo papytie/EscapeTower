@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 7582032499284436154}
   - component: {fileID: 5446426906688110339}
   - component: {fileID: 7134422242870674132}
-  - component: {fileID: 54677102586350004}
   - component: {fileID: 724501686308136070}
   - component: {fileID: 7045244435310482841}
   - component: {fileID: 8575244966594120943}
@@ -118,7 +117,7 @@ MonoBehaviour:
   obstructionLayer:
     serializedVersion: 2
     m_Bits: 256
-  showDebug: 1
+  showDebug: 0
   debugColor: {r: 1, g: 0, b: 0.8503313, a: 1}
 --- !u!114 &5446426906688110339
 MonoBehaviour:
@@ -138,8 +137,7 @@ MonoBehaviour:
   meleeDamage: 0
   projectileDamage: 0
   detectionRadius: 0.1
-  maxLifePoints: 1
-  scalingFactor: 1
+  maxHealth: 10
 --- !u!114 &7134422242870674132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,163 +150,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59134b6e189b5fa468a7c17857bf0192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  despawnDuration: 3
---- !u!114 &54677102586350004
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6968676946490371561}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: addca6fb27441fb419ca6627421f7e6d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bumpCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1.5675026
-      outSlope: 1.5675026
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.071428575
-      value: 0.11196448
-      inSlope: 1.5576465
-      outSlope: 1.5576465
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.14285715
-      value: 0.22252095
-      inSlope: 1.528202
-      outSlope: 1.528202
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.21428572
-      value: 0.33027905
-      inSlope: 1.4795396
-      outSlope: 1.4795396
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.2857143
-      value: 0.43388376
-      inSlope: 1.412271
-      outSlope: 1.412271
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.35714287
-      value: 0.5320321
-      inSlope: 1.3272424
-      outSlope: 1.3272424
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.42857143
-      value: 0.6234898
-      inSlope: 1.225523
-      outSlope: 1.225523
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.5
-      value: 0.70710677
-      inSlope: 1.1083918
-      outSlope: 1.1083918
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.5714286
-      value: 0.7818315
-      inSlope: 0.9773221
-      outSlope: 0.9773221
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.64285713
-      value: 0.8467242
-      inSlope: 0.8339619
-      outSlope: 0.8339619
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.71428573
-      value: 0.9009689
-      inSlope: 0.6801136
-      outSlope: 0.6801136
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.78571427
-      value: 0.9438833
-      inSlope: 0.517713
-      outSlope: 0.517713
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.85714287
-      value: 0.9749279
-      inSlope: 0.3488022
-      outSlope: 0.3488022
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.9285714
-      value: 0.9937122
-      inSlope: 0.17550473
-      outSlope: 0.17550473
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0.088029355
-      outSlope: 0.088029355
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  bumpDistanceRatio: 0.1
-  bumpDuration: 0.1
-  stunDuration: 0.5
 --- !u!114 &724501686308136070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -322,7 +163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loot: {fileID: 11400000, guid: e61879571c8214944ac9d9e5577686d0, type: 2}
-  lootChance: 1
+  lootChance: 5
 --- !u!114 &7045244435310482841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -347,7 +188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b2a66150ab8292479a92f49da9b9ecc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  behaviourConfig: {fileID: 11400000, guid: 00455d8e8c1bb0f4581239233c5b8fa3, type: 2}
+  behaviourConfig: {fileID: 11400000, guid: 2f8fca283b9f73645976d8d3390195ac, type: 2}
 --- !u!1001 &617946598171047808
 PrefabInstance:
   m_ObjectHideFlags: 0

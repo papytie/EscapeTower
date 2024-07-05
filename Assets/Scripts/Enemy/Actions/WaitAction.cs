@@ -4,6 +4,7 @@ public class WaitAction : MonoBehaviour, IAction
 {
     public bool IsAvailable => true;
     public bool IsCompleted { get; set; }
+    public Vector3 Direction => direction;
 
     WaitData data;
     EnemyController controller;
@@ -20,15 +21,13 @@ public class WaitAction : MonoBehaviour, IAction
     public void StartProcess()
     {
         IsCompleted = false;
-        direction = Vector2.zero;
-        processEndTime = Time.time + Random.Range(data.minTime, data.maxTime);
-        
-        controller.AnimationParam.UpdateMoveAnimSpeed(controller.Stats.MoveSpeed/2);
+        processEndTime = Time.time + Random.Range(data.minTime, data.maxTime);  
+        controller.AnimationParam.UpdateMoveAnimSpeed(controller.Stats.MoveSpeed / 2);
+        controller.AnimationParam.UpdateMoveAnimDirection(controller.CurrentDirection * .1f);
     }
 
     public void UpdateProcess()
     {
-        controller.AnimationParam.UpdateMoveAnimDirection(direction);
         
         if (Time.time >= processEndTime)
         {
@@ -38,5 +37,6 @@ public class WaitAction : MonoBehaviour, IAction
 
     public void EndProcess()
     {
+        IsCompleted = false;
     }
 }

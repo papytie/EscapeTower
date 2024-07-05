@@ -22,9 +22,4 @@ public class ProjectileData
     public ProjectileReturnType returnType = ProjectileReturnType.NoReturn;
     public bool returnFlip = false;
     public AnimationCurve returnCurve;
-
-    [Header("Debug")]
-    public bool showDebug;
-    public Mesh debugCube;
-    public Color projectileDebugColor;
 }

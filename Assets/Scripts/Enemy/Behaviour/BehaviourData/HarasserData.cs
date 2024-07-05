@@ -1,19 +1,31 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 [Serializable]
 public class HarasserData : IBehaviourData
 {
     public List<ActionConfig> Actions => actions;
-
-    public List<ActionConfig> actions = new();
+    public List<ActionConfig> actions;
 
     public HarasserData()
     {
-        actions.Add(new ActionConfig(ActionStateType.WaitMove));
-        actions.Add(new ActionConfig(ActionStateType.RoamMove));
-        actions.Add(new ActionConfig(ActionStateType.StayAtRangeMove));
-        actions.Add(new ActionConfig(ActionStateType.RangedAttack));
+        actions = new List<ActionConfig>
+        {
+            { new ActionConfig(ActionType.WaitMove, HarasserActionID.WAIT) },
+            { new ActionConfig(ActionType.RoamMove, HarasserActionID.ROAM) },
+            { new ActionConfig(ActionType.StayAtRangeMove, HarasserActionID.STAYATRANGE) },
+            { new ActionConfig(ActionType.RangedAttack, HarasserActionID.RANGED) },
+            { new ActionConfig(ActionType.TakeDamageReaction, ReactionID.TAKEDMG) },
+            { new ActionConfig(ActionType.DieReaction, ReactionID.DIE) }
+        };
     }
+
+
+}
+static class HarasserActionID
+{
+    public static string WAIT = "HarasserWait";
+    public static string ROAM = "HarasserRoam";
+    public static string STAYATRANGE = "HarasserStayAtRange";
+    public static string RANGED = "HarasserRanged";
 }

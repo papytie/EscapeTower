@@ -95,7 +95,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   showDebug: 1
-  debugColor: {r: 1, g: 0, b: 0.8135681, a: 1}
+  debugColor: {r: 1, g: 0, b: 0.5997324, a: 1}
 --- !u!114 &7554280451946308863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,7 +108,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59134b6e189b5fa468a7c17857bf0192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  despawnDuration: 3
 --- !u!114 &3535197888073128317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,14 +327,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd56c217e62865a46a7750fe272f3bd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.5
-  attackSpeed: 1
+  maxHealth: 5
+  recupTime: 1
+  reactionTime: 1
   collisionDamage: 1
+  detectionRadius: 1
+  weight: 5
+  moveSpeed: 0.5
   meleeDamage: 1
+  meleeRange: 0.3
+  meleeCooldown: 3
   projectileDamage: 1
-  detectionRadius: 3
-  maxLifePoints: 5
-  scalingFactor: 1
+  projectileRange: 1
+  projectileCooldown: 3
 --- !u!114 &8482865961153284175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378,12 +382,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5135701746650721333, guid: bafaf5a0e809a644293f6ac077819023, type: 3}
       propertyPath: m_InstanceId
-      value: -12374
+      value: -82954
       objectReference: {fileID: 0}
     - target: {fileID: 5470997073612097758, guid: bafaf5a0e809a644293f6ac077819023, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: -876546973899608171, guid: 478871fc6c38d1142882d82adb4b0775, type: 3}
     - target: {fileID: 7276362151802205366, guid: bafaf5a0e809a644293f6ac077819023, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -440,9 +444,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2276947082350491191, guid: bafaf5a0e809a644293f6ac077819023, type: 3}
       insertIndex: -1
       addedObject: {fileID: 65306890802900149}
-    - targetCorrespondingSourceObject: {fileID: 2276947082350491191, guid: bafaf5a0e809a644293f6ac077819023, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1552259759979666144}
   m_SourcePrefab: {fileID: 100100000, guid: bafaf5a0e809a644293f6ac077819023, type: 3}
 --- !u!4 &1745496260945160895 stripped
 Transform:
@@ -467,16 +468,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   knightColor: {r: 1, g: 0.32857144, b: 0.2216981, a: 0}
---- !u!114 &1552259759979666144
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7696986297368226296}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f086dfcd696d854ab3af8008377c44e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  knightColor: {r: 1, g: 0.35018286, b: 0.25943398, a: 0}
