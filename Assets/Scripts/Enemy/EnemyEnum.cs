@@ -45,4 +45,5 @@ public enum BehaviourType
     Stalker = 1,
     Harasser = 2,
     Fighter = 3,
+    BulletHell = 4,
 }

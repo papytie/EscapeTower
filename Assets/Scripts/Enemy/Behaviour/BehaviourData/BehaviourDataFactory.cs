@@ -8,6 +8,7 @@ public class BehaviourDataFactory
             BehaviourType.Stalker => new StalkerData(),
             BehaviourType.Harasser => new HarasserData(),
             BehaviourType.Fighter => new FighterData(),
+            BehaviourType.BulletHell => new BulletHellData(),
             _ => null,
         };
     }

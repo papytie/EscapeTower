@@ -10,6 +10,7 @@ public class BehaviourFactory
             BehaviourType.Stalker => thisObject.AddComponent<Stalker>(),
             BehaviourType.Harasser => thisObject.AddComponent<Harasser>(),
             BehaviourType.Fighter => thisObject.AddComponent<Fighter>(),
+            BehaviourType.BulletHell => thisObject.AddComponent<BulletHell>(),
             _ => null,
         };
     }

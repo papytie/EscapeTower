@@ -8,7 +8,7 @@ public class Harasser : MonoBehaviour, IBehaviour
     NPCFSM fsm;
     EnemyController controller;
 
-    public void InitBehaviour(EnemyController enemyController)
+    public void Init(EnemyController enemyController)
     {
         //Get EnemyController ref
         controller = enemyController;

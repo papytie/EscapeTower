@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MeleeAttack : MonoBehaviour, IAction
 {
-    public bool IsAvailable => Time.time >= cooldownEndTime && Vector3.Distance(transform.position, controller.CurrentTarget.transform.position) <= controller.Stats.MeleeRange;
+    public bool IsAvailable => Time.time >= cooldownEndTime && Vector3.Distance(transform.position, controller.CurrentTarget.transform.position) <= data.activationRange;
     public bool IsCompleted {get;set;}
     public Vector3 Direction => direction;
     Vector2 direction;
@@ -30,7 +30,7 @@ public class MeleeAttack : MonoBehaviour, IAction
         if (!controller.TargetAcquired) return;
 
         StartCoroutine(StartAttackAnim());  
-        detectionStartTime = Time.time + controller.Stats.ReactionTime + data.hitbox.delay;
+        detectionStartTime = Time.time + data.reactionTime + data.hitbox.delay;
         detectionEndTime = detectionStartTime + data.hitbox.duration;
 
         //attackFX.StartFX(controller.CurrentDirection);
@@ -43,7 +43,7 @@ public class MeleeAttack : MonoBehaviour, IAction
 
     public void UpdateProcess()
     {
-        if (Time.time >= detectionEndTime + controller.Stats.RecupTime)
+        if (Time.time >= detectionEndTime + data.recupTime)
             IsCompleted = true;
 
         if (Time.time >= detectionStartTime && Time.time <= detectionEndTime)
@@ -52,14 +52,14 @@ public class MeleeAttack : MonoBehaviour, IAction
 
     public void EndProcess()
     {
-        cooldownEndTime = Time.time + controller.Stats.MeleeCooldown;
+        cooldownEndTime = Time.time + data.cooldown;
         IsCompleted = false;
         playerHit.Clear();
     }
 
     IEnumerator StartAttackAnim()
     {
-        yield return new WaitForSeconds(controller.Stats.ReactionTime);
+        yield return new WaitForSeconds(data.reactionTime);
         controller.Animator.SetTrigger(SRAnimators.EnemyBaseAnimator.Parameters.attack);
     }
 
@@ -115,7 +115,7 @@ public class MeleeAttack : MonoBehaviour, IAction
 
                 if (playerLifeSystem && !playerHit.Contains(playerLifeSystem) && playerHit.Count < data.hitbox.maxTargets)
                 {
-                    playerLifeSystem.TakeDamage(controller.Stats.MeleeDamage, collision.normal);
+                    playerLifeSystem.TakeDamage(data.baseDamage * controller.Stats.ScalingFactor, collision.normal);
                     playerHit.Add(playerLifeSystem);
                 }
             }

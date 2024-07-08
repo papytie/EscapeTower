@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ChargeAttack : MonoBehaviour, IAction
 {
-    public bool IsAvailable => Time.time >= cooldownEndTime && Vector3.Distance(transform.position, controller.CurrentTarget.transform.position) <= controller.Stats.MeleeRange;
+    public bool IsAvailable => Time.time >= cooldownEndTime && Vector3.Distance(transform.position, controller.CurrentTarget.transform.position) <= data.activationRange;
     public bool IsCompleted { get; set; }
     public Vector3 Direction => direction;
 
@@ -31,7 +31,7 @@ public class ChargeAttack : MonoBehaviour, IAction
     {
         startTime = Time.time;
 
-        distance = controller.Stats.MeleeRange * 2;
+        distance = data.effectiveRange;
         duration = distance / 5 * controller.Stats.Weight;
 
         startPos = transform.position;
@@ -45,9 +45,9 @@ public class ChargeAttack : MonoBehaviour, IAction
 
     public void UpdateProcess()
     {
-        float startMovement = startTime + controller.Stats.ReactionTime;
-        float endMovement = startTime + controller.Stats.ReactionTime + duration;
-        float endProcess = startTime + controller.Stats.ReactionTime + duration + controller.Stats.RecupTime;
+        float startMovement = startTime + data.reactionTime;
+        float endMovement = startTime + data.reactionTime + duration;
+        float endProcess = startTime + data.reactionTime + duration + data.recupTime;
 
         if (Time.time >= endProcess)
             IsCompleted = true;
@@ -84,7 +84,7 @@ public class ChargeAttack : MonoBehaviour, IAction
     {
         IsCompleted = false;
         currentTime = 0;
-        cooldownEndTime = Time.time + controller.Stats.MeleeCooldown;
+        cooldownEndTime = Time.time + data.cooldown;
         controller.CurrentDirection = direction;
     }
 

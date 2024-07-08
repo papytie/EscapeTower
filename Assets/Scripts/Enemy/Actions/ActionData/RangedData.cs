@@ -5,7 +5,14 @@ using UnityEngine;
 public class RangedData : IActionData
 {
     public ProjectileData projectileData;
-    public float duration = .5f;
+
+    public float baseDamage = 1;
+    public float activationRange = 1;
+    public float reactionTime = 1;
+    public float duration = 1;
+    public float recupTime = 1;
+    public float cooldown = 1;
+
     [Header("Debug")]
     public bool showDebug = true;
     public Mesh debugCube;

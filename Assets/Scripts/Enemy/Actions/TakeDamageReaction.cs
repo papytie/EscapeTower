@@ -52,7 +52,7 @@ public class TakeDamageReaction : MonoBehaviour, IAction
     public void UpdateProcess()
     {
         float endMovement = startTime + duration;
-        float endProcess = startTime + duration + controller.Stats.RecupTime;
+        float endProcess = startTime + duration + data.recupTime;
 
         if (Time.time >= endProcess) 
             IsCompleted = true;

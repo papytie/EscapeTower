@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class RangedAttack : MonoBehaviour, IAction
 {
-    public bool IsAvailable => Time.time >= cooldownEndTime && Vector3.Distance(transform.position, controller.CurrentTarget.transform.position) <= controller.Stats.ProjectileRange;
+    public bool IsAvailable => Time.time >= cooldownEndTime && Vector3.Distance(transform.position, controller.CurrentTarget.transform.position) <= data.activationRange;
     public bool IsCompleted { get; set; }
     public Vector3 Direction => direction;
 
@@ -24,7 +24,7 @@ public class RangedAttack : MonoBehaviour, IAction
     public void StartProcess()
     {
         IsCompleted = false;
-        processEndTime = Time.time + controller.Stats.ReactionTime + data.duration;
+        processEndTime = Time.time + data.reactionTime + data.duration;
 
         //attackFX.StartFX(enemyController.CurrentDirection);
 
@@ -45,12 +45,12 @@ public class RangedAttack : MonoBehaviour, IAction
 
     public void EndProcess()
     {
-        cooldownEndTime = Time.time + controller.Stats.ProjectileCooldown;
+        cooldownEndTime = Time.time + data.cooldown;
     }
 
     IEnumerator AttackProcess()
     {
-        yield return new WaitForSeconds(controller.Stats.ReactionTime);
+        yield return new WaitForSeconds(data.reactionTime);
         controller.Animator.SetTrigger(SRAnimators.EnemyBaseAnimator.Parameters.attack);
         StartCoroutine(FireProjectile());
     }
@@ -71,7 +71,7 @@ public class RangedAttack : MonoBehaviour, IAction
                 Quaternion angleResult = Quaternion.AngleAxis(angle + data.projectileData.angleOffset, transform.forward);
 
                 Instantiate(data.projectileData.projectileToSpawn, projectileSpawnPos, currentRotation * angleResult)
-                    .Init(controller.gameObject, data.projectileData, projectileSpawnPos, controller.Stats.ProjectileDamage, data.projectileData.range);
+                    .Init(controller.gameObject, data.projectileData, projectileSpawnPos, data.baseDamage * controller.Stats.ScalingFactor, data.projectileData.range);
 
                 if (data.projectileData.spawnType == ProjectileSpawnType.Sequence)
                 {
@@ -81,6 +81,6 @@ public class RangedAttack : MonoBehaviour, IAction
             }
         }
         else Instantiate(data.projectileData.projectileToSpawn, projectileSpawnPos, currentRotation * Quaternion.AngleAxis(data.projectileData.angleOffset, transform.forward))
-                .Init(controller.gameObject, data.projectileData, projectileSpawnPos, controller.Stats.ProjectileDamage, data.projectileData.range);
+                .Init(controller.gameObject, data.projectileData, projectileSpawnPos, data.baseDamage * controller.Stats.ScalingFactor, data.projectileData.range);
     }
 }

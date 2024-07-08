@@ -17,6 +17,7 @@ public class BehaviourConfig : ScriptableObject
             BehaviourType.Stalker => typeof(StalkerData),
             BehaviourType.Harasser => typeof(HarasserData),
             BehaviourType.Fighter => typeof(FighterData),
+            BehaviourType.BulletHell => typeof(BulletHellData),
             _ => null,
         };
 

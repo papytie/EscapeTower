@@ -67,7 +67,7 @@ public class EnemyController : MonoBehaviour
 
         if (behaviourConfig != null)
         {
-            behaviour.InitBehaviour(this);
+            behaviour.Init(this);
         }
         else Debug.LogWarning("BehaviourConfig is missing on : " + gameObject.name);
     }
@@ -102,7 +102,7 @@ public class EnemyController : MonoBehaviour
             action.InitRef(actionConfig.data, this);
             behaviour.FSM.AddState(new NPCState(behaviour.FSM, actionConfig.ActionID, action));            
         }
-        behaviour.InitBehaviour(this);
+        //behaviour.Init(this);
     }
 
     private void OnValidate()
@@ -150,7 +150,7 @@ public class EnemyController : MonoBehaviour
                         Gizmos.DrawSphere(center, 0.02f);
 
                         Gizmos.color = meleeData.debugColor;
-                        Gizmos.DrawWireSphere(center, stats.MeleeRange);
+                        Gizmos.DrawWireSphere(center, meleeData.activationRange);
 
                         switch (meleeData.hitbox.shape)
                         {
@@ -222,6 +222,7 @@ public class EnemyController : MonoBehaviour
                         else
                         {
                             Vector3 singleProjEndPos = projectileSpawnPos + currentRotation * Vector3.up * rangedData.projectileData.range;
+                            if (rangedData.projectileData.projectileToSpawn == null) continue;
 
                             switch (rangedData.projectileData.projectileToSpawn.HitboxShape)
                             {
@@ -246,11 +247,11 @@ public class EnemyController : MonoBehaviour
                         if(!Application.isPlaying || Application.isPlaying && behaviour.FSM.CurrentState.Action.GetType() != typeof(ChargeAttack) && currentTarget)
                         {
                             Vector3 startPos = transform.position;
-                            Vector3 targetPos = startPos + ((new Vector3(0, -1)) * stats.MeleeRange*2);
+                            Vector3 targetPos = startPos + ((new Vector3(0, -1)) * chargeData.effectiveRange);
                             if(currentTarget)
-                                targetPos = startPos + (currentTarget.transform.position - startPos).normalized * stats.MeleeRange * 2;
+                                targetPos = startPos + (currentTarget.transform.position - startPos).normalized * chargeData.effectiveRange;
                             Gizmos.color = chargeData.rangeColor;
-                            Gizmos.DrawWireSphere(transform.position, stats.MeleeRange);
+                            Gizmos.DrawWireSphere(transform.position, chargeData.activationRange);
                             Gizmos.color = chargeData.startColor;
                             Gizmos.DrawWireSphere(startPos, circleCollider.radius);
                             Gizmos.color = chargeData.targetColor;
