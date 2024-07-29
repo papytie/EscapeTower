@@ -17,6 +17,7 @@ public class ActionFactory
             ActionType.ChargeAttack => thisObject.AddComponent<ChargeAttack>(),
             ActionType.TakeDamageReaction => thisObject.AddComponent<TakeDamageReaction>(),
             ActionType.DieReaction => thisObject.AddComponent<DieReaction>(),
+            ActionType.BeamAttack => thisObject.AddComponent<BeamAttack>(),
             _ => null,
         };
     }

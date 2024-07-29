@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public interface IState
 {
@@ -34,21 +35,21 @@ public class NPCState : IState
 
     public void StateEnter()
     {
-        //Debug.Log("Enter " + StateAction.ToString());
+        Debug.Log("Enter " + Action.ToString());
         OnStateEnter?.Invoke();
         Action?.StartProcess();
     }
 
     public void StateExit()
     {
-        //Debug.Log("Exit " + StateAction.ToString());
+        Debug.Log("Exit " + Action.ToString());
         Action?.EndProcess();
         OnStateExit?.Invoke();
     }
 
     public void Update()
     {
-        //Debug.Log("Update " + StateAction.ToString());
+        //Debug.Log("Update " + Action.ToString());
         Action?.UpdateProcess();
         OnStateUpdate?.Invoke();
     }

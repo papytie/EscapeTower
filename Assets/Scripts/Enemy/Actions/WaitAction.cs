@@ -21,14 +21,17 @@ public class WaitAction : MonoBehaviour, IAction
     public void StartProcess()
     {
         IsCompleted = false;
-        processEndTime = Time.time + Random.Range(data.minTime, data.maxTime);  
+
+        if (data.minTime != data.maxTime) 
+            processEndTime = Time.time + Random.Range(data.minTime, data.maxTime);  
+        else processEndTime = Time.time + data.minTime;
+
         controller.AnimationParam.UpdateMoveAnimSpeed(controller.Stats.MoveSpeed / 2);
         controller.AnimationParam.UpdateMoveAnimDirection(controller.CurrentDirection * .1f);
     }
 
     public void UpdateProcess()
-    {
-        
+    { 
         if (Time.time >= processEndTime)
         {
             IsCompleted = true;

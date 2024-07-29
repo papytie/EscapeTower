@@ -15,6 +15,7 @@ public class ActionDataFactory
             ActionType.ChargeAttack => new ChargeData(),
             ActionType.TakeDamageReaction => new TakeDamageData(),
             ActionType.DieReaction => new DieData(),
+            ActionType.BeamAttack => new BeamData(),
             _ => null,
         };
     }

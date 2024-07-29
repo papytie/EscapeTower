@@ -131,11 +131,12 @@ GameObject:
   m_Component:
   - component: {fileID: 7826958320561606104}
   - component: {fileID: 7121630298180537469}
+  - component: {fileID: 4757395635357577985}
+  - component: {fileID: 8001041884036437106}
   - component: {fileID: 3150502674027016159}
   - component: {fileID: 6092734285711741524}
   - component: {fileID: 2802411895935858278}
   - component: {fileID: 4237133312545314035}
-  - component: {fileID: 8001041884036437106}
   - component: {fileID: 3746041132828878022}
   - component: {fileID: 4171371601547000229}
   m_Layer: 7
@@ -196,6 +197,75 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0.14}
   serializedVersion: 2
   m_Radius: 0.05
+--- !u!61 &4757395635357577985
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5526443729210609502}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.09, y: 0.04}
+  m_EdgeRadius: 0
+--- !u!114 &8001041884036437106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5526443729210609502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21bc6b7d242f7a248b1999248d878d92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderShape: 1
+  circleColliderRadius: 1
+  boxColliderSize: {x: 0.08, y: 0.04}
+  collisionMinDist: 0.01
+  blockingObjectsLayer:
+    serializedVersion: 2
+    m_Bits: 384
+  intractionObjectsLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  showDebug: 0
+  colliderDebugColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!114 &3150502674027016159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,7 +284,7 @@ MonoBehaviour:
   obstructionLayer:
     serializedVersion: 2
     m_Bits: 256
-  showDebug: 1
+  showDebug: 0
   debugColor: {r: 1, g: 0, b: 0.8795767, a: 1}
 --- !u!114 &6092734285711741524
 MonoBehaviour:
@@ -255,30 +325,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   behaviourConfig: {fileID: 11400000, guid: 8c797caedde2a79458056b46511d3022, type: 2}
---- !u!114 &8001041884036437106
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5526443729210609502}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21bc6b7d242f7a248b1999248d878d92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colliderShape: 1
-  circleColliderRadius: 1
-  boxColliderSize: {x: 0.1, y: 0.1}
-  collisionMinDist: 0.01
-  blockingObjectsLayer:
-    serializedVersion: 2
-    m_Bits: 384
-  intractionObjectsLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  showDebug: 1
-  colliderDebugColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!114 &3746041132828878022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,18 +338,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 1
-  recupTime: 0.2
-  reactionTime: 0.2
   collisionDamage: 1
-  detectionRadius: 1
+  detectionRadius: 2
   weight: 1
-  moveSpeed: 1
-  meleeDamage: 1
-  meleeRange: 1
-  meleeCooldown: 1
-  projectileDamage: 1
-  projectileRange: 1
-  projectileCooldown: 1
+  baseMoveSpeed: 0.8
 --- !u!114 &4171371601547000229
 MonoBehaviour:
   m_ObjectHideFlags: 0

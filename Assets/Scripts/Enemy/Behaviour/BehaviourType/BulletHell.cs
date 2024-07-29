@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletHell : MonoBehaviour, IBehaviour
@@ -9,10 +10,7 @@ public class BulletHell : MonoBehaviour, IBehaviour
     NPCFSM fsm;
     EnemyController controller;
 
-    public string currentShot = null;
-    public string currentUltimate = null;
-
-    bool UltimateReady => fsm.GetState(BulletHellData.ActionID.GALAXY_ULTIMATE).Action.IsAvailable && fsm.GetState(BulletHellData.ActionID.LASER_ULTIMATE).Action.IsAvailable && fsm.GetState(BulletHellData.ActionID.NOVA_ULTIMATE).Action.IsAvailable;
+    bool UltimateReady => fsm.GetState(BulletHellData.ActionID.GALAXY_ULTIMATE).Action.IsAvailable && fsm.GetState(BulletHellData.ActionID.BEAM_ULTIMATE).Action.IsAvailable && fsm.GetState(BulletHellData.ActionID.NOVA_ULTIMATE).Action.IsAvailable;
 
     public void Init(EnemyController enemyController)
     {
@@ -27,14 +25,12 @@ public class BulletHell : MonoBehaviour, IBehaviour
         Init_WaitState();
         Init_AttackSelectionState();
         Init_RoamState();
-        Init_StayAtRangeState();
         Init_SingleShotState();
         Init_SuperShotState();
         Init_MultiShotState();
         Init_SpreadShotState();
-        Init_LaserShotState();
         Init_NovaUltimateState();
-        Init_LaserUltimateState();
+        Init_BeamUltimateState();
         Init_GalaxyUltimateState();
 
         //Set this Behaviour starting default state
@@ -46,46 +42,43 @@ public class BulletHell : MonoBehaviour, IBehaviour
         NPCState state = fsm.GetState(BulletHellData.ActionID.WAIT);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
-        state.OnStateExit += () => { /* Last Method called when exit State */ };
 
         state.OnStateUpdate += () =>
         {
-            if (controller.TargetAcquired && state.Action.IsCompleted)
-                fsm.SetState(BulletHellData.ActionID.ATTACKSELECTION);
-            
             if (state.Action.IsCompleted)
                 fsm.SetState(BulletHellData.ActionID.ROAM);
 
+            if(controller.TargetAcquired)
+                fsm.SetState(BulletHellData.ActionID.ATTACKSELECTION);
         };
+
+        state.OnStateExit += () => { /* Last Method called when exit State */ };
     }
 
     void Init_AttackSelectionState()
     {
         NPCState state = fsm.GetState(BulletHellData.ActionID.ATTACKSELECTION);
 
-        state.OnStateEnter += () => 
-        {
-            /* First Method called when enter State */
-            currentShot = RandomShot();
-            currentUltimate = RandomUltimate();
-        };
-
-        state.OnStateExit += () => { /* Last Method called when exit State */ };
+        state.OnStateEnter += () => { /* First Method called when enter State */ };
 
         state.OnStateUpdate += () =>
         {
+            if (state.Action.IsCompleted || !controller.TargetAcquired)
+                fsm.SetState(BulletHellData.ActionID.WAIT);
+
             if (controller.TargetAcquired)
             {
                 if(UltimateReady)
-                    fsm.SetState(currentUltimate);
-                
-                else if (fsm.GetState(currentShot).Action.IsAvailable)
-                    fsm.SetState(currentShot);
+                    fsm.SetState(GetRandomUltimate());
+
+                string randomShot = GetRandomShot();
+                if(!fsm.GetState(randomShot).Action.IsAvailable)
+                    return;
+                else fsm.SetState(randomShot);
             }
-            
-            if (state.Action.IsCompleted)
-                fsm.SetState(BulletHellData.ActionID.WAIT);
         };
+
+        state.OnStateExit += () => { /* Last Method called when exit State */ };
     }
 
     void Init_RoamState()
@@ -93,35 +86,17 @@ public class BulletHell : MonoBehaviour, IBehaviour
         NPCState state = fsm.GetState(BulletHellData.ActionID.ROAM);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
-        state.OnStateExit += () => { /* Last Method called when exit State */ };
 
         state.OnStateUpdate += () =>
         {
-            if (controller.TargetAcquired)
-                fsm.SetState(BulletHellData.ActionID.STAYATRANGE);
-
             if (state.Action.IsCompleted)
-                fsm.SetState(BulletHellData.ActionID.WAIT);
-
-        };
-
-    }
-
-    void Init_StayAtRangeState()
-    {
-        NPCState state = fsm.GetState(BulletHellData.ActionID.STAYATRANGE);
-
-        state.OnStateEnter += () => { /* First Method called when enter State */ };
-        state.OnStateExit += () => { /* Last Method called when exit State */ };
-
-        state.OnStateUpdate += () =>
-        {
-            if (!controller.TargetAcquired)
                 fsm.SetState(BulletHellData.ActionID.WAIT);
 
             if (controller.TargetAcquired)
                 fsm.SetState(BulletHellData.ActionID.ATTACKSELECTION);
         };
+
+        state.OnStateExit += () => { /* Last Method called when exit State */ };
     }
 
     void Init_SingleShotState()
@@ -129,13 +104,14 @@ public class BulletHell : MonoBehaviour, IBehaviour
         NPCState state = fsm.GetState(BulletHellData.ActionID.SINGLE_SHOT);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
-        state.OnStateExit += () => { /* Last Method called when exit State */ };
 
         state.OnStateUpdate += () =>
         {
-            if (state.Action.IsCompleted)
+            if (state.Action.IsCompleted || !controller.TargetAcquired)
                 fsm.SetState(BulletHellData.ActionID.WAIT);
         };
+        
+        state.OnStateExit += () => { /* Last Method called when exit State */ };
     }
 
     void Init_SuperShotState()
@@ -143,13 +119,14 @@ public class BulletHell : MonoBehaviour, IBehaviour
         NPCState state = fsm.GetState(BulletHellData.ActionID.SUPER_SHOT);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
-        state.OnStateExit += () => { /* Last Method called when exit State */ };
 
         state.OnStateUpdate += () =>
         {
-            if (state.Action.IsCompleted)
+            if (state.Action.IsCompleted || !controller.TargetAcquired)
                 fsm.SetState(BulletHellData.ActionID.WAIT);
         };
+        
+        state.OnStateExit += () => { /* Last Method called when exit State */ };
     }
 
     void Init_MultiShotState()
@@ -157,27 +134,14 @@ public class BulletHell : MonoBehaviour, IBehaviour
         NPCState state = fsm.GetState(BulletHellData.ActionID.MULTI_SHOT);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
-        state.OnStateExit += () => { /* Last Method called when exit State */ };
 
         state.OnStateUpdate += () =>
         {
-            if (state.Action.IsCompleted)
+            if (state.Action.IsCompleted || !controller.TargetAcquired)
                 fsm.SetState(BulletHellData.ActionID.WAIT);
         };
-    }
-
-    void Init_LaserShotState()
-    {
-        NPCState state = fsm.GetState(BulletHellData.ActionID.LASER_SHOT);
-
-        state.OnStateEnter += () => { /* First Method called when enter State */ };
+        
         state.OnStateExit += () => { /* Last Method called when exit State */ };
-
-        state.OnStateUpdate += () =>
-        {
-            if (state.Action.IsCompleted)
-                fsm.SetState(BulletHellData.ActionID.WAIT);
-        };
     }
 
     void Init_SpreadShotState()
@@ -185,27 +149,29 @@ public class BulletHell : MonoBehaviour, IBehaviour
         NPCState state = fsm.GetState(BulletHellData.ActionID.SPREAD_SHOT);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
-        state.OnStateExit += () => { /* Last Method called when exit State */ };
 
         state.OnStateUpdate += () =>
         {
-            if (state.Action.IsCompleted)
+            if (state.Action.IsCompleted || !controller.TargetAcquired)
                 fsm.SetState(BulletHellData.ActionID.WAIT);
         };
+        
+        state.OnStateExit += () => { /* Last Method called when exit State */ };
     }
 
-    void Init_LaserUltimateState()
+    void Init_BeamUltimateState()
     {
-        NPCState state = fsm.GetState(BulletHellData.ActionID.LASER_ULTIMATE);
+        NPCState state = fsm.GetState(BulletHellData.ActionID.BEAM_ULTIMATE);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
-        state.OnStateExit += () => { /* Last Method called when exit State */ };
 
         state.OnStateUpdate += () =>
         {
-            if (state.Action.IsCompleted)
+            if (state.Action.IsCompleted || !controller.TargetAcquired)
                 fsm.SetState(BulletHellData.ActionID.WAIT);
         };
+        
+        state.OnStateExit += () => { /* Last Method called when exit State */ };
     }
 
     void Init_NovaUltimateState()
@@ -213,30 +179,29 @@ public class BulletHell : MonoBehaviour, IBehaviour
         NPCState state = fsm.GetState(BulletHellData.ActionID.NOVA_ULTIMATE);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
-        state.OnStateExit += () => { /* Last Method called when exit State */ };
 
         state.OnStateUpdate += () =>
         {
-            if (state.Action.IsCompleted)
+            if (state.Action.IsCompleted || !controller.TargetAcquired)
                 fsm.SetState(BulletHellData.ActionID.WAIT);
         };
+        
+        state.OnStateExit += () => { /* Last Method called when exit State */ };
     }
 
     void Init_GalaxyUltimateState()
     {
         NPCState state = fsm.GetState(BulletHellData.ActionID.GALAXY_ULTIMATE);
 
-        state.OnStateEnter += () => 
-        {
-            /* First Method called when enter State */ 
-        };
-        state.OnStateExit += () => { /* Last Method called when exit State */ };
+        state.OnStateEnter += () => { /* First Method called when enter State */ };
 
         state.OnStateUpdate += () =>
         {
-            if (state.Action.IsCompleted)
+            if (state.Action.IsCompleted || !controller.TargetAcquired)
                 fsm.SetState(BulletHellData.ActionID.WAIT);
         };
+
+        state.OnStateExit += () => { /* Last Method called when exit State */ };
     }
 
     //-------------------------------\---/-------------------------------|
@@ -278,7 +243,7 @@ public class BulletHell : MonoBehaviour, IBehaviour
     //----------------------------|HELPERS|------------------------------|
     //------------------------------/---\--------------------------------|
 
-    string RandomShot()
+    string GetRandomShot()
     {
         int shotIndex = UnityEngine.Random.Range(0, Enum.GetNames(typeof(BulletHellData.ShotType)).Length+1);
 
@@ -287,12 +252,11 @@ public class BulletHell : MonoBehaviour, IBehaviour
             1 => BulletHellData.ActionID.SUPER_SHOT,
             2 => BulletHellData.ActionID.MULTI_SHOT,
             3 => BulletHellData.ActionID.SPREAD_SHOT,
-            4 => BulletHellData.ActionID.LASER_SHOT,
             _ => BulletHellData.ActionID.SINGLE_SHOT,
         };
     }
 
-    string RandomUltimate()
+    string GetRandomUltimate()
     {
         int ultimateIndex = UnityEngine.Random.Range(0, Enum.GetNames(typeof(BulletHellData.UltimateType)).Length+1);
 
@@ -300,7 +264,7 @@ public class BulletHell : MonoBehaviour, IBehaviour
         {
             1 => BulletHellData.ActionID.NOVA_ULTIMATE,
             2 => BulletHellData.ActionID.GALAXY_ULTIMATE,
-            _ => BulletHellData.ActionID.LASER_ULTIMATE,
+            _ => BulletHellData.ActionID.BEAM_ULTIMATE,
         };
     }
 }

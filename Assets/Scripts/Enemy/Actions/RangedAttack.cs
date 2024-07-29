@@ -23,6 +23,13 @@ public class RangedAttack : MonoBehaviour, IAction
 
     public void StartProcess()
     {
+        if(data.projectileData.projectileToSpawn == null) 
+        {
+            Debug.LogWarning("No valid Projectile");
+            IsCompleted = true;
+            return;
+        }
+
         IsCompleted = false;
         processEndTime = Time.time + data.reactionTime + data.duration;
 
@@ -46,6 +53,7 @@ public class RangedAttack : MonoBehaviour, IAction
     public void EndProcess()
     {
         cooldownEndTime = Time.time + data.cooldown;
+        
     }
 
     IEnumerator AttackProcess()

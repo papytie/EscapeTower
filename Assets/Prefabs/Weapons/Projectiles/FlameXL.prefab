@@ -47,9 +47,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitboxShape: 2
-  hitboxOffset: {x: 0, y: 0.12}
+  hitboxOffset: {x: 0, y: 0}
   boxSize: {x: 0, y: 0}
-  circleRadius: 0.1
+  circleRadius: 0.05
   falloffDelay: 0.1
   obstructionDelay: 0.1
   hitDelay: 0.1
@@ -103,7 +103,7 @@ Transform:
   m_GameObject: {fileID: 7798645214011579504}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
-  m_LocalPosition: {x: 0, y: 0.1166, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []

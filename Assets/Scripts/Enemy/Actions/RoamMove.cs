@@ -11,6 +11,7 @@ public class RoamMove : MonoBehaviour, IAction
 
     RoamData data;
     EnemyController controller;
+    List<RaycastHit2D> currentHitList = new();
 
     float processEndTime;
 
@@ -35,6 +36,14 @@ public class RoamMove : MonoBehaviour, IAction
 
     public void UpdateProcess()
     {
+        //Stop Action if too much collision recorded
+        if (currentHitList.Count > data.maxBounce)
+            IsCompleted = true;
+
+        //End Process with switch to ON
+        if (Time.time >= processEndTime)
+            IsCompleted = true;
+
         //Movement with collisions adjustments
         controller.Collision.MoveToCollisionCheck(direction, controller.Stats.MoveSpeed * data.speedMult * Time.deltaTime, controller.Collision.BlockingObjectsLayer, out Vector3 finalPosition, out List<RaycastHit2D> hitList);
         transform.position = finalPosition;
@@ -43,17 +52,23 @@ public class RoamMove : MonoBehaviour, IAction
         controller.AnimationParam.UpdateMoveAnimDirection(direction);
 
         //Reflect movement direction if collision occur
-        if(hitList.Count > 0) 
+        if(hitList.Count > 0)
+        {
             direction = Vector2.Reflect(direction, hitList[0].normal);
-
-        //End Process with switch to ON
-        if (Time.time >= processEndTime)
-            IsCompleted = true;
+            foreach (var item in hitList)
+            {
+                currentHitList.Add(item);
+            }
+        }
     }
 
     public void EndProcess()
     {
+        //Clear HitList
+        currentHitList.Clear();
+
         IsCompleted = false;
+
         controller.CurrentDirection = direction;
     }
 }

@@ -94,8 +94,9 @@ GameObject:
   m_Component:
   - component: {fileID: 596402203360603195}
   - component: {fileID: 3706308796863663906}
-  - component: {fileID: 788443057534351306}
+  - component: {fileID: 7248528119772035374}
   - component: {fileID: 6362123729165657979}
+  - component: {fileID: 788443057534351306}
   - component: {fileID: 9136585797658748918}
   - component: {fileID: 909856595385223221}
   - component: {fileID: 8365554827477964189}
@@ -159,31 +160,51 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0.16}
   serializedVersion: 2
   m_Radius: 0.15
---- !u!114 &788443057534351306
-MonoBehaviour:
+--- !u!61 &7248528119772035374
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4860030185666750382}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd56c217e62865a46a7750fe272f3bd1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 20
-  recupTime: 1.5
-  reactionTime: 1.5
-  collisionDamage: 5
-  detectionRadius: 5
-  weight: 5
-  moveSpeed: 0.2
-  meleeDamage: 3
-  meleeRange: 1
-  meleeCooldown: 1
-  projectileDamage: 5
-  projectileRange: 3
-  projectileCooldown: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.3, y: 0.1}
+  m_EdgeRadius: 0
 --- !u!114 &6362123729165657979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,7 +219,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colliderShape: 1
   circleColliderRadius: 0.08
-  boxColliderSize: {x: 0.3, y: 0.3}
+  boxColliderSize: {x: 0.3, y: 0.1}
   collisionMinDist: 0.01
   blockingObjectsLayer:
     serializedVersion: 2
@@ -206,8 +227,25 @@ MonoBehaviour:
   intractionObjectsLayer:
     serializedVersion: 2
     m_Bits: 64
-  showDebug: 1
+  showDebug: 0
   colliderDebugColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+--- !u!114 &788443057534351306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4860030185666750382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd56c217e62865a46a7750fe272f3bd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 20
+  collisionDamage: 5
+  detectionRadius: 2
+  weight: 5
+  baseMoveSpeed: 0.2
 --- !u!114 &9136585797658748918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,7 +264,7 @@ MonoBehaviour:
   obstructionLayer:
     serializedVersion: 2
     m_Bits: 256
-  showDebug: 1
+  showDebug: 0
   debugColor: {r: 1, g: 0.1891568, b: 0, a: 1}
 --- !u!114 &909856595385223221
 MonoBehaviour:

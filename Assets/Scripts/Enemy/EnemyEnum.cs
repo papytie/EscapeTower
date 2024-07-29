@@ -37,6 +37,7 @@ public enum ActionType
     ChargeAttack = 8,
     TakeDamageReaction = 9,
     DieReaction = 10,
+    BeamAttack = 11,
 }
 
 public enum BehaviourType
