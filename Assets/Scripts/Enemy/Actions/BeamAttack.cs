@@ -70,7 +70,6 @@ public class BeamAttack : MonoBehaviour, IAction
     {
         Vector3 center = transform.position.ToVector2() + controller.CircleCollider.offset;
         Vector3 beamSpawnPos = center + currentRotation * data.spawnOffset;
-
         RaycastHit2D raycast = Physics2D.Raycast(beamSpawnPos, direction);
         return raycast.distance;
     }

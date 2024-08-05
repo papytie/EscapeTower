@@ -1,0 +1,29 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/UI%20Toolkit/ComponentsEditorStyle.uss?fileID=7433441132597879392&amp;guid=a444bdd046d1ccd46a3cda4f3551ebda&amp;type=3#ComponentsEditorStyle" />
+    <ui:VisualElement name="Canvas" style="flex-grow: 1; flex-direction: column;">
+        <ui:Label tabindex="-1" text="Collider Shape" parse-escape-sequences="true" display-tooltip-when-elided="true" class="title" />
+        <ui:VisualElement name="Variables" class="panel" style="flex-grow: 1; flex-direction: column;">
+            <ui:VisualElement style="flex-grow: 1; flex-direction: column;">
+                <ui:EnumField label="Enum" type="UnityEngine.TextAlignment, UnityEngine.TextRenderingModule" value="Center" binding-path="colliderShape" />
+                <ui:VisualElement name="BoxOptions" style="flex-grow: 1; flex-direction: column;">
+                    <uie:PropertyField binding-path="circleColliderRadius" />
+                </ui:VisualElement>
+                <ui:VisualElement name="CircleOptions" style="flex-grow: 1;">
+                    <uie:PropertyField binding-path="boxColliderSize" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:Label tabindex="-1" text="Layers" parse-escape-sequences="true" display-tooltip-when-elided="true" class="title" />
+        <ui:VisualElement name="DebugVariables" class="panel" style="flex-grow: 1; width: auto;">
+            <uie:PropertyField binding-path="showDebug" />
+            <uie:PropertyField binding-path="colliderDebugColor" />
+        </ui:VisualElement>
+        <ui:Label tabindex="-1" text="Debug" parse-escape-sequences="true" display-tooltip-when-elided="true" class="title" />
+        <ui:VisualElement name="OtherVariables" class="panel" style="flex-grow: 1; width: auto;">
+            <uie:PropertyField binding-path="collisionMinDist" />
+            <uie:PropertyField binding-path="blockingObjectsLayer" />
+            <uie:PropertyField binding-path="intractionObjectsLayer" />
+            <uie:PropertyField />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

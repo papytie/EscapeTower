@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/PlayerHUDStyle.uss?fileID=7433441132597879392&amp;guid=80987f2fa6804e146964e94d86a32bb7&amp;type=3#PlayerHUDStyle" />
+    <ui:VisualElement name="Canvas" style="flex-grow: 1;">
+        <ui:Label tabindex="-1" text="Player HUD" parse-escape-sequences="true" display-tooltip-when-elided="true" class="header" />
+        <ui:Slider high-value="100" name="PlayerLifeBar" show-input-field="false" inverted="false" page-size="0" class="lifeBar" />
+    </ui:VisualElement>
+</ui:UXML>
