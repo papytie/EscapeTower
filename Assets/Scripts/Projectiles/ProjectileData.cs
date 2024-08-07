@@ -19,12 +19,11 @@ public class ProjectileData
     public LayerMask targetLayer;
 
     [Header("Return Settings")]
-    public ProjectileReturnType returnType = ProjectileReturnType.NoReturn;
     public bool returnFlip = false;
+    public ProjectileReturnType returnType = ProjectileReturnType.NoReturn;
     public AnimationCurve returnCurve;
 
-    [Header("Debug")]
-    public bool showDebug;
-    public Mesh debugCube;
-    public Color projectileDebugColor;
+    [Header("Spawn")]
+    public bool spawnObjectOnHit = false;
+    public GameObject spawnObject;
 }

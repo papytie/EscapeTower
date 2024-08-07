@@ -148,4 +148,26 @@ public sealed class SRAnimators {
             public const int Base_Layer = 0;
         }
     }
+    
+    public sealed class BeamAnim {
+        
+        private BeamAnim() {
+        }
+        
+        public sealed class Parameters {
+            
+            private Parameters() {
+            }
+            
+            public const int isFiring = -1799522200;
+        }
+        
+        public sealed class Layers {
+            
+            private Layers() {
+            }
+            
+            public const int Base_Layer = 0;
+        }
+    }
 }

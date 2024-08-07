@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: BossPulseSphere
+  m_Controller: {fileID: 9100000, guid: 7eb248796cbbe1c46a803be11a750b8e, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 80c1a50b6a991fa4cb5f097031246df8, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: f54a524df6b528949a115f7049c01a15, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: bc361db0e68a8cf4cae8f125ca327838, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: ecbcf3e80f9b9ce40ac10df28248e5a4, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 5fc69dcba898cc240adf944de0db08d2, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: f54a524df6b528949a115f7049c01a15, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 7ce2b014a72475242895d4af7df1164b, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: ecbcf3e80f9b9ce40ac10df28248e5a4, type: 2}

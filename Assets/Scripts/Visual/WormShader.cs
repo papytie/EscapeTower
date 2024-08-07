@@ -1,25 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class WormShader : MonoBehaviour
 {
-    // private Material mat;
-    private MaterialPropertyBlock matPropBlock;
-    public Color wormColor;
+    [SerializeField] Color wormColor = Color.green;
 
-    // Start is called before the first frame update
+    SpriteRenderer spriteRenderer;
+    MaterialPropertyBlock matPropBlock;
+
     void Start()
     {
-
-        matPropBlock = new MaterialPropertyBlock();
-        matPropBlock.SetColor("_WormColor", wormColor);
-        GetComponent<SpriteRenderer>().SetPropertyBlock(matPropBlock);
+        InitShader();
     }
 
-    // Update is called once per frame
-    void Update()
+    void InitShader()
     {
+        matPropBlock = new MaterialPropertyBlock();
+        matPropBlock.SetColor("_WormColor", wormColor);
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.SetPropertyBlock(matPropBlock);
+    }
 
+    private void OnValidate()
+    {
+        InitShader();
     }
 }

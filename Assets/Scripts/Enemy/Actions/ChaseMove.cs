@@ -1,0 +1,57 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ChaseMove : MonoBehaviour, IAction
+{
+    public bool IsAvailable => Vector2.Distance(controller.CurrentTarget.transform.position.ToVector2(), transform.position) > data.minRange;
+    public bool IsCompleted { get; set; }
+    public Vector3 Direction => direction;
+
+    private ChaseData data;
+    private EnemyController controller;
+    Vector2 direction;
+
+    public void InitRef(IActionData dataRef, EnemyController controllerRef)
+    {
+        data = dataRef as ChaseData;
+        controller = controllerRef;
+    }
+
+    public void StartProcess()
+    {
+        controller.AnimationParam.UpdateMoveAnimSpeed(controller.Stats.MoveSpeed * data.speedMult);
+    }
+
+    public void UpdateProcess()
+    {
+        if (controller.CurrentTarget == null) return;
+
+        Vector3 offsetPosition = transform.position.ToVector2() + controller.CircleCollider.offset;
+        direction = (controller.CurrentTarget.transform.position - offsetPosition).normalized;
+
+        float targetDistance = Vector3.Distance(transform.position, controller.CurrentTarget.transform.position);
+
+        if (targetDistance > data.minRange)
+        {
+            //Check for collision
+            controller.Collision.MoveToCollisionCheck(direction, controller.Stats.MoveSpeed * data.speedMult * Time.deltaTime, controller.Collision.BlockingObjectsLayer, out Vector3 finalPosition, out List<RaycastHit2D> hitList);
+            
+            //The right movement direction vector modified by the collision Check
+            Vector2 moveVector = (finalPosition - transform.position).normalized;
+            
+            //Actual movement
+            transform.position = finalPosition;
+            
+            //Update Animation with the right direction vector
+            controller.AnimationParam.UpdateMoveAnimDirection(moveVector);
+        }
+        else IsCompleted = true;
+
+    }
+
+    public void EndProcess()
+    {
+        IsCompleted = false;
+        controller.CurrentDirection = direction;
+    }
+}

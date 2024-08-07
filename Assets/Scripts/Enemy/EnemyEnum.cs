@@ -1,20 +1,5 @@
 //All Enums for enemy scripts
 
-public enum MovementType
-{
-    Wait = 0,
-    Chase = 1,
-    Flee = 2,
-    StayAtRange = 3,
-    TurnAround = 4,
-}
-
-public enum AttackType
-{
-    Melee = 0,
-    Ranged = 1,
-}
-
 public enum TurnDirection
 {
     Clockwise = 0,
@@ -39,13 +24,27 @@ public enum Condition
     OutOfAttackRange = 5,
 }
 
-public enum StateType
+public enum ActionType
 {
-    Wait = 0,
-    SearchMove = 1,
+    WaitMove = 0,
+    RoamMove = 1,
     ChaseMove = 2,
-    FleeMove = 3,
-    StayAtRangeMove = 4,
-    MeleeAttack = 5,
-    RangedAttack = 6,
+    StayAtRangeMove = 3,
+    FleeMove = 4,
+    TurnAroundMove = 5,
+    MeleeAttack = 6,
+    RangedAttack = 7,
+    ChargeAttack = 8,
+    TakeDamageReaction = 9,
+    DieReaction = 10,
+    BeamAttack = 11,
+}
+
+public enum BehaviourType
+{
+    Harmless = 0,
+    Stalker = 1,
+    Harasser = 2,
+    Fighter = 3,
+    BulletHell = 4,
 }

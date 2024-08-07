@@ -33,7 +33,7 @@ public class ProjectileController : MonoBehaviour
     bool isReturning = false;
     bool hasHit = false;
     GameObject owner;
-    ProjectileData projData;
+    ProjectileData data;
     Animator animator;
 
     List<ILifeSystem> hitList = new();
@@ -41,7 +41,7 @@ public class ProjectileController : MonoBehaviour
     public void Init(GameObject projectileOwner, ProjectileData data, Vector3 relativePos, float projectileDamage, float projectileRange)
     {
         owner = projectileOwner;
-        projData = data;
+        this.data = data;
         damage = projectileDamage;
         endPosition = relativePos + transform.up * projectileRange;
         startPosition = transform.position;
@@ -56,7 +56,7 @@ public class ProjectileController : MonoBehaviour
 
         if (isReturning)
         {
-            switch (projData.returnType)
+            switch (data.returnType)
             {
                 case ProjectileReturnType.ReturnToSpawnPosition:
                     ProjectileMovement(startPosition, endPosition);
@@ -68,9 +68,9 @@ public class ProjectileController : MonoBehaviour
             }
         }
 
-        if (Time.time >= startTime + projData.range / projData.speed)
+        if (Time.time >= startTime + data.range / data.speed)
         {
-            if(!isReturning && projData.returnType != ProjectileReturnType.NoReturn)
+            if(!isReturning && data.returnType != ProjectileReturnType.NoReturn)
             {
                 endPosition = startPosition;
                 startPosition = transform.position;
@@ -80,21 +80,19 @@ public class ProjectileController : MonoBehaviour
             }
             animator.SetTrigger(SRAnimators.ProjectileAnimBase.Parameters.falloff);
             Invoke(nameof(DestroyProjectile), falloffDelay);
-            
         }
-
     }
 
     void ProjectileMovement(Vector2 startPos, Vector2 endPos)
     {
-        float t = Mathf.Clamp01((Time.time - startTime) / (projData.range / projData.speed));
+        float t = Mathf.Clamp01((Time.time - startTime) / (data.range / data.speed));
         //Move gameObject
-        transform.position = Vector3.Lerp(startPos, endPos, projData.launchCurve.Evaluate(t));
+        transform.position = Vector3.Lerp(startPos, endPos, data.launchCurve.Evaluate(t));
 
-        if(isReturning && projData.returnType == ProjectileReturnType.ReturnToPlayer)
+        if(isReturning && data.returnType == ProjectileReturnType.ReturnToPlayer)
         {
             Vector3 toPlayerVector = owner.transform.position - transform.position;
-            if (projData.returnFlip)
+            if (data.returnFlip)
                 transform.rotation = Quaternion.FromToRotation(Vector3.up, toPlayerVector.normalized);
             else transform.rotation = Quaternion.FromToRotation(Vector3.up, -toPlayerVector.normalized);
         }
@@ -109,8 +107,8 @@ public class ProjectileController : MonoBehaviour
     {
         collisionsList = hitboxShape switch
         {
-            HitboxShapeType.Circle => Physics2D.CircleCastAll(position, circleRadius, Vector2.zero, 0, projData.targetLayer),
-            HitboxShapeType.Box => Physics2D.BoxCastAll(position, boxSize, Quaternion.Angle(Quaternion.identity, transform.rotation), Vector2.zero, 0, projData.targetLayer),
+            HitboxShapeType.Circle => Physics2D.CircleCastAll(position, circleRadius, Vector2.zero, 0, data.targetLayer),
+            HitboxShapeType.Box => Physics2D.BoxCastAll(position, boxSize, Quaternion.Angle(Quaternion.identity, transform.rotation), Vector2.zero, 0, data.targetLayer),
             _ => null,
         };
         return collisionsList.Length > 0;
@@ -121,7 +119,7 @@ public class ProjectileController : MonoBehaviour
         switch (hitboxShape)
         {
             case HitboxShapeType.Circle:
-                RaycastHit2D circleCollision = Physics2D.CircleCast(position, circleRadius, Vector2.zero, 0, projData.obstructionLayer);
+                RaycastHit2D circleCollision = Physics2D.CircleCast(position, circleRadius, Vector2.zero, 0, data.obstructionLayer);
                 if (circleCollision)
                 {
                     hasHit = true;
@@ -132,7 +130,7 @@ public class ProjectileController : MonoBehaviour
                 break;
 
             case HitboxShapeType.Box:
-                RaycastHit2D boxCollision = Physics2D.BoxCast(position, boxSize, Quaternion.Angle(Quaternion.identity, transform.rotation), Vector2.zero, 0, projData.obstructionLayer);
+                RaycastHit2D boxCollision = Physics2D.BoxCast(position, boxSize, Quaternion.Angle(Quaternion.identity, transform.rotation), Vector2.zero, 0, data.obstructionLayer);
                 if (boxCollision)
                 {
                     hasHit = true;
@@ -154,7 +152,7 @@ public class ProjectileController : MonoBehaviour
             {
                 if (!collision.transform.TryGetComponent<ILifeSystem>(out var lifeSystem)) return;
 
-                if (!lifeSystem.IsDead && !hitList.Contains(lifeSystem) && hitList.Count < projData.maxTargets)
+                if (!lifeSystem.IsDead && !hitList.Contains(lifeSystem) && hitList.Count < data.maxTargets)
                 {
                     //Animation
                     animator.SetTrigger(SRAnimators.ProjectileAnimBase.Parameters.hit);       
@@ -163,12 +161,15 @@ public class ProjectileController : MonoBehaviour
                 }
 
                 //Destroy self if numberOfTarget is reached
-                if (hitList.Count >= projData.maxTargets)
+                if (hitList.Count >= data.maxTargets)
                 {
                     hasHit = true;
                     Invoke(nameof(DestroyProjectile), hitDelay);
                 }
             }
+
+            if (data.spawnObjectOnHit)
+                Instantiate(data.spawnObject, transform.position, Quaternion.identity);
         }
     }
 

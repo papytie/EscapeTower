@@ -1,29 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyStatsComponent : MonoBehaviour
 {
-    public float MoveSpeed => moveSpeed * scalingFactor;
-    public float AttackSpeed => attackSpeed / scalingFactor;
-    public float CollisionDamage => collisionDamage * scalingFactor;
-    public float MeleeDamage => meleeDamage * scalingFactor;
-    public float ProjectileDamage => projectileDamage * scalingFactor;
-    public float DetectionRadius => detectionRadius * scalingFactor;
-    public float MaxLifePoints => maxLifePoints * scalingFactor;
+    public float MoveSpeed => baseMoveSpeed * ScalingFactor;
+    public float CollisionDamage => collisionDamage * ScalingFactor;
+    public float DetectionRadius => detectionRadius * ScalingFactor;
+    public float MaxHealth => maxHealth * ScalingFactor;
+    public float Weight => weight * ScalingFactor;
+    
+    public float ScalingFactor { get; set; }
+
+    public float CurrentHealth { get; set; }
+    public bool IsDead => CurrentHealth <= 0;
+    public float LastDMGReceived { get; set; }
+    public Vector3 LastATKNormalReceived { get; set; }
 
     [Header("Stats"), Space]
-    [SerializeField] float moveSpeed = 1;
-    [SerializeField] float attackSpeed = 1;
+    [Header("General")]
+    [SerializeField] float maxHealth = 10;
     [SerializeField] float collisionDamage = 1;
-    [SerializeField] float meleeDamage = 1;
-    [SerializeField] float projectileDamage = 1;
     [SerializeField] float detectionRadius = 1;
-    [SerializeField] float maxLifePoints = 10;
-    [SerializeField] float scalingFactor = 1;
+    [SerializeField] float weight = 1;
+    [Header("Movement")]
+    [SerializeField] float baseMoveSpeed = 1;
+
+    public void Init()
+    {
+        CurrentHealth = maxHealth;
+        ScalingFactor = 1;
+    }
 
     public void SetScalingFactorTo(float value)
     {
-        scalingFactor = value;
+        ScalingFactor = value;
     }
 }

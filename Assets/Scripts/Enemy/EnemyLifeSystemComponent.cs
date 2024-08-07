@@ -2,74 +2,36 @@ using UnityEngine;
 
 public class EnemyLifeSystemComponent : MonoBehaviour, ILifeSystem
 {
-    public bool IsDead => isDead;
-    public float CurrentLifePoints => currentLifePoints;
-    public float MaxLifePoints => stats.MaxLifePoints;
+    public bool IsDead => controller.Stats.IsDead;
 
-    [Header("Life Settings")]
-    [SerializeField] float despawnDuration = 3f;
+    EnemyController controller;
 
-    bool isDead = false;
-    float despawnEndTime = 0;
-    float currentLifePoints = 1;
-
-    Animator animator;
-    EnemyStatsComponent stats;
-    EnemyLootSystem enemyLoot;
-    Collider2D enemyCollider;
-    BumpComponent bump;
-
-    public void InitRef(Animator animatorRef, EnemyLootSystem lootSystem, BumpComponent bumpRef, EnemyStatsComponent enemyStats)
+    public void InitRef(EnemyController ctrlRef)
     {
-        animator = animatorRef;
-        stats = enemyStats;
-        currentLifePoints = stats.MaxLifePoints;
-        enemyLoot = lootSystem;
-        bump = bumpRef;
+        controller = ctrlRef;
     }
 
-    private void Start()
+    public void TakeDamage(float damageValue, Vector2 atkVector)
     {
-        enemyCollider = GetComponent<Collider2D>();
-    }
+        if (controller.Stats.IsDead) return;
 
-    private void Update()
-    {
-        if (isDead && Time.time >= despawnEndTime)
+        controller.Stats.CurrentHealth -= damageValue;
+        controller.Stats.LastDMGReceived = damageValue;
+        controller.Stats.LastATKNormalReceived = atkVector;
+
+        if (controller.Stats.CurrentHealth <= 0)
         {
-            enemyLoot.RollLoot();
-            Destroy(gameObject);
-        }
-    }
-
-    public void TakeDamage(float damageValue, Vector2 normal)
-    {
-        if (isDead) return;
-
-        currentLifePoints -= damageValue;
-        if (currentLifePoints <= 0)
-        {
-            currentLifePoints = 0;
-            SetDespawnTimer(despawnDuration);
-            enemyCollider.enabled = false;
-            animator.SetTrigger(SRAnimators.EnemyBaseAnimator.Parameters.die);
+            controller.Stats.CurrentHealth = 0;
+            controller.CircleCollider.enabled = false;
+            controller.Behaviour.FSM.SetState(ReactionID.DIE);
             return;
         }
-        bump.BumpedAwayActivation(-normal, damageValue);
-        animator.SetTrigger(SRAnimators.EnemyBaseAnimator.Parameters.takeDamage);
+        else controller.Behaviour.FSM.SetState(ReactionID.TAKEDMG);
     }
 
     public void HealUp(float healValue)
     {
-        if (isDead) return;
-
-        currentLifePoints = Mathf.Min(currentLifePoints + healValue, stats.MaxLifePoints);
+        if (controller.Stats.IsDead) return;
+        controller.Stats.CurrentHealth = Mathf.Min(controller.Stats.CurrentHealth + healValue, controller.Stats.MaxHealth);
     }
-
-    void SetDespawnTimer(float duration)
-    {
-        despawnEndTime = Time.time + duration;
-        isDead = true;
-    }
-
 }

@@ -215,14 +215,14 @@ GameObject:
   m_Component:
   - component: {fileID: 3625466554441812816}
   - component: {fileID: 6192666716925722510}
+  - component: {fileID: 405300392214398030}
+  - component: {fileID: 6364991974943769003}
   - component: {fileID: 1272981031720880686}
-  - component: {fileID: 3028394513871396738}
   - component: {fileID: 2497435565176953835}
   - component: {fileID: 972678345297857583}
   - component: {fileID: 5989151160579487604}
-  - component: {fileID: 6364991974943769003}
-  - component: {fileID: 6806905815723404971}
   - component: {fileID: 3042678428428809481}
+  - component: {fileID: 1122773551258371257}
   m_Layer: 7
   m_Name: EyeSize2
   m_TagString: Untagged
@@ -281,6 +281,75 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0.16}
   serializedVersion: 2
   m_Radius: 0.12
+--- !u!61 &405300392214398030
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8572923837307404987}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.25, y: 0.08}
+  m_EdgeRadius: 0
+--- !u!114 &6364991974943769003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8572923837307404987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21bc6b7d242f7a248b1999248d878d92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderShape: 1
+  circleColliderRadius: 1
+  boxColliderSize: {x: 0.25, y: 0.08}
+  collisionMinDist: 0.01
+  blockingObjectsLayer:
+    serializedVersion: 2
+    m_Bits: 384
+  intractionObjectsLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  showDebug: 0
+  colliderDebugColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!114 &1272981031720880686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,20 +368,8 @@ MonoBehaviour:
   obstructionLayer:
     serializedVersion: 2
     m_Bits: 256
-  showDebug: 1
+  showDebug: 0
   debugColor: {r: 1, g: 0.36017123, b: 0, a: 1}
---- !u!114 &3028394513871396738
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8572923837307404987}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 903494ed504afc44bb87e3287c169886, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2497435565176953835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,7 +382,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59134b6e189b5fa468a7c17857bf0192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  despawnDuration: 3
 --- !u!114 &972678345297857583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,202 +408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b2a66150ab8292479a92f49da9b9ecc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementList:
-  - type: 3
-    data:
-      rid: 3354533387668291585
-    prerequisite: 
-  attackList: []
-  timerDuration: 2
-  references:
-    version: 2
-    RefIds:
-    - rid: 3354533387668291585
-      type: {class: StayAtRangeData, ns: , asm: Assembly-CSharp}
-      data:
-        speedMult: 2
-        minRange: 0.5
-        maxRange: 2
---- !u!114 &6364991974943769003
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8572923837307404987}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21bc6b7d242f7a248b1999248d878d92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colliderShape: 1
-  circleColliderRadius: 1
-  boxColliderSize: {x: 0.24, y: 0.24}
-  collisionMinDist: 0.01
-  blockingObjectsLayer:
-    serializedVersion: 2
-    m_Bits: 384
-  intractionObjectsLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  showDebug: 1
-  colliderDebugColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
---- !u!114 &6806905815723404971
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8572923837307404987}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: addca6fb27441fb419ca6627421f7e6d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bumpCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1.9285715
-      outSlope: 1.9285715
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.071428575
-      value: 0.13775511
-      inSlope: 1.8571429
-      outSlope: 1.8571429
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.14285715
-      value: 0.26530614
-      inSlope: 1.7142856
-      outSlope: 1.7142856
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.21428572
-      value: 0.38265306
-      inSlope: 1.5714283
-      outSlope: 1.5714283
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.2857143
-      value: 0.48979592
-      inSlope: 1.4285715
-      outSlope: 1.4285715
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.35714287
-      value: 0.5867347
-      inSlope: 1.2857141
-      outSlope: 1.2857141
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.42857143
-      value: 0.67346936
-      inSlope: 1.1428571
-      outSlope: 1.1428571
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.5
-      value: 0.75
-      inSlope: 1.0000002
-      outSlope: 1.0000002
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.5714286
-      value: 0.81632656
-      inSlope: 0.85714287
-      outSlope: 0.85714287
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.64285713
-      value: 0.872449
-      inSlope: 0.71428585
-      outSlope: 0.71428585
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.71428573
-      value: 0.9183674
-      inSlope: 0.5714287
-      outSlope: 0.5714287
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.78571427
-      value: 0.95408165
-      inSlope: 0.42857128
-      outSlope: 0.42857128
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.85714287
-      value: 0.97959185
-      inSlope: 0.28571415
-      outSlope: 0.28571415
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.9285714
-      value: 0.99489796
-      inSlope: 0.14285712
-      outSlope: 0.14285712
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0.071428515
-      outSlope: 0.071428515
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  bumpDistanceRatio: 0.1
-  bumpDuration: 0.1
-  stunDuration: 0.5
+  behaviourConfig: {fileID: 11400000, guid: 824d06753c9266c4caa375bd5cdffa26, type: 2}
 --- !u!114 &3042678428428809481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -560,11 +421,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd56c217e62865a46a7750fe272f3bd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.4
-  attackSpeed: 1
-  collisionDamage: 2
-  meleeDamage: 2
-  projectileDamage: 2
-  detectionRadius: 5
-  maxLifePoints: 5
-  scalingFactor: 1
+  maxHealth: 10
+  collisionDamage: 3
+  detectionRadius: 2
+  weight: 3
+  baseMoveSpeed: 0.4
+--- !u!114 &1122773551258371257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8572923837307404987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 122ebb81fdfc8dc4ba8f9d55800470e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
