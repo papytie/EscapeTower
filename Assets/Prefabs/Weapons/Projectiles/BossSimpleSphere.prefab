@@ -154,10 +154,10 @@ MonoBehaviour:
   hitboxShape: 2
   hitboxOffset: {x: 0, y: 0}
   boxSize: {x: 0.1, y: 0.1}
-  circleRadius: 0.15
+  circleRadius: 0.1
   falloffDelay: 0.5
   obstructionDelay: 0.5
   hitDelay: 0.5
-  showDebug: 0
+  showDebug: 1
   debugColor: {r: 1, g: 0, b: 0, a: 1}
   boxMesh: {fileID: 0}

@@ -3432,6 +3432,10 @@ PrefabInstance:
       propertyPath: colliderShape
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4527449375825524640, guid: aedf39e926b640b4687e56297141b15d, type: 3}
+      propertyPath: circleColliderRadius
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 4910991978233942965, guid: aedf39e926b640b4687e56297141b15d, type: 3}
       propertyPath: bumpDistanceRatio
       value: 0.1

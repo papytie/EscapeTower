@@ -134,7 +134,7 @@ MonoBehaviour:
         duration: 0.1
         recupTime: 0.5
         cooldown: 1
-        displayWarningBeam: 0
+        displayWarningBeam: 1
         warningTime: 1
         warningBeam: {fileID: 6861554593724293505, guid: 96a19a00546c1bb419b4139b1e0eee02, type: 3}
         showDebug: 1
@@ -199,7 +199,7 @@ MonoBehaviour:
         duration: 0.1
         recupTime: 0.5
         cooldown: 1
-        displayWarningBeam: 0
+        displayWarningBeam: 1
         warningTime: 1
         warningBeam: {fileID: 6861554593724293505, guid: 96a19a00546c1bb419b4139b1e0eee02, type: 3}
         showDebug: 1
@@ -381,7 +381,7 @@ MonoBehaviour:
         duration: 0.1
         recupTime: 0.5
         cooldown: 1
-        displayWarningBeam: 0
+        displayWarningBeam: 1
         warningTime: 1
         warningBeam: {fileID: 6861554593724293505, guid: 96a19a00546c1bb419b4139b1e0eee02, type: 3}
         showDebug: 1
@@ -563,7 +563,7 @@ MonoBehaviour:
         duration: 1
         recupTime: 0.5
         cooldown: 1
-        displayWarningBeam: 0
+        displayWarningBeam: 1
         warningTime: 1
         warningBeam: {fileID: 6861554593724293505, guid: 96a19a00546c1bb419b4139b1e0eee02, type: 3}
         showDebug: 1
@@ -597,7 +597,7 @@ MonoBehaviour:
       data:
         projectileData:
           projectileToSpawn: {fileID: 3192363035229154166, guid: 08e85bf298afcee48916651b319b4d18, type: 3}
-          spawnOffset: {x: 0, y: 0.3}
+          spawnOffset: {x: 0, y: 0}
           launchCurve:
             serializedVersion: 2
             m_Curve:
@@ -779,7 +779,7 @@ MonoBehaviour:
       data:
         projectileData:
           projectileToSpawn: {fileID: 3192363035229154166, guid: 3c7fefa18cb40844e92c3896c796792f, type: 3}
-          spawnOffset: {x: 0, y: 0.3}
+          spawnOffset: {x: 0, y: 0}
           launchCurve:
             serializedVersion: 2
             m_Curve:

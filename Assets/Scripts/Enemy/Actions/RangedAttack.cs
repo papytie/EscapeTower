@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class RangedAttack : MonoBehaviour, IAction
@@ -92,14 +93,14 @@ public class RangedAttack : MonoBehaviour, IAction
                     Quaternion angleResult = Quaternion.AngleAxis(angle + data.projectileData.angleOffset, transform.forward);
 
                     warningBeams[i].transform.SetPositionAndRotation(projectileSpawnPos, currentRotation * angleResult);
-                    warningBeams[i].SpriteRenderer.size = new Vector2(GetBeamLength(direction), warningBeams[i].SpriteRenderer.size.y);
+                    warningBeams[i].SpriteRenderer.size = new Vector2(GetBeamLength(angleResult * direction), data.projectileData.projectileToSpawn.CircleRadius * 2);
                     warningBeams[i].gameObject.SetActive(true);
                 }
             }
             else
             {
                 warningBeams[0].transform.SetPositionAndRotation(projectileSpawnPos, currentRotation * Quaternion.AngleAxis(data.projectileData.angleOffset, transform.forward));
-                warningBeams[0].SpriteRenderer.size = new Vector2(GetBeamLength(direction), warningBeams[0].SpriteRenderer.size.y);
+                warningBeams[0].SpriteRenderer.size = new Vector2(GetBeamLength(direction), data.projectileData.projectileToSpawn.CircleRadius * 2);
                 warningBeams[0].gameObject.SetActive(true);
             }
 
@@ -144,7 +145,17 @@ public class RangedAttack : MonoBehaviour, IAction
     {
         Vector3 center = transform.position.ToVector2() + controller.CircleCollider.offset;
         Vector3 beamSpawnPos = center + currentRotation * data.projectileData.spawnOffset;
-        RaycastHit2D raycast = Physics2D.Raycast(beamSpawnPos, direction);
-        return raycast.distance;
+               
+        RaycastHit2D[] allHit = Physics2D.RaycastAll(beamSpawnPos, direction);
+        if (allHit.Length < 0)
+        {
+            foreach (RaycastHit2D hit in allHit)
+            {
+                if (hit.transform.gameObject.layer == data.projectileData.obstructionLayer)
+                    if (hit.distance < data.projectileData.range)
+                        return hit.distance;     
+            }
+        }
+        return data.projectileData.range;
     }
 }
