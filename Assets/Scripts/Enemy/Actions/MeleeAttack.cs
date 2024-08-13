@@ -130,7 +130,7 @@ public class MeleeAttack : MonoBehaviour, IAction
 
     private void OnDrawGizmos()
     {
-        if (!Application.isPlaying || controller.Behaviour.FSM.CurrentState.Action.GetType() != typeof(MeleeAttack)) return;
+        if (!Application.isPlaying || controller.MainBehaviour.FSM.CurrentState.Action.GetType() != typeof(MeleeAttack)) return;
 
         if (data.showDebug && Time.time >= detectionStartTime && Time.time <= detectionEndTime)
         {

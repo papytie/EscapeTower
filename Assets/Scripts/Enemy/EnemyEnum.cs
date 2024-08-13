@@ -38,6 +38,7 @@ public enum ActionType
     TakeDamageReaction = 9,
     DieReaction = 10,
     BeamAttack = 11,
+    EmptyAction = 12,
 }
 
 public enum BehaviourType
@@ -47,4 +48,5 @@ public enum BehaviourType
     Harasser = 2,
     Fighter = 3,
     BulletHell = 4,
+    AdditiveLayer = 5,
 }

@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 8130586081842320998}
   - component: {fileID: 6861554593724293505}
   m_Layer: 0
-  m_Name: Beam
+  m_Name: BasicBeam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

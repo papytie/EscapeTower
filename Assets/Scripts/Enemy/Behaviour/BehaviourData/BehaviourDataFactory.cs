@@ -9,6 +9,7 @@ public class BehaviourDataFactory
             BehaviourType.Harasser => new HarasserData(),
             BehaviourType.Fighter => new FighterData(),
             BehaviourType.BulletHell => new BulletHellData(),
+            BehaviourType.AdditiveLayer => new AdditiveLayerData(),
             _ => null,
         };
     }

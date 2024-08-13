@@ -7,11 +7,13 @@ public class Harmless : MonoBehaviour, IBehaviour
 
     NPCFSM fsm;
     EnemyController controller;
+    HarmlessData data;
 
-    public void Init(EnemyController enemyController)
+    public void Init(EnemyController enemyController, IBehaviourData behaviourData)
     {
-        //Get EnemyController ref
+        //Get Controller & Data ref
         controller = enemyController;
+        data = behaviourData as HarmlessData;
 
         //Init Reaction state
         Init_TakeDamageReaction();
@@ -22,12 +24,26 @@ public class Harmless : MonoBehaviour, IBehaviour
         Init_RoamState();
 
         //Set this Behaviour starting default state
-        fsm.SetState(HarmlessActionID.WAIT);
+        fsm.SetState(data.wait.name);
     }
+
+    public void SetTakeDamageState()
+    {
+        fsm.SetState(data.takeDamage.name);
+    }
+
+    public void SetDieState()
+    {
+        fsm.SetState(data.die.name);
+    }
+
+    //------------------------------\---/-------------------------------|
+    //----------------------------|ACTIONS|-----------------------------|
+    //------------------------------/---\-------------------------------|
 
     void Init_WaitState()
     {
-        NPCState state = fsm.GetState(HarmlessActionID.WAIT);
+        NPCState state = fsm.GetState(data.wait.name);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
         state.OnStateExit += () => { /* Last Method called when exit State */ };
@@ -36,14 +52,14 @@ public class Harmless : MonoBehaviour, IBehaviour
         {
             if (state.Action.IsCompleted)
             {
-                fsm.SetState(HarmlessActionID.ROAM);
+                fsm.SetState(data.roam.name);
             }
         };
     }
 
     void Init_RoamState()
     {
-        NPCState state = fsm.GetState(HarmlessActionID.ROAM);
+        NPCState state = fsm.GetState(data.roam.name);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
         state.OnStateExit += () => { /* Last Method called when exit State */ };
@@ -52,7 +68,7 @@ public class Harmless : MonoBehaviour, IBehaviour
         {
             if (state.Action.IsCompleted)
             {
-                fsm.SetState(HarmlessActionID.WAIT);
+                fsm.SetState(data.wait.name);
             }
         };
 
@@ -64,7 +80,7 @@ public class Harmless : MonoBehaviour, IBehaviour
 
     void Init_TakeDamageReaction()
     {
-        NPCState state = fsm.GetState(ReactionID.TAKEDMG);
+        NPCState state = fsm.GetState(data.takeDamage.name);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
         state.OnStateExit += () => { /* Last Method called when exit State */ };
@@ -72,13 +88,13 @@ public class Harmless : MonoBehaviour, IBehaviour
         state.OnStateUpdate += () =>
         {
             if (state.Action.IsCompleted)
-                fsm.SetState(HarmlessActionID.WAIT);
+                fsm.SetState(data.wait.name);
         };
     }
 
     void Init_DieReaction()
     {
-        NPCState state = fsm.GetState(ReactionID.DIE);
+        NPCState state = fsm.GetState(data.die.name);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
         state.OnStateExit += () => { /* Last Method called when exit State */ };

@@ -7,11 +7,13 @@ public class Harasser : MonoBehaviour, IBehaviour
 
     NPCFSM fsm;
     EnemyController controller;
+    HarasserData data;
 
-    public void Init(EnemyController enemyController)
+    public void Init(EnemyController enemyController, IBehaviourData behaviourData)
     {
-        //Get EnemyController ref
+        //Get Controller & Data ref
         controller = enemyController;
+        data = behaviourData as HarasserData;
 
         //Init Reaction state
         Init_TakeDamageReaction();
@@ -24,12 +26,26 @@ public class Harasser : MonoBehaviour, IBehaviour
         Init_RangedAttackState();
 
         //Set this Behaviour starting default state
-        fsm.SetState(HarasserActionID.WAIT);
+        fsm.SetState(data.wait.name);
     }
+
+    public void SetTakeDamageState()
+    {
+        fsm.SetState(data.takeDamage.name);
+    }
+
+    public void SetDieState()
+    {
+        fsm.SetState(data.die.name);
+    }
+
+    //------------------------------\---/-------------------------------|
+    //----------------------------|ACTIONS|-----------------------------|
+    //------------------------------/---\-------------------------------|
 
     void Init_WaitState()
     {
-        NPCState state = fsm.GetState(HarasserActionID.WAIT);
+        NPCState state = fsm.GetState(data.wait.name);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
         state.OnStateExit += () => { /* Last Method called when exit State */ };
@@ -37,17 +53,17 @@ public class Harasser : MonoBehaviour, IBehaviour
         state.OnStateUpdate += () =>
         {
             if (controller.TargetAcquired)
-                fsm.SetState(HarasserActionID.STAYATRANGE);
+                fsm.SetState(data.stayAtRange.name);
             
             if (state.Action.IsCompleted)
-                fsm.SetState(HarasserActionID.ROAM);
+                fsm.SetState(data.roam.name);
 
         };
     }
 
     void Init_RoamState()
     {
-        NPCState state = fsm.GetState(HarasserActionID.ROAM);
+        NPCState state = fsm.GetState(data.roam.name);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
         state.OnStateExit += () => { /* Last Method called when exit State */ };
@@ -55,10 +71,10 @@ public class Harasser : MonoBehaviour, IBehaviour
         state.OnStateUpdate += () =>
         {
             if (controller.TargetAcquired)
-                fsm.SetState(HarasserActionID.STAYATRANGE);
+                fsm.SetState(data.stayAtRange.name);
 
             if (state.Action.IsCompleted)
-                fsm.SetState(HarasserActionID.WAIT);
+                fsm.SetState(data.wait.name);
 
         };
 
@@ -66,7 +82,7 @@ public class Harasser : MonoBehaviour, IBehaviour
 
     void Init_StayAtRangeState()
     {
-        NPCState state = fsm.GetState(HarasserActionID.STAYATRANGE);
+        NPCState state = fsm.GetState(data.stayAtRange.name);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
         state.OnStateExit += () => { /* Last Method called when exit State */ };
@@ -74,16 +90,16 @@ public class Harasser : MonoBehaviour, IBehaviour
         state.OnStateUpdate += () =>
         {
             if (!controller.TargetAcquired)
-                fsm.SetState(HarasserActionID.WAIT);
+                fsm.SetState(data.wait.name);
 
-            if(controller.TargetAcquired && fsm.GetState(HarasserActionID.RANGED).Action.IsAvailable)
-                fsm.SetState(HarasserActionID.RANGED);
+            if(controller.TargetAcquired && fsm.GetState(data.ranged.name).Action.IsAvailable)
+                fsm.SetState(data.ranged.name);
         };
     }
 
     void Init_RangedAttackState()
     {
-        NPCState state = fsm.GetState(HarasserActionID.RANGED);
+        NPCState state = fsm.GetState(data.ranged.name);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
         state.OnStateExit += () => { /* Last Method called when exit State */ };
@@ -91,7 +107,7 @@ public class Harasser : MonoBehaviour, IBehaviour
         state.OnStateUpdate += () =>
         {
             if (state.Action.IsCompleted)
-                fsm.SetState(HarasserActionID.WAIT);
+                fsm.SetState(data.wait.name);
         };
     }
 
@@ -101,7 +117,7 @@ public class Harasser : MonoBehaviour, IBehaviour
 
     void Init_TakeDamageReaction()
     {
-        NPCState state = fsm.GetState(ReactionID.TAKEDMG);
+        NPCState state = fsm.GetState(data.takeDamage.name);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
         state.OnStateExit += () => { /* Last Method called when exit State */ };
@@ -109,13 +125,13 @@ public class Harasser : MonoBehaviour, IBehaviour
         state.OnStateUpdate += () =>
         {
             if (state.Action.IsCompleted)
-                fsm.SetState(HarasserActionID.WAIT);
+                fsm.SetState(data.wait.name);
         };
     }
 
     void Init_DieReaction()
     {
-        NPCState state = fsm.GetState(ReactionID.DIE);
+        NPCState state = fsm.GetState(data.die.name);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
         state.OnStateExit += () => { /* Last Method called when exit State */ };

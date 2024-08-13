@@ -23,10 +23,10 @@ public class EnemyLifeSystemComponent : MonoBehaviour, ILifeSystem
         {
             controller.Stats.CurrentHealth = 0;
             controller.CircleCollider.enabled = false;
-            controller.Behaviour.FSM.SetState(ReactionID.DIE);
+            controller.MainBehaviour.SetDieState();
             return;
         }
-        else controller.Behaviour.FSM.SetState(ReactionID.TAKEDMG);
+        else controller.MainBehaviour.SetTakeDamageState();
     }
 
     public void HealUp(float healValue)

@@ -4,23 +4,20 @@ using System.Collections.Generic;
 [Serializable]
 public class HarmlessData : IBehaviourData
 {
-    public List<ActionConfig> Actions => actions;
+    public List<ActionConfig> Actions { get => actions; set { actions = value; } }
     public List<ActionConfig> actions;
 
-    public HarmlessData()
+    public ActionConfig wait;
+    public ActionConfig roam;
+    public ActionConfig takeDamage;
+    public ActionConfig die;
+
+    public void InitActionsList()
     {
         actions = new List<ActionConfig>
         {
-            { new ActionConfig(ActionType.WaitMove, HarmlessActionID.WAIT) },
-            { new ActionConfig(ActionType.RoamMove, HarmlessActionID.ROAM) },
-            { new ActionConfig(ActionType.TakeDamageReaction, ReactionID.TAKEDMG) },
-            { new ActionConfig(ActionType.DieReaction, ReactionID.DIE) }
+            wait, roam, takeDamage, die
         };
     }
 }
 
-static class HarmlessActionID
-{
-    public static string WAIT = "HarmlessWait";
-    public static string ROAM = "HarmlessRoam";
-}

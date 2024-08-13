@@ -66,7 +66,6 @@ public class WeaponController : MonoBehaviour
 
         if (isOnCooldown && Time.time >= cooldownEndTime)
             isOnCooldown = false;
-
     }
 
     public void AttackActivation()

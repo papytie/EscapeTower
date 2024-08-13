@@ -35,14 +35,14 @@ public class NPCState : IState
 
     public void StateEnter()
     {
-        Debug.Log("Enter " + Action.ToString());
+        //Debug.Log("Enter " + Action.ToString());
         OnStateEnter?.Invoke();
         Action?.StartProcess();
     }
 
     public void StateExit()
     {
-        Debug.Log("Exit " + Action.ToString());
+        //Debug.Log("Exit " + Action.ToString());
         Action?.EndProcess();
         OnStateExit?.Invoke();
     }

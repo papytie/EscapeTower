@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c49f88f41d04ea341b94b8ae24ae1143, type: 3}
+  m_Name: BasicNovaUltimate
+  m_EditorClassIdentifier: 
+  actionType: 7
+  data:
+    rid: 2940844261501304848
+  references:
+    version: 2
+    RefIds:
+    - rid: 2940844261501304848
+      type: {class: RangedData, ns: , asm: Assembly-CSharp}
+      data:
+        projectileData:
+          projectileToSpawn: {fileID: 3192363035229154166, guid: 08e85bf298afcee48916651b319b4d18, type: 3}
+          spawnOffset: {x: 0, y: 0}
+          launchCurve:
+            serializedVersion: 2
+            m_Curve:
+            - serializedVersion: 3
+              time: 0
+              value: 0
+              inSlope: 1
+              outSlope: 1
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0.33333334
+              outWeight: 0.33333334
+            - serializedVersion: 3
+              time: 1
+              value: 1
+              inSlope: 1
+              outSlope: 1
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0.33333334
+              outWeight: 0.33333334
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+          spawnType: 0
+          speed: 1
+          range: 5
+          angleOffset: 0
+          maxTargets: 1
+          spawnNumber: 40
+          spreadAngle: 360
+          obstructionLayer:
+            serializedVersion: 2
+            m_Bits: 256
+          targetLayer:
+            serializedVersion: 2
+            m_Bits: 64
+          returnFlip: 0
+          returnType: 0
+          returnCurve:
+            serializedVersion: 2
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+          spawnObjectOnHit: 0
+          spawnObject: {fileID: 0}
+        baseDamage: 1
+        activationRange: 5
+        reactionTime: 1
+        duration: 1
+        recupTime: 1
+        cooldown: 5
+        displayWarningBeam: 1
+        warningTime: 0.5
+        warningBeam: {fileID: 6861554593724293505, guid: 96a19a00546c1bb419b4139b1e0eee02, type: 3}
+        showDebug: 1
+        debugCube: {fileID: 0}
+        debugColor: {r: 1, g: 0, b: 0, a: 0.5}

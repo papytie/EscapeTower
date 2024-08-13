@@ -11,6 +11,7 @@ public class BehaviourFactory
             BehaviourType.Harasser => thisObject.AddComponent<Harasser>(),
             BehaviourType.Fighter => thisObject.AddComponent<Fighter>(),
             BehaviourType.BulletHell => thisObject.AddComponent<BulletHell>(),
+            BehaviourType.AdditiveLayer => thisObject.AddComponent<AdditiveLayer>(),
             _ => null,
         };
     }

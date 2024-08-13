@@ -1,18 +1,38 @@
 using System;
+using Unity.Collections;
 using UnityEngine;
 
-[Serializable]
-public class ActionConfig
-{
-    public ActionType ActionType => actionType;
+[CreateAssetMenu(fileName = "ActionConfig", menuName = "GameData/Action", order = 1)]
 
-    public ActionConfig(ActionType type, string ID)
+public class ActionConfig : ScriptableObject
+{
+    public ActionType actionType;
+    [SerializeReference] public IActionData data;
+
+    private void OnValidate()
     {
-        actionType = type;
-        ActionID = ID;
+        Type type = actionType switch
+        {
+            ActionType.WaitMove => typeof(WaitData),
+            ActionType.RoamMove => typeof(RoamData),
+            ActionType.ChaseMove => typeof(ChaseData),
+            ActionType.StayAtRangeMove => typeof(StayAtRangeData),
+            ActionType.FleeMove => typeof(FleeData),
+            ActionType.TurnAroundMove => typeof(TurnAroundData),
+            ActionType.MeleeAttack => typeof(MeleeData),
+            ActionType.RangedAttack => typeof(RangedData),
+            ActionType.ChargeAttack => typeof(ChargeData),
+            ActionType.TakeDamageReaction => typeof(TakeDamageData),
+            ActionType.DieReaction => typeof(DieData),
+            ActionType.BeamAttack => typeof(BeamData),
+            ActionType.EmptyAction => typeof(EmptyData),
+            _ => null,
+        };
+
+        if ((data == null && type != null) || (data != null && data.GetType() != type))
+        {
+            data = ActionDataFactory.CreateData(actionType);
+        }
     }
 
-    public string ActionID;
-    protected ActionType actionType;
-    [SerializeReference] public IActionData data;
 }

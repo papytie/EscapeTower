@@ -18,15 +18,13 @@ public class BehaviourConfig : ScriptableObject
             BehaviourType.Harasser => typeof(HarasserData),
             BehaviourType.Fighter => typeof(FighterData),
             BehaviourType.BulletHell => typeof(BulletHellData),
+            BehaviourType.AdditiveLayer => typeof(AdditiveLayerData),
             _ => null,
         };
 
         if ((data == null && type != null) || (data != null && data.GetType() != type))
         {
             data = BehaviourDataFactory.Create(behaviourType);
-
-            foreach (ActionConfig actionConfig in data.Actions)
-                actionConfig.data = ActionDataFactory.CreateData(actionConfig.ActionType);
         }
     }
 }

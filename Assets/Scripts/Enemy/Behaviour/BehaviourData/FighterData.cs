@@ -4,27 +4,22 @@ using System.Collections.Generic;
 [Serializable]
 public class FighterData : IBehaviourData
 {
-    public List<ActionConfig> Actions => actions;
+    public List<ActionConfig> Actions { get => actions; set { actions = value; } }
     public List<ActionConfig> actions;
 
-    public FighterData()
+    public ActionConfig wait;
+    public ActionConfig roam;
+    public ActionConfig chase;
+    public ActionConfig melee;
+    public ActionConfig takeDamage;
+    public ActionConfig die;
+
+    public void InitActionsList()
     {
         actions = new List<ActionConfig>
         {
-            { new ActionConfig(ActionType.WaitMove, FighterActionID.WAIT) },
-            { new ActionConfig(ActionType.RoamMove, FighterActionID.ROAM) },
-            { new ActionConfig(ActionType.ChaseMove, FighterActionID.CHASE) },
-            { new ActionConfig(ActionType.MeleeAttack, FighterActionID.MELEE) },
-            { new ActionConfig(ActionType.TakeDamageReaction, ReactionID.TAKEDMG) },
-            { new ActionConfig(ActionType.DieReaction, ReactionID.DIE) }
+            wait, roam, chase, melee, takeDamage, die
         };
-    }
-}
 
-static class FighterActionID
-{
-    public static string WAIT = "FighterWait";
-    public static string ROAM = "FighterRoam";
-    public static string CHASE = "FighterChase";
-    public static string MELEE = "FighterMelee";
+    }
 }

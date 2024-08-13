@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c49f88f41d04ea341b94b8ae24ae1143, type: 3}
+  m_Name: BasicBeamUltimate
+  m_EditorClassIdentifier: 
+  actionType: 11
+  data:
+    rid: 2940844261501304850
+  references:
+    version: 2
+    RefIds:
+    - rid: 2940844261501304850
+      type: {class: BeamData, ns: , asm: Assembly-CSharp}
+      data:
+        beamVisual: {fileID: 6861554593724293505, guid: 7e01b52f8b8c3ee489c0651b44e4c400, type: 3}
+        obstructionLayer:
+          serializedVersion: 2
+          m_Bits: 256
+        targetLayer:
+          serializedVersion: 2
+          m_Bits: 64
+        spawnOffset: {x: 0, y: 0.3}
+        spawnNumber: 1
+        spreadAngle: 60
+        baseDamage: 1
+        activationRange: 1
+        effectiveRange: 2
+        aimingDuration: 1
+        fireDuration: 1
+        recupTime: 1
+        cooldown: 1
+        showDebug: 0
+        debugCube: {fileID: 0}
+        debugColor: {r: 1, g: 0, b: 0, a: 0.5}

@@ -8,7 +8,6 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    //Accessors for each components
     public EnemyStatsComponent Stats => stats;
     public EnemyLifeSystemComponent LifeSystem => lifeSystem;
     public EnemyDetectionComponent Detection => detection;
@@ -18,8 +17,11 @@ public class EnemyController : MonoBehaviour
     public Animator Animator => animator;
     public CircleCollider2D CircleCollider => circleCollider;
 
-    public IBehaviour Behaviour => behaviour;
-    IBehaviour behaviour;
+    public IBehaviour MainBehaviour => mainBehaviour;
+    IBehaviour mainBehaviour;
+
+    public IBehaviour AdditiveBehaviour => additiveBehaviour;
+    IBehaviour additiveBehaviour;
 
     public GameObject CurrentTarget => currentTarget;
     GameObject currentTarget;
@@ -29,7 +31,8 @@ public class EnemyController : MonoBehaviour
     public bool InAttackRange => false; //Define a method to check attack Range in Ranged and Melee attack (IAttack)
     public bool TargetAcquired => currentTarget != null;
     
-    [SerializeField] BehaviourConfig behaviourConfig;
+    [SerializeField] BehaviourConfig mainBehaviourConfig;
+    [SerializeField] BehaviourConfig additiveBehaviourConfig;
 
     EnemyStatsComponent stats;
     EnemyLifeSystemComponent lifeSystem;
@@ -42,9 +45,8 @@ public class EnemyController : MonoBehaviour
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
-        if (animator == null)
-            animator = GetComponentInChildren<Animator>();
+        if (!TryGetComponent<Animator>(out animator)) animator = GetComponentInChildren<Animator>();
+        if (animator == null) Debug.LogWarning("Animator is missing!");
 
         circleCollider = GetComponent<CircleCollider2D>();
         stats = GetComponent<EnemyStatsComponent>();
@@ -53,8 +55,6 @@ public class EnemyController : MonoBehaviour
         lootSystem = GetComponent<EnemyLootSystem>();
         animationParam = GetComponent<EnemyAnimationComponent>();
         collision = GetComponent<CollisionCheckerComponent>();
-
-        InstantiateBehaviourComponents();
     }
 
     private void Start()
@@ -65,44 +65,68 @@ public class EnemyController : MonoBehaviour
         animationParam.InitRef(this);
         collision.Init();
 
-        if (behaviourConfig != null)
+        if (mainBehaviourConfig != null)
         {
-            behaviour.Init(this);
+            mainBehaviourConfig.data.InitActionsList();
+            mainBehaviour = BehaviourFactory.Create(gameObject, mainBehaviourConfig.behaviourType);
+            InitMainBehaviour();
         }
-        else Debug.LogWarning("BehaviourConfig is missing on : " + gameObject.name);
+        else { Debug.LogWarning("Main Behaviour Config is missing!"); return; }
+
+        if (additiveBehaviourConfig != null)
+        {
+            additiveBehaviourConfig.data.InitActionsList();
+            additiveBehaviour = BehaviourFactory.Create(gameObject, additiveBehaviourConfig.behaviourType);
+            InitAdditiveBehaviour();
+        }
+        else Debug.Log("No Additive Behaviour Detected!");
     }
 
     private void Update()
     {
-        if (behaviour == null) return;
+        mainBehaviour.FSM.CurrentState.Update();
+        additiveBehaviour?.FSM.CurrentState.Update();
 
         currentTarget = detection.PlayerDetection(out GameObject player) ? player : null;
+    }
 
-        behaviour.FSM.CurrentState.Update();
+    void InitMainBehaviour()
+    {        
+        mainBehaviour.FSM = new NPCFSM();
+
+        foreach (ActionConfig actionConfig in mainBehaviourConfig.data.Actions)
+        {
+            if (actionConfig != null)
+            {
+                IAction action = ActionFactory.Create(gameObject, actionConfig.actionType);
+                action.InitRef(actionConfig.data, this);
+                mainBehaviour.FSM.AddState(new NPCState(mainBehaviour.FSM, actionConfig.name, action));
+            }
+            else { Debug.LogWarning("ActionConfig is missing is MainBehaviourConfig!"); return; }
+        }
+        mainBehaviour.Init(this, mainBehaviourConfig.data);
+    }
+
+    void InitAdditiveBehaviour()
+    {
+        additiveBehaviour.FSM = new NPCFSM();
+
+        foreach (ActionConfig actionConfig in additiveBehaviourConfig.data.Actions)
+        {
+            if (actionConfig != null)
+            {
+                IAction action = ActionFactory.Create(gameObject, actionConfig.actionType);
+                action.InitRef(actionConfig.data, this);
+                additiveBehaviour.FSM.AddState(new NPCState(additiveBehaviour.FSM, actionConfig.name, action));
+            }
+            else { Debug.LogWarning("ActionConfig is missing is AdditiveBehaviourConfig!"); return; }
+        }
+        additiveBehaviour.Init(this, additiveBehaviourConfig.data);
     }
 
     public void SetStatsScalingFactor(float value)
     {
         stats.SetScalingFactorTo(value);
-    }
-
-    void InstantiateBehaviourComponents()
-    {
-        if (behaviourConfig == null) return;
-
-        behaviour = BehaviourFactory.Create(gameObject, behaviourConfig.behaviourType);
-
-        if (behaviour == null) return;
-
-        behaviour.FSM = new NPCFSM();
-
-        foreach (ActionConfig actionConfig in behaviourConfig.data.Actions)
-        {
-            IAction action = ActionFactory.Create(gameObject, actionConfig.ActionType);
-            action.InitRef(actionConfig.data, this);
-            behaviour.FSM.AddState(new NPCState(behaviour.FSM, actionConfig.ActionID, action));            
-        }
-        //behaviour.Init(this);
     }
 
     private void OnValidate()
@@ -127,9 +151,9 @@ public class EnemyController : MonoBehaviour
         animationParam.InitRef(this);
     }
 
-    private void OnDrawGizmos()
+/*    private void OnDrawGizmos()
     {
-        foreach (ActionConfig actionConfig in behaviourConfig.data.Actions)
+        foreach (ActionConfig actionConfig in mainBehaviourConfig.data.Actions)
         {
             switch (actionConfig.ActionType)
             {
@@ -140,7 +164,7 @@ public class EnemyController : MonoBehaviour
                     {
                         Quaternion currentRotation = Quaternion.LookRotation(Vector3.forward, new(0f,-1f));
                         if (Application.isPlaying)
-                            currentRotation = Quaternion.LookRotation(Vector3.forward, behaviour.FSM.CurrentState.Action.Direction);
+                            currentRotation = Quaternion.LookRotation(Vector3.forward, mainBehaviour.FSM.CurrentState.Action.Direction);
 
                         Vector3 center = transform.position.ToVector2() + circleCollider.offset;
                         Vector2 hitboxStartPos = center + currentRotation * meleeData.hitbox.startPosOffset;
@@ -186,7 +210,7 @@ public class EnemyController : MonoBehaviour
                     {
                         Quaternion currentRotation = Quaternion.LookRotation(Vector3.forward, new(0f, -1f));
                         if (Application.isPlaying)
-                            currentRotation = Quaternion.LookRotation(Vector3.forward, behaviour.FSM.CurrentState.Action.Direction);
+                            currentRotation = Quaternion.LookRotation(Vector3.forward, mainBehaviour.FSM.CurrentState.Action.Direction);
 
                         Vector3 center = transform.position.ToVector2() + circleCollider.offset;
                         Vector3 projectileSpawnPos = center + currentRotation * rangedData.projectileData.spawnOffset;
@@ -244,7 +268,7 @@ public class EnemyController : MonoBehaviour
 
                     if (chargeData.showDebug && chargeData != null)
                     {
-                        if(!Application.isPlaying || Application.isPlaying && behaviour.FSM.CurrentState.Action.GetType() != typeof(ChargeAttack) && currentTarget)
+                        if(!Application.isPlaying || Application.isPlaying && mainBehaviour.FSM.CurrentState.Action.GetType() != typeof(ChargeAttack) && currentTarget)
                         {
                             Vector3 startPos = transform.position;
                             Vector3 targetPos = startPos + ((new Vector3(0, -1)) * chargeData.effectiveRange);
@@ -263,4 +287,4 @@ public class EnemyController : MonoBehaviour
             }
         }
     }
-}
+*/}

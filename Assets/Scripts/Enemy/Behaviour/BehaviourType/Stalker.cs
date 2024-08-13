@@ -7,11 +7,13 @@ public class Stalker : MonoBehaviour, IBehaviour
 
     NPCFSM fsm;
     EnemyController controller;
+    StalkerData data;
 
-    public void Init(EnemyController enemyController)
+    public void Init(EnemyController enemyController, IBehaviourData behaviourData)
     {
-        //Get EnemyController ref
+        //Get Controller & Data ref
         controller = enemyController;
+        data = behaviourData as StalkerData;
 
         //Init Reaction state
         Init_TakeDamageReaction();
@@ -24,7 +26,17 @@ public class Stalker : MonoBehaviour, IBehaviour
         Init_ChargeAttack();
 
         //Set this Behaviour starting default state
-        fsm.SetState(StalkerActionID.WAIT);
+        fsm.SetState(data.wait.name);
+    }
+
+    public void SetTakeDamageState()
+    {
+        fsm.SetState(data.takeDamage.name);
+    }
+
+    public void SetDieState()
+    {
+        fsm.SetState(data.die.name);
     }
 
     //------------------------------\---/-------------------------------|
@@ -33,7 +45,7 @@ public class Stalker : MonoBehaviour, IBehaviour
 
     void Init_WaitState()
     {
-        NPCState state = fsm.GetState(StalkerActionID.WAIT);
+        NPCState state = fsm.GetState(data.wait.name);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
         state.OnStateExit += () => { /* Last Method called when exit State */ };
@@ -42,15 +54,15 @@ public class Stalker : MonoBehaviour, IBehaviour
         {
             if (controller.TargetAcquired)
             {
-                if (fsm.GetState(StalkerActionID.CHARGE).Action.IsAvailable)
-                    fsm.SetState(StalkerActionID.CHARGE);
+                if (fsm.GetState(data.charge.name).Action.IsAvailable)
+                    fsm.SetState(data.charge.name);
 
-                else if (fsm.GetState(StalkerActionID.CHASE).Action.IsAvailable)
-                    fsm.SetState(StalkerActionID.CHASE);
+                else if (fsm.GetState(data.chase.name).Action.IsAvailable)
+                    fsm.SetState(data.chase.name);
             }
             else if (state.Action.IsCompleted)
             {
-                fsm.SetState(StalkerActionID.ROAM);
+                fsm.SetState(data.roam.name);
 
             }
         };
@@ -58,7 +70,7 @@ public class Stalker : MonoBehaviour, IBehaviour
 
     void Init_RoamState()
     {
-        NPCState state = fsm.GetState(StalkerActionID.ROAM);
+        NPCState state = fsm.GetState(data.roam.name);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
         state.OnStateExit += () => { /* Last Method called when exit State */ };
@@ -67,13 +79,13 @@ public class Stalker : MonoBehaviour, IBehaviour
         {
             if (controller.TargetAcquired)
             {
-                if (fsm.GetState(StalkerActionID.CHASE).Action.IsAvailable)
-                    fsm.SetState(StalkerActionID.CHASE);
+                if (fsm.GetState(data.chase.name).Action.IsAvailable)
+                    fsm.SetState(data.chase.name);
 
             }
             else if (state.Action.IsCompleted)
             {
-                fsm.SetState(StalkerActionID.WAIT);
+                fsm.SetState(data.wait.name);
 
             }
         };
@@ -81,21 +93,21 @@ public class Stalker : MonoBehaviour, IBehaviour
 
     void Init_ChaseState()
     {
-        NPCState state = fsm.GetState(StalkerActionID.CHASE);
+        NPCState state = fsm.GetState(data.chase.name);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
         state.OnStateExit += () => { /* Last Method called when exit State */ };
 
         state.OnStateUpdate += () =>
         {
-            if (controller.TargetAcquired && fsm.GetState(StalkerActionID.CHARGE).Action.IsAvailable)
+            if (controller.TargetAcquired && fsm.GetState(data.charge.name).Action.IsAvailable)
             {
-                fsm.SetState(StalkerActionID.CHARGE);
+                fsm.SetState(data.charge.name);
 
             }
             else if (state.Action.IsCompleted || !controller.TargetAcquired)
             {
-                fsm.SetState(StalkerActionID.WAIT);
+                fsm.SetState(data.wait.name);
 
             }
         };
@@ -103,7 +115,7 @@ public class Stalker : MonoBehaviour, IBehaviour
 
     void Init_ChargeAttack()
     {
-        NPCState state = fsm.GetState(StalkerActionID.CHARGE);
+        NPCState state = fsm.GetState(data.charge.name);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
         state.OnStateExit += () => { /* Last Method called when exit State */ };
@@ -111,7 +123,7 @@ public class Stalker : MonoBehaviour, IBehaviour
         state.OnStateUpdate += () =>
         {
             if (state.Action.IsCompleted)
-                fsm.SetState(StalkerActionID.WAIT);
+                fsm.SetState(data.wait.name);
         };
     }
 
@@ -121,7 +133,7 @@ public class Stalker : MonoBehaviour, IBehaviour
 
     void Init_TakeDamageReaction()
     {
-        NPCState state = fsm.GetState(ReactionID.TAKEDMG);
+        NPCState state = fsm.GetState(data.takeDamage.name);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
         state.OnStateExit += () => { /* Last Method called when exit State */ };
@@ -129,13 +141,13 @@ public class Stalker : MonoBehaviour, IBehaviour
         state.OnStateUpdate += () =>
         {
             if (state.Action.IsCompleted)
-                fsm.SetState(StalkerActionID.WAIT);
+                fsm.SetState(data.wait.name);
         };
     }
 
     void Init_DieReaction()
     {
-        NPCState state = fsm.GetState(ReactionID.DIE);
+        NPCState state = fsm.GetState(data.die.name);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
         state.OnStateExit += () => { /* Last Method called when exit State */ };

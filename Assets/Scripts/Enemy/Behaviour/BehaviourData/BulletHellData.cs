@@ -5,24 +5,35 @@ using System.Collections.Generic;
 public class BulletHellData : IBehaviourData
 {
     public List<ActionConfig> Actions => actions;
-    public List<ActionConfig> actions;
+    List<ActionConfig> actions;
 
-    public BulletHellData()
+    public ActionConfig wait;
+    public ActionConfig attackSelection;
+    public ActionConfig roam;
+    public ActionConfig singleShot;
+    public ActionConfig superShot;
+    public ActionConfig spreadShot;
+    public ActionConfig multiShot;
+    public ActionConfig beamUltimate;
+    public ActionConfig novaUltimate;
+    public ActionConfig galaxyUltimate;
+    public ActionConfig die;
+
+    public void InitActionsList()
     {
         actions = new List<ActionConfig>
         {
-            { new ActionConfig(ActionType.WaitMove, ActionID.WAIT) },
-            { new ActionConfig(ActionType.WaitMove, ActionID.ATTACKSELECTION) },
-            { new ActionConfig(ActionType.RoamMove, ActionID.ROAM) },
-            { new ActionConfig(ActionType.RangedAttack, ActionID.SINGLE_SHOT) },
-            { new ActionConfig(ActionType.RangedAttack, ActionID.SUPER_SHOT) },
-            { new ActionConfig(ActionType.RangedAttack, ActionID.SPREAD_SHOT) },
-            { new ActionConfig(ActionType.RangedAttack, ActionID.MULTI_SHOT) },
-            { new ActionConfig(ActionType.BeamAttack, ActionID.BEAM_ULTIMATE) },
-            { new ActionConfig(ActionType.RangedAttack, ActionID.NOVA_ULTIMATE) },
-            { new ActionConfig(ActionType.RangedAttack, ActionID.GALAXY_ULTIMATE) },
-            { new ActionConfig(ActionType.TakeDamageReaction, ReactionID.TAKEDMG) },
-            { new ActionConfig(ActionType.DieReaction, ReactionID.DIE) }
+            wait,
+            attackSelection,
+            roam,
+            singleShot,
+            superShot,
+            spreadShot,
+            multiShot,
+            beamUltimate,
+            novaUltimate,
+            galaxyUltimate,
+            die
         };
     }
 
@@ -35,20 +46,4 @@ public class BulletHellData : IBehaviourData
     {
         BEAM = 0, NOVA = 1, GALAXY = 2, 
     }
-
-    public class ActionID
-    {
-        public static string WAIT = "Wait";
-        public static string ATTACKSELECTION = "AttackSelection";
-        public static string ROAM = "Roam";
-        public static string SINGLE_SHOT = "SingleShot";
-        public static string SUPER_SHOT = "SuperShot";
-        public static string SPREAD_SHOT = "SpreadShot";
-        public static string MULTI_SHOT = "MultiShot";
-        public static string BEAM_ULTIMATE = "BeamUltimate";
-        public static string NOVA_ULTIMATE = "NovaUltimate";
-        public static string GALAXY_ULTIMATE = "GalaxyUltimate";
-    }
 }
-
-

@@ -90,7 +90,7 @@ public class ChargeAttack : MonoBehaviour, IAction
 
     private void OnDrawGizmos()
     {
-        if(Application.isPlaying && data.showDebug && controller.Behaviour.FSM.CurrentState.Action.GetType() == typeof(ChargeAttack))
+        if(Application.isPlaying && data.showDebug && controller.MainBehaviour.FSM.CurrentState.Action.GetType() == typeof(ChargeAttack))
         {
             Gizmos.color = data.startColor;
             Gizmos.DrawWireSphere(startPos, controller.CircleCollider.radius);

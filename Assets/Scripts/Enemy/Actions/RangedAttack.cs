@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class RangedAttack : MonoBehaviour, IAction
@@ -24,12 +22,15 @@ public class RangedAttack : MonoBehaviour, IAction
         data = dataRef as RangedData;
         controller = controllerRef;
 
-        for (int i = 0; i < data.projectileData.spawnNumber; i++)
+        if(data.displayWarningBeam)
         {
-            AnimatedBeam beam = Instantiate(data.warningBeam, transform.position, Quaternion.identity, transform);
-            beam.Init();
-            warningBeams.Add(beam);            
-            beam.gameObject.SetActive(false);
+            for (int i = 0; i < data.projectileData.spawnNumber; i++)
+            {
+                AnimatedBeam beam = Instantiate(data.warningBeam, transform.position, Quaternion.identity, transform);
+                beam.Init();
+                warningBeams.Add(beam);            
+                beam.gameObject.SetActive(false);
+            }
         }
     }
 
@@ -54,8 +55,6 @@ public class RangedAttack : MonoBehaviour, IAction
     {
         if (!controller.TargetAcquired)
         {
-            StopCoroutine(AttackProcess());
-
             if (data.displayWarningBeam)
                 foreach (AnimatedBeam beam in warningBeams)
                     beam.gameObject.SetActive(false);
@@ -66,6 +65,7 @@ public class RangedAttack : MonoBehaviour, IAction
 
     public void EndProcess()
     {
+        StopCoroutine(AttackProcess());
         cooldownEndTime = Time.time + data.cooldown;
         IsCompleted = false;
     }

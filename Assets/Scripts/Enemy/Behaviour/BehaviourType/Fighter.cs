@@ -7,11 +7,13 @@ public class Fighter : MonoBehaviour, IBehaviour
 
     NPCFSM fsm;
     EnemyController controller;
+    FighterData data;
 
-    public void Init(EnemyController enemyController)
+    public void Init(EnemyController enemyController, IBehaviourData behaviourData)
     {
-        //Get EnemyController ref
+        //Get Controller & Data ref
         controller = enemyController;
+        data = behaviourData as FighterData;
 
         //Init Reaction state
         Init_TakeDamageReaction();
@@ -24,7 +26,17 @@ public class Fighter : MonoBehaviour, IBehaviour
         Init_MeleeAttackState();
 
         //Set this Behaviour starting default state
-        fsm.SetState(FighterActionID.WAIT);
+        fsm.SetState(data.wait.name);
+    }
+
+    public void SetTakeDamageState()
+    {
+        fsm.SetState(data.takeDamage.name);
+    }
+
+    public void SetDieState()
+    {
+        fsm.SetState(data.die.name);
     }
 
     //------------------------------\---/-------------------------------|
@@ -33,7 +45,7 @@ public class Fighter : MonoBehaviour, IBehaviour
 
     void Init_WaitState()
     {
-        NPCState waitState = fsm.GetState(FighterActionID.WAIT);
+        NPCState waitState = fsm.GetState(data.wait.name);
 
         waitState.OnStateEnter += () => { /* First Method called when enter State */ };
         waitState.OnStateExit += () => { /* Last Method called when exit State */ };
@@ -42,15 +54,15 @@ public class Fighter : MonoBehaviour, IBehaviour
         { 
             if (controller.TargetAcquired)
             {
-                if (fsm.GetState(FighterActionID.MELEE).Action.IsAvailable)
-                    fsm.SetState(FighterActionID.MELEE);
+                if (fsm.GetState(data.melee.name).Action.IsAvailable)
+                    fsm.SetState(data.melee.name);
 
-                else if(fsm.GetState(FighterActionID.CHASE).Action.IsAvailable)
-                    fsm.SetState(FighterActionID.CHASE);
+                else if(fsm.GetState(data.chase.name).Action.IsAvailable)
+                    fsm.SetState(data.chase.name);
             }
-            else if (fsm.GetState(FighterActionID.WAIT).Action.IsCompleted)
+            else if (fsm.GetState(data.wait.name).Action.IsCompleted)
             {
-                fsm.SetState(FighterActionID.ROAM);
+                fsm.SetState(data.roam.name);
 
             }
         };
@@ -58,7 +70,7 @@ public class Fighter : MonoBehaviour, IBehaviour
 
     void Init_RoamState()
     {
-        NPCState state = fsm.GetState(FighterActionID.ROAM);
+        NPCState state = fsm.GetState(data.roam.name);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
         state.OnStateExit += () => { /* Last Method called when exit State */ };
@@ -67,13 +79,13 @@ public class Fighter : MonoBehaviour, IBehaviour
         {
             if (controller.TargetAcquired)
             {
-                if (fsm.GetState(FighterActionID.CHASE).Action.IsAvailable)
-                    fsm.SetState(FighterActionID.CHASE);
+                if (fsm.GetState(data.chase.name).Action.IsAvailable)
+                    fsm.SetState(data.chase.name);
 
             }
             else if (state.Action.IsCompleted)
             {
-                fsm.SetState(FighterActionID.WAIT);
+                fsm.SetState(data.wait.name);
 
             }
         };
@@ -81,21 +93,21 @@ public class Fighter : MonoBehaviour, IBehaviour
 
     void Init_ChaseState()
     {
-        NPCState state = fsm.GetState(FighterActionID.CHASE);
+        NPCState state = fsm.GetState(data.chase.name);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
         state.OnStateExit += () => { /* Last Method called when exit State */ };
 
         state.OnStateUpdate += () =>
         {
-            if (controller.TargetAcquired && fsm.GetState(FighterActionID.MELEE).Action.IsAvailable)
+            if (controller.TargetAcquired && fsm.GetState(data.melee.name).Action.IsAvailable)
             {
-                fsm.SetState(FighterActionID.MELEE);
+                fsm.SetState(data.melee.name);
 
             }
             else if(state.Action.IsCompleted || !controller.TargetAcquired)
             {
-                fsm.SetState(FighterActionID.WAIT);
+                fsm.SetState(data.wait.name);
 
             }        
         };
@@ -103,7 +115,7 @@ public class Fighter : MonoBehaviour, IBehaviour
 
     void Init_MeleeAttackState()
     {
-        NPCState state = fsm.GetState(FighterActionID.MELEE);
+        NPCState state = fsm.GetState(data.melee.name);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
         state.OnStateExit += () => { /* Last Method called when exit State */ };
@@ -111,7 +123,7 @@ public class Fighter : MonoBehaviour, IBehaviour
         state.OnStateUpdate += () =>
         {
             if (state.Action.IsCompleted)
-                fsm.SetState(FighterActionID.WAIT);
+                fsm.SetState(data.wait.name);
         };
     }
 
@@ -121,7 +133,7 @@ public class Fighter : MonoBehaviour, IBehaviour
 
     void Init_TakeDamageReaction()
     {
-        NPCState state = fsm.GetState(ReactionID.TAKEDMG);
+        NPCState state = fsm.GetState(data.takeDamage.name);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
         state.OnStateExit += () => { /* Last Method called when exit State */ };
@@ -129,13 +141,13 @@ public class Fighter : MonoBehaviour, IBehaviour
         state.OnStateUpdate += () =>
         {
             if (state.Action.IsCompleted)
-                fsm.SetState(FighterActionID.WAIT);
+                fsm.SetState(data.wait.name);
         };
     }
 
     void Init_DieReaction()
     {
-        NPCState state = fsm.GetState(ReactionID.DIE);
+        NPCState state = fsm.GetState(data.die.name);
            
         state.OnStateEnter += () => { /* First Method called when enter State */ };
         state.OnStateExit += () => { /* Last Method called when exit State */ };

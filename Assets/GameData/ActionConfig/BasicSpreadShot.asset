@@ -1,0 +1,202 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c49f88f41d04ea341b94b8ae24ae1143, type: 3}
+  m_Name: BasicSpreadShot
+  m_EditorClassIdentifier: 
+  actionType: 7
+  data:
+    rid: 2940844261501304848
+  references:
+    version: 2
+    RefIds:
+    - rid: 2940844261501304848
+      type: {class: RangedData, ns: , asm: Assembly-CSharp}
+      data:
+        projectileData:
+          projectileToSpawn: {fileID: 3192363035229154166, guid: 3c7fefa18cb40844e92c3896c796792f, type: 3}
+          spawnOffset: {x: 0, y: 0.3}
+          launchCurve:
+            serializedVersion: 2
+            m_Curve:
+            - serializedVersion: 3
+              time: 0
+              value: 0
+              inSlope: 1.5675026
+              outSlope: 1.5675026
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0.33333334
+              outWeight: 0.33333334
+            - serializedVersion: 3
+              time: 0.071428575
+              value: 0.11196448
+              inSlope: 1.5576465
+              outSlope: 1.5576465
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0.33333334
+              outWeight: 0.33333334
+            - serializedVersion: 3
+              time: 0.14285715
+              value: 0.22252095
+              inSlope: 1.528202
+              outSlope: 1.528202
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0.33333334
+              outWeight: 0.33333334
+            - serializedVersion: 3
+              time: 0.21428572
+              value: 0.33027905
+              inSlope: 1.4795396
+              outSlope: 1.4795396
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0.33333334
+              outWeight: 0.33333334
+            - serializedVersion: 3
+              time: 0.2857143
+              value: 0.43388376
+              inSlope: 1.412271
+              outSlope: 1.412271
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0.33333334
+              outWeight: 0.33333334
+            - serializedVersion: 3
+              time: 0.35714287
+              value: 0.5320321
+              inSlope: 1.3272424
+              outSlope: 1.3272424
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0.33333334
+              outWeight: 0.33333334
+            - serializedVersion: 3
+              time: 0.42857143
+              value: 0.6234898
+              inSlope: 1.225523
+              outSlope: 1.225523
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0.33333334
+              outWeight: 0.33333334
+            - serializedVersion: 3
+              time: 0.5
+              value: 0.70710677
+              inSlope: 1.1083918
+              outSlope: 1.1083918
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0.33333334
+              outWeight: 0.33333334
+            - serializedVersion: 3
+              time: 0.5714286
+              value: 0.7818315
+              inSlope: 0.9773221
+              outSlope: 0.9773221
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0.33333334
+              outWeight: 0.33333334
+            - serializedVersion: 3
+              time: 0.64285713
+              value: 0.8467242
+              inSlope: 0.8339619
+              outSlope: 0.8339619
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0.33333334
+              outWeight: 0.33333334
+            - serializedVersion: 3
+              time: 0.71428573
+              value: 0.9009689
+              inSlope: 0.6801136
+              outSlope: 0.6801136
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0.33333334
+              outWeight: 0.33333334
+            - serializedVersion: 3
+              time: 0.78571427
+              value: 0.9438833
+              inSlope: 0.517713
+              outSlope: 0.517713
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0.33333334
+              outWeight: 0.33333334
+            - serializedVersion: 3
+              time: 0.85714287
+              value: 0.9749279
+              inSlope: 0.3488022
+              outSlope: 0.3488022
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0.33333334
+              outWeight: 0.33333334
+            - serializedVersion: 3
+              time: 0.9285714
+              value: 0.9937122
+              inSlope: 0.17550473
+              outSlope: 0.17550473
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0.33333334
+              outWeight: 0.33333334
+            - serializedVersion: 3
+              time: 1
+              value: 1
+              inSlope: 0.088029355
+              outSlope: 0.088029355
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0.33333334
+              outWeight: 0.33333334
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+          spawnType: 0
+          speed: 2
+          range: 2
+          angleOffset: 0
+          maxTargets: 1
+          spawnNumber: 1
+          spreadAngle: 30
+          obstructionLayer:
+            serializedVersion: 2
+            m_Bits: 256
+          targetLayer:
+            serializedVersion: 2
+            m_Bits: 64
+          returnFlip: 0
+          returnType: 0
+          returnCurve:
+            serializedVersion: 2
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+          spawnObjectOnHit: 0
+          spawnObject: {fileID: 0}
+        baseDamage: 1
+        activationRange: 2
+        reactionTime: 1
+        duration: 1
+        recupTime: 1
+        cooldown: 3
+        displayWarningBeam: 1
+        warningTime: 1
+        warningBeam: {fileID: 6861554593724293505, guid: 96a19a00546c1bb419b4139b1e0eee02, type: 3}
+        showDebug: 1
+        debugCube: {fileID: 0}
+        debugColor: {r: 1, g: 0, b: 0, a: 0.5}

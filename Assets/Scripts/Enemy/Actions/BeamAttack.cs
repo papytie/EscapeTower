@@ -23,6 +23,12 @@ public class BeamAttack : MonoBehaviour, IAction
         data = dataRef as BeamData;
         controller = controllerRef;
 
+        if (data.beamVisual == null)
+        {
+            Debug.LogWarning("Beam Visual is missing!");
+            return;
+        }
+
         beam = Instantiate(data.beamVisual, transform.position, Quaternion.identity, transform);
         beam.Init();
         beam.gameObject.SetActive(false);
