@@ -16,24 +16,24 @@ public class EnemyController : MonoBehaviour
     public CollisionCheckerComponent Collision => collision;
     public Animator Animator => animator;
     public CircleCollider2D CircleCollider => circleCollider;
-
     public IBehaviour MainBehaviour => mainBehaviour;
-    IBehaviour mainBehaviour;
-
     public IBehaviour AdditiveBehaviour => additiveBehaviour;
-    IBehaviour additiveBehaviour;
-
-    public GameObject CurrentTarget => currentTarget;
-    GameObject currentTarget;
-
-    public Vector2 CurrentDirection { get; set; }
-
-    public bool InAttackRange => false; //Define a method to check attack Range in Ranged and Melee attack (IAttack)
     public bool TargetAcquired => currentTarget != null;
-    
+    public Vector2 CurrentTargetPos => currentTargetPos;
+    public Vector2 CurrentDirection { get; set; }
+    public PlayerController PlayerController => playerController;
+    public GameObject CurrentTarget => currentTarget;
+
     [SerializeField] BehaviourConfig mainBehaviourConfig;
     [SerializeField] BehaviourConfig additiveBehaviourConfig;
+    [SerializeField] Mesh debugCube;
+    
+    IBehaviour mainBehaviour;
+    IBehaviour additiveBehaviour;
+    Vector2 currentTargetPos;
 
+    GameObject currentTarget;
+    PlayerController playerController;
     EnemyStatsComponent stats;
     EnemyLifeSystemComponent lifeSystem;
     EnemyDetectionComponent detection;
@@ -42,6 +42,7 @@ public class EnemyController : MonoBehaviour
     CollisionCheckerComponent collision;
     Animator animator;
     CircleCollider2D circleCollider;
+
 
     private void Awake()
     {
@@ -84,10 +85,20 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
+        if (detection.PlayerDetection(out GameObject target))
+        {
+            if (currentTarget == null)
+            {
+                currentTarget = target;
+                playerController = currentTarget.GetComponent<PlayerController>();
+            }
+            currentTargetPos = target.transform.position;
+        }
+        else if (currentTarget != null)
+                currentTarget = null;
+        
         mainBehaviour.FSM.CurrentState.Update();
         additiveBehaviour?.FSM.CurrentState.Update();
-
-        currentTarget = detection.PlayerDetection(out GameObject player) ? player : null;
     }
 
     void InitMainBehaviour()
@@ -131,7 +142,6 @@ public class EnemyController : MonoBehaviour
 
     private void OnValidate()
     {
-        //Get Base Components and set essentials references for Debug and accesiblity in editor mode
         animator = GetComponent<Animator>();
         if (animator == null)
             animator = GetComponentInChildren<Animator>();
@@ -151,11 +161,11 @@ public class EnemyController : MonoBehaviour
         animationParam.InitRef(this);
     }
 
-/*    private void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         foreach (ActionConfig actionConfig in mainBehaviourConfig.data.Actions)
         {
-            switch (actionConfig.ActionType)
+            switch (actionConfig.actionType)
             {
                 case ActionType.MeleeAttack:
                     MeleeData meleeData = (MeleeData)actionConfig.data;
@@ -237,7 +247,7 @@ public class EnemyController : MonoBehaviour
                                         break;
 
                                     case HitboxShapeType.Box:
-                                        Gizmos.DrawWireMesh(rangedData.debugCube, -1, multProjHitboxEndPos, currentRotation * angleRotation, rangedData.projectileData.projectileToSpawn.BoxSize);
+                                        Gizmos.DrawWireMesh(debugCube, -1, multProjHitboxEndPos, currentRotation * angleRotation, rangedData.projectileData.projectileToSpawn.BoxSize);
                                         break;
                                 }
                                 Gizmos.DrawLine(projectileSpawnPos, multProjPos);
@@ -255,7 +265,7 @@ public class EnemyController : MonoBehaviour
                                     break;
 
                                 case HitboxShapeType.Box:
-                                    Gizmos.DrawWireMesh(rangedData.debugCube, -1, singleProjEndPos, gameObject.transform.rotation * Quaternion.AngleAxis(rangedData.projectileData.angleOffset, transform.forward), rangedData.projectileData.projectileToSpawn.BoxSize);
+                                    Gizmos.DrawWireMesh(debugCube, -1, singleProjEndPos, gameObject.transform.rotation * Quaternion.AngleAxis(rangedData.projectileData.angleOffset, transform.forward), rangedData.projectileData.projectileToSpawn.BoxSize);
                                     break;
                             }
                             Gizmos.DrawLine(projectileSpawnPos, singleProjEndPos);
@@ -287,4 +297,4 @@ public class EnemyController : MonoBehaviour
             }
         }
     }
-*/}
+}

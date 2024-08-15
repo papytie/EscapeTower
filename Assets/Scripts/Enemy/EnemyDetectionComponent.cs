@@ -2,8 +2,11 @@ using UnityEngine;
 
 public class EnemyDetectionComponent : MonoBehaviour
 {
+    public LayerMask TargetLayer => targetLayer;
+    public LayerMask ObstructionLayer => obstructionLayer;
+
     [Header("Detection Settings")]
-    [SerializeField] LayerMask playerLayer;
+    [SerializeField] LayerMask targetLayer;
     [SerializeField] LayerMask obstructionLayer;
 
     [Header("Debug")]
@@ -17,9 +20,9 @@ public class EnemyDetectionComponent : MonoBehaviour
         controller = ctrlRef;
     }
 
-    public bool PlayerDetection(out GameObject player)
+    public bool PlayerDetection(out GameObject target)
     {
-        RaycastHit2D[] detectionList = Physics2D.CircleCastAll(transform.position, controller.Stats.DetectionRadius, Vector2.zero, 0, playerLayer);
+        RaycastHit2D[] detectionList = Physics2D.CircleCastAll(transform.position, controller.Stats.DetectionRadius, Vector2.zero, 0, targetLayer);
         foreach (RaycastHit2D detection in detectionList)
         {
             if (detection)
@@ -28,12 +31,12 @@ public class EnemyDetectionComponent : MonoBehaviour
                 Vector3 toPlayerVector = detection.transform.position - transform.position;
                 if (!Physics2D.Raycast(transform.position, toPlayerVector.normalized, toPlayerVector.magnitude, obstructionLayer))
                 {
-                    player = detection.transform.gameObject;
+                    target = detection.transform.gameObject;
                     return true;
                 }
             }
         }
-        player = null;
+        target = null;
         return false;
     }
 
@@ -43,6 +46,8 @@ public class EnemyDetectionComponent : MonoBehaviour
         {
             Gizmos.color = debugColor;
             Gizmos.DrawWireSphere(transform.position, controller.Stats.DetectionRadius);
+            if(PlayerDetection(out GameObject target))
+                Gizmos.DrawLine(transform.position, target.transform.position);
         }
     }
 }

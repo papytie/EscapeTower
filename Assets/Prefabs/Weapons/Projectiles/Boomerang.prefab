@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 5479171745022438974}
   - component: {fileID: 6176239434558675866}
   - component: {fileID: -7219816142925397406}
-  m_Layer: 0
+  - component: {fileID: -1380592687922020803}
+  m_Layer: 10
   m_Name: Boomerang
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50,7 +51,9 @@ MonoBehaviour:
   hitboxOffset: {x: 0, y: 0}
   boxSize: {x: 0, y: 0}
   circleRadius: 0.1
-  destroyDelay: 0.1
+  falloffDelay: 0.1
+  obstructionDelay: 0.1
+  hitDelay: 0.1
   showDebug: 1
   debugColor: {r: 1, g: 0, b: 0, a: 0.5882353}
   boxMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
@@ -75,6 +78,41 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!58 &-1380592687922020803
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3178855247409672948}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.1
 --- !u!1 &7730129345948313191
 GameObject:
   m_ObjectHideFlags: 0
@@ -85,7 +123,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4830856026885917638}
   - component: {fileID: 9219048262297178955}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

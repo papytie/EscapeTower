@@ -42,4 +42,6 @@ public sealed class SRLayerMask {
     public const int Wall = 256;
     
     public const int Pickup = 512;
+    
+    public const int Projectiles = 1024;
 }

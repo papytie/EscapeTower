@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ChaseMove : MonoBehaviour, IAction
 {
-    public bool IsAvailable => Vector2.Distance(controller.CurrentTarget.transform.position.ToVector2(), transform.position) > data.minRange;
+    public bool IsAvailable => Vector2.Distance(controller.CurrentTargetPos, transform.position) > data.minRange;
     public bool IsCompleted { get; set; }
     public Vector3 Direction => direction;
 
@@ -24,12 +24,10 @@ public class ChaseMove : MonoBehaviour, IAction
 
     public void UpdateProcess()
     {
-        if (controller.CurrentTarget == null) return;
+        Vector2 offsetPosition = transform.position.ToVector2() + controller.CircleCollider.offset;
+        direction = (controller.CurrentTargetPos - offsetPosition).normalized;
 
-        Vector3 offsetPosition = transform.position.ToVector2() + controller.CircleCollider.offset;
-        direction = (controller.CurrentTarget.transform.position - offsetPosition).normalized;
-
-        float targetDistance = Vector3.Distance(transform.position, controller.CurrentTarget.transform.position);
+        float targetDistance = Vector3.Distance(transform.position, controller.CurrentTargetPos);
 
         if (targetDistance > data.minRange)
         {

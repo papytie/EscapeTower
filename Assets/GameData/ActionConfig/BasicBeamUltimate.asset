@@ -22,22 +22,15 @@ MonoBehaviour:
       type: {class: BeamData, ns: , asm: Assembly-CSharp}
       data:
         beamVisual: {fileID: 6861554593724293505, guid: 7e01b52f8b8c3ee489c0651b44e4c400, type: 3}
-        obstructionLayer:
-          serializedVersion: 2
-          m_Bits: 256
-        targetLayer:
-          serializedVersion: 2
-          m_Bits: 64
         spawnOffset: {x: 0, y: 0.3}
         spawnNumber: 1
         spreadAngle: 60
         baseDamage: 1
-        activationRange: 1
-        effectiveRange: 2
-        aimingDuration: 1
-        fireDuration: 1
+        activationRange: 10
+        effectiveRange: 10
+        aimingDuration: 3
+        fireDuration: 3
         recupTime: 1
-        cooldown: 1
+        cooldown: 5
         showDebug: 0
-        debugCube: {fileID: 0}
         debugColor: {r: 1, g: 0, b: 0, a: 0.5}

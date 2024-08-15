@@ -23,10 +23,10 @@ public class FleeMove : MonoBehaviour, IAction
 
     public void UpdateProcess()
     {
-        Vector3 offsetPosition = transform.position.ToVector2() + controller.CircleCollider.offset;
-        direction = (controller.CurrentTarget.transform.position - offsetPosition).normalized;
+        Vector2 offsetPosition = transform.position.ToVector2() + controller.CircleCollider.offset;
+        direction = (controller.CurrentTargetPos - offsetPosition).normalized;
 
-        float targetDistance = Vector3.Distance(transform.position, controller.CurrentTarget.transform.position);
+        float targetDistance = Vector3.Distance(transform.position, controller.CurrentTargetPos);
 
         if (targetDistance < data.maxRange)
         {

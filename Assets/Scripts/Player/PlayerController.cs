@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     public bool CanDash => bump.CanMove && dash.DashAvailable && !lifeSystem.IsDead;
     public bool CanAttack => bump.CanMove && weaponSlot.EquippedWeapon && weaponSlot.EquippedWeapon.AttackAvailable && !dash.IsDashing && !lifeSystem.IsDead;
     public bool CanTakeDamage => !lifeSystem.IsInvincible && !lifeSystem.IsDead;
+    public Vector2 MoveInput => moveInput;
+    public PlayerMovement Movement => movement;
 
     [SerializeField] bool stickAutoAttack;
 
@@ -27,6 +29,7 @@ public class PlayerController : MonoBehaviour
     BumpComponent bump;
 
     Vector2 lastInputDirection = Vector2.zero;
+    Vector2 moveInput = Vector2.zero;
 
     private void Awake()
     {
@@ -62,19 +65,19 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        Vector3 moveAxis = inputs.MoveAxisInput.ReadValue<Vector2>();
+        moveInput = inputs.MoveAxisInput.ReadValue<Vector2>();
         Vector3 attackAxis = inputs.AttackAxisInput.ReadValue<Vector2>();
-        animator.SetFloat(SRAnimators.PlayerAnimator.Parameters.moveUp, moveAxis.y);
-        animator.SetFloat(SRAnimators.PlayerAnimator.Parameters.moveRight, moveAxis.x);
+        animator.SetFloat(SRAnimators.PlayerAnimator.Parameters.moveUp, moveInput.y);
+        animator.SetFloat(SRAnimators.PlayerAnimator.Parameters.moveRight, moveInput.x);
 
         //Movement
         if (CanMove)
         {
-            if (moveAxis != Vector3.zero)
+            if (moveInput != Vector2.zero)
             {
                 if (HaveWeapon && weaponSlot.EquippedWeapon.IsOnAttackLag) return;
-                movement.CheckedMove(moveAxis);
-                lastInputDirection = moveAxis;
+                movement.CheckedMove(moveInput);
+                lastInputDirection = moveInput;
             }
 
             if (inputs.AttackButtonInput.IsPressed() && inputs.IsInputScheme(inputs.AttackButtonInput, InputSchemeEnum.KeyboardMouse))
@@ -113,8 +116,8 @@ public class PlayerController : MonoBehaviour
         //Dash
         if (CanDash && inputs.DashButtonInput.WasPerformedThisFrame())
         {
-            if (moveAxis != Vector3.zero)
-                dash.DashActivation(moveAxis);
+            if (moveInput != Vector2.zero)
+                dash.DashActivation(moveInput);
             else 
                 dash.DashActivation(lastInputDirection);
         }

@@ -20,7 +20,7 @@ MonoBehaviour:
     duration: 0.1
     targetLayer:
       serializedVersion: 2
-      m_Bits: 128
+      m_Bits: 1152
     useMeleeHitbox: 1
     hitboxDuration: 0.1
     maxTargets: 3
@@ -72,12 +72,6 @@ MonoBehaviour:
       maxTargets: 1
       spawnNumber: 1
       spreadAngle: 60
-      obstructionLayer:
-        serializedVersion: 2
-        m_Bits: 0
-      targetLayer:
-        serializedVersion: 2
-        m_Bits: 0
       returnFlip: 0
       returnType: 0
       returnCurve:

@@ -49,18 +49,14 @@ MonoBehaviour:
             m_PostInfinity: 2
             m_RotationOrder: 4
           spawnType: 0
-          speed: 1
+          speed: 2
           range: 5
           angleOffset: 0
           maxTargets: 1
-          spawnNumber: 40
+          spawnNumber: 30
           spreadAngle: 360
-          obstructionLayer:
-            serializedVersion: 2
-            m_Bits: 256
-          targetLayer:
-            serializedVersion: 2
-            m_Bits: 64
+          isGuided: 0
+          lifespan: 3
           returnFlip: 0
           returnType: 0
           returnCurve:
@@ -77,9 +73,10 @@ MonoBehaviour:
         duration: 1
         recupTime: 1
         cooldown: 5
+        progressiveAiming: 0
+        anticipatedAiming: 0
         displayWarningBeam: 1
-        warningTime: 0.5
+        warningTime: 1
         warningBeam: {fileID: 6861554593724293505, guid: 96a19a00546c1bb419b4139b1e0eee02, type: 3}
-        showDebug: 1
-        debugCube: {fileID: 0}
+        showDebug: 0
         debugColor: {r: 1, g: 0, b: 0, a: 0.5}

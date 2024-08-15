@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6683714045640733555}
   - component: {fileID: 8281976690320219390}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,8 @@ GameObject:
   - component: {fileID: 8966384160031486678}
   - component: {fileID: 7887206329468789494}
   - component: {fileID: 6458539777921488213}
-  m_Layer: 0
+  - component: {fileID: 2851701197789238141}
+  m_Layer: 10
   m_Name: BigProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -161,3 +162,38 @@ MonoBehaviour:
   showDebug: 1
   debugColor: {r: 1, g: 0, b: 0, a: 1}
   boxMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!58 &2851701197789238141
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9170762006169506621}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.1

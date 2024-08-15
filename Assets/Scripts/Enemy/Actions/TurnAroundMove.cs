@@ -23,8 +23,8 @@ public class TurnAroundMove : MonoBehaviour, IAction
 
     public void UpdateProcess()
     {
-        Vector3 offsetPosition = transform.position.ToVector2() + controller.CircleCollider.offset;
-        direction = (controller.CurrentTarget.transform.position - offsetPosition).normalized;
+        Vector2 offsetPosition = transform.position.ToVector2() + controller.CircleCollider.offset;
+        direction = (controller.CurrentTargetPos - offsetPosition).normalized;
 
         //Move with collision check
         controller.Collision.MoveToCollisionCheck(GetMoveDirection(direction), controller.Stats.MoveSpeed * data.speedMult * Time.deltaTime, controller.Collision.BlockingObjectsLayer, out Vector3 finalPosition, out List<RaycastHit2D> hitList);

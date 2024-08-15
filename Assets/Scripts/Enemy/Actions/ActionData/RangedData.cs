@@ -13,12 +13,14 @@ public class RangedData : IActionData
     public float recupTime = 1;
     public float cooldown = 1;
 
+    [Header("Options")]
+    public bool progressiveAiming = true;
+    public bool anticipatedAiming = false;
     public bool displayWarningBeam = false;
     public float warningTime = 1;
     public AnimatedBeam warningBeam;
 
     [Header("Debug")]
     public bool showDebug = true;
-    public Mesh debugCube;
     public Color debugColor = new(1,0,0,.5f);
 }

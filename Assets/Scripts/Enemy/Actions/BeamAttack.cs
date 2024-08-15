@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BeamAttack : MonoBehaviour, IAction
 {
-    public bool IsAvailable => Time.time >= cooldownEndTime && Vector3.Distance(transform.position, controller.CurrentTarget.transform.position) <= data.activationRange;
+    public bool IsAvailable => Time.time >= cooldownEndTime && Vector3.Distance(transform.position, controller.CurrentTargetPos) <= data.activationRange;
     public bool IsCompleted { get; set; }
     public Vector3 Direction => direction;
 
@@ -36,14 +36,11 @@ public class BeamAttack : MonoBehaviour, IAction
 
     public void StartProcess()
     {
-        if (!controller.CurrentTarget) return;
-
-        direction = (controller.CurrentTarget.transform.position.ToVector2() - (controller.CircleCollider.transform.position.ToVector2() + controller.CircleCollider.offset)).normalized;
+        direction = (controller.CurrentTargetPos - (controller.CircleCollider.transform.position.ToVector2() + controller.CircleCollider.offset)).normalized;
         controller.AnimationParam.UpdateMoveAnimDirection(direction);
         currentRotation = Quaternion.LookRotation(Vector3.forward, direction);
         beam.gameObject.SetActive(true);
         beam.transform.rotation = currentRotation;
-        beam.SpriteRenderer.size = new Vector2(GetBeamLength(direction), beam.SpriteRenderer.size.y);
         startTime = Time.time;
     }
 
@@ -57,27 +54,53 @@ public class BeamAttack : MonoBehaviour, IAction
 
         if (Time.time < startTime + data.aimingDuration)
         {
-            direction = (controller.CurrentTarget.transform.position.ToVector2() - (controller.CircleCollider.transform.position.ToVector2() + controller.CircleCollider.offset)).normalized;
-            beam.SpriteRenderer.size = new Vector2(GetBeamLength(direction), beam.SpriteRenderer.size.y);
+            direction = (controller.CurrentTargetPos - (controller.CircleCollider.transform.position.ToVector2() + controller.CircleCollider.offset)).normalized;
+            float beamThickness = Mathf.Lerp(0, .25f, (Time.time - startTime) / data.aimingDuration);
+            beam.SpriteRenderer.size = new Vector2(GetBeamLength(beamSpawnPos, direction), beamThickness);
             controller.AnimationParam.UpdateMoveAnimDirection(direction);
             currentRotation = Quaternion.LookRotation(Vector3.forward, direction);
             beam.transform.SetLocalPositionAndRotation(beamSpawnPos, currentRotation);
         }
 
-        if (Time.time > startTime + data.aimingDuration)
+        if (Time.time > startTime + data.aimingDuration + data.ignitionTime)
         {
             beam.Animator.SetBool(SRAnimators.BeamAnim.Parameters.isFiring, true);
-            beam.SpriteRenderer.size = new Vector2(GetBeamLength(direction), beam.SpriteRenderer.size.y);
-            //Fire Process
+            beam.SpriteRenderer.size = new Vector2(GetBeamLength(beamSpawnPos, direction), .5f);
+            BeamHit(beamSpawnPos, direction);
         }
     }
 
-    float GetBeamLength(Vector2 direction)
+    float GetBeamLength(Vector2 start, Vector2 direction)
     {
-        Vector3 center = transform.position.ToVector2() + controller.CircleCollider.offset;
-        Vector3 beamSpawnPos = center + currentRotation * data.spawnOffset;
-        RaycastHit2D raycast = Physics2D.Raycast(beamSpawnPos, direction);
-        return raycast.distance;
+        RaycastHit2D[] allHit = Physics2D.RaycastAll(start, direction, data.effectiveRange);
+
+        if (allHit.Length > 0)
+        {
+            foreach (RaycastHit2D hit in allHit)
+            {
+                if ((controller.Detection.ObstructionLayer & (1 << hit.collider.gameObject.layer)) != 0)
+                {
+                    return hit.distance;
+                }
+            }
+        }
+        return data.effectiveRange;
+    }
+
+    void BeamHit(Vector2 start, Vector2 direction)
+    {
+        RaycastHit2D[] allHit = Physics2D.RaycastAll(start, direction, data.effectiveRange);
+        if (allHit.Length > 0)
+        {
+            foreach (RaycastHit2D hit in allHit)
+            {
+                if (hit.collider.gameObject.TryGetComponent(out PlayerLifeSystem player))
+                {
+                    if(!player.IsInvincible)
+                        player.TakeDamage(data.baseDamage, Vector2.zero);
+                }
+            }
+        } 
     }
 
     public void EndProcess()

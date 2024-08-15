@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ChargeAttack : MonoBehaviour, IAction
 {
-    public bool IsAvailable => Time.time >= cooldownEndTime && Vector3.Distance(transform.position, controller.CurrentTarget.transform.position) <= data.activationRange;
+    public bool IsAvailable => Time.time >= cooldownEndTime && Vector3.Distance(transform.position, controller.CurrentTargetPos) <= data.activationRange;
     public bool IsCompleted { get; set; }
     public Vector3 Direction => direction;
 
@@ -35,7 +35,7 @@ public class ChargeAttack : MonoBehaviour, IAction
         duration = distance / 5 * controller.Stats.Weight;
 
         startPos = transform.position;
-        targetPos = startPos + (controller.CurrentTarget.transform.position.ToVector2() - startPos).normalized * distance;
+        targetPos = startPos + (controller.CurrentTargetPos - startPos).normalized * distance;
 
         direction = (targetPos - startPos).normalized;
 

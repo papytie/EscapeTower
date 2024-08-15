@@ -21559,7 +21559,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2219257491683166375, guid: 9ef1e5192ae2a7b4aba7d7711cd1cce0, type: 3}
       propertyPath: showDebug
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2219257491683166375, guid: 9ef1e5192ae2a7b4aba7d7711cd1cce0, type: 3}
+      propertyPath: targetLayer.m_Bits
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 2276434500910994747, guid: 9ef1e5192ae2a7b4aba7d7711cd1cce0, type: 3}
       propertyPath: loot
@@ -21589,6 +21593,14 @@ PrefabInstance:
       propertyPath: baseMoveSpeed
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 6419406907569704373, guid: 9ef1e5192ae2a7b4aba7d7711cd1cce0, type: 3}
+      propertyPath: detectionRadius
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7498299715215361560, guid: 9ef1e5192ae2a7b4aba7d7711cd1cce0, type: 3}
+      propertyPath: debugCube
+      value: 
+      objectReference: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
     - target: {fileID: 7498299715215361560, guid: 9ef1e5192ae2a7b4aba7d7711cd1cce0, type: 3}
       propertyPath: behaviourConfig
       value: 

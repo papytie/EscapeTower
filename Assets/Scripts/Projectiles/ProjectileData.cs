@@ -15,8 +15,10 @@ public class ProjectileData
     public int maxTargets = 1;
     public int spawnNumber = 1;
     public float spreadAngle = 60;
-    public LayerMask obstructionLayer;
-    public LayerMask targetLayer;
+
+    [Header("Guided Settings")]
+    public bool isGuided = false;
+    public float lifespan = 5;
 
     [Header("Return Settings")]
     public bool returnFlip = false;

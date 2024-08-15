@@ -14,6 +14,9 @@ public class BulletHell : MonoBehaviour, IBehaviour
 
     bool UltimateReady => fsm.GetState(data.galaxyUltimate.name).Action.IsAvailable && fsm.GetState(data.beamUltimate.name).Action.IsAvailable && fsm.GetState(data.novaUltimate.name).Action.IsAvailable;
 
+    List<NPCState> shotsList = new();
+    List<NPCState> ultimatesList = new();
+
     public void Init(EnemyController enemyController, IBehaviourData behaviourData)
     {
         //Get Controller & Data ref
@@ -83,15 +86,12 @@ public class BulletHell : MonoBehaviour, IBehaviour
             if (state.Action.IsCompleted || !controller.TargetAcquired)
                 fsm.SetState(data.wait.name);
 
-            if (controller.TargetAcquired)
+            else
             {
-                if(UltimateReady)
-                    fsm.SetState(GetRandomUltimate());
-
-                string randomShot = GetRandomShot();
-                if(!fsm.GetState(randomShot).Action.IsAvailable)
-                    return;
-                else fsm.SetState(randomShot);
+                if (UltimateReady)
+                    SetRandomState(ultimatesList);
+                else 
+                    SetRandomState(shotsList);
             }
         };
 
@@ -119,6 +119,7 @@ public class BulletHell : MonoBehaviour, IBehaviour
     void Init_SingleShotState()
     {
         NPCState state = fsm.GetState(data.singleShot.name);
+        shotsList.Add(state);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
 
@@ -134,6 +135,7 @@ public class BulletHell : MonoBehaviour, IBehaviour
     void Init_SuperShotState()
     {
         NPCState state = fsm.GetState(data.superShot.name);
+        shotsList.Add(state);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
 
@@ -149,6 +151,7 @@ public class BulletHell : MonoBehaviour, IBehaviour
     void Init_MultiShotState()
     {
         NPCState state = fsm.GetState(data.multiShot.name);
+        shotsList.Add(state);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
 
@@ -164,6 +167,7 @@ public class BulletHell : MonoBehaviour, IBehaviour
     void Init_SpreadShotState()
     {
         NPCState state = fsm.GetState(data.spreadShot.name);
+        shotsList.Add(state);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
 
@@ -179,6 +183,7 @@ public class BulletHell : MonoBehaviour, IBehaviour
     void Init_BeamUltimateState()
     {
         NPCState state = fsm.GetState(data.beamUltimate.name);
+        ultimatesList.Add(state);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
 
@@ -194,6 +199,7 @@ public class BulletHell : MonoBehaviour, IBehaviour
     void Init_NovaUltimateState()
     {
         NPCState state = fsm.GetState(data.novaUltimate.name);
+        ultimatesList.Add(state);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
 
@@ -209,6 +215,7 @@ public class BulletHell : MonoBehaviour, IBehaviour
     void Init_GalaxyUltimateState()
     {
         NPCState state = fsm.GetState(data.galaxyUltimate.name);
+        ultimatesList.Add(state);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
 
@@ -246,28 +253,18 @@ public class BulletHell : MonoBehaviour, IBehaviour
     //----------------------------|HELPERS|------------------------------|
     //------------------------------/---\--------------------------------|
 
-    string GetRandomShot()
+    void SetRandomState(List<NPCState> list)
     {
-        int shotIndex = UnityEngine.Random.Range(0, Enum.GetNames(typeof(ShotType)).Length+1);
+        List<NPCState> availableState = new();
 
-        return shotIndex switch
+        foreach (var shot in list)
+            if(shot.Action.IsAvailable)
+                availableState.Add(shot);
+        
+        if (availableState.Count > 0)
         {
-            1 => data.superShot.name,
-            2 => data.multiShot.name,
-            3 => data.spreadShot.name,
-            _ => data.singleShot.name,
-        };
-    }
-
-    string GetRandomUltimate()
-    {
-        int ultimateIndex = UnityEngine.Random.Range(0, Enum.GetNames(typeof(UltimateType)).Length+1);
-
-        return ultimateIndex switch
-        {
-            1 => data.novaUltimate.name,
-            2 => data.galaxyUltimate.name,
-            _ => data.beamUltimate.name,
-        };
+            int randomIndex = UnityEngine.Random.Range(0, availableState.Count);
+            fsm.SetState(availableState[randomIndex].ID);
+        }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MeleeAttack : MonoBehaviour, IAction
 {
-    public bool IsAvailable => Time.time >= cooldownEndTime && Vector3.Distance(transform.position, controller.CurrentTarget.transform.position) <= data.activationRange;
+    public bool IsAvailable => Time.time >= cooldownEndTime && Vector3.Distance(transform.position, controller.CurrentTargetPos) <= data.activationRange;
     public bool IsCompleted {get;set;}
     public Vector3 Direction => direction;
     Vector2 direction;
@@ -27,15 +27,13 @@ public class MeleeAttack : MonoBehaviour, IAction
 
     public void StartProcess()
     {
-        if (!controller.TargetAcquired) return;
-
         StartCoroutine(StartAttackAnim());  
         detectionStartTime = Time.time + data.reactionTime + data.hitbox.delay;
         detectionEndTime = detectionStartTime + data.hitbox.duration;
 
         //attackFX.StartFX(controller.CurrentDirection);
 
-        direction = (controller.CurrentTarget.transform.position.ToVector2() - (circleCollider.transform.position.ToVector2() + circleCollider.offset)).normalized;
+        direction = (controller.CurrentTargetPos - (circleCollider.transform.position.ToVector2() + circleCollider.offset)).normalized;
 
         controller.AnimationParam.UpdateMoveAnimDirection(direction * .1f);
         currentRotation = Quaternion.LookRotation(Vector3.forward, direction);

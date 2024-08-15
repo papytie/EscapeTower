@@ -11,8 +11,9 @@ public class ProjectileController : MonoBehaviour
     public Vector2 HitboxOffset => hitboxOffset;
     public Vector2 BoxSize => boxSize;
     public float CircleRadius => circleRadius;
+    public bool IsDestructible => isDestructible;
 
-    [Header("Projectile settings")]
+    [Header("Settings")]
     [SerializeField] HitboxShapeType hitboxShape = HitboxShapeType.Circle;
     [SerializeField] Vector2 hitboxOffset = Vector2.zero;
     [SerializeField] Vector2 boxSize = new(0.1f, 0.1f);
@@ -20,6 +21,7 @@ public class ProjectileController : MonoBehaviour
     [SerializeField] float falloffDelay = .1f;
     [SerializeField] float obstructionDelay = .1f;
     [SerializeField] float hitDelay = .1f;
+    [SerializeField] bool isDestructible = true;
 
     [Header("Debug")]
     [SerializeField] bool showDebug = true;
@@ -32,43 +34,54 @@ public class ProjectileController : MonoBehaviour
     float damage = 0;
     bool isReturning = false;
     bool hasHit = false;
+
     GameObject owner;
+    GameObject target;
     ProjectileData data;
     Animator animator;
 
+    LayerMask targetLayer;
+    LayerMask obstructionLayer;
+
     List<ILifeSystem> hitList = new();
 
-    public void Init(GameObject projectileOwner, ProjectileData data, Vector3 relativePos, float projectileDamage, float projectileRange)
+    public void Init(GameObject projectileOwner, ProjectileData projData, Vector3 relativePos, float projectileDamage, float projectileRange)
     {
         owner = projectileOwner;
-        this.data = data;
+        data = projData;
         damage = projectileDamage;
         endPosition = relativePos + transform.up * projectileRange;
         startPosition = transform.position;
         startTime = Time.time;
         animator = GetComponent<Animator>();
+        if(data.isGuided)
+            target = owner.gameObject.GetComponent<EnemyController>().CurrentTarget;
+
+        targetLayer = owner.GetComponent<EnemyController>().Detection.TargetLayer;
+        obstructionLayer = owner.GetComponent<EnemyController>().Detection.ObstructionLayer;
     }
 
     private void Update()
     {
         if (!isReturning && !hasHit)
-            ProjectileMovement(startPosition, endPosition);
+            if (data.isGuided && target != null)
+                ProjectileGuidedMovement();
+            else ProjectileLinearMovement(startPosition, endPosition);
 
-        if (isReturning)
+        if (isReturning && !data.isGuided)
         {
             switch (data.returnType)
             {
                 case ProjectileReturnType.ReturnToSpawnPosition:
-                    ProjectileMovement(startPosition, endPosition);
+                    ProjectileLinearMovement(startPosition, endPosition);
                     break;
                 case ProjectileReturnType.ReturnToPlayer:
-                    ProjectileMovement(startPosition, owner.transform.position);
+                    ProjectileLinearMovement(startPosition, owner.transform.position);
                     break;
-
             }
         }
 
-        if (Time.time >= startTime + data.range / data.speed)
+        if (Time.time >= startTime + data.range / data.speed || Time.time > startTime + data.lifespan)
         {
             if(!isReturning && data.returnType != ProjectileReturnType.NoReturn)
             {
@@ -79,14 +92,14 @@ public class ProjectileController : MonoBehaviour
                 return;
             }
             animator.SetTrigger(SRAnimators.ProjectileAnimBase.Parameters.falloff);
-            Invoke(nameof(DestroyProjectile), falloffDelay);
+            DestroyWithDelay(falloffDelay);
         }
     }
 
-    void ProjectileMovement(Vector2 startPos, Vector2 endPos)
+    void ProjectileLinearMovement(Vector2 startPos, Vector2 endPos)
     {
         float t = Mathf.Clamp01((Time.time - startTime) / (data.range / data.speed));
-        //Move gameObject
+
         transform.position = Vector3.Lerp(startPos, endPos, data.launchCurve.Evaluate(t));
 
         if(isReturning && data.returnType == ProjectileReturnType.ReturnToPlayer)
@@ -103,12 +116,22 @@ public class ProjectileController : MonoBehaviour
         CheckObstructionCollision(offsetPos);
     }
 
+    void ProjectileGuidedMovement()
+    {
+        Vector2 direction = target.transform.position - transform.position;
+        transform.rotation = Quaternion.LookRotation(Vector3.forward, direction);
+        transform.position += transform.up * data.speed * Time.deltaTime;
+        Vector3 offsetPos = transform.position + (transform.right * hitboxOffset.x + transform.up * hitboxOffset.y);
+        ProjectileHitProcess(offsetPos);
+        CheckObstructionCollision(offsetPos);
+    }
+
     bool ProjectileHitBoxCast(Vector2 position, out RaycastHit2D[] collisionsList)
     {
         collisionsList = hitboxShape switch
         {
-            HitboxShapeType.Circle => Physics2D.CircleCastAll(position, circleRadius, Vector2.zero, 0, data.targetLayer),
-            HitboxShapeType.Box => Physics2D.BoxCastAll(position, boxSize, Quaternion.Angle(Quaternion.identity, transform.rotation), Vector2.zero, 0, data.targetLayer),
+            HitboxShapeType.Circle => Physics2D.CircleCastAll(position, circleRadius, Vector2.zero, 0, targetLayer),
+            HitboxShapeType.Box => Physics2D.BoxCastAll(position, boxSize, Quaternion.Angle(Quaternion.identity, transform.rotation), Vector2.zero, 0, targetLayer),
             _ => null,
         };
         return collisionsList.Length > 0;
@@ -119,24 +142,22 @@ public class ProjectileController : MonoBehaviour
         switch (hitboxShape)
         {
             case HitboxShapeType.Circle:
-                RaycastHit2D circleCollision = Physics2D.CircleCast(position, circleRadius, Vector2.zero, 0, data.obstructionLayer);
+                RaycastHit2D circleCollision = Physics2D.CircleCast(position, circleRadius, Vector2.zero, 0, obstructionLayer);
                 if (circleCollision)
                 {
-                    hasHit = true;
                     RotateInCollisionNormalDirection(circleCollision);
                     animator.SetTrigger(SRAnimators.ProjectileAnimBase.Parameters.obstructed);
-                    Invoke(nameof(DestroyProjectile), obstructionDelay);
+                    DestroyWithDelay(obstructionDelay);
                 }
                 break;
 
             case HitboxShapeType.Box:
-                RaycastHit2D boxCollision = Physics2D.BoxCast(position, boxSize, Quaternion.Angle(Quaternion.identity, transform.rotation), Vector2.zero, 0, data.obstructionLayer);
+                RaycastHit2D boxCollision = Physics2D.BoxCast(position, boxSize, Quaternion.Angle(Quaternion.identity, transform.rotation), Vector2.zero, 0, obstructionLayer);
                 if (boxCollision)
                 {
-                    hasHit = true;
                     RotateInCollisionNormalDirection(boxCollision);
                     animator.SetTrigger(SRAnimators.ProjectileAnimBase.Parameters.obstructed);
-                    Invoke(nameof(DestroyProjectile), obstructionDelay);
+                    DestroyWithDelay(obstructionDelay);
                 }
                 break;
 
@@ -163,8 +184,7 @@ public class ProjectileController : MonoBehaviour
                 //Destroy self if numberOfTarget is reached
                 if (hitList.Count >= data.maxTargets)
                 {
-                    hasHit = true;
-                    Invoke(nameof(DestroyProjectile), hitDelay);
+                    DestroyWithDelay(hitDelay);
                 }
             }
 
@@ -178,12 +198,23 @@ public class ProjectileController : MonoBehaviour
         Destroy(gameObject);
     }
 
+    void DestroyWithDelay(float delay)
+    {
+        hasHit = true;
+        Invoke(nameof(DestroyProjectile), delay);
+    }
+
+    public void DestroyOnAttack()
+    {
+        animator.SetTrigger(SRAnimators.ProjectileAnimBase.Parameters.obstructed);
+        DestroyWithDelay(falloffDelay);
+    }
+
     void RotateInCollisionNormalDirection(RaycastHit2D hit)
     {
         Quaternion collisionRotation = new();
         collisionRotation.SetFromToRotation(transform.up, -hit.normal);
         transform.rotation *= collisionRotation;
-
     }
 
     private void OnDrawGizmos()

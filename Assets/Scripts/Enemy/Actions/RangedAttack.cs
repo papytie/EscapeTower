@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class RangedAttack : MonoBehaviour, IAction
 {
-    public bool IsAvailable => Time.time >= cooldownEndTime && Vector3.Distance(transform.position, controller.CurrentTarget.transform.position) <= data.activationRange;
+    public bool IsAvailable => Time.time >= cooldownEndTime && Vector3.Distance(transform.position, controller.CurrentTargetPos) <= data.activationRange;
     public bool IsCompleted { get; set; }
     public Vector3 Direction => direction;
 
     EnemyController controller;
     RangedData data;
 
+    bool updateWarnings = false;
     float cooldownEndTime = 0;
+    float warningStartTime = 0;
     Vector2 direction = Vector2.zero;
+    Vector2 targetPos = Vector2.zero;
     Quaternion currentRotation = Quaternion.identity;
 
     List<AnimatedBeam> warningBeams = new(); 
@@ -36,16 +39,25 @@ public class RangedAttack : MonoBehaviour, IAction
 
     public void StartProcess()
     {
-        if(data.projectileData.projectileToSpawn == null || !controller.CurrentTarget) 
+        if(data.projectileData.projectileToSpawn == null) 
         {
             Debug.LogWarning("No valid Projectile");
             IsCompleted = true;
             return;
         }
 
-        direction = (controller.CurrentTarget.transform.position.ToVector2() - (controller.CircleCollider.transform.position.ToVector2() + controller.CircleCollider.offset)).normalized;
-        currentRotation = Quaternion.LookRotation(Vector3.forward, direction);
+        if (data.anticipatedAiming)
+        {
+            Vector2 playerNextPosSecond = controller.PlayerController.MoveInput * controller.PlayerController.Movement.CurrentSpeed;
+            float collisionTime = Vector2.Distance(transform.position, controller.CurrentTargetPos) / data.projectileData.speed;
+            targetPos = controller.CurrentTargetPos + playerNextPosSecond * collisionTime;
+        }
+        else targetPos = controller.CurrentTargetPos;
+
+        direction = (targetPos - (controller.CircleCollider.transform.position.ToVector2() + controller.CircleCollider.offset)).normalized;
         controller.AnimationParam.UpdateMoveAnimDirection(direction);
+        currentRotation = Quaternion.LookRotation(Vector3.forward, direction);
+
         controller.AnimationParam.UpdateMoveAnimSpeed(controller.Stats.MoveSpeed);
 
         StartCoroutine(AttackProcess());
@@ -53,13 +65,51 @@ public class RangedAttack : MonoBehaviour, IAction
 
     public void UpdateProcess()
     {
-        if (!controller.TargetAcquired)
+        if (updateWarnings)
         {
-            if (data.displayWarningBeam)
-                foreach (AnimatedBeam beam in warningBeams)
-                    beam.gameObject.SetActive(false);
+            targetPos = controller.CurrentTargetPos;
 
-            IsCompleted = true;
+            if (data.anticipatedAiming)
+            {
+                Vector2 playerNextPosSecond = controller.PlayerController.MoveInput * controller.PlayerController.Movement.CurrentSpeed;
+                float collisionTime = Vector2.Distance(transform.position, controller.CurrentTargetPos) / data.projectileData.speed;
+                targetPos = controller.CurrentTargetPos + playerNextPosSecond * collisionTime;
+            }
+
+            if (data.progressiveAiming)
+            {
+                direction = (targetPos - (controller.CircleCollider.transform.position.ToVector2() + controller.CircleCollider.offset)).normalized;
+                controller.AnimationParam.UpdateMoveAnimDirection(direction);
+                currentRotation = Quaternion.LookRotation(Vector3.forward, direction);
+            }
+
+            //Try a progressive rotation
+            //currentRotation = Quaternion.RotateTowards(currentRotation, Quaternion.LookRotation(Vector3.forward, direction), 10 * Time.deltaTime);
+
+            Vector3 center = transform.position.ToVector2() + controller.CircleCollider.offset;
+            Vector3 projectileSpawnPos = center + currentRotation * data.projectileData.spawnOffset;
+
+            float beamThickness = Mathf.Lerp(.05f, data.projectileData.projectileToSpawn.CircleRadius * 2, (Time.time - warningStartTime) / data.warningTime);
+
+            if (data.projectileData.spawnNumber > 1)
+            {
+                float minAngle = data.projectileData.spreadAngle / 2f;
+                float angleIncrValue = data.projectileData.spreadAngle / (data.projectileData.spawnNumber - 1);
+
+                for (int i = 0; i < data.projectileData.spawnNumber; i++)
+                {
+                    float angle = minAngle - i * angleIncrValue;
+                    Quaternion angleResult = Quaternion.AngleAxis(angle + data.projectileData.angleOffset, transform.forward);
+
+                    warningBeams[i].transform.SetPositionAndRotation(projectileSpawnPos, currentRotation * angleResult);
+                    warningBeams[i].SpriteRenderer.size = new Vector2(GetBeamLength(angleResult * direction), beamThickness);
+                }
+            }
+            else
+            {
+                warningBeams[0].transform.SetPositionAndRotation(projectileSpawnPos, currentRotation * Quaternion.AngleAxis(data.projectileData.angleOffset, transform.forward));
+                warningBeams[0].SpriteRenderer.size = new Vector2(GetBeamLength(direction), beamThickness);
+            }
         }
     }
 
@@ -72,46 +122,30 @@ public class RangedAttack : MonoBehaviour, IAction
 
     IEnumerator AttackProcess()
     {
-        Vector3 center = transform.position.ToVector2() + controller.CircleCollider.offset;
-        Vector3 projectileSpawnPos = center + currentRotation * data.projectileData.spawnOffset;
-
-        yield return new WaitForSeconds(data.reactionTime);
-        
         controller.Animator.SetTrigger(SRAnimators.EnemyBaseAnimator.Parameters.attack);
 
-        ///////////////////////DISPLAY WARNING BEAM//////////////////////
         if(data.displayWarningBeam)
         {
+            updateWarnings = true;
+            warningStartTime = Time.time;
+
             if (data.projectileData.spawnNumber > 1)
-            {
-                float minAngle = data.projectileData.spreadAngle / 2f;
-                float angleIncrValue = data.projectileData.spreadAngle / (data.projectileData.spawnNumber - 1);
-
                 for (int i = 0; i < data.projectileData.spawnNumber; i++)
-                {
-                    float angle = minAngle - i * angleIncrValue;
-                    Quaternion angleResult = Quaternion.AngleAxis(angle + data.projectileData.angleOffset, transform.forward);
-
-                    warningBeams[i].transform.SetPositionAndRotation(projectileSpawnPos, currentRotation * angleResult);
-                    warningBeams[i].SpriteRenderer.size = new Vector2(GetBeamLength(angleResult * direction), data.projectileData.projectileToSpawn.CircleRadius * 2);
                     warningBeams[i].gameObject.SetActive(true);
-                }
-            }
-            else
-            {
-                warningBeams[0].transform.SetPositionAndRotation(projectileSpawnPos, currentRotation * Quaternion.AngleAxis(data.projectileData.angleOffset, transform.forward));
-                warningBeams[0].SpriteRenderer.size = new Vector2(GetBeamLength(direction), data.projectileData.projectileToSpawn.CircleRadius * 2);
-                warningBeams[0].gameObject.SetActive(true);
-            }
 
+            else warningBeams[0].gameObject.SetActive(true);
+           
             yield return new WaitForSeconds(data.warningTime);
+            updateWarnings = false;
+            yield return new WaitForSeconds(data.reactionTime);
 
             foreach (AnimatedBeam beam in warningBeams)
-            {
-                beam.gameObject.SetActive(false);
-            }
+                beam.gameObject.SetActive(false);     
         }
-        ///////////////////////DISPLAY WARNING BEAM//////////////////////
+
+
+        Vector3 center = transform.position.ToVector2() + controller.CircleCollider.offset;
+        Vector3 projectileSpawnPos = center + currentRotation * data.projectileData.spawnOffset;
         
         if (data.projectileData.spawnNumber > 1)
         {
@@ -146,16 +180,18 @@ public class RangedAttack : MonoBehaviour, IAction
         Vector3 center = transform.position.ToVector2() + controller.CircleCollider.offset;
         Vector3 beamSpawnPos = center + currentRotation * data.projectileData.spawnOffset;
                
-        RaycastHit2D[] allHit = Physics2D.RaycastAll(beamSpawnPos, direction);
-        if (allHit.Length < 0)
+        RaycastHit2D[] allHit = Physics2D.RaycastAll(beamSpawnPos, direction, data.projectileData.range);
+        if (allHit.Length > 0)
         {
             foreach (RaycastHit2D hit in allHit)
             {
-                if (hit.transform.gameObject.layer == data.projectileData.obstructionLayer)
-                    if (hit.distance < data.projectileData.range)
-                        return hit.distance;     
+                if ((controller.Detection.ObstructionLayer & (1 << hit.collider.gameObject.layer)) != 0)
+                {
+                    return hit.distance; 
+                }
             }
         }
+        
         return data.projectileData.range;
     }
 }

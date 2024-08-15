@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float MoveSpeed => moveSpeed;
+    public float CurrentSpeed => currentSpeed;
 
     [SerializeField] float moveSpeed = 1f;
     [SerializeField] float acceleration = 50f;
@@ -32,7 +33,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void CheckedMove(Vector3 moveAxis)
     {
-
         collision.MoveToCollisionCheck(moveAxis, currentSpeed * Time.deltaTime, collision.BlockingObjectsLayer, out Vector3 finalPosition, out List<RaycastHit2D> hitList);
         transform.position = finalPosition;
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
@@ -147,12 +148,18 @@ public class WeaponController : MonoBehaviour
         {
             foreach (RaycastHit2D collision in collisionsList)
             {
-                EnemyLifeSystemComponent enemyLifesystem = collision.transform.GetComponent<EnemyLifeSystemComponent>();
-
-                if (enemyLifesystem && !enemiesHit.Contains(enemyLifesystem) && enemiesHit.Count < AttackData.maxTargets)
+                if (collision.transform.TryGetComponent(out EnemyLifeSystemComponent enemyLifeSystem))
                 {
-                    enemyLifesystem.TakeDamage(stats.GetModifiedMainStat(MainStat.Damage), collision.normal);
-                    enemiesHit.Add(enemyLifesystem);
+                    if(!enemiesHit.Contains(enemyLifeSystem) && enemiesHit.Count < AttackData.maxTargets)
+                    {
+                        enemyLifeSystem.TakeDamage(stats.GetModifiedMainStat(MainStat.Damage), collision.normal);
+                        enemiesHit.Add(enemyLifeSystem);
+                    }
+                }
+                if (collision.transform.TryGetComponent(out ProjectileController projectileController))
+                {
+                    if(projectileController.IsDestructible)
+                        projectileController.DestroyOnAttack();
                 }
             }
         }
@@ -160,6 +167,7 @@ public class WeaponController : MonoBehaviour
 
     IEnumerator FireProjectile()
     {
+        //Player Projectiles are broken for now, they need a target
         if (stats.GetModifiedMainStat(MainStat.ProjectileNumber) > 1)
         {
             float minAngle = AttackData.projectileData.spreadAngle / 2f;

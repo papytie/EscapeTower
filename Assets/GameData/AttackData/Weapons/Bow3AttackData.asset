@@ -20,7 +20,7 @@ MonoBehaviour:
     duration: 0.1
     targetLayer:
       serializedVersion: 2
-      m_Bits: 128
+      m_Bits: 1152
     useMeleeHitbox: 0
     hitboxDuration: 0.1
     maxTargets: 1
@@ -37,14 +37,10 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     targetPosition: {x: 0, y: 0}
+    useProjectile: 0
     projectileData:
-      useProjectile: 1
-      obstructionLayer:
-        serializedVersion: 2
-        m_Bits: 256
-      projectileTargetLayer:
-        serializedVersion: 2
-        m_Bits: 128
+      projectileToSpawn: {fileID: 1539454035064346066, guid: 3b1be16503129924d812f4ba10b0f941, type: 3}
+      spawnOffset: {x: 0, y: 0}
       launchCurve:
         serializedVersion: 2
         m_Curve:
@@ -69,20 +65,20 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      projectileReturnType: 0
-      projectileReturnFlip: 0
+      spawnType: 0
+      speed: 1
+      range: 1
+      angleOffset: 0
+      maxTargets: 1
+      spawnNumber: 1
+      spreadAngle: 30
+      returnFlip: 0
+      returnType: 0
       returnCurve:
         serializedVersion: 2
         m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      projectileToSpawn: {fileID: 1539454035064346066, guid: 3b1be16503129924d812f4ba10b0f941, type: 3}
-      projectileSpawnOffset: {x: 0, y: 0}
-      projectileAngleOffset: 0
-      projectileNumber: 1
-      projectileSpawnType: 1
-      projectileMaxTargets: 1
-      projectileSpeed: 3
-      spreadAngle: 30
-      projectileRange: 1
+      spawnObjectOnHit: 0
+      spawnObject: {fileID: 0}
