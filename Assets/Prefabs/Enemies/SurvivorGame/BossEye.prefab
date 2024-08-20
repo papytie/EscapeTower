@@ -171,11 +171,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd56c217e62865a46a7750fe272f3bd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 20
   collisionDamage: 5
-  detectionRadius: 3
-  weight: 5
-  baseMoveSpeed: 1
+  detectionRadius: 10
+  weight: 10
+  baseMoveSpeed: 0.2
 --- !u!114 &1212263613708189210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,7 +212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9de959b942b67f747a12ec9d824358dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLayer:
+  targetLayer:
     serializedVersion: 2
     m_Bits: 64
   obstructionLayer:
@@ -244,8 +244,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 242e004eeec4d0645b95fe12d219eff9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loot: {fileID: 11400000, guid: e61879571c8214944ac9d9e5577686d0, type: 2}
-  lootChance: 20
+  loot: {fileID: 11400000, guid: cc93d48b4f0768d43ae48456ae9a9ca1, type: 2}
+  lootChance: 100
 --- !u!114 &7498299715215361560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,7 +258,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b2a66150ab8292479a92f49da9b9ecc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  behaviourConfig: {fileID: 11400000, guid: 2655027d8f0e3c341973df4ed3a0e029, type: 2}
+  mainBehaviourConfig: {fileID: 11400000, guid: b7cad831a57c7dc4eab49a6f1fc986a0, type: 2}
+  additiveBehaviourConfig: {fileID: 11400000, guid: 630c20cf43ff94942a3c953ecd91e485, type: 2}
+  debugCube: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &2580505864003633830
 MonoBehaviour:
   m_ObjectHideFlags: 0

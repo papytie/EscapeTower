@@ -3428,6 +3428,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 13529745838042828, guid: aedf39e926b640b4687e56297141b15d, type: 3}
+      propertyPath: currentLifePoints
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 4527449375825524640, guid: aedf39e926b640b4687e56297141b15d, type: 3}
       propertyPath: colliderShape
       value: 0
@@ -3439,6 +3443,10 @@ PrefabInstance:
     - target: {fileID: 4910991978233942965, guid: aedf39e926b640b4687e56297141b15d, type: 3}
       propertyPath: bumpDistanceRatio
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5299433897241918024, guid: aedf39e926b640b4687e56297141b15d, type: 3}
+      propertyPath: stickAutoAttack
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7335286304733664789, guid: aedf39e926b640b4687e56297141b15d, type: 3}
       propertyPath: m_Name
@@ -21557,62 +21565,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2219257491683166375, guid: 9ef1e5192ae2a7b4aba7d7711cd1cce0, type: 3}
-      propertyPath: showDebug
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2219257491683166375, guid: 9ef1e5192ae2a7b4aba7d7711cd1cce0, type: 3}
-      propertyPath: targetLayer.m_Bits
-      value: 64
-      objectReference: {fileID: 0}
-    - target: {fileID: 2276434500910994747, guid: 9ef1e5192ae2a7b4aba7d7711cd1cce0, type: 3}
-      propertyPath: loot
-      value: 
-      objectReference: {fileID: 11400000, guid: cc93d48b4f0768d43ae48456ae9a9ca1, type: 2}
-    - target: {fileID: 2276434500910994747, guid: 9ef1e5192ae2a7b4aba7d7711cd1cce0, type: 3}
-      propertyPath: lootChance
-      value: 100
-      objectReference: {fileID: 0}
     - target: {fileID: 6043574534179788805, guid: 9ef1e5192ae2a7b4aba7d7711cd1cce0, type: 3}
       propertyPath: m_Name
       value: BossEye
       objectReference: {fileID: 0}
-    - target: {fileID: 6043574534179788805, guid: 9ef1e5192ae2a7b4aba7d7711cd1cce0, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6419406907569704373, guid: 9ef1e5192ae2a7b4aba7d7711cd1cce0, type: 3}
-      propertyPath: weight
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 6419406907569704373, guid: 9ef1e5192ae2a7b4aba7d7711cd1cce0, type: 3}
       propertyPath: maxHealth
-      value: 20
+      value: 50
       objectReference: {fileID: 0}
-    - target: {fileID: 6419406907569704373, guid: 9ef1e5192ae2a7b4aba7d7711cd1cce0, type: 3}
-      propertyPath: baseMoveSpeed
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6419406907569704373, guid: 9ef1e5192ae2a7b4aba7d7711cd1cce0, type: 3}
-      propertyPath: detectionRadius
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 7498299715215361560, guid: 9ef1e5192ae2a7b4aba7d7711cd1cce0, type: 3}
-      propertyPath: debugCube
-      value: 
-      objectReference: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-    - target: {fileID: 7498299715215361560, guid: 9ef1e5192ae2a7b4aba7d7711cd1cce0, type: 3}
-      propertyPath: behaviourConfig
-      value: 
-      objectReference: {fileID: 11400000, guid: b7cad831a57c7dc4eab49a6f1fc986a0, type: 2}
-    - target: {fileID: 7498299715215361560, guid: 9ef1e5192ae2a7b4aba7d7711cd1cce0, type: 3}
-      propertyPath: mainBehaviourConfig
-      value: 
-      objectReference: {fileID: 11400000, guid: b7cad831a57c7dc4eab49a6f1fc986a0, type: 2}
-    - target: {fileID: 7498299715215361560, guid: 9ef1e5192ae2a7b4aba7d7711cd1cce0, type: 3}
-      propertyPath: additiveBehaviourConfig
-      value: 
-      objectReference: {fileID: 11400000, guid: 630c20cf43ff94942a3c953ecd91e485, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

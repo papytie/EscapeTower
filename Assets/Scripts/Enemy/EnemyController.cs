@@ -43,7 +43,6 @@ public class EnemyController : MonoBehaviour
     Animator animator;
     CircleCollider2D circleCollider;
 
-
     private void Awake()
     {
         if (!TryGetComponent<Animator>(out animator)) animator = GetComponentInChildren<Animator>();

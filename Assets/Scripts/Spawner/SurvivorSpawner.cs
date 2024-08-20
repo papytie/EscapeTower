@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class SurvivorSpawner : MonoBehaviour
@@ -68,7 +67,6 @@ public class SurvivorSpawner : MonoBehaviour
         {
             if (currentEnemyList[i] == null)
                 currentEnemyList.Remove(currentEnemyList[i]);
-            
         }
         if (currentEnemyList.Count == 0)
         {
@@ -190,4 +188,5 @@ public enum EnemyType
 {
     Standard = 0,
     Boss = 1,
+    Elite = 2,
 }

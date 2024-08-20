@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static BulletHellData;
 
 public class BulletHell : MonoBehaviour, IBehaviour
 {
@@ -125,7 +124,7 @@ public class BulletHell : MonoBehaviour, IBehaviour
 
         state.OnStateUpdate += () =>
         {
-            if (state.Action.IsCompleted || !controller.TargetAcquired)
+            if (state.Action.IsCompleted /*|| !controller.TargetAcquired*/)
                 fsm.SetState(data.wait.name);
         };
         
@@ -141,7 +140,7 @@ public class BulletHell : MonoBehaviour, IBehaviour
 
         state.OnStateUpdate += () =>
         {
-            if (state.Action.IsCompleted || !controller.TargetAcquired)
+            if (state.Action.IsCompleted /*|| !controller.TargetAcquired*/)
                 fsm.SetState(data.wait.name);
         };
         
@@ -157,7 +156,7 @@ public class BulletHell : MonoBehaviour, IBehaviour
 
         state.OnStateUpdate += () =>
         {
-            if (state.Action.IsCompleted || !controller.TargetAcquired)
+            if (state.Action.IsCompleted /*|| !controller.TargetAcquired*/)
                 fsm.SetState(data.wait.name);
         };
         
@@ -173,7 +172,7 @@ public class BulletHell : MonoBehaviour, IBehaviour
 
         state.OnStateUpdate += () =>
         {
-            if (state.Action.IsCompleted || !controller.TargetAcquired)
+            if (state.Action.IsCompleted /*|| !controller.TargetAcquired*/)
                 fsm.SetState(data.wait.name);
         };
         
@@ -189,7 +188,7 @@ public class BulletHell : MonoBehaviour, IBehaviour
 
         state.OnStateUpdate += () =>
         {
-            if (state.Action.IsCompleted || !controller.TargetAcquired)
+            if (state.Action.IsCompleted /*|| !controller.TargetAcquired*/)
                 fsm.SetState(data.wait.name);
         };
         
@@ -205,7 +204,7 @@ public class BulletHell : MonoBehaviour, IBehaviour
 
         state.OnStateUpdate += () =>
         {
-            if (state.Action.IsCompleted || !controller.TargetAcquired)
+            if (state.Action.IsCompleted /*|| !controller.TargetAcquired*/)
                 fsm.SetState(data.wait.name);
         };
         
@@ -221,7 +220,7 @@ public class BulletHell : MonoBehaviour, IBehaviour
 
         state.OnStateUpdate += () =>
         {
-            if (state.Action.IsCompleted || !controller.TargetAcquired)
+            if (state.Action.IsCompleted /*|| !controller.TargetAcquired*/)
                 fsm.SetState(data.wait.name);
         };
 
