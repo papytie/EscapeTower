@@ -14,23 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   behaviourType: 2
   data:
-    rid: 856610943895863499
+    rid: 6988268822152347649
   references:
     version: 2
     RefIds:
-    - rid: 856610943895863499
+    - rid: 6988268822152347649
       type: {class: HarasserData, ns: , asm: Assembly-CSharp}
       data:
-        actions:
-        - {fileID: 0}
-        - {fileID: 0}
-        - {fileID: 0}
-        - {fileID: 0}
-        - {fileID: 0}
-        - {fileID: 0}
-        wait: {fileID: 11400000, guid: f4957dc00155c8e4ea6a72c6a126917a, type: 2}
-        roam: {fileID: 11400000, guid: 6ae4dd4fbc43fd74fb806bdbcdc89dc4, type: 2}
-        stayAtRange: {fileID: 11400000, guid: 82773e5c260bb8349a73a8419137c394, type: 2}
-        ranged: {fileID: 11400000, guid: 8b2791762ad4f004fbe4ef69501ac4a7, type: 2}
-        takeDamage: {fileID: 11400000, guid: f9f8d7e0b93f5d34cb385890b4a78c5e, type: 2}
-        die: {fileID: 11400000, guid: 73c2a490760f89d48a36d159fe6ee0fe, type: 2}
+        actions: []
+        wait: {fileID: 0}
+        roam: {fileID: 0}
+        stayAtRange: {fileID: 0}
+        ranged: {fileID: 0}
+        takeDamage: {fileID: 0}
+        die: {fileID: 0}

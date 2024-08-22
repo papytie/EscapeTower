@@ -86,11 +86,11 @@ public class SurvivorSpawner : MonoBehaviour
         Debug.Log("CurrentSpawnPoints :" + currentSpawnPoints);
     }
 
-    Vector2 RandomPoint()
+    Vector2 RandomPos()
     {
-        Vector2 randomPos = new(UnityEngine.Random.Range(-zoneSize.x / 2, zoneSize.x / 2), UnityEngine.Random.Range(-zoneSize.y / 2, zoneSize.y / 2));
-        if (Vector2.Distance(randomPos, player.transform.position) < deadZoneRadius) return RandomPoint();
-        return randomPos;
+        Vector2 randPos = new(UnityEngine.Random.Range(-zoneSize.x / 2, zoneSize.x / 2), UnityEngine.Random.Range(-zoneSize.y / 2, zoneSize.y / 2));
+        if (Vector2.Distance(randPos, player.transform.position) < deadZoneRadius) return RandomPos();
+        return randPos;
     }
 
     void SpawnWave()
@@ -115,7 +115,7 @@ public class SurvivorSpawner : MonoBehaviour
     {
         for (int i = 0; i < instances; i++)
         {
-            EnemyController enemy = Instantiate(PickRandomEnemyInList(list), RandomPoint(), Quaternion.identity);
+            EnemyController enemy = Instantiate(PickRandomEnemyInList(list), RandomPos(), Quaternion.identity);
             enemy.SetStatsScalingFactor(currentStatScalingFactor);
             currentEnemyList.Add(enemy);
         }

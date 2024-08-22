@@ -45,6 +45,8 @@ public class EnemyController : MonoBehaviour
 
     private void Awake()
     {
+        EnemyManager.Instance.AddEnemy(this);
+
         if (!TryGetComponent<Animator>(out animator)) animator = GetComponentInChildren<Animator>();
         if (animator == null) Debug.LogWarning("Animator is missing!");
 

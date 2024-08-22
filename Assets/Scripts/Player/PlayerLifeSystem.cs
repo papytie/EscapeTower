@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerLifeSystem : MonoBehaviour, ILifeSystem
@@ -20,11 +18,13 @@ public class PlayerLifeSystem : MonoBehaviour, ILifeSystem
 
     Animator animator;
     BumpComponent bump;
+    Collider2D playerCollider;
 
-    public void InitRef(Animator animatorRef, BumpComponent bumpRef)
+    public void InitRef(Animator animatorRef, BumpComponent bumpRef, Collider2D collider)
     {
         animator = animatorRef;
         bump = bumpRef;
+        playerCollider = collider;
     }
 
     void Update()
@@ -32,6 +32,7 @@ public class PlayerLifeSystem : MonoBehaviour, ILifeSystem
         if (isInvincible && Time.time >= invincibilityEndTime)
         {
             isInvincible = false;
+            playerCollider.enabled = true;
             animator.SetBool(GameParams.Animation.PLAYER_INVINCIBILITY_BOOL, false);
         }
     }
@@ -63,8 +64,9 @@ public class PlayerLifeSystem : MonoBehaviour, ILifeSystem
 
     public void StartInvincibility(float duration)
     {
-        invincibilityEndTime = MathF.Max(invincibilityEndTime, Time.time + duration);
         isInvincible = true;
+        playerCollider.enabled = false;
+        invincibilityEndTime = MathF.Max(invincibilityEndTime, Time.time + duration);
         animator.SetBool(GameParams.Animation.PLAYER_INVINCIBILITY_BOOL, true);
     }
 

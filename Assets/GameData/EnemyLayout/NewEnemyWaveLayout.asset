@@ -12,4 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f027562d3c9888f449f19f76b21c8534, type: 3}
   m_Name: NewEnemyWaveLayout
   m_EditorClassIdentifier: 
-  enemyList: []
+  enemyLayout:
+  - enemyPrefab: {fileID: 1144387320564921821, guid: 280c327df87500c45ae199980b8f6b26, type: 3}
+    cost: 1
+    value: 0
+    type: 0
+  - enemyPrefab: {fileID: 5989151160579487604, guid: 436a427cb9905264a8fd0b18a3baed5d, type: 3}
+    cost: 2
+    value: 0
+    type: 0
+  - enemyPrefab: {fileID: 2019851043380712307, guid: 440bc37879f091241bf47872c4979d97, type: 3}
+    cost: 3
+    value: 0
+    type: 0
+  - enemyPrefab: {fileID: 4237133312545314035, guid: 3c14e9db8dbfbef4fb0f2e9f4e4db23c, type: 3}
+    cost: 5
+    value: 0
+    type: 0
