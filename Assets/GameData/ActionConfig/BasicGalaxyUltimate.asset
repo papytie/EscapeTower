@@ -172,6 +172,8 @@ MonoBehaviour:
           maxTargets: 1
           spawnNumber: 40
           spreadAngle: 360
+          isGuided: 0
+          lifespan: 5
           returnFlip: 0
           returnType: 2
           returnCurve:
@@ -323,6 +325,8 @@ MonoBehaviour:
         duration: 3
         recupTime: 1
         cooldown: 5
+        progressiveAiming: 1
+        anticipatedAiming: 0
         displayWarningBeam: 0
         warningTime: 0
         warningBeam: {fileID: 6861554593724293505, guid: 96a19a00546c1bb419b4139b1e0eee02, type: 3}

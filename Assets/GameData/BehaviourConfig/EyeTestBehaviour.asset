@@ -10,27 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a23bdf922aa5cf14babdf4eaac7fb1c1, type: 3}
-  m_Name: EyeSize2Behaviour
+  m_Name: EyeTestBehaviour
   m_EditorClassIdentifier: 
   behaviourType: 2
   data:
-    rid: 856610943895863511
+    rid: 2940844487821754404
   references:
     version: 2
     RefIds:
-    - rid: 856610943895863511
-      type: {class: HarasserData, ns: , asm: Assembly-CSharp}
+    - rid: 2940844487821754404
+      type: {class: HunterData, ns: , asm: Assembly-CSharp}
       data:
-        actions:
-        - {fileID: 0}
-        - {fileID: 0}
-        - {fileID: 0}
-        - {fileID: 0}
-        - {fileID: 0}
-        - {fileID: 0}
         wait: {fileID: 11400000, guid: f4957dc00155c8e4ea6a72c6a126917a, type: 2}
         roam: {fileID: 11400000, guid: 6ae4dd4fbc43fd74fb806bdbcdc89dc4, type: 2}
         stayAtRange: {fileID: 11400000, guid: 82773e5c260bb8349a73a8419137c394, type: 2}
-        ranged: {fileID: 11400000, guid: 8b2791762ad4f004fbe4ef69501ac4a7, type: 2}
         takeDamage: {fileID: 11400000, guid: f9f8d7e0b93f5d34cb385890b4a78c5e, type: 2}
         die: {fileID: 11400000, guid: 73c2a490760f89d48a36d159fe6ee0fe, type: 2}
+        shots:
+        - {fileID: 11400000, guid: df73ec4d7b5d7b44499170e77eecad87, type: 2}
+        - {fileID: 11400000, guid: 89612745da7b71943b4d71803068138a, type: 2}
+        - {fileID: 11400000, guid: df59229f8d48d1c43a49882f8886e0da, type: 2}

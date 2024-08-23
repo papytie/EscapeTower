@@ -17,7 +17,7 @@ public class EnemyController : MonoBehaviour
     public Animator Animator => animator;
     public CircleCollider2D CircleCollider => circleCollider;
     public IBehaviour MainBehaviour => mainBehaviour;
-    public IBehaviour AdditiveBehaviour => additiveBehaviour;
+    public IBehaviour AdditiveBehaviours => additiveBehaviour;
     public bool TargetAcquired => currentTarget != null;
     public Vector2 CurrentTargetPos => currentTargetPos;
     public Vector2 CurrentDirection { get; set; }
@@ -25,7 +25,6 @@ public class EnemyController : MonoBehaviour
     public GameObject CurrentTarget => currentTarget;
 
     [SerializeField] BehaviourConfig mainBehaviourConfig;
-    [SerializeField] BehaviourConfig additiveBehaviourConfig;
     [SerializeField] Mesh debugCube;
     
     IBehaviour mainBehaviour;
@@ -71,74 +70,24 @@ public class EnemyController : MonoBehaviour
         {
             mainBehaviourConfig.data.InitActionsList();
             mainBehaviour = BehaviourFactory.Create(gameObject, mainBehaviourConfig.behaviourType);
-            InitMainBehaviour();
+            mainBehaviour.Init(this, mainBehaviourConfig.data);
         }
         else { Debug.LogWarning("Main Behaviour Config is missing!"); return; }
-
-        if (additiveBehaviourConfig != null)
-        {
-            additiveBehaviourConfig.data.InitActionsList();
-            additiveBehaviour = BehaviourFactory.Create(gameObject, additiveBehaviourConfig.behaviourType);
-            InitAdditiveBehaviour();
-        }
-        else Debug.Log("No Additive Behaviour Detected!");
     }
 
     private void Update()
     {
         if (detection.PlayerDetection(out GameObject target))
         {
-            if (currentTarget == null)
+            if (currentTarget == null || currentTarget != target)
             {
                 currentTarget = target;
                 playerController = currentTarget.GetComponent<PlayerController>();
             }
             currentTargetPos = target.transform.position;
         }
-        else if (currentTarget != null)
-                currentTarget = null;
-        
-        mainBehaviour.FSM.CurrentState.Update();
-        additiveBehaviour?.FSM.CurrentState.Update();
-    }
 
-    void InitMainBehaviour()
-    {        
-        mainBehaviour.FSM = new NPCFSM();
-
-        foreach (ActionConfig actionConfig in mainBehaviourConfig.data.Actions)
-        {
-            if (actionConfig != null)
-            {
-                IAction action = ActionFactory.Create(gameObject, actionConfig.actionType);
-                action.InitRef(actionConfig.data, this);
-                mainBehaviour.FSM.AddState(new NPCState(mainBehaviour.FSM, actionConfig.name, action));
-            }
-            else { Debug.LogWarning("ActionConfig is missing is MainBehaviourConfig!"); return; }
-        }
-        mainBehaviour.Init(this, mainBehaviourConfig.data);
-    }
-
-    void InitAdditiveBehaviour()
-    {
-        additiveBehaviour.FSM = new NPCFSM();
-
-        foreach (ActionConfig actionConfig in additiveBehaviourConfig.data.Actions)
-        {
-            if (actionConfig != null)
-            {
-                IAction action = ActionFactory.Create(gameObject, actionConfig.actionType);
-                action.InitRef(actionConfig.data, this);
-                additiveBehaviour.FSM.AddState(new NPCState(additiveBehaviour.FSM, actionConfig.name, action));
-            }
-            else { Debug.LogWarning("ActionConfig is missing is AdditiveBehaviourConfig!"); return; }
-        }
-        additiveBehaviour.Init(this, additiveBehaviourConfig.data);
-    }
-
-    public void SetStatsScalingFactor(float value)
-    {
-        stats.SetScalingFactorTo(value);
+        mainBehaviour.UpdateFSM();
     }
 
     private void OnValidate()

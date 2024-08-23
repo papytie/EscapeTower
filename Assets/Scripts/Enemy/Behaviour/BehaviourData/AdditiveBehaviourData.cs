@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 
 [Serializable]
-public class AdditiveLayerData : IBehaviourData
+public class AdditiveBehaviourData : IBehaviourData
 {
     public List<ActionConfig> Actions => actions;
     List<ActionConfig> actions;

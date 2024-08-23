@@ -116,7 +116,7 @@ public class SurvivorSpawner : MonoBehaviour
         for (int i = 0; i < instances; i++)
         {
             EnemyController enemy = Instantiate(PickRandomEnemyInList(list), RandomPos(), Quaternion.identity);
-            enemy.SetStatsScalingFactor(currentStatScalingFactor);
+            enemy.Stats.SetScalingFactorTo(currentStatScalingFactor);
             currentEnemyList.Add(enemy);
         }
     }

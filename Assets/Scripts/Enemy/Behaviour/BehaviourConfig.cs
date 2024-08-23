@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "BehaviourConfig", menuName = "GameData/Behaviour", order = 1)]
@@ -7,7 +8,6 @@ public class BehaviourConfig : ScriptableObject
 {
     public BehaviourType behaviourType;
     [SerializeReference] public IBehaviourData data;
-    public IBehaviour behaviour;
 
     private void OnValidate()
     {
@@ -15,16 +15,16 @@ public class BehaviourConfig : ScriptableObject
         {
             BehaviourType.Harmless => typeof(HarmlessData),
             BehaviourType.Stalker => typeof(StalkerData),
-            BehaviourType.Harasser => typeof(HarasserData),
+            BehaviourType.Hunter => typeof(HunterData),
             BehaviourType.Fighter => typeof(FighterData),
-            BehaviourType.BulletHell => typeof(BulletHellData),
-            BehaviourType.AdditiveLayer => typeof(AdditiveLayerData),
+            BehaviourType.MultiAttackBoss => typeof(MultiAttackBossData),
             _ => null,
         };
 
         if ((data == null && type != null) || (data != null && data.GetType() != type))
         {
             data = BehaviourDataFactory.Create(behaviourType);
+            //additiveBehaviourData = new AdditiveBehaviourData();
         }
     }
 }

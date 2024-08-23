@@ -1,8 +1,13 @@
+using System;
 using UnityEngine;
 
 public class EnemyLifeSystemComponent : MonoBehaviour, ILifeSystem
 {
-    public bool IsDead => controller.Stats.IsDead;
+    public bool IsDead => isDead;
+    bool isDead = false;
+
+    public event Action OnDeath = null;
+    public event Action OnTakeDamage = null;
 
     EnemyController controller;
 
@@ -13,7 +18,7 @@ public class EnemyLifeSystemComponent : MonoBehaviour, ILifeSystem
 
     public void TakeDamage(float damageValue, Vector2 atkVector)
     {
-        if (controller.Stats.IsDead) return;
+        if (isDead) return;
 
         controller.Stats.CurrentHealth -= damageValue;
         controller.Stats.LastDMGReceived = damageValue;
@@ -23,15 +28,16 @@ public class EnemyLifeSystemComponent : MonoBehaviour, ILifeSystem
         {
             controller.Stats.CurrentHealth = 0;
             controller.CircleCollider.enabled = false;
-            controller.MainBehaviour.SetDieState();
+            isDead = true;
+            OnDeath?.Invoke();
             return;
         }
-        else controller.MainBehaviour.SetTakeDamageState();
+        else OnTakeDamage?.Invoke();
     }
 
     public void HealUp(float healValue)
     {
-        if (controller.Stats.IsDead) return;
+        if (isDead) return;
         controller.Stats.CurrentHealth = Mathf.Min(controller.Stats.CurrentHealth + healValue, controller.Stats.MaxHealth);
     }
 }

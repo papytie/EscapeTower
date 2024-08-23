@@ -2,23 +2,27 @@ using System;
 using System.Collections.Generic;
 
 [Serializable]
-public class HarasserData : IBehaviourData
+public class HunterData : IBehaviourData
 {
     public List<ActionConfig> Actions { get => actions; set { actions = value; } }
-    public List<ActionConfig> actions;
+    List<ActionConfig> actions;
 
     public ActionConfig wait;
     public ActionConfig roam;
     public ActionConfig stayAtRange;
-    public ActionConfig ranged;
     public ActionConfig takeDamage;
     public ActionConfig die;
+
+    public List<ActionConfig> shots;
 
     public void InitActionsList()
     {
         actions = new List<ActionConfig>
         {
-            wait, roam, stayAtRange, ranged, takeDamage, die
+            wait, roam, stayAtRange, takeDamage, die
         };
+
+        foreach (var shot in shots) { actions.Add(shot); }
     }
+
 }

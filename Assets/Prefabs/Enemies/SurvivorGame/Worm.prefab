@@ -33,7 +33,7 @@ Transform:
   m_GameObject: {fileID: 6968676946490371561}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.839, y: -0.511, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -111,13 +111,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9de959b942b67f747a12ec9d824358dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLayer:
+  targetLayer:
     serializedVersion: 2
     m_Bits: 64
   obstructionLayer:
     serializedVersion: 2
     m_Bits: 256
-  showDebug: 0
+  showDebug: 1
   debugColor: {r: 1, g: 0, b: 0.8503313, a: 1}
 --- !u!114 &5446426906688110339
 MonoBehaviour:
@@ -131,13 +131,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd56c217e62865a46a7750fe272f3bd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.4
-  attackSpeed: 0
-  collisionDamage: 1
-  meleeDamage: 0
-  projectileDamage: 0
-  detectionRadius: 0.1
   maxHealth: 10
+  collisionDamage: 1
+  detectionRadius: 2
+  weight: 1
+  baseMoveSpeed: 1
 --- !u!114 &7134422242870674132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,7 +186,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b2a66150ab8292479a92f49da9b9ecc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  behaviourConfig: {fileID: 11400000, guid: 2f8fca283b9f73645976d8d3390195ac, type: 2}
+  mainBehaviourConfig: {fileID: 11400000, guid: 595db2ea47b24eb4f8198ff315c7fc5e, type: 2}
+  debugCube: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &617946598171047808
 PrefabInstance:
   m_ObjectHideFlags: 0

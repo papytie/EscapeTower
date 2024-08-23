@@ -2,12 +2,14 @@ using UnityEngine;
 
 public class Stalker : MonoBehaviour, IBehaviour
 {
+    public IBehaviourData Data => data;
     public NPCFSM FSM { get => fsm; set { fsm = value; } }
     public EnemyController Controller => controller;
 
     NPCFSM fsm;
     EnemyController controller;
     StalkerData data;
+    bool isValid = true;
 
     public void Init(EnemyController enemyController, IBehaviourData behaviourData)
     {
@@ -15,10 +17,28 @@ public class Stalker : MonoBehaviour, IBehaviour
         controller = enemyController;
         data = behaviourData as StalkerData;
 
-        //Init Reaction state
+        FSM = new NPCFSM();
+
+        foreach (ActionConfig actionConfig in data.Actions)
+        {
+            if (actionConfig != null)
+            {
+                IAction action = ActionFactory.Create(gameObject, actionConfig.actionType);
+                action.InitRef(actionConfig.data, controller);
+                FSM.AddState(new NPCState(FSM, actionConfig.name, action));
+            }
+            else
+            {
+                Debug.LogWarning("ActionConfig is missing in : " + data);
+                isValid = false;
+                return;
+            }
+        }
+
         Init_TakeDamageReaction();
         Init_DieReaction();
-
+        controller.LifeSystem.OnTakeDamage += () => { fsm.SetState(data.takeDamage.name); };
+        controller.LifeSystem.OnDeath += () => { fsm.SetState(data.die.name); };
         //Customize each Init state
         Init_WaitState();
         Init_RoamState();
@@ -29,14 +49,10 @@ public class Stalker : MonoBehaviour, IBehaviour
         fsm.SetState(data.wait.name);
     }
 
-    public void SetTakeDamageState()
+    public void UpdateFSM()
     {
-        fsm.SetState(data.takeDamage.name);
-    }
-
-    public void SetDieState()
-    {
-        fsm.SetState(data.die.name);
+        if (isValid)
+            FSM.CurrentState.Update();
     }
 
     //------------------------------\---/-------------------------------|

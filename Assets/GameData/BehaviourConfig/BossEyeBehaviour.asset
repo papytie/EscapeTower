@@ -14,21 +14,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   behaviourType: 4
   data:
-    rid: 2940844261501304859
+    rid: 2940844487821754389
   references:
     version: 2
     RefIds:
-    - rid: 2940844261501304859
-      type: {class: BulletHellData, ns: , asm: Assembly-CSharp}
+    - rid: 2940844487821754389
+      type: {class: MultiAttackBossData, ns: , asm: Assembly-CSharp}
       data:
         wait: {fileID: 11400000, guid: f4957dc00155c8e4ea6a72c6a126917a, type: 2}
         attackSelection: {fileID: 11400000, guid: 542acfe90385cf84b883e77e95e058de, type: 2}
         roam: {fileID: 11400000, guid: 6ae4dd4fbc43fd74fb806bdbcdc89dc4, type: 2}
-        singleShot: {fileID: 11400000, guid: 8b2791762ad4f004fbe4ef69501ac4a7, type: 2}
-        superShot: {fileID: 11400000, guid: e85c559f90524684b8fba4e814dccb82, type: 2}
-        spreadShot: {fileID: 11400000, guid: 0f35164e50db8f548929fcd07938382e, type: 2}
-        multiShot: {fileID: 11400000, guid: 894788141c801e34aa1a760571a82310, type: 2}
-        beamUltimate: {fileID: 11400000, guid: df73ec4d7b5d7b44499170e77eecad87, type: 2}
-        novaUltimate: {fileID: 11400000, guid: df59229f8d48d1c43a49882f8886e0da, type: 2}
-        galaxyUltimate: {fileID: 11400000, guid: 89612745da7b71943b4d71803068138a, type: 2}
         die: {fileID: 11400000, guid: 73c2a490760f89d48a36d159fe6ee0fe, type: 2}
+        shots:
+        - {fileID: 11400000, guid: 8b2791762ad4f004fbe4ef69501ac4a7, type: 2}
+        ultimates:
+        - {fileID: 11400000, guid: df73ec4d7b5d7b44499170e77eecad87, type: 2}
+        additiveBehaviourData:
+          rid: 2940844487821754390
+    - rid: 2940844487821754390
+      type: {class: AdditiveBehaviourData, ns: , asm: Assembly-CSharp}
+      data:
+        emptyAction: {fileID: 11400000, guid: e94be3a169164f748ad1977d79567300, type: 2}
+        takeDamage: {fileID: 11400000, guid: f9f8d7e0b93f5d34cb385890b4a78c5e, type: 2}

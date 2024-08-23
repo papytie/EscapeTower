@@ -7,9 +7,3 @@ public interface IBehaviourData
 
     public void InitActionsList() { }
 }
-
-static class ReactionID
-{
-    public static string DIE = "Die";
-    public static string TAKEDMG = "TakeDamage";
-}

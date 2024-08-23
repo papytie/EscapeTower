@@ -22150,10 +22150,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   layout: {fileID: 11400000, guid: 9ad2eee3695b6d0429cf2751e17c0a8e, type: 2}
-  startBudget: 20
-  minWaveSize: 4
   increaseType: 0
-  addFactor: 5
+  startBudget: 20
+  minWaveSize: 1
+  addFactor: 0
   multFactor: 0.1
   bossWaves: 5
 --- !u!114 &1881540279

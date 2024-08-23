@@ -14,16 +14,6 @@ public enum LookDirection
     MovementInvert = 3,
 }
 
-public enum Condition
-{
-    HaveTarget = 0,
-    CurrentHealthAboveHalf = 1,
-    CurrentHealthBelowHalf = 2,
-    CurrentHealthFull = 3,
-    InAttackRange = 4,
-    OutOfAttackRange = 5,
-}
-
 public enum ActionType
 {
     WaitMove = 0,
@@ -45,8 +35,7 @@ public enum BehaviourType
 {
     Harmless = 0,
     Stalker = 1,
-    Harasser = 2,
+    Hunter = 2,
     Fighter = 3,
-    BulletHell = 4,
-    AdditiveLayer = 5,
+    MultiAttackBoss = 4,
 }

@@ -17,9 +17,9 @@ public class WaveManagement : MonoBehaviour
     [SerializeField] EnemyWaveLayout layout;
 
     [Header("Wave Settings")]
+    [SerializeField] BudgetIncreaseType increaseType = BudgetIncreaseType.add;
     [SerializeField] int startBudget = 10;
     [SerializeField] int minWaveSize = 4;
-    [SerializeField] BudgetIncreaseType increaseType = BudgetIncreaseType.add;
     [SerializeField] int addFactor = 5;
     [SerializeField] float multFactor = .1f;
     [SerializeField] int bossWaves = 5;
@@ -43,12 +43,12 @@ public class WaveManagement : MonoBehaviour
     {
         OnWaveClear += () =>
         {
-            waveCount++;
             currentBudget = UpdateBudget(startBudget, waveCount);
             //TODO : Update scaling factor
             ShuffleEnemyLayout();
             newWaveLayout = GenerateNewWaveLayout(currentBudget);
             waveSpawner.SpawnWave(newWaveLayout, 1);
+            waveCount++;
         };
     }
 

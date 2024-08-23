@@ -6,10 +6,9 @@ public class BehaviourDataFactory
         {
             BehaviourType.Harmless => new HarmlessData(),
             BehaviourType.Stalker => new StalkerData(),
-            BehaviourType.Harasser => new HarasserData(),
+            BehaviourType.Hunter => new HunterData(),
             BehaviourType.Fighter => new FighterData(),
-            BehaviourType.BulletHell => new BulletHellData(),
-            BehaviourType.AdditiveLayer => new AdditiveLayerData(),
+            BehaviourType.MultiAttackBoss => new MultiAttackBossData(new AdditiveBehaviourData()),
             _ => null,
         };
     }

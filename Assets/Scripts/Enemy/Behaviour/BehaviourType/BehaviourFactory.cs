@@ -8,10 +8,9 @@ public class BehaviourFactory
         {
             BehaviourType.Harmless => thisObject.AddComponent<Harmless>(),
             BehaviourType.Stalker => thisObject.AddComponent<Stalker>(),
-            BehaviourType.Harasser => thisObject.AddComponent<Harasser>(),
+            BehaviourType.Hunter => thisObject.AddComponent<Hunter>(),
             BehaviourType.Fighter => thisObject.AddComponent<Fighter>(),
-            BehaviourType.BulletHell => thisObject.AddComponent<BulletHell>(),
-            BehaviourType.AdditiveLayer => thisObject.AddComponent<AdditiveLayer>(),
+            BehaviourType.MultiAttackBoss => thisObject.AddComponent<MultiAttackBoss>(),
             _ => null,
         };
     }

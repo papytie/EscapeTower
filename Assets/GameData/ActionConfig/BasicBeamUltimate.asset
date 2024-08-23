@@ -29,6 +29,7 @@ MonoBehaviour:
         activationRange: 10
         effectiveRange: 10
         aimingDuration: 3
+        ignitionTime: 0.5
         fireDuration: 3
         recupTime: 1
         cooldown: 5

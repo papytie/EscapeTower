@@ -11,7 +11,6 @@ public class EnemyStatsComponent : MonoBehaviour
     public float ScalingFactor { get; set; }
 
     public float CurrentHealth { get; set; }
-    public bool IsDead => CurrentHealth <= 0;
     public float LastDMGReceived { get; set; }
     public Vector3 LastATKNormalReceived { get; set; }
 

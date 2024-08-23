@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c49f88f41d04ea341b94b8ae24ae1143, type: 3}
   m_Name: BasicStayAtRange
   m_EditorClassIdentifier: 
-  actionID: stayAtRangeMove
   actionType: 3
   data:
     rid: 2940844261501304844

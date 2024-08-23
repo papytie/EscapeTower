@@ -15,7 +15,7 @@ public class WaveSpawner : MonoBehaviour
             for (int i = 0; i < enemy.Value; i++)
             {
                 EnemyController newEnemy = Instantiate(enemy.Key, RandomPos(), Quaternion.identity);
-                newEnemy.SetStatsScalingFactor(scalingFactor);
+                newEnemy.Stats.SetScalingFactorTo(scalingFactor);
                 Debug.Log("Spawn" + enemy.Key);
             }
         }

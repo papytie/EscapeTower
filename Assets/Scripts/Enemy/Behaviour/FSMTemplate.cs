@@ -49,7 +49,7 @@ public class NPCState : IState
 
     public void Update()
     {
-        //Debug.Log("Update " + Action.ToString());
+        Debug.Log("Update " + Action.ToString());
         Action?.UpdateProcess();
         OnStateUpdate?.Invoke();
     }
@@ -85,5 +85,39 @@ public class NPCFSM
             if (state.ID == stateID) return state;
         };
         return null;
+    }
+
+    public void SetRandomState(List<NPCState> list)
+    {
+        List<NPCState> availableState = new();
+
+        foreach (var shot in list)
+            if (shot.Action.IsAvailable)
+                availableState.Add(shot);
+
+        if (availableState.Count > 0)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, availableState.Count);
+            SetState(availableState[randomIndex].ID);
+        }
+    }
+
+    public bool IsAnyActionAvailable(List<NPCState> list)
+    {
+        foreach (var action in list)
+        {
+            if (action.Action.IsAvailable)
+                return true;
+        }
+        return false;
+    }
+
+    public bool IsAllActionsAvailable(List<NPCState> list)
+    {
+        foreach(var action in list)
+        {
+            if (!action.Action.IsAvailable) return false;
+        }
+        return true;
     }
 }

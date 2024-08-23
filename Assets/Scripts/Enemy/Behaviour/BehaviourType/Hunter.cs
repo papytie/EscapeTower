@@ -1,42 +1,62 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class Harasser : MonoBehaviour, IBehaviour
+public class Hunter : MonoBehaviour, IBehaviour
 {
+    public IBehaviourData Data => data;
     public NPCFSM FSM { get => fsm; set { fsm = value; } }
     public EnemyController Controller => controller;
 
     NPCFSM fsm;
     EnemyController controller;
-    HarasserData data;
+    HunterData data;
+    bool isValid = true;
+
+    List<NPCState> shotsList = new();
 
     public void Init(EnemyController enemyController, IBehaviourData behaviourData)
     {
         //Get Controller & Data ref
         controller = enemyController;
-        data = behaviourData as HarasserData;
+        data = behaviourData as HunterData;
 
-        //Init Reaction state
+        FSM = new NPCFSM();
+
+        foreach (ActionConfig actionConfig in data.Actions)
+        {
+            if (actionConfig != null)
+            {
+                IAction action = ActionFactory.Create(gameObject, actionConfig.actionType);
+                action.InitRef(actionConfig.data, controller);
+                FSM.AddState(new NPCState(FSM, actionConfig.name, action));
+            }
+            else
+            {
+                Debug.LogWarning("ActionConfig is missing in : " + data);
+                isValid = false;
+                return;
+            }
+        }
+
         Init_TakeDamageReaction();
         Init_DieReaction();
+        controller.LifeSystem.OnTakeDamage += () => { fsm.SetState(data.takeDamage.name); };
+        controller.LifeSystem.OnDeath += () => { fsm.SetState(data.die.name); };
 
         //Customize each Init state
         Init_WaitState();
         Init_RoamState();
         Init_StayAtRangeState();
-        Init_RangedAttackState();
+        Init_ShotStates();
 
         //Set this Behaviour starting default state
         fsm.SetState(data.wait.name);
     }
 
-    public void SetTakeDamageState()
+    public void UpdateFSM()
     {
-        fsm.SetState(data.takeDamage.name);
-    }
-
-    public void SetDieState()
-    {
-        fsm.SetState(data.die.name);
+        if (isValid)
+            FSM.CurrentState.Update();
     }
 
     //------------------------------\---/-------------------------------|
@@ -52,11 +72,11 @@ public class Harasser : MonoBehaviour, IBehaviour
 
         state.OnStateUpdate += () =>
         {
-            if (controller.TargetAcquired)
-                fsm.SetState(data.stayAtRange.name);
-            
             if (state.Action.IsCompleted)
                 fsm.SetState(data.roam.name);
+
+            if (controller.TargetAcquired)
+                fsm.SetState(data.stayAtRange.name);
 
         };
     }
@@ -70,12 +90,11 @@ public class Harasser : MonoBehaviour, IBehaviour
 
         state.OnStateUpdate += () =>
         {
-            if (controller.TargetAcquired)
-                fsm.SetState(data.stayAtRange.name);
-
             if (state.Action.IsCompleted)
                 fsm.SetState(data.wait.name);
 
+            if (controller.TargetAcquired)
+                fsm.SetState(data.stayAtRange.name);
         };
 
     }
@@ -89,26 +108,30 @@ public class Harasser : MonoBehaviour, IBehaviour
 
         state.OnStateUpdate += () =>
         {
-            if (!controller.TargetAcquired)
+            if (state.Action.IsCompleted || !controller.TargetAcquired)
                 fsm.SetState(data.wait.name);
 
-            if(controller.TargetAcquired && fsm.GetState(data.ranged.name).Action.IsAvailable)
-                fsm.SetState(data.ranged.name);
+            if (fsm.IsAnyActionAvailable(shotsList))
+                fsm.SetRandomState(shotsList);
         };
     }
 
-    void Init_RangedAttackState()
+    void Init_ShotStates()
     {
-        NPCState state = fsm.GetState(data.ranged.name);
-
-        state.OnStateEnter += () => { /* First Method called when enter State */ };
-        state.OnStateExit += () => { /* Last Method called when exit State */ };
-
-        state.OnStateUpdate += () =>
+        foreach (var shot in data.shots)
         {
-            if (state.Action.IsCompleted)
-                fsm.SetState(data.wait.name);
-        };
+            NPCState state = fsm.GetState(shot.name);
+            shotsList.Add(state);
+
+            state.OnStateEnter += () => { /* First Method called when enter State */ };
+            state.OnStateExit += () => { /* Last Method called when exit State */ };
+
+            state.OnStateUpdate += () =>
+            {
+                if (state.Action.IsCompleted)
+                    fsm.SetState(data.wait.name);
+            };
+        }
     }
 
     //-------------------------------\---/-------------------------------|
