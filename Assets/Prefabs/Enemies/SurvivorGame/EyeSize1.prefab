@@ -243,7 +243,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 20
   collisionDamage: 5
-  detectionRadius: 2
+  detectionRadius: 3
   weight: 5
   baseMoveSpeed: 0.2
 --- !u!114 &9136585797658748918
@@ -258,13 +258,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9de959b942b67f747a12ec9d824358dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLayer:
+  targetLayer:
     serializedVersion: 2
     m_Bits: 64
   obstructionLayer:
     serializedVersion: 2
     m_Bits: 256
-  showDebug: 0
+  showDebug: 1
   debugColor: {r: 1, g: 0.1891568, b: 0, a: 1}
 --- !u!114 &909856595385223221
 MonoBehaviour:
@@ -304,7 +304,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b2a66150ab8292479a92f49da9b9ecc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  behaviourConfig: {fileID: 11400000, guid: 2655027d8f0e3c341973df4ed3a0e029, type: 2}
+  mainBehaviourConfig: {fileID: 11400000, guid: 595db2ea47b24eb4f8198ff315c7fc5e, type: 2}
+  debugCube: {fileID: 0}
 --- !u!114 &1066897154276707064
 MonoBehaviour:
   m_ObjectHideFlags: 0

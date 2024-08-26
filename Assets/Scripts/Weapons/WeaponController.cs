@@ -150,7 +150,7 @@ public class WeaponController : MonoBehaviour
             {
                 if (collision.transform.TryGetComponent(out EnemyLifeSystemComponent enemyLifeSystem))
                 {
-                    if(!enemiesHit.Contains(enemyLifeSystem) && enemiesHit.Count < AttackData.maxTargets)
+                    if(!enemyLifeSystem.IsInvincible && !enemiesHit.Contains(enemyLifeSystem) && enemiesHit.Count < AttackData.maxTargets)
                     {
                         enemyLifeSystem.TakeDamage(stats.GetModifiedMainStat(MainStat.Damage), collision.normal);
                         enemiesHit.Add(enemyLifeSystem);

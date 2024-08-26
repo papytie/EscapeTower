@@ -59,7 +59,7 @@ public class BeamAttack : MonoBehaviour, IAction
             beam.SpriteRenderer.size = new Vector2(GetBeamLength(beamSpawnPos, direction), beamThickness);
             controller.AnimationParam.UpdateMoveAnimDirection(direction);
             currentRotation = Quaternion.LookRotation(Vector3.forward, direction);
-            beam.transform.SetLocalPositionAndRotation(beamSpawnPos, currentRotation);
+            beam.transform.SetPositionAndRotation(beamSpawnPos, currentRotation);
         }
 
         if (Time.time > startTime + data.aimingDuration + data.ignitionTime)

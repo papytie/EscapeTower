@@ -49,7 +49,7 @@ public class NPCState : IState
 
     public void Update()
     {
-        Debug.Log("Update " + Action.ToString());
+        //Debug.Log("Update " + Action.ToString());
         Action?.UpdateProcess();
         OnStateUpdate?.Invoke();
     }

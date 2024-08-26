@@ -18,6 +18,7 @@ public class RangedAttack : MonoBehaviour, IAction
     Vector2 targetPos = Vector2.zero;
     Quaternion currentRotation = Quaternion.identity;
 
+    PlayerController playerController = null;
     List<AnimatedBeam> warningBeams = new(); 
 
     public void InitRef(IActionData dataRef, EnemyController controllerRef)
@@ -48,7 +49,10 @@ public class RangedAttack : MonoBehaviour, IAction
 
         if (data.anticipatedAiming)
         {
-            Vector2 playerNextPosSecond = controller.PlayerController.MoveInput * controller.PlayerController.Movement.CurrentSpeed;
+            playerController = controller.CurrentTarget.GetComponent<PlayerController>();
+            if (playerController == null) return;
+
+            Vector2 playerNextPosSecond = playerController.MoveInput * playerController.Movement.CurrentSpeed;
             float collisionTime = Vector2.Distance(transform.position, controller.CurrentTargetPos) / data.projectileData.speed;
             targetPos = controller.CurrentTargetPos + playerNextPosSecond * collisionTime;
         }
@@ -69,9 +73,9 @@ public class RangedAttack : MonoBehaviour, IAction
         {
             targetPos = controller.CurrentTargetPos;
 
-            if (data.anticipatedAiming)
+            if (data.anticipatedAiming && playerController)
             {
-                Vector2 playerNextPosSecond = controller.PlayerController.MoveInput * controller.PlayerController.Movement.CurrentSpeed;
+                Vector2 playerNextPosSecond = playerController.MoveInput * playerController.Movement.CurrentSpeed;
                 float collisionTime = Vector2.Distance(transform.position, controller.CurrentTargetPos) / data.projectileData.speed;
                 targetPos = controller.CurrentTargetPos + playerNextPosSecond * collisionTime;
             }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: NewEnemyWaveLayout
   m_EditorClassIdentifier: 
   enemyLayout:
-  - enemyPrefab: {fileID: 8575244966594120943, guid: fbee59d0e1485ce44b3fb305f56c01c4, type: 3}
+  - enemyPrefab: {fileID: 1144387320564921821, guid: 280c327df87500c45ae199980b8f6b26, type: 3}
     cost: 1
     value: 0
     type: 0

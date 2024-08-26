@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c49f88f41d04ea341b94b8ae24ae1143, type: 3}
-  m_Name: BasicGalaxyUltimate
+  m_Name: BossTripleAimingShot
   m_EditorClassIdentifier: 
   actionType: 7
   data:
@@ -167,15 +167,15 @@ MonoBehaviour:
             m_RotationOrder: 4
           spawnType: 1
           speed: 1
-          range: 3
+          range: 5
           angleOffset: 0
           maxTargets: 1
-          spawnNumber: 40
-          spreadAngle: 360
-          isGuided: 0
-          lifespan: 5
+          spawnNumber: 3
+          spreadAngle: 0
+          isGuided: 1
+          lifespan: 10
           returnFlip: 0
-          returnType: 2
+          returnType: 0
           returnCurve:
             serializedVersion: 2
             m_Curve:
@@ -322,9 +322,9 @@ MonoBehaviour:
         baseDamage: 1
         activationRange: 5
         reactionTime: 0
-        duration: 3
+        duration: 1
         recupTime: 1
-        cooldown: 5
+        cooldown: 1
         progressiveAiming: 1
         anticipatedAiming: 0
         displayWarningBeam: 0

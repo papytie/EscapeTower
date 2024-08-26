@@ -67,7 +67,6 @@ public class PlayerDash : MonoBehaviour
             if (hitList.Count > 0 || Time.time >= startTime + stats.GetModifiedSecondaryStat(SecondaryStat.DashDuration))
             {
                 isDashing = false;
-                lifeSystem.IsInvincible = false;
                 StartDashCooldown(stats.GetModifiedSecondaryStat(SecondaryStat.DashCooldown));
             }
         }

@@ -21,7 +21,6 @@ public class EnemyController : MonoBehaviour
     public bool TargetAcquired => currentTarget != null;
     public Vector2 CurrentTargetPos => currentTargetPos;
     public Vector2 CurrentDirection { get; set; }
-    public PlayerController PlayerController => playerController;
     public GameObject CurrentTarget => currentTarget;
 
     [SerializeField] BehaviourConfig mainBehaviourConfig;
@@ -32,7 +31,6 @@ public class EnemyController : MonoBehaviour
     Vector2 currentTargetPos;
 
     GameObject currentTarget;
-    PlayerController playerController;
     EnemyStatsComponent stats;
     EnemyLifeSystemComponent lifeSystem;
     EnemyDetectionComponent detection;
@@ -77,15 +75,18 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
+        //Detection system used to raycast target
         if (detection.PlayerDetection(out GameObject target))
         {
+            //if a valid target is cast then set the variable
             if (currentTarget == null || currentTarget != target)
             {
                 currentTarget = target;
-                playerController = currentTarget.GetComponent<PlayerController>();
             }
+            //Update the position of the target
             currentTargetPos = target.transform.position;
         }
+        else if (currentTarget != null) currentTarget = null;
 
         mainBehaviour.UpdateFSM();
     }

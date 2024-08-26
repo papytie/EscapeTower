@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerInputs), typeof(PlayerMovement), typeof(PlayerDash))]
 [RequireComponent(typeof(PlayerWeaponSlot), typeof(PlayerPickupCollector), typeof(Animator))]
 [RequireComponent(typeof(PlayerLifeSystem), typeof(CollisionCheckerComponent), typeof(PlayerStats))]
-[RequireComponent(typeof(BumpComponent), typeof(Collider2D))]
+[RequireComponent(typeof(BumpComponent))]
 
 public class PlayerController : MonoBehaviour
 {
@@ -27,7 +27,6 @@ public class PlayerController : MonoBehaviour
     PlayerPickupCollector collector;
     Animator animator;
     BumpComponent bump;
-    Collider2D playerCollider;
 
     Vector2 lastInputDirection = Vector2.zero;
     Vector2 moveInput = Vector2.zero;
@@ -50,14 +49,13 @@ public class PlayerController : MonoBehaviour
         collector = GetComponent<PlayerPickupCollector>();
         animator = GetComponent<Animator>();
         bump = GetComponent<BumpComponent>();
-        playerCollider = GetComponent<Collider2D>();
     }
 
     void InitComponentsRef()
     {
         movement.InitRef(inputs, collision, stats);
         dash.InitRef(collision, lifeSystem, stats);
-        lifeSystem.InitRef(animator, bump, playerCollider);
+        lifeSystem.InitRef(animator, bump);
         stats.InitRef(movement, weaponSlot, dash);
         weaponSlot.InitRef(stats);
         collector.InitRef(stats, weaponSlot, lifeSystem);

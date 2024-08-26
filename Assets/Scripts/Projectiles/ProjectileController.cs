@@ -173,7 +173,7 @@ public class ProjectileController : MonoBehaviour
             {
                 if (!collision.transform.TryGetComponent<ILifeSystem>(out var lifeSystem)) return;
 
-                if (!lifeSystem.IsDead && !hitList.Contains(lifeSystem) && hitList.Count < data.maxTargets)
+                if (!lifeSystem.IsDead && !lifeSystem.IsInvincible && !hitList.Contains(lifeSystem) && hitList.Count < data.maxTargets)
                 {
                     //Animation
                     animator.SetTrigger(SRAnimators.ProjectileAnimBase.Parameters.hit);       
@@ -181,7 +181,7 @@ public class ProjectileController : MonoBehaviour
                     hitList.Add(lifeSystem);
                 }
 
-                //Destroy self if numberOfTarget is reached
+                //Destroy self if maxTarget is reached
                 if (hitList.Count >= data.maxTargets)
                 {
                     DestroyWithDelay(hitDelay);
