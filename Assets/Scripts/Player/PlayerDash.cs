@@ -11,10 +11,13 @@ public class PlayerDash : MonoBehaviour
     public float Distance => distance;
 
     [Header("Dash Settings")]
-    [SerializeField] AnimationCurve dashCurve;
+    [SerializeField] AnimationCurve accelerationCurve;
+    [SerializeField] AnimationCurve decelerationCurve;
     [SerializeField] float distance;
     [SerializeField] float cooldown;
     [SerializeField] float duration;
+    [SerializeField] float dashMaxSpeedFactor = 2;
+    [SerializeField, Range(0,1)] float decelerationTiming = .5f;
 
     [Header("Debug")]
     [SerializeField] bool showDebug;
@@ -23,21 +26,23 @@ public class PlayerDash : MonoBehaviour
     
     bool isOnCooldown;
     bool isDashing;
+
     float cooldownEndTime;
-    float dashCurrentTime;
-    float startTime;
+    float dashDuration;
+    float startDashTime;
+    float startDeceleration;
+    //float currentSpeed;
+    float moveSpeed;
+
     Vector3 dashTarget = Vector3.zero;
     Vector3 dashStart = Vector3.zero;
+    Vector3 dashDirection = Vector3.zero;
 
-    CollisionCheckerComponent collision;
-    PlayerLifeSystem lifeSystem;
-    PlayerStats stats;
+    PlayerController controller;
 
-    public void InitRef(CollisionCheckerComponent collisionRef, PlayerLifeSystem lifeSystemRef, PlayerStats statsRef)
+    public void InitRef(PlayerController playerController)
     {
-        collision = collisionRef;
-        lifeSystem = lifeSystemRef;
-        stats = statsRef;
+        controller = playerController;
     }
 
     private void Update()
@@ -47,59 +52,68 @@ public class PlayerDash : MonoBehaviour
 
         if (isDashing)
         {
-            float t = Mathf.Clamp01((Time.time - startTime) / stats.GetModifiedSecondaryStat(SecondaryStat.DashDuration));
+            //float t = Mathf.Clamp01((Time.time - startDashTime) / controller.Stats.GetModifiedSecondaryStat(SecondaryStat.DashDuration));
 
             //Use curve to modify lerp transition
-            Vector3 dashTargetPos = Vector3.Lerp(dashStart, dashTarget, dashCurve.Evaluate(t));
+            //Vector3 dashTargetPos = Vector3.Lerp(dashStart, dashTarget, dashCurve.Evaluate(t));
 
             //Calculate value of next Dash movement
-            float dashStepValue = (dashTargetPos - transform.position).magnitude;
+            //float dashStepValue = (dashTargetPos - transform.position).magnitude;
+
+            float dashMaxSpeed = moveSpeed * dashMaxSpeedFactor;
+            float currentDashSpeed = moveSpeed;
+            float t;
+
+            if(Time.time > startDashTime && Time.time < startDeceleration)
+            {
+                t = (Time.time - startDashTime) / (dashDuration * decelerationTiming); 
+                currentDashSpeed = Mathf.Lerp(moveSpeed, dashMaxSpeed, accelerationCurve.Evaluate(t));
+            }
+            if(Time.time > startDeceleration)
+            {
+                t = (Time.time - startDeceleration) / (dashDuration * (1 - decelerationTiming)); 
+                currentDashSpeed = Mathf.Lerp(dashMaxSpeed, moveSpeed, decelerationCurve.Evaluate(t));
+            }
 
             //Check at next dash step position if collision occurs
-            collision.MoveToCollisionCheck(dashTarget.normalized, dashStepValue, collision.BlockingObjectsLayer, out Vector3 fixedPosition, out List<RaycastHit2D> hitList);
+            controller.Collision.MoveToCollisionCheck(dashDirection, currentDashSpeed * Time.deltaTime, controller.Collision.BlockingObjectsLayer, out Vector3 fixedPosition, out List<RaycastHit2D> hitList);
 
             if (hitList.Count > 0)
                 transform.position = fixedPosition;
             else
-                transform.position = dashTargetPos;
+                transform.position += dashDirection * currentDashSpeed * Time.deltaTime;
 
+            //Debug.Log($"{Time.frameCount} - Dash Movement : " + currentDashSpeed);
 
-            if (hitList.Count > 0 || Time.time >= startTime + stats.GetModifiedSecondaryStat(SecondaryStat.DashDuration))
+            if (hitList.Count > 0 || Time.time >= startDashTime + dashDuration)
             {
                 isDashing = false;
-                StartDashCooldown(stats.GetModifiedSecondaryStat(SecondaryStat.DashCooldown));
+                cooldownEndTime = Time.time + controller.Stats.GetModifiedSecondaryStat(SecondaryStat.DashCooldown);
+                isOnCooldown = true;
             }
         }
-
     }
 
     public void DashActivation(Vector3 dir)
     {
-        dashStart = transform.position;
-        dashTarget = transform.position + dir.normalized * stats.GetModifiedMainStat(MainStat.DashDistance);
-        StartDash();
-        //Player is invincible during Dash
-        lifeSystem.StartInvincibility(stats.GetModifiedSecondaryStat(SecondaryStat.DashDuration));
-    }
-
-    void StartDashCooldown(float duration)
-    {
-        cooldownEndTime = Time.time + duration;
-        isOnCooldown = true;
-    }
-
-    void StartDash()
-    {
-        startTime = Time.time;
+        //dashStart = transform.position;
+        //dashTarget = transform.position + dir.normalized * controller.Stats.GetModifiedMainStat(MainStat.DashDistance);
+        moveSpeed = controller.Stats.GetModifiedMainStat(MainStat.MoveSpeed);
+        dashDuration = controller.Stats.GetModifiedSecondaryStat(SecondaryStat.DashDuration);
+        dashDirection = dir;
+        startDashTime = Time.time;
+        startDeceleration = Time.time + dashDuration * decelerationTiming;
         isDashing = true;
+        //Player is invincible during Dash
+        controller.LifeSystem.StartInvincibility(dashDuration);
     }
 
     private void OnDrawGizmos()
     {
-        if (!showDebug || !isDashing) return;
+/*        if (!showDebug || !isDashing) return;
         Gizmos.color = debugColor;
         Gizmos.DrawLine(transform.position, dashTarget);
         Gizmos.DrawSphere(dashTarget, debugSize);
         Gizmos.color = debugColor;
-    }
+*/    }
 }

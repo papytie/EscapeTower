@@ -8,20 +8,16 @@ public class PlayerStats : MonoBehaviour
 {
     public IReadOnlyDictionary<StatModifierTemplate, int> CurrentBonuses { get; private set; }
 
-    PlayerMovement movement;
-    PlayerWeaponSlot weaponSlot;
-    PlayerDash dash;
-
     float defaultValue = 0;
     
     Dictionary<StatModifierTemplate, int> playerBonusList = new();
 
-    public void InitRef(PlayerMovement movementRef, PlayerWeaponSlot weaponSlotRef, PlayerDash dashRef)
+    PlayerController controller;
+
+    public void InitRef(PlayerController playerController)
     {
+        controller = playerController;
         CurrentBonuses = new ReadOnlyDictionary<StatModifierTemplate, int>(playerBonusList);
-        movement = movementRef;
-        weaponSlot = weaponSlotRef;
-        dash = dashRef;
     }
 
     public void AddBonus(StatModifierTemplate targetStat)
@@ -94,13 +90,13 @@ public class PlayerStats : MonoBehaviour
     {
         return targetStat switch
         {
-            MainStat.MoveSpeed => movement.MoveSpeed,
-            MainStat.Damage => weaponSlot.EquippedWeapon.AttackData.damage,
+            MainStat.MoveSpeed => controller.Movement.MoveSpeed,
+            MainStat.Damage => controller.WeaponSlot.EquippedWeapon.AttackData.damage,
             MainStat.AttackSpeed => 1,
             MainStat.DashSpeed => 1,
-            MainStat.DashDistance => dash.Distance,
-            MainStat.ProjectileNumber => weaponSlot.EquippedWeapon.AttackData.projectileData.spawnNumber,
-            MainStat.ProjectileRange => weaponSlot.EquippedWeapon.AttackData.projectileData.range,
+            MainStat.DashDistance => controller.Dash.Distance,
+            MainStat.ProjectileNumber => controller.WeaponSlot.EquippedWeapon.AttackData.projectileData.spawnNumber,
+            MainStat.ProjectileRange => controller.WeaponSlot.EquippedWeapon.AttackData.projectileData.range,
             _ => defaultValue,
         };
     }
@@ -108,11 +104,11 @@ public class PlayerStats : MonoBehaviour
     float GetBaseSecondaryStatValue(SecondaryStat targetStat)
     {
         return targetStat switch
-        {   SecondaryStat.AttackCooldownDuration => weaponSlot.EquippedWeapon.AttackData.cooldown,
-            SecondaryStat.AttackLagDuration => weaponSlot.EquippedWeapon.AttackData.lag,
-            SecondaryStat.HitboxDuration => weaponSlot.EquippedWeapon.AttackData.hitboxDuration,
-            SecondaryStat.DashCooldown => dash.Cooldown,
-            SecondaryStat.DashDuration => dash.Duration,
+        {   SecondaryStat.AttackCooldownDuration => controller.WeaponSlot.EquippedWeapon.AttackData.cooldown,
+            SecondaryStat.AttackLagDuration => controller.WeaponSlot.EquippedWeapon.AttackData.lag,
+            SecondaryStat.HitboxDuration => controller.WeaponSlot.EquippedWeapon.AttackData.hitboxDuration,
+            SecondaryStat.DashCooldown => controller.Dash.Cooldown,
+            SecondaryStat.DashDuration => controller.Dash.Duration,
             _ => defaultValue,
         };
     }

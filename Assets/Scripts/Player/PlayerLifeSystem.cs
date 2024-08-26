@@ -16,13 +16,11 @@ public class PlayerLifeSystem : MonoBehaviour, ILifeSystem
     float invincibilityEndTime = 0;
     bool isDead = false;
 
-    Animator animator;
-    BumpComponent bump;
+    PlayerController controller;
 
-    public void InitRef(Animator animatorRef, BumpComponent bumpRef)
+    public void InitRef(PlayerController playerController)
     {
-        animator = animatorRef;
-        bump = bumpRef;
+        controller = playerController;
     }
 
     void Update()
@@ -30,7 +28,7 @@ public class PlayerLifeSystem : MonoBehaviour, ILifeSystem
         if (isInvincible && Time.time >= invincibilityEndTime)
         {
             isInvincible = false;
-            animator.SetBool(GameParams.Animation.PLAYER_INVINCIBILITY_BOOL, false);
+            controller.Animator.SetBool(GameParams.Animation.PLAYER_INVINCIBILITY_BOOL, false);
         }
     }
 
@@ -44,12 +42,12 @@ public class PlayerLifeSystem : MonoBehaviour, ILifeSystem
         {
             currentLifePoints = 0;
             isDead = true;
-            animator.SetTrigger(GameParams.Animation.PLAYER_DIE_TRIGGER);
+            controller.Animator.SetTrigger(GameParams.Animation.PLAYER_DIE_TRIGGER);
             return;
         }
-        bump.BumpedAwayActivation(-normal, damageValue);
+        controller.Bump.BumpedAwayActivation(-normal, damageValue);
 
-        animator.SetTrigger(GameParams.Animation.PLAYER_TAKEDAMAGE_TRIGGER);
+        controller.Animator.SetTrigger(GameParams.Animation.PLAYER_TAKEDAMAGE_TRIGGER);
     }
 
     public void HealUp(float healValue)
@@ -63,7 +61,7 @@ public class PlayerLifeSystem : MonoBehaviour, ILifeSystem
     {
         isInvincible = true;
         invincibilityEndTime = MathF.Max(invincibilityEndTime, Time.time + duration);
-        animator.SetBool(GameParams.Animation.PLAYER_INVINCIBILITY_BOOL, true);
+        controller.Animator.SetBool(GameParams.Animation.PLAYER_INVINCIBILITY_BOOL, true);
     }
 
 }

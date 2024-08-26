@@ -8,6 +8,7 @@ public class BehaviourDataFactory
             BehaviourType.Stalker => new StalkerData(),
             BehaviourType.Hunter => new HunterData(),
             BehaviourType.Fighter => new FighterData(),
+            BehaviourType.Hybrid => new HybridData(),
             BehaviourType.MultiAttackBoss => new MultiAttackBossData(new AdditiveBehaviourData()),
             _ => null,
         };

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class HarmlessData : IBehaviourData
 {
     public List<ActionConfig> Actions { get => actions; set { actions = value; } }
-    public List<ActionConfig> actions;
+    List<ActionConfig> actions;
 
     public ActionConfig wait;
     public ActionConfig roam;

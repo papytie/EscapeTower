@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Stalker : MonoBehaviour, IBehaviour
@@ -10,7 +11,7 @@ public class Stalker : MonoBehaviour, IBehaviour
     EnemyController controller;
     StalkerData data;
     bool isValid = true;
-
+    List<NPCState> attackStates = new();
     public void Init(EnemyController enemyController, IBehaviourData behaviourData)
     {
         //Get Controller & Data ref
@@ -44,6 +45,7 @@ public class Stalker : MonoBehaviour, IBehaviour
         Init_RoamState();
         Init_ChaseState();
         Init_ChargeAttack();
+        Init_ShotStates();
 
         //Set this Behaviour starting default state
         fsm.SetState(data.wait.name);
@@ -119,12 +121,14 @@ public class Stalker : MonoBehaviour, IBehaviour
             if (controller.TargetAcquired && fsm.GetState(data.charge.name).Action.IsAvailable)
             {
                 fsm.SetState(data.charge.name);
-
             }
-            else if (state.Action.IsCompleted || !controller.TargetAcquired)
+
+            if (fsm.IsAnyActionAvailable(attackStates))
+                fsm.SetRandomState(attackStates);
+
+            if (state.Action.IsCompleted || !controller.TargetAcquired)
             {
                 fsm.SetState(data.wait.name);
-
             }
         };
     }
@@ -138,10 +142,34 @@ public class Stalker : MonoBehaviour, IBehaviour
 
         state.OnStateUpdate += () =>
         {
+            if(fsm.IsAnyActionAvailable(attackStates))
+                fsm.SetRandomState(attackStates);
+
             if (state.Action.IsCompleted)
                 fsm.SetState(data.wait.name);
         };
     }
+
+    void Init_ShotStates()
+    {
+        if (data.attacks.Count == 0) return;
+
+        foreach (var shot in data.attacks)
+        {
+            NPCState state = fsm.GetState(shot.name);
+            attackStates.Add(state);
+
+            state.OnStateEnter += () => { /* First Method called when enter State */ };
+            state.OnStateExit += () => { /* Last Method called when exit State */ };
+
+            state.OnStateUpdate += () =>
+            {
+                if (state.Action.IsCompleted)
+                    fsm.SetState(data.wait.name);
+            };
+        }
+    }
+
 
     //-------------------------------\---/-------------------------------|
     //----------------------------|REACTIONS|----------------------------|

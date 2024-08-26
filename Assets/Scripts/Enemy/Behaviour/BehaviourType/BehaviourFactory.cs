@@ -11,6 +11,7 @@ public class BehaviourFactory
             BehaviourType.Hunter => thisObject.AddComponent<Hunter>(),
             BehaviourType.Fighter => thisObject.AddComponent<Fighter>(),
             BehaviourType.MultiAttackBoss => thisObject.AddComponent<MultiAttackBoss>(),
+            BehaviourType.Hybrid => thisObject.AddComponent<Hybrid>(),
             _ => null,
         };
     }

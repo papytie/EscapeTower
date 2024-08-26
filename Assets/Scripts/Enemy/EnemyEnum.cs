@@ -38,4 +38,5 @@ public enum BehaviourType
     Hunter = 2,
     Fighter = 3,
     MultiAttackBoss = 4,
+    Hybrid = 5,
 }

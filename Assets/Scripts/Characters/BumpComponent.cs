@@ -19,11 +19,11 @@ public class BumpComponent : MonoBehaviour
     Vector3 bumpTarget = Vector3.zero;
     Vector3 bumpStart = Vector3.zero;
 
-    CollisionCheckerComponent collision;
+    PlayerController controller;
 
-    public void InitRef(CollisionCheckerComponent collisionComponent)
+    public void InitRef(PlayerController playerController)
     {
-        collision = collisionComponent;
+        controller = playerController;
     }
 
     private void Update()
@@ -41,7 +41,7 @@ public class BumpComponent : MonoBehaviour
             float bumpStepValue = (bumpTargetPos - transform.position).magnitude;
 
             //Check at next dash step position if collision occurs
-            collision.MoveToCollisionCheck(bumpTarget.normalized, bumpStepValue, collision.BlockingObjectsLayer, out Vector3 fixedPosition, out List<RaycastHit2D> hitList);
+            controller.Collision.MoveToCollisionCheck(bumpTarget.normalized, bumpStepValue, controller.Collision.BlockingObjectsLayer, out Vector3 fixedPosition, out List<RaycastHit2D> hitList);
 
             if (hitList.Count > 0)
                 transform.position = fixedPosition;

@@ -21,16 +21,10 @@ MonoBehaviour:
     - rid: 2940844556987138050
       type: {class: StalkerData, ns: , asm: Assembly-CSharp}
       data:
-        actions:
-        - {fileID: 11400000, guid: f4957dc00155c8e4ea6a72c6a126917a, type: 2}
-        - {fileID: 11400000, guid: 6ae4dd4fbc43fd74fb806bdbcdc89dc4, type: 2}
-        - {fileID: 11400000, guid: e8d6ffbe3d550fd4f9170bbd40755b96, type: 2}
-        - {fileID: 11400000, guid: 0044ef212592bef48a9eb067674de359, type: 2}
-        - {fileID: 11400000, guid: 649220cbb16cdc14d830a8a9a6ecd9c3, type: 2}
-        - {fileID: 11400000, guid: 73c2a490760f89d48a36d159fe6ee0fe, type: 2}
         wait: {fileID: 11400000, guid: f4957dc00155c8e4ea6a72c6a126917a, type: 2}
         roam: {fileID: 11400000, guid: 6ae4dd4fbc43fd74fb806bdbcdc89dc4, type: 2}
         chase: {fileID: 11400000, guid: e8d6ffbe3d550fd4f9170bbd40755b96, type: 2}
         charge: {fileID: 11400000, guid: 0044ef212592bef48a9eb067674de359, type: 2}
         takeDamage: {fileID: 11400000, guid: 649220cbb16cdc14d830a8a9a6ecd9c3, type: 2}
         die: {fileID: 11400000, guid: 73c2a490760f89d48a36d159fe6ee0fe, type: 2}
+        attacks: []

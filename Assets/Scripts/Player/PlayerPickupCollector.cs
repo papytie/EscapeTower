@@ -1,21 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class PlayerPickupCollector : MonoBehaviour
 {
-    //[SerializeField] float despawnDelay = 1;
+    PlayerController controller;
 
-    PlayerStats stats;
-    PlayerWeaponSlot slot;
-    PlayerLifeSystem lifeSystem;
-
-    public void InitRef(PlayerStats statsRef, PlayerWeaponSlot slotRef, PlayerLifeSystem lifeSystemRef)
+    public void InitRef(PlayerController playerController)
     {
-        stats = statsRef;
-        slot = slotRef;
-        lifeSystem = lifeSystemRef;
+        controller = playerController;
     }
 
     public void PickUpSorting(PickupItem item)
@@ -24,21 +15,21 @@ public class PlayerPickupCollector : MonoBehaviour
         {
             //StatModifier add a bonus to a specific stat
             case PickableType.StatModifier:
-                stats.AddBonus(item.StatModifier);
-                Debug.Log("Item Type : " + item.TemplateType + ", get Bonus/Malus to : " + item.StatModifier.MainStat + ", current value : " + stats.GetModifiedMainStat(item.StatModifier.MainStat));
+                controller.Stats.AddBonus(item.StatModifier);
+                Debug.Log("Item Type : " + item.TemplateType + ", get Bonus/Malus to : " + item.StatModifier.MainStat + ", current value : " + controller.Stats.GetModifiedMainStat(item.StatModifier.MainStat));
                 break;
 
             //WeaponPickup equip a new weapon
             case PickableType.Weapon:
                 //TODO: Spawn a PickupItem with EquippedWeapon in type
-                slot.EquipWeapon(item.WeaponPickup.Weapon);
+                controller.WeaponSlot.EquipWeapon(item.WeaponPickup.Weapon);
                 Debug.Log("Item Type : " + item.TemplateType + ", equip new weapon : " + item.WeaponPickup.Weapon);
                 break;
 
             //Consumable effect Switch
             case PickableType.Consumable:
                 UseConsumable(item);
-                Debug.Log("Item Type : " + item.TemplateType + ", name : " + item.Consumable.name + ", gain " + item.Consumable.Value + " LifePoints, for a total of " + lifeSystem.CurrentLifePoints + " on " + lifeSystem.MaxLifePoints);
+                Debug.Log("Item Type : " + item.TemplateType + ", name : " + item.Consumable.name + ", gain " + item.Consumable.Value + " LifePoints, for a total of " + controller.LifeSystem.CurrentLifePoints + " on " + controller.LifeSystem.MaxLifePoints);
                 break;
 
             default:
@@ -54,7 +45,7 @@ public class PlayerPickupCollector : MonoBehaviour
         switch (item.Consumable.Effect)
         {
             case ConsumableEffect.Heal:
-                lifeSystem.HealUp(item.Consumable.Value);
+                controller.LifeSystem.HealUp(item.Consumable.Value);
                 break;
             default:
                 break;

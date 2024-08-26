@@ -1,24 +1,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Fighter : MonoBehaviour, IBehaviour
+public class Hybrid : MonoBehaviour, IBehaviour
 {
     public IBehaviourData Data => data;
     public NPCFSM FSM { get => fsm; set { fsm = value; } }
     public EnemyController Controller => controller;
 
-    bool isValid = true;
     NPCFSM fsm;
     EnemyController controller;
-    FighterData data;
+    HybridData data;
+    bool isValid = true;
 
-    List<NPCState> attackList = new();
+    List<NPCState> attacksList = new();
 
     public void Init(EnemyController enemyController, IBehaviourData behaviourData)
     {
         //Get Controller & Data ref
         controller = enemyController;
-        data = behaviourData as FighterData;
+        data = behaviourData as HybridData;
 
         FSM = new NPCFSM();
 
@@ -44,13 +44,13 @@ public class Fighter : MonoBehaviour, IBehaviour
         controller.LifeSystem.OnDeath += () => { fsm.SetState(data.die.name); };
 
         //Customize each Init state
-        Init_WaitState();
-        Init_RoamState();
-        Init_ChaseState();
-        Init_MeleeAttacksState();
+        Init_waitActionState();
+        Init_DefaultMoveState();
+        Init_MainMoveState();
+        Init_AttackStates();
 
         //Set this Behaviour starting default state
-        fsm.SetState(data.wait.name);
+        fsm.SetState(data.waitAction.name);
     }
 
     public void UpdateFSM()
@@ -63,77 +63,64 @@ public class Fighter : MonoBehaviour, IBehaviour
     //----------------------------|ACTIONS|-----------------------------|
     //------------------------------/---\-------------------------------|
 
-    void Init_WaitState()
+    void Init_waitActionState()
     {
-        NPCState waitState = fsm.GetState(data.wait.name);
-
-        waitState.OnStateEnter += () => { /* First Method called when enter State */ };
-        waitState.OnStateExit += () => { /* Last Method called when exit State */ };
-
-        waitState.OnStateUpdate += () =>
-        { 
-            if (controller.TargetAcquired)
-            {
-                if (controller.TargetAcquired && fsm.IsAnyActionAvailable(attackList))
-                    fsm.SetRandomState(attackList);
-
-                else if (fsm.GetState(data.chase.name).Action.IsAvailable)
-                    fsm.SetState(data.chase.name);
-            }
-            else if (fsm.GetState(data.wait.name).Action.IsCompleted)
-            {
-                fsm.SetState(data.roam.name);
-
-            }
-        };
-    }
-
-    void Init_RoamState()
-    {
-        NPCState state = fsm.GetState(data.roam.name);
+        NPCState state = fsm.GetState(data.waitAction.name);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
         state.OnStateExit += () => { /* Last Method called when exit State */ };
 
         state.OnStateUpdate += () =>
         {
+            if (state.Action.IsCompleted)
+                fsm.SetState(data.defaultMove.name);
+
             if (controller.TargetAcquired)
-            {
-                if (fsm.GetState(data.chase.name).Action.IsAvailable)
-                    fsm.SetState(data.chase.name);
+                fsm.SetState(data.mainMove.name);
 
-            }
-            else if (state.Action.IsCompleted)
-            {
-                fsm.SetState(data.wait.name);
-
-            }
         };
     }
 
-    void Init_ChaseState()
+    void Init_DefaultMoveState()
     {
-        NPCState state = fsm.GetState(data.chase.name);
+        NPCState state = fsm.GetState(data.defaultMove.name);
 
         state.OnStateEnter += () => { /* First Method called when enter State */ };
         state.OnStateExit += () => { /* Last Method called when exit State */ };
 
         state.OnStateUpdate += () =>
         {
-            if (controller.TargetAcquired && fsm.IsAnyActionAvailable(attackList))
-                fsm.SetRandomState(attackList);
-            
-            else if(state.Action.IsCompleted || !controller.TargetAcquired)
-                fsm.SetState(data.wait.name);                
+            if (state.Action.IsCompleted)
+                fsm.SetState(data.waitAction.name);
+
+            if (controller.TargetAcquired)
+                fsm.SetState(data.mainMove.name);
         };
     }
 
-    void Init_MeleeAttacksState()
+    void Init_MainMoveState()
     {
-        foreach (var attack in data.attacks)
+        NPCState state = fsm.GetState(data.mainMove.name);
+
+        state.OnStateEnter += () => { /* First Method called when enter State */ };
+        state.OnStateExit += () => { /* Last Method called when exit State */ };
+
+        state.OnStateUpdate += () =>
         {
-            NPCState state = fsm.GetState(attack.name);
-            attackList.Add(state);
+            if (state.Action.IsCompleted || !controller.TargetAcquired)
+                fsm.SetState(data.waitAction.name);
+
+            if (fsm.IsAnyActionAvailable(attacksList))
+                fsm.SetRandomState(attacksList);
+        };
+    }
+
+    void Init_AttackStates()
+    {
+        foreach (var shot in data.attacks)
+        {
+            NPCState state = fsm.GetState(shot.name);
+            attacksList.Add(state);
 
             state.OnStateEnter += () => { /* First Method called when enter State */ };
             state.OnStateExit += () => { /* Last Method called when exit State */ };
@@ -141,9 +128,8 @@ public class Fighter : MonoBehaviour, IBehaviour
             state.OnStateUpdate += () =>
             {
                 if (state.Action.IsCompleted)
-                    fsm.SetState(data.wait.name);
+                    fsm.SetState(data.waitAction.name);
             };
-
         }
     }
 
@@ -161,24 +147,25 @@ public class Fighter : MonoBehaviour, IBehaviour
         state.OnStateUpdate += () =>
         {
             if (state.Action.IsCompleted)
-                fsm.SetState(data.wait.name);
+                fsm.SetState(data.waitAction.name);
         };
     }
 
     void Init_DieReaction()
     {
         NPCState state = fsm.GetState(data.die.name);
-           
+
         state.OnStateEnter += () => { /* First Method called when enter State */ };
         state.OnStateExit += () => { /* Last Method called when exit State */ };
 
-        state.OnStateUpdate += () => 
-        { 
-            if(state.Action.IsCompleted)
+        state.OnStateUpdate += () =>
+        {
+            if (state.Action.IsCompleted)
             {
                 controller.LootSystem.RollLoot();
-                Destroy(controller.gameObject);
+                Destroy(gameObject);
             }
         };
     }
+
 }

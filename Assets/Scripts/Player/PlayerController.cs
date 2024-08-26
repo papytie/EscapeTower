@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerInputs), typeof(PlayerMovement), typeof(PlayerDash))]
@@ -12,8 +13,18 @@ public class PlayerController : MonoBehaviour
     public bool CanDash => bump.CanMove && dash.DashAvailable && !lifeSystem.IsDead;
     public bool CanAttack => bump.CanMove && weaponSlot.EquippedWeapon && weaponSlot.EquippedWeapon.AttackAvailable && !dash.IsDashing && !lifeSystem.IsDead;
     public bool CanTakeDamage => !lifeSystem.IsInvincible && !lifeSystem.IsDead;
-    public Vector2 MoveInput => moveInput;
+    public Vector3 MoveInput => moveInput;
+    public Vector3 LastInputDirection => lastInputDirection;
+    public PlayerInputs Inputs => inputs;
+    public PlayerStats Stats => stats;
     public PlayerMovement Movement => movement;
+    public PlayerDash Dash => dash;
+    public PlayerWeaponSlot WeaponSlot => weaponSlot;
+    public PlayerLifeSystem LifeSystem => lifeSystem;
+    public CollisionCheckerComponent Collision => collision;
+    public PlayerPickupCollector Collector => collector;
+    public Animator Animator => animator;
+    public BumpComponent Bump => bump;
 
     [SerializeField] bool stickAutoAttack;
 
@@ -53,13 +64,13 @@ public class PlayerController : MonoBehaviour
 
     void InitComponentsRef()
     {
-        movement.InitRef(inputs, collision, stats);
-        dash.InitRef(collision, lifeSystem, stats);
-        lifeSystem.InitRef(animator, bump);
-        stats.InitRef(movement, weaponSlot, dash);
-        weaponSlot.InitRef(stats);
-        collector.InitRef(stats, weaponSlot, lifeSystem);
-        bump.InitRef(collision);
+        movement.InitRef(this);
+        dash.InitRef(this);
+        lifeSystem.InitRef(this);
+        stats.InitRef(this);
+        weaponSlot.InitRef(this);
+        collector.InitRef(this);
+        bump.InitRef(this);
         collision.Init();
     }
 

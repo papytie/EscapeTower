@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class BehaviourConfig : ScriptableObject
 {
-    public BehaviourType behaviourType;
+    public BehaviourType behaviourType = BehaviourType.Harmless;
     [SerializeReference] public IBehaviourData data;
 
     private void OnValidate()

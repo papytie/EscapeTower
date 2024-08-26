@@ -12,30 +12,26 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float acceleration = 50f;
     float currentSpeed = 0;
 
-    PlayerInputs inputs;
-    CollisionCheckerComponent collision;
-    PlayerStats stats;
+    PlayerController controller;
 
-    public void InitRef(PlayerInputs inputRef, CollisionCheckerComponent collisionRef, PlayerStats statsRef)
+    public void InitRef(PlayerController playerController)
     {
-        inputs = inputRef;
-        collision = collisionRef;
-        stats = statsRef;
+        controller = playerController;
     }
 
     private void Update()
     {
         //Speed acceleration damping
-        Vector2 moveAxis = inputs.MoveAxisInput.ReadValue<Vector2>();
+        Vector2 moveAxis = controller.Inputs.MoveAxisInput.ReadValue<Vector2>();
 
-        currentSpeed = Mathf.MoveTowards(currentSpeed, moveAxis.magnitude * stats.GetModifiedMainStat(MainStat.MoveSpeed), Time.deltaTime * acceleration);
+        currentSpeed = Mathf.MoveTowards(currentSpeed, moveAxis.magnitude * controller.Stats.GetModifiedMainStat(MainStat.MoveSpeed), Time.deltaTime * acceleration);
     }
 
     public void CheckedMove(Vector3 moveAxis)
     {
-        collision.MoveToCollisionCheck(moveAxis, currentSpeed * Time.deltaTime, collision.BlockingObjectsLayer, out Vector3 finalPosition, out List<RaycastHit2D> hitList);
+        controller.Collision.MoveToCollisionCheck(moveAxis, currentSpeed * Time.deltaTime, controller.Collision.BlockingObjectsLayer, out Vector3 finalPosition, out List<RaycastHit2D> hitList);
         transform.position = finalPosition;
-
+        //Debug.Log($"{Time.frameCount} - Input Movement : " + currentSpeed);
     }
 
     public void RotateToMoveDirection(Vector3 moveAxis)
