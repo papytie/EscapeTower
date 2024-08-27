@@ -54,7 +54,6 @@ public class BumpComponent : MonoBehaviour
                 bumpCurrentTime = 0;
                 SetStunTimer(stunDuration);
             }
-
         }
 
         if (isStun && Time.time >= stunEndTime)

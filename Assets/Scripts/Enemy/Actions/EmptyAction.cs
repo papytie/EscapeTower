@@ -12,7 +12,7 @@ public class EmptyAction : MonoBehaviour, IAction
     EmptyData data;
     EnemyController controller;
 
-    public void InitRef(IActionData dataRef, EnemyController controllerRef) 
+    public void Init(IActionData dataRef, EnemyController controllerRef) 
     {
         data = dataRef as EmptyData;
         controller = controllerRef;

@@ -11,7 +11,7 @@ public class ChaseMove : MonoBehaviour, IAction
     private EnemyController controller;
     Vector2 direction;
 
-    public void InitRef(IActionData dataRef, EnemyController controllerRef)
+    public void Init(IActionData dataRef, EnemyController controllerRef)
     {
         data = dataRef as ChaseData;
         controller = controllerRef;
@@ -33,18 +33,22 @@ public class ChaseMove : MonoBehaviour, IAction
         {
             //Check for collision
             controller.Collision.MoveToCollisionCheck(direction, controller.Stats.MoveSpeed * data.speedMult * Time.deltaTime, controller.Collision.BlockingObjectsLayer, out Vector3 finalPosition, out List<RaycastHit2D> hitList);
-            
+
             //The right movement direction vector modified by the collision Check
             Vector2 moveVector = (finalPosition - transform.position).normalized;
-            
+
             //Actual movement
             transform.position = finalPosition;
-            
+
             //Update Animation with the right direction vector
             controller.AnimationParam.UpdateMoveAnimDirection(moveVector);
+
+            if(data.dropConfig.item != null)
+            {
+                controller.DropComponent.DropItem(data.dropConfig);
+            }
         }
         else IsCompleted = true;
-
     }
 
     public void EndProcess()

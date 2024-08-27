@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 7554280451946308863}
   - component: {fileID: 3535197888073128317}
   - component: {fileID: 117514284295926}
-  - component: {fileID: 6945462768860497074}
   - component: {fileID: 9069146430024304810}
   - component: {fileID: 8482865961153284175}
+  - component: {fileID: 2168130718340697155}
+  - component: {fileID: 3133276684489209830}
   m_Layer: 7
   m_Name: KnightBronze
   m_TagString: Untagged
@@ -119,7 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 242e004eeec4d0645b95fe12d219eff9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loot: {fileID: 11400000, guid: e61879571c8214944ac9d9e5577686d0, type: 2}
+  lootTable: {fileID: 0}
   lootChance: 20
 --- !u!114 &117514284295926
 MonoBehaviour:
@@ -135,30 +136,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainBehaviourConfig: {fileID: 11400000, guid: fa0d30e468f623a4885c22230617da2f, type: 2}
   debugCube: {fileID: 0}
---- !u!114 &6945462768860497074
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7735372287190253028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21bc6b7d242f7a248b1999248d878d92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colliderShape: 1
-  circleColliderRadius: 1
-  boxColliderSize: {x: 0.15, y: 0.2}
-  collisionMinDist: 0.01
-  blockingObjectsLayer:
-    serializedVersion: 2
-    m_Bits: 384
-  intractionObjectsLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  showDebug: 1
-  colliderDebugColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!114 &9069146430024304810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,6 +165,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 122ebb81fdfc8dc4ba8f9d55800470e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2168130718340697155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7735372287190253028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a88364aae27a2a94e850d6822e5f2370, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderShape: 0
+  circleColliderRadius: 1
+  boxColliderSize: {x: 0.1, y: 0.1}
+  collisionMinDist: 0.01
+  blockingObjectsLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  intractionObjectsLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  showDebug: 0
+  colliderDebugColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+--- !u!114 &3133276684489209830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7735372287190253028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 976824984ece5954caaf19a9fe41a265, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropList:
+  - type: 0
+    item: {fileID: 0}
+    dropPositionOffset: {x: 0, y: 0}
+  - type: 1
+    item: {fileID: 0}
+    dropPositionOffset: {x: 0, y: 0}
 --- !u!1001 &8451118016769449935
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -218,7 +238,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5135701746650721333, guid: bafaf5a0e809a644293f6ac077819023, type: 3}
       propertyPath: m_InstanceId
-      value: -303200
+      value: -116392
       objectReference: {fileID: 0}
     - target: {fileID: 5470997073612097758, guid: bafaf5a0e809a644293f6ac077819023, type: 3}
       propertyPath: m_Materials.Array.data[0]

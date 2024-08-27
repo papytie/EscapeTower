@@ -18,7 +18,7 @@ public class TakeDamageReaction : MonoBehaviour, IAction
     Vector2 startPos = Vector2.zero;
     Vector2 targetPos = Vector2.zero;
 
-    public void InitRef(IActionData dataRef, EnemyController controllerRef)
+    public void Init(IActionData dataRef, EnemyController controllerRef)
     {
         data = dataRef as TakeDamageData;
         controller = controllerRef;

@@ -4,8 +4,11 @@ using UnityEngine;
 [Serializable]
 public class MeleeData : IActionData
 {
+    [Header("HitboxSettings")]
     public HitboxSettingsData hitbox;
+    public MeleeAttackEffect attackEffect;
 
+    [Header("AttackSettings")]
     public float baseDamage = 1;
     public float activationRange = .5f;
     public float reactionTime = 1;

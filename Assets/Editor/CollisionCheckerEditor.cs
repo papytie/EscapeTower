@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[CustomEditor(typeof(CollisionCheckerComponent))]
+[CustomEditor(typeof(CollisionComponent))]
 public class CollisionCheckerEditor : Editor
 {
     public VisualTreeAsset visualTree;

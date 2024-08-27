@@ -6,4 +6,5 @@ public class DieData : IActionData
 {
     [Header("Settings")]
     public float despawnTime;
+    public DropItemConfig dropConfig;
 }

@@ -81,6 +81,12 @@ public sealed class SRLayers {
         }
     }
     
+    public static global::TypeSafe.Layer Traps {
+        get {
+            return @__all[10];
+        }
+    }
+    
     private static global::System.Collections.Generic.IList<global::TypeSafe.Layer> @__all = new global::System.Collections.ObjectModel.ReadOnlyCollection<global::TypeSafe.Layer>(new global::TypeSafe.Layer[] {
                 new global::TypeSafe.Layer("Default", 0),
                 new global::TypeSafe.Layer("TransparentFX", 1),
@@ -91,7 +97,8 @@ public sealed class SRLayers {
                 new global::TypeSafe.Layer("Enemy", 7),
                 new global::TypeSafe.Layer("Wall", 8),
                 new global::TypeSafe.Layer("Pickup", 9),
-                new global::TypeSafe.Layer("Projectiles", 10)});
+                new global::TypeSafe.Layer("Projectiles", 10),
+                new global::TypeSafe.Layer("Traps", 11)});
     
     public static global::System.Collections.Generic.IList<global::TypeSafe.Layer> All {
         get {

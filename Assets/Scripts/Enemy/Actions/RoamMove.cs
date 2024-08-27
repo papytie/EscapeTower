@@ -15,7 +15,7 @@ public class RoamMove : MonoBehaviour, IAction
 
     float processEndTime;
 
-    public void InitRef(IActionData dataRef, EnemyController controllerRef)
+    public void Init(IActionData dataRef, EnemyController controllerRef)
     {
         data = dataRef as RoamData;
         controller = controllerRef;

@@ -15,7 +15,7 @@ public class EnemyDetectionComponent : MonoBehaviour
     
     EnemyController controller;
 
-    public void InitRef(EnemyController ctrlRef)
+    public void Init(EnemyController ctrlRef)
     {
         controller = ctrlRef;
     }

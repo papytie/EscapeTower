@@ -19,6 +19,7 @@ public class ActionFactory
             ActionType.DieReaction => thisObject.AddComponent<DieReaction>(),
             ActionType.BeamAttack => thisObject.AddComponent<BeamAttack>(),
             ActionType.EmptyAction => thisObject.AddComponent<EmptyAction>(),
+            ActionType.DropAction => thisObject.AddComponent<DropAction>(),
             _ => null,
         };
     }

@@ -18,7 +18,7 @@ public class BeamAttack : MonoBehaviour, IAction
 
     AnimatedBeam beam;
 
-    public void InitRef(IActionData dataRef, EnemyController controllerRef)
+    public void Init(IActionData dataRef, EnemyController controllerRef)
     {
         data = dataRef as BeamData;
         controller = controllerRef;

@@ -11,7 +11,7 @@ public class FleeMove : MonoBehaviour, IAction
     private FleeData data;
     private EnemyController controller;
 
-    public void InitRef(IActionData dataRef, EnemyController controllerRef)
+    public void Init(IActionData dataRef, EnemyController controllerRef)
     {
         data = dataRef as FleeData;
         controller = controllerRef;

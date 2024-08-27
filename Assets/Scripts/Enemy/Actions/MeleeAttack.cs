@@ -13,16 +13,23 @@ public class MeleeAttack : MonoBehaviour, IAction
     EnemyController controller;
     CircleCollider2D circleCollider;
     MeleeData data;
+    MeleeAttackEffect effect;
 
     float detectionEndTime = 0;
     float detectionStartTime = 0;
     float cooldownEndTime = 0;
     Quaternion currentRotation = Quaternion.identity;
 
-    public void InitRef(IActionData dataRef, EnemyController controllerRef)
+    public void Init(IActionData dataRef, EnemyController controllerRef)
     {
         data = dataRef as MeleeData;
         controller = controllerRef;
+
+        if(data.attackEffect != null) 
+        { 
+            effect = Instantiate(data.attackEffect,controller.transform.position, Quaternion.identity, controller.transform);
+            effect.Init(controller, data);
+        }
     }
 
     public void StartProcess()
@@ -30,13 +37,10 @@ public class MeleeAttack : MonoBehaviour, IAction
         StartCoroutine(StartAttackAnim());  
         detectionStartTime = Time.time + data.reactionTime + data.hitbox.delay;
         detectionEndTime = detectionStartTime + data.hitbox.duration;
-
-        //attackFX.StartFX(controller.CurrentDirection);
-
         direction = (controller.CurrentTargetPos - (circleCollider.transform.position.ToVector2() + circleCollider.offset)).normalized;
-
         controller.AnimationParam.UpdateMoveAnimDirection(direction * .1f);
         currentRotation = Quaternion.LookRotation(Vector3.forward, direction);
+        
     }
 
     public void UpdateProcess()
@@ -58,7 +62,8 @@ public class MeleeAttack : MonoBehaviour, IAction
     IEnumerator StartAttackAnim()
     {
         yield return new WaitForSeconds(data.reactionTime);
-        controller.Animator.SetTrigger(SRAnimators.EnemyBaseAnimator.Parameters.attack);
+        if (effect != null)
+            effect.Play();
     }
 
     bool MeleeHitboxCast(out RaycastHit2D[] collisionsList)

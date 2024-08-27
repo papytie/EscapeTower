@@ -4,17 +4,15 @@ using UnityEngine;
 public class EnemyLifeSystemComponent : MonoBehaviour, ILifeSystem
 {
     public bool IsDead => isDead;
-
     public bool IsInvincible { get => isDead; set { isDead = value; } }
-
-    bool isDead = false;
 
     public event Action OnDeath = null;
     public event Action OnTakeDamage = null;
 
+    bool isDead = false;
     EnemyController controller;
 
-    public void InitRef(EnemyController ctrlRef)
+    public void Init(EnemyController ctrlRef)
     {
         controller = ctrlRef;
     }

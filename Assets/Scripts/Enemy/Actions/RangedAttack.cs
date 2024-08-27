@@ -21,7 +21,7 @@ public class RangedAttack : MonoBehaviour, IAction
     PlayerController playerController = null;
     List<AnimatedBeam> warningBeams = new(); 
 
-    public void InitRef(IActionData dataRef, EnemyController controllerRef)
+    public void Init(IActionData dataRef, EnemyController controllerRef)
     {
         data = dataRef as RangedData;
         controller = controllerRef;

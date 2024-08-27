@@ -11,7 +11,7 @@ public class TurnAroundMove : MonoBehaviour, IAction
     private TurnAroundData data;
     private EnemyController controller;
 
-    public void InitRef(IActionData dataRef, EnemyController controllerRef)
+    public void Init(IActionData dataRef, EnemyController controllerRef)
     {
         data = dataRef as TurnAroundData;
         controller = controllerRef;

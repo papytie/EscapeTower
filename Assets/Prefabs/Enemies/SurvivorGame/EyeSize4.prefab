@@ -132,13 +132,14 @@ GameObject:
   - component: {fileID: 7826958320561606104}
   - component: {fileID: 7121630298180537469}
   - component: {fileID: 4757395635357577985}
-  - component: {fileID: 8001041884036437106}
   - component: {fileID: 3150502674027016159}
   - component: {fileID: 6092734285711741524}
   - component: {fileID: 2802411895935858278}
   - component: {fileID: 4237133312545314035}
   - component: {fileID: 3746041132828878022}
   - component: {fileID: 4171371601547000229}
+  - component: {fileID: 6739176768502744739}
+  - component: {fileID: 4950102681260426495}
   m_Layer: 7
   m_Name: EyeSize4
   m_TagString: Untagged
@@ -242,30 +243,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.09, y: 0.04}
   m_EdgeRadius: 0
---- !u!114 &8001041884036437106
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5526443729210609502}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21bc6b7d242f7a248b1999248d878d92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colliderShape: 1
-  circleColliderRadius: 1
-  boxColliderSize: {x: 0.08, y: 0.04}
-  collisionMinDist: 0.01
-  blockingObjectsLayer:
-    serializedVersion: 2
-    m_Bits: 384
-  intractionObjectsLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  showDebug: 0
-  colliderDebugColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!114 &3150502674027016159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,9 +255,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9de959b942b67f747a12ec9d824358dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLayer:
+  targetLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
   obstructionLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -310,7 +287,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 242e004eeec4d0645b95fe12d219eff9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loot: {fileID: 11400000, guid: e61879571c8214944ac9d9e5577686d0, type: 2}
+  lootTable: {fileID: 0}
   lootChance: 20
 --- !u!114 &4237133312545314035
 MonoBehaviour:
@@ -324,7 +301,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b2a66150ab8292479a92f49da9b9ecc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  behaviourConfig: {fileID: 11400000, guid: 8c797caedde2a79458056b46511d3022, type: 2}
+  mainBehaviourConfig: {fileID: 0}
+  debugCube: {fileID: 0}
 --- !u!114 &3746041132828878022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -354,6 +332,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 122ebb81fdfc8dc4ba8f9d55800470e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6739176768502744739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5526443729210609502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a88364aae27a2a94e850d6822e5f2370, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderShape: 0
+  circleColliderRadius: 1
+  boxColliderSize: {x: 0.1, y: 0.1}
+  collisionMinDist: 0.01
+  blockingObjectsLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  intractionObjectsLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  showDebug: 0
+  colliderDebugColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+--- !u!114 &4950102681260426495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5526443729210609502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 976824984ece5954caaf19a9fe41a265, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropList: []
 --- !u!1 &8905199541767366279
 GameObject:
   m_ObjectHideFlags: 0

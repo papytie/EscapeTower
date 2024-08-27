@@ -20,7 +20,7 @@ public class StalkerData : IBehaviourData
     {
         actions = new List<ActionConfig>
         { 
-            wait, roam, chase, charge, takeDamage, die
+            wait, roam, chase, charge, takeDamage, die,
         };
 
         if (attacks.Count > 0 )

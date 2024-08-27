@@ -3,7 +3,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(PlayerInputs), typeof(PlayerMovement), typeof(PlayerDash))]
 [RequireComponent(typeof(PlayerWeaponSlot), typeof(PlayerPickupCollector), typeof(Animator))]
-[RequireComponent(typeof(PlayerLifeSystem), typeof(CollisionCheckerComponent), typeof(PlayerStats))]
+[RequireComponent(typeof(PlayerLifeSystem), typeof(CollisionComponent), typeof(PlayerStats))]
 [RequireComponent(typeof(BumpComponent))]
 
 public class PlayerController : MonoBehaviour
@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     public PlayerDash Dash => dash;
     public PlayerWeaponSlot WeaponSlot => weaponSlot;
     public PlayerLifeSystem LifeSystem => lifeSystem;
-    public CollisionCheckerComponent Collision => collision;
+    public CollisionComponent Collision => collision;
     public PlayerPickupCollector Collector => collector;
     public Animator Animator => animator;
     public BumpComponent Bump => bump;
@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
     PlayerDash dash;
     PlayerWeaponSlot weaponSlot;
     PlayerLifeSystem lifeSystem;
-    CollisionCheckerComponent collision;
+    CollisionComponent collision;
     PlayerPickupCollector collector;
     Animator animator;
     BumpComponent bump;
@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
         dash = GetComponent<PlayerDash>();
         weaponSlot = GetComponent<PlayerWeaponSlot>();
         lifeSystem = GetComponent<PlayerLifeSystem>();
-        collision = GetComponent<CollisionCheckerComponent>();
+        collision = GetComponent<CollisionComponent>();
         collector = GetComponent<PlayerPickupCollector>();
         animator = GetComponent<Animator>();
         bump = GetComponent<BumpComponent>();
@@ -140,15 +140,17 @@ public class PlayerController : MonoBehaviour
         if (collision.ObjectTriggerCheck(collision.IntractionObjectsLayer, out RaycastHit2D anyHit))
         {
             if (CanTakeDamage && anyHit.transform.TryGetComponent(out EnemyStatsComponent enemyStats))
-            {
                 lifeSystem.TakeDamage(enemyStats.CollisionDamage, -anyHit.normal);
-            }
 
-            else if (anyHit.transform.TryGetComponent(out PickupItem item)) 
+            if (CanTakeDamage && anyHit.transform.TryGetComponent(out DropItem drop))
+                LifeSystem.TakeDamage(drop.GetDamage(), anyHit.normal);
+
+            if (anyHit.transform.TryGetComponent(out PickupItem item)) 
             {
                 if (item.IsDespawning) return;
                 else collector.PickUpSorting(item);
             }
+
         }
     }
 

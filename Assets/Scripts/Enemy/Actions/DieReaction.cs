@@ -11,7 +11,7 @@ public class DieReaction : MonoBehaviour, IAction
     EnemyController controller;
     float processEndTime;
 
-    public void InitRef(IActionData dataRef, EnemyController controllerRef)
+    public void Init(IActionData dataRef, EnemyController controllerRef)
     {
         data = dataRef as DieData;
         controller = controllerRef;

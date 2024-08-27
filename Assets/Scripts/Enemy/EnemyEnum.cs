@@ -29,6 +29,7 @@ public enum ActionType
     DieReaction = 10,
     BeamAttack = 11,
     EmptyAction = 12,
+    DropAction = 13,
 }
 
 public enum BehaviourType
@@ -39,4 +40,10 @@ public enum BehaviourType
     Fighter = 3,
     MultiAttackBoss = 4,
     Hybrid = 5,
+}
+
+public enum DropType
+{
+    Damage = 0,
+    Die = 1,
 }

@@ -32,7 +32,7 @@ public class MultiAttackBoss : MonoBehaviour, IBehaviour
             if (actionConfig != null)
             {
                 IAction action = ActionFactory.Create(gameObject, actionConfig.actionType);
-                action.InitRef(actionConfig.data, controller);
+                action.Init(actionConfig.data, controller);
                 FSM.AddState(new NPCState(FSM, actionConfig.name, action));
             }
             else 
@@ -50,18 +50,18 @@ public class MultiAttackBoss : MonoBehaviour, IBehaviour
         //Init Reaction state
         Init_DieReaction();
 
-        //Subscribe dieState to OnDeath event
-        controller.LifeSystem.OnDeath += () =>
-        {
-            fsm.SetState(data.die.name);
-        };
-
         //Customize each Init state
         Init_WaitState();
         Init_AttackSelectionState();
         Init_RoamState();
         Init_ShotStates();
         Init_UltimateStates();
+
+        //Subscribe dieState to OnDeath event
+        controller.LifeSystem.OnDeath += () =>
+        {
+            fsm.SetState(data.die.name);
+        };
 
         //Set this Behaviour starting default state
         fsm.SetState(data.wait.name);

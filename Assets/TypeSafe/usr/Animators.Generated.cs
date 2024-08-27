@@ -170,4 +170,28 @@ public sealed class SRAnimators {
             public const int Base_Layer = 0;
         }
     }
+    
+    public sealed class AttackEffectAnimTemplate {
+        
+        private AttackEffectAnimTemplate() {
+        }
+        
+        public sealed class Parameters {
+            
+            private Parameters() {
+            }
+            
+            public const int play = 1586093754;
+            
+            public const int stop = -1185540426;
+        }
+        
+        public sealed class Layers {
+            
+            private Layers() {
+            }
+            
+            public const int Base_Layer = 0;
+        }
+    }
 }

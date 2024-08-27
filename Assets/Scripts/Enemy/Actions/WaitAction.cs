@@ -12,7 +12,7 @@ public class WaitAction : MonoBehaviour, IAction
     float processEndTime;
     Vector2 direction;
 
-    public void InitRef(IActionData dataRef, EnemyController controllerRef)
+    public void Init(IActionData dataRef, EnemyController controllerRef)
     {
         data = dataRef as WaitData;
         controller = controllerRef;

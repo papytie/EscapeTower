@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 751805498632530958}
-  - component: {fileID: 7738254739154454863}
   - component: {fileID: 5855569894988538609}
   - component: {fileID: 7582032499284436154}
   - component: {fileID: 5446426906688110339}
@@ -17,6 +16,8 @@ GameObject:
   - component: {fileID: 724501686308136070}
   - component: {fileID: 7045244435310482841}
   - component: {fileID: 8575244966594120943}
+  - component: {fileID: 5530366110068066134}
+  - component: {fileID: 6851337647860116747}
   m_Layer: 7
   m_Name: Worm
   m_TagString: Untagged
@@ -40,30 +41,6 @@ Transform:
   - {fileID: 8733338297064068703}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7738254739154454863
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6968676946490371561}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21bc6b7d242f7a248b1999248d878d92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colliderShape: 0
-  circleColliderRadius: 0.04
-  boxColliderSize: {x: 0.04, y: 0.12}
-  collisionMinDist: 0.01
-  blockingObjectsLayer:
-    serializedVersion: 2
-    m_Bits: 384
-  intractionObjectsLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  showDebug: 1
-  colliderDebugColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!58 &5855569894988538609
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -160,7 +137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 242e004eeec4d0645b95fe12d219eff9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loot: {fileID: 11400000, guid: e61879571c8214944ac9d9e5577686d0, type: 2}
+  lootTable: {fileID: 0}
   lootChance: 5
 --- !u!114 &7045244435310482841
 MonoBehaviour:
@@ -188,6 +165,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainBehaviourConfig: {fileID: 11400000, guid: 595db2ea47b24eb4f8198ff315c7fc5e, type: 2}
   debugCube: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &5530366110068066134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6968676946490371561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a88364aae27a2a94e850d6822e5f2370, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderShape: 0
+  circleColliderRadius: 1
+  boxColliderSize: {x: 0.1, y: 0.1}
+  collisionMinDist: 0.01
+  blockingObjectsLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  intractionObjectsLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  showDebug: 0
+  colliderDebugColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+--- !u!114 &6851337647860116747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6968676946490371561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 976824984ece5954caaf19a9fe41a265, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropList: []
 --- !u!1001 &617946598171047808
 PrefabInstance:
   m_ObjectHideFlags: 0

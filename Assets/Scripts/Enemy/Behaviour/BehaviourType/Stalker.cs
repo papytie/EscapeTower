@@ -12,6 +12,7 @@ public class Stalker : MonoBehaviour, IBehaviour
     StalkerData data;
     bool isValid = true;
     List<NPCState> attackStates = new();
+
     public void Init(EnemyController enemyController, IBehaviourData behaviourData)
     {
         //Get Controller & Data ref
@@ -25,7 +26,7 @@ public class Stalker : MonoBehaviour, IBehaviour
             if (actionConfig != null)
             {
                 IAction action = ActionFactory.Create(gameObject, actionConfig.actionType);
-                action.InitRef(actionConfig.data, controller);
+                action.Init(actionConfig.data, controller);
                 FSM.AddState(new NPCState(FSM, actionConfig.name, action));
             }
             else
@@ -38,14 +39,21 @@ public class Stalker : MonoBehaviour, IBehaviour
 
         Init_TakeDamageReaction();
         Init_DieReaction();
-        controller.LifeSystem.OnTakeDamage += () => { fsm.SetState(data.takeDamage.name); };
-        controller.LifeSystem.OnDeath += () => { fsm.SetState(data.die.name); };
-        //Customize each Init state
         Init_WaitState();
         Init_RoamState();
         Init_ChaseState();
-        Init_ChargeAttack();
+        Init_ChargeAttackState();
+        //Init_DropActionState();
         Init_ShotStates();
+
+        controller.LifeSystem.OnTakeDamage += () => 
+        { 
+            fsm.SetState(data.takeDamage.name);
+        };
+        controller.LifeSystem.OnDeath += () => 
+        { 
+            fsm.SetState(data.die.name); 
+        };
 
         //Set this Behaviour starting default state
         fsm.SetState(data.wait.name);
@@ -133,7 +141,7 @@ public class Stalker : MonoBehaviour, IBehaviour
         };
     }
 
-    void Init_ChargeAttack()
+    void Init_ChargeAttackState()
     {
         NPCState state = fsm.GetState(data.charge.name);
 
@@ -169,7 +177,6 @@ public class Stalker : MonoBehaviour, IBehaviour
             };
         }
     }
-
 
     //-------------------------------\---/-------------------------------|
     //----------------------------|REACTIONS|----------------------------|

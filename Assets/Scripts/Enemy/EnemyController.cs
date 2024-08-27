@@ -2,18 +2,19 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(CollisionCheckerComponent), typeof(EnemyDetectionComponent), typeof(CircleCollider2D))]
-[RequireComponent(typeof(EnemyStatsComponent), typeof(EnemyLifeSystemComponent))] 
-[RequireComponent(typeof(EnemyLootSystem), typeof(EnemyAnimationComponent))]
+[RequireComponent(typeof(CollisionComponent), typeof(EnemyDetectionComponent), typeof(CircleCollider2D))]
+[RequireComponent(typeof(EnemyStatsComponent), typeof(EnemyLifeSystemComponent), typeof(EnemyDropComponent))] 
+[RequireComponent(typeof(EnemyLootComponent), typeof(EnemyAnimationComponent))]
 
 public class EnemyController : MonoBehaviour
 {
+    public EnemyDropComponent DropComponent => drop;
     public EnemyStatsComponent Stats => stats;
     public EnemyLifeSystemComponent LifeSystem => lifeSystem;
     public EnemyDetectionComponent Detection => detection;
-    public EnemyLootSystem LootSystem => lootSystem;
+    public EnemyLootComponent LootSystem => lootSystem;
     public EnemyAnimationComponent AnimationParam => animationParam;
-    public CollisionCheckerComponent Collision => collision;
+    public CollisionComponent Collision => collision;
     public Animator Animator => animator;
     public CircleCollider2D CircleCollider => circleCollider;
     public IBehaviour MainBehaviour => mainBehaviour;
@@ -34,16 +35,15 @@ public class EnemyController : MonoBehaviour
     EnemyStatsComponent stats;
     EnemyLifeSystemComponent lifeSystem;
     EnemyDetectionComponent detection;
-    EnemyLootSystem lootSystem;
+    EnemyLootComponent lootSystem;
     EnemyAnimationComponent animationParam;
-    CollisionCheckerComponent collision;
+    EnemyDropComponent drop;
+    CollisionComponent collision;
     Animator animator;
     CircleCollider2D circleCollider;
 
     private void Awake()
     {
-        EnemyManager.Instance.AddEnemy(this);
-
         if (!TryGetComponent<Animator>(out animator)) animator = GetComponentInChildren<Animator>();
         if (animator == null) Debug.LogWarning("Animator is missing!");
 
@@ -51,17 +51,19 @@ public class EnemyController : MonoBehaviour
         stats = GetComponent<EnemyStatsComponent>();
         lifeSystem = GetComponent<EnemyLifeSystemComponent>();
         detection = GetComponent<EnemyDetectionComponent>();
-        lootSystem = GetComponent<EnemyLootSystem>();
+        lootSystem = GetComponent<EnemyLootComponent>();
         animationParam = GetComponent<EnemyAnimationComponent>();
-        collision = GetComponent<CollisionCheckerComponent>();
+        drop = GetComponent<EnemyDropComponent>();
+        collision = GetComponent<CollisionComponent>();
     }
 
     private void Start()
     {
-        lifeSystem.InitRef(this);
+        lifeSystem.Init(this);
         stats.Init();
-        detection.InitRef(this);
-        animationParam.InitRef(this);
+        detection.Init(this);
+        animationParam.Init(this);
+        drop.Init(this);
         collision.Init();
 
         if (mainBehaviourConfig != null)
@@ -71,6 +73,8 @@ public class EnemyController : MonoBehaviour
             mainBehaviour.Init(this, mainBehaviourConfig.data);
         }
         else { Debug.LogWarning("Main Behaviour Config is missing!"); return; }
+
+        EnemyManager.Instance.AddEnemy(this);
     }
 
     private void Update()
@@ -101,15 +105,15 @@ public class EnemyController : MonoBehaviour
         stats = GetComponent<EnemyStatsComponent>();
         lifeSystem = GetComponent<EnemyLifeSystemComponent>();
         detection = GetComponent<EnemyDetectionComponent>();
-        lootSystem = GetComponent<EnemyLootSystem>();
-        collision = GetComponent<CollisionCheckerComponent>();
+        lootSystem = GetComponent<EnemyLootComponent>();
+        collision = GetComponent<CollisionComponent>();
         animationParam = GetComponent<EnemyAnimationComponent>();
 
-        lifeSystem.InitRef(this);
-        detection.InitRef(this);
+        lifeSystem.Init(this);
+        detection.Init(this);
         collision.Init();
         stats.Init();
-        animationParam.InitRef(this);
+        animationParam.Init(this);
     }
 
     private void OnDrawGizmos()

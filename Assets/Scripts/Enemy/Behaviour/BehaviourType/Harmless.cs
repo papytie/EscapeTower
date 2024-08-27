@@ -24,7 +24,7 @@ public class Harmless : MonoBehaviour, IBehaviour
             if (actionConfig != null)
             {
                 IAction action = ActionFactory.Create(gameObject, actionConfig.actionType);
-                action.InitRef(actionConfig.data, controller);
+                action.Init(actionConfig.data, controller);
                 FSM.AddState(new NPCState(FSM, actionConfig.name, action));
             }
             else
