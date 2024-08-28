@@ -10,26 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c49f88f41d04ea341b94b8ae24ae1143, type: 3}
-  m_Name: BasicChase
+  m_Name: ToxicDie
   m_EditorClassIdentifier: 
-  actionType: 2
+  actionType: 10
   data:
-    rid: 2940844261501304840
+    rid: 2940844261501304854
   references:
     version: 2
     RefIds:
-    - rid: 2940844261501304840
-      type: {class: ChaseData, ns: , asm: Assembly-CSharp}
+    - rid: 2940844261501304854
+      type: {class: DieData, ns: , asm: Assembly-CSharp}
       data:
-        speedMult: 1
-        minRange: 0.1
+        despawnTime: 3
         dropConfig:
-          item: {fileID: 0}
-          dropPositionOffset: {x: 0, y: 0}
+          item: {fileID: 8685617924812498743, guid: 21be0c086f882cf4b9f1a80d856638ce, type: 3}
+          dropPositionOffset: {x: 0, y: -0.1}
           damage: 1
           lifespan: 30
-          cooldown: 0.1
-          minDistBetweenItems: 0.1
+          cooldown: 1
+          minDistBetweenItems: 0
           maxItemCount: 100
           isEternal: 0
           isDestructible: 0

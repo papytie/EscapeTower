@@ -38,6 +38,11 @@ public class StayAtRangeMove : MonoBehaviour, IAction
             if (hitList.Count > 0) return;
             transform.position = finalPosition;
 
+            if (data.dropConfig.item != null)
+            {
+                controller.DropComponent.DropItem(data.dropConfig);
+            }
+
             controller.AnimationParam.UpdateMoveAnimDirection(direction);
         }
     }

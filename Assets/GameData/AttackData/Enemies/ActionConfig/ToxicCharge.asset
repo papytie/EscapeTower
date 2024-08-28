@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c49f88f41d04ea341b94b8ae24ae1143, type: 3}
-  m_Name: BasicCharge
+  m_Name: ToxicCharge
   m_EditorClassIdentifier: 
   actionType: 8
   data:
@@ -169,14 +169,14 @@ MonoBehaviour:
         effectiveRange: 1
         reactionTime: 1
         recupTime: 1
-        cooldown: 2
+        cooldown: 3
         dropConfig:
-          item: {fileID: 0}
-          dropPositionOffset: {x: 0, y: 0}
+          item: {fileID: 7154000864796793697, guid: c18d73ad8c9b35649b2d7370bb6bb6af, type: 3}
+          dropPositionOffset: {x: 0, y: -0.1}
           damage: 1
-          lifespan: 30
+          lifespan: 10
           cooldown: 0.1
-          minDistBetweenItems: 0.1
+          minDistBetweenItems: 0.05
           maxItemCount: 100
           isEternal: 0
           isDestructible: 0

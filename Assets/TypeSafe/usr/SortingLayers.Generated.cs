@@ -75,27 +75,33 @@ public sealed class SRSortingLayers {
         }
     }
     
-    public static global::TypeSafe.SortingLayer Projectiles {
+    public static global::TypeSafe.SortingLayer Effect {
         get {
             return @__all[9];
         }
     }
     
-    public static global::TypeSafe.SortingLayer Ceiling {
+    public static global::TypeSafe.SortingLayer Projectiles {
         get {
             return @__all[10];
         }
     }
     
-    public static global::TypeSafe.SortingLayer UI {
+    public static global::TypeSafe.SortingLayer Ceiling {
         get {
             return @__all[11];
         }
     }
     
-    public static global::TypeSafe.SortingLayer Foreground {
+    public static global::TypeSafe.SortingLayer UI {
         get {
             return @__all[12];
+        }
+    }
+    
+    public static global::TypeSafe.SortingLayer Foreground {
+        get {
+            return @__all[13];
         }
     }
     
@@ -109,6 +115,7 @@ public sealed class SRSortingLayers {
                 new global::TypeSafe.SortingLayer("Fog", 1696842133),
                 new global::TypeSafe.SortingLayer("Character", 1673295959),
                 new global::TypeSafe.SortingLayer("Wall", -1882948755),
+                new global::TypeSafe.SortingLayer("Effect", -415242933),
                 new global::TypeSafe.SortingLayer("Projectiles", 1893471421),
                 new global::TypeSafe.SortingLayer("Ceiling", -209784683),
                 new global::TypeSafe.SortingLayer("UI", 845618623),

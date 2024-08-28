@@ -29,7 +29,11 @@ public class TurnAroundMove : MonoBehaviour, IAction
         //Move with collision check
         controller.Collision.MoveToCollisionCheck(GetMoveDirection(direction), controller.Stats.MoveSpeed * data.speedMult * Time.deltaTime, controller.Collision.BlockingObjectsLayer, out Vector3 finalPosition, out List<RaycastHit2D> hitList);
         transform.position = finalPosition;
-
+        
+        if (data.dropConfig.item != null)
+        {
+            controller.DropComponent.DropItem(data.dropConfig);
+        }
     }
 
     Vector2 GetMoveDirection(Vector2 targetDirection)

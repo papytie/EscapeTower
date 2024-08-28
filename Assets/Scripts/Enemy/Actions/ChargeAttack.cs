@@ -73,7 +73,15 @@ public class ChargeAttack : MonoBehaviour, IAction
                 startTime -= duration - currentTime;
             }
             else
+            {
                 transform.position = currentPos;
+            }
+
+            if (data.dropConfig.item != null)
+            {
+                controller.DropComponent.DropItem(data.dropConfig);
+            }
+
         }
 
         if (Time.time > endMovement)

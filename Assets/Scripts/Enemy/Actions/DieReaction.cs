@@ -22,12 +22,19 @@ public class DieReaction : MonoBehaviour, IAction
         IsCompleted = false;
         processEndTime = Time.time + data.despawnTime;
         controller.AnimationParam.ActivateDieTrigger();
+
+        if (data.dropConfig.item != null)
+        {
+            controller.DropComponent.DropItem(data.dropConfig);
+        }
     }
 
     public void UpdateProcess()
     {
         if(Time.time >= processEndTime)
+        {
             IsCompleted = true;
+        }
     }
 
     public void EndProcess()

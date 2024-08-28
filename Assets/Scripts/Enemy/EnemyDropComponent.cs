@@ -1,12 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 public class EnemyDropComponent : MonoBehaviour
 {
     EnemyController enemyController;
+
+    //Make dictionary public static
     Dictionary<DropItemConfig, int> itemDroppedCount = new();
     Dictionary<DropItemConfig, Vector2> itemDroppedLastPos = new();
 
@@ -17,13 +18,13 @@ public class EnemyDropComponent : MonoBehaviour
 
     public void DropItem(DropItemConfig config)
     {
-        Quaternion currentRotation = Quaternion.LookRotation(Vector3.forward, enemyController.MainBehaviour.FSM.CurrentState.Action.Direction);
-        Vector3 dropPosition = transform.position + (currentRotation * config.dropPositionOffset);
+        //Quaternion currentRotation = Quaternion.LookRotation(Vector3.forward, enemyController.MainBehaviour.FSM.CurrentState.Action.Direction);
+        Vector3 dropPosition = transform.position.ToVector2() + config.dropPositionOffset;
 
-        if (IsValidPosition(config, dropPosition)) 
+        if (IsValidPosition(config, dropPosition) && IsValidCount(config)) 
         {
             DropItem item = Instantiate(config.item, dropPosition, Quaternion.identity);
-            item.Init(this, config);
+            item.Init(config, this);
             IncrementCount(config);
             RecordPosition(config, dropPosition);
         }
@@ -32,17 +33,13 @@ public class EnemyDropComponent : MonoBehaviour
     void IncrementCount(DropItemConfig config)
     {
         if (!itemDroppedCount.ContainsKey(config))
-            itemDroppedCount.Add(config, 1);
+        {
+            itemDroppedCount.Add(config, 0);
+        }
 
         itemDroppedCount[config]++;
-    }
 
-    void RecordPosition(DropItemConfig config, Vector2 position)
-    {
-        if (!itemDroppedLastPos.ContainsKey(config))
-            itemDroppedLastPos.Add(config, position);
-
-        itemDroppedLastPos[config] = position;
+        Debug.Log("Item Count : " + itemDroppedCount[config]);
     }
 
     public void DecrementCount(DropItemConfig config)
@@ -50,22 +47,53 @@ public class EnemyDropComponent : MonoBehaviour
         if (itemDroppedCount.ContainsKey(config))
         {
             itemDroppedCount[config]--;
+            Debug.Log("Item Count : " + itemDroppedCount[config]);
 
             if (itemDroppedCount[config] <= 0)
+            {
                 itemDroppedCount.Remove(config);
+            }
+        }
+    }
+
+    void RecordPosition(DropItemConfig config, Vector2 position)
+    {
+        if (!itemDroppedLastPos.ContainsKey(config))
+        {
+            itemDroppedLastPos.Add(config, position);
+        }
+        else
+        {
+            itemDroppedLastPos[config] = position;
         }
     }
 
     bool IsValidPosition(DropItemConfig config, Vector2 position)
     {
         if (itemDroppedLastPos.ContainsKey(config))
-            if (Vector2.Distance(position, itemDroppedLastPos[config]) < config.minDistBetweenItems)
-                return false;
-
-        return true;
+        {
+            return Vector2.Distance(position, itemDroppedLastPos[config]) > config.minDistBetweenItems;
+        }
+        else
+        {
+            return true;
+        }
     }
+
+    bool IsValidCount(DropItemConfig config)
+    {
+        if (itemDroppedCount.ContainsKey(config))
+        {
+            return itemDroppedCount[config] < config.maxItemCount;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
 /*    
- *  private void OnValidate()
+    private void OnValidate()
     {
         foreach (var item in dropList)
         {

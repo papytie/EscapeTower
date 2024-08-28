@@ -47,6 +47,11 @@ public class TakeDamageReaction : MonoBehaviour, IAction
             direction = controller.CurrentDirection;
             controller.AnimationParam.UpdateMoveAnimDirection(direction * .1f);
         }
+
+        if (data.dropConfig.item != null)
+        {
+            controller.DropComponent.DropItem(data.dropConfig);
+        }
     }
 
     public void UpdateProcess()
@@ -54,8 +59,10 @@ public class TakeDamageReaction : MonoBehaviour, IAction
         float endMovement = startTime + duration;
         float endProcess = startTime + duration + data.recupTime;
 
-        if (Time.time >= endProcess) 
+        if (Time.time >= endProcess)
+        {
             IsCompleted = true;
+        }
 
         if (data.activation)
         {

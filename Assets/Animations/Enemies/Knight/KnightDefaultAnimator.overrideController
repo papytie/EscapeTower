@@ -6,7 +6,7 @@ AnimatorOverrideController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: KnightOverrideAnimator
+  m_Name: KnightDefaultAnimator
   m_Controller: {fileID: 9100000, guid: 8773bd5380a07504abd93a2f1ad9fe12, type: 2}
   m_Clips:
   - m_OriginalClip: {fileID: 7400000, guid: da44c5cb99998cb49992bf99ef8e048c, type: 2}

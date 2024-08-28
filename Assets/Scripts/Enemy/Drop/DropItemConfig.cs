@@ -13,6 +13,7 @@ public class DropItemConfig
     public float lifespan = 5f;
     public float cooldown = 1f;
     public float minDistBetweenItems = .1f;
+    public float maxItemCount = 100;
 
     [Header("Options")]
     public bool isEternal = false; 

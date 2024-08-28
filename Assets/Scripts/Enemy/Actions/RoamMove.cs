@@ -48,8 +48,6 @@ public class RoamMove : MonoBehaviour, IAction
         controller.Collision.MoveToCollisionCheck(direction, controller.Stats.MoveSpeed * data.speedMult * Time.deltaTime, controller.Collision.BlockingObjectsLayer, out Vector3 finalPosition, out List<RaycastHit2D> hitList);
         transform.position = finalPosition;
 
-        //Update Animator Param
-        controller.AnimationParam.UpdateMoveAnimDirection(direction);
 
         //Reflect movement direction if collision occur
         if(hitList.Count > 0)
@@ -60,6 +58,14 @@ public class RoamMove : MonoBehaviour, IAction
                 currentHitList.Add(item);
             }
         }
+
+        if (data.dropConfig.item != null)
+        {
+            controller.DropComponent.DropItem(data.dropConfig);
+        }
+
+        //Update Animator Param
+        controller.AnimationParam.UpdateMoveAnimDirection(direction);
     }
 
     public void EndProcess()

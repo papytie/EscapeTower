@@ -17,7 +17,7 @@ TagManager:
   - Pickup
   - Projectiles
   - Traps
-  - 
+  - Effects
   - 
   - 
   - 
@@ -64,6 +64,9 @@ TagManager:
     locked: 0
   - name: Wall
     uniqueID: 2412018541
+    locked: 0
+  - name: Effect
+    uniqueID: 3879724363
     locked: 0
   - name: Projectiles
     uniqueID: 1893471421

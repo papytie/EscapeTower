@@ -4,14 +4,19 @@ using UnityEngine;
 
 public class DropItem : MonoBehaviour
 {
-    EnemyDropComponent dropComponent;
     DropItemConfig config;
+    EnemyDropComponent drop;
     float spawnTime = 0;
 
-    public void Init(EnemyDropComponent drop, DropItemConfig dropConfig)
+    private void OnEnable()
     {
-        dropComponent = drop;
+        //Increment public static Count
+    }
+
+    public void Init(DropItemConfig dropConfig, EnemyDropComponent component)
+    {
         config = dropConfig;
+        drop = component;
         spawnTime = Time.time;
     }
 
@@ -19,7 +24,7 @@ public class DropItem : MonoBehaviour
     {
         if (Time.time >= spawnTime + config.lifespan && !config.isEternal)
         {
-            dropComponent.DecrementCount(config);
+            drop.DecrementCount(config);
             Destroy(gameObject);
         }
     }
@@ -27,5 +32,10 @@ public class DropItem : MonoBehaviour
     public float GetDamage()
     {
         return config.damage;
+    }
+
+    private void OnDisable()
+    {
+        //Decrement public static Count
     }
 }

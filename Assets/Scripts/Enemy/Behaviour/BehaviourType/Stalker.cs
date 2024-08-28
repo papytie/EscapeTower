@@ -80,10 +80,7 @@ public class Stalker : MonoBehaviour, IBehaviour
         {
             if (controller.TargetAcquired)
             {
-                if (fsm.GetState(data.charge.name).Action.IsAvailable)
-                    fsm.SetState(data.charge.name);
-
-                else if (fsm.GetState(data.chase.name).Action.IsAvailable)
+                if (fsm.GetState(data.chase.name).Action.IsAvailable)
                     fsm.SetState(data.chase.name);
             }
             else if (state.Action.IsCompleted)
@@ -131,7 +128,7 @@ public class Stalker : MonoBehaviour, IBehaviour
                 fsm.SetState(data.charge.name);
             }
 
-            if (fsm.IsAnyActionAvailable(attackStates))
+            if (fsm.IsAnyActionAvailable(attackStates) && data.attacks.Count > 0)
                 fsm.SetRandomState(attackStates);
 
             if (state.Action.IsCompleted || !controller.TargetAcquired)
@@ -150,7 +147,7 @@ public class Stalker : MonoBehaviour, IBehaviour
 
         state.OnStateUpdate += () =>
         {
-            if(fsm.IsAnyActionAvailable(attackStates))
+            if(fsm.IsAnyActionAvailable(attackStates) && data.attacks.Count > 0)
                 fsm.SetRandomState(attackStates);
 
             if (state.Action.IsCompleted)

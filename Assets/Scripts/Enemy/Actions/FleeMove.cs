@@ -35,7 +35,13 @@ public class FleeMove : MonoBehaviour, IAction
             controller.Collision.MoveToCollisionCheck(-direction, controller.Stats.MoveSpeed * data.speedMult * Time.deltaTime, controller.Collision.BlockingObjectsLayer, out Vector3 finalPosition, out List<RaycastHit2D> hitList);
             transform.position = finalPosition;
 
+            if (data.dropConfig.item != null)
+            {
+                controller.DropComponent.DropItem(data.dropConfig);
+            }
 
+            //Update Animator Param
+            controller.AnimationParam.UpdateMoveAnimDirection(direction);
         }
     }
 

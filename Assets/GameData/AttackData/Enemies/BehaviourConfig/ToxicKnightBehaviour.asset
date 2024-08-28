@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a23bdf922aa5cf14babdf4eaac7fb1c1, type: 3}
+  m_Name: ToxicKnightBehaviour
+  m_EditorClassIdentifier: 
+  behaviourType: 1
+  data:
+    rid: 2940844556987138050
+  references:
+    version: 2
+    RefIds:
+    - rid: 2940844556987138050
+      type: {class: StalkerData, ns: , asm: Assembly-CSharp}
+      data:
+        wait: {fileID: 11400000, guid: f4957dc00155c8e4ea6a72c6a126917a, type: 2}
+        roam: {fileID: 11400000, guid: 6ae4dd4fbc43fd74fb806bdbcdc89dc4, type: 2}
+        chase: {fileID: 11400000, guid: 48e82394a130f5c42bfcfd2cc503b92c, type: 2}
+        charge: {fileID: 11400000, guid: 7042ba72503557f4391bbd610671f8a0, type: 2}
+        takeDamage: {fileID: 11400000, guid: c6b775a299ed4f04b883530da8c6716b, type: 2}
+        die: {fileID: 11400000, guid: 26de2d16a3e10dd488e04f870d8e66e2, type: 2}
+        attacks: []

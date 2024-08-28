@@ -46,4 +46,6 @@ public sealed class SRLayerMask {
     public const int Projectiles = 1024;
     
     public const int Traps = 2048;
+    
+    public const int Effects = 4096;
 }
